@@ -1,0 +1,13 @@
+.git/
+.venv/
+.pytest_cache/
+.deck-build/
+.codex-finalizer/
+deliverables/
+docs/
+eval/
+infra/
+tests/
+*.pptx
+*.pdf
+data/*.db*

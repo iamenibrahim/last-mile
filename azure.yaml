@@ -4,9 +4,8 @@ metadata:
 services:
   api:
     project: .
-    host: appservice
+    host: function
     language: python
   web:
     project: web
     host: staticwebapp
-

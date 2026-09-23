@@ -1,0 +1,403 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.47.16.16243",
+      "templateHash": "4140367414679169030"
+    }
+  },
+  "parameters": {
+    "namePrefix": {
+      "type": "string",
+      "defaultValue": "lastmile",
+      "minLength": 3,
+      "maxLength": 12,
+      "metadata": {
+        "description": "Short lowercase project prefix. Globally unique suffixes are added automatically."
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Use a region that supports the intended Microsoft Foundry model."
+      }
+    },
+    "foundryModelDeployment": {
+      "type": "string",
+      "defaultValue": "last-mile-gpt",
+      "metadata": {
+        "description": "Foundry model deployment name configured in the application. Deploy the model separately after checking regional availability."
+      }
+    }
+  },
+  "variables": {
+    "suffix": "[uniqueString(subscription().subscriptionId, resourceGroup().id)]",
+    "safeName": "[toLower(format('{0}{1}', parameters('namePrefix'), variables('suffix')))]",
+    "tags": {
+      "project": "last-mile-navigator",
+      "environment": "student-hackathon",
+      "costProfile": "free-and-consumption"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-05-01",
+      "name": "[take(format('{0}fn', variables('safeName')), 24)]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('tags')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot",
+        "allowBlobPublicAccess": false,
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2023-12-01",
+      "name": "[format('{0}-consumption', parameters('namePrefix'))]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('tags')]",
+      "kind": "linux",
+      "sku": {
+        "name": "Y1",
+        "tier": "Dynamic"
+      },
+      "properties": {
+        "reserved": true
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "apiVersion": "2024-10-01",
+      "name": "[format('{0}foundry', variables('safeName'))]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('tags')]",
+      "kind": "AIServices",
+      "sku": {
+        "name": "S0"
+      },
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "customSubDomainName": "[format('{0}foundry', variables('safeName'))]",
+        "publicNetworkAccess": "Enabled",
+        "networkAcls": {
+          "defaultAction": "Allow"
+        },
+        "disableLocalAuth": false
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "apiVersion": "2024-10-01",
+      "name": "[format('{0}translator', variables('safeName'))]",
+      "location": "global",
+      "tags": "[variables('tags')]",
+      "kind": "TextTranslation",
+      "sku": {
+        "name": "F0"
+      },
+      "properties": {
+        "customSubDomainName": "[format('{0}translator', variables('safeName'))]",
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "apiVersion": "2024-10-01",
+      "name": "[format('{0}speech', variables('safeName'))]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('tags')]",
+      "kind": "SpeechServices",
+      "sku": {
+        "name": "F0"
+      },
+      "properties": {
+        "customSubDomainName": "[format('{0}speech', variables('safeName'))]",
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "apiVersion": "2024-10-01",
+      "name": "[format('{0}safety', variables('safeName'))]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('tags')]",
+      "kind": "ContentSafety",
+      "sku": {
+        "name": "F0"
+      },
+      "properties": {
+        "customSubDomainName": "[format('{0}safety', variables('safeName'))]",
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "apiVersion": "2024-11-15",
+      "name": "[format('{0}cosmos', variables('safeName'))]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('tags')]",
+      "kind": "GlobalDocumentDB",
+      "properties": {
+        "databaseAccountOfferType": "Standard",
+        "enableFreeTier": true,
+        "locations": [
+          {
+            "locationName": "[parameters('location')]",
+            "failoverPriority": 0,
+            "isZoneRedundant": false
+          }
+        ],
+        "consistencyPolicy": {
+          "defaultConsistencyLevel": "Session"
+        },
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+      "apiVersion": "2024-11-15",
+      "name": "[format('{0}/{1}', format('{0}cosmos', variables('safeName')), 'last-mile')]",
+      "properties": {
+        "resource": {
+          "id": "last-mile"
+        },
+        "options": {
+          "throughput": 400
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+      "apiVersion": "2024-11-15",
+      "name": "[format('{0}/{1}/{2}', format('{0}cosmos', variables('safeName')), 'last-mile', 'renders')]",
+      "properties": {
+        "resource": {
+          "id": "renders",
+          "partitionKey": {
+            "paths": [
+              "/cap_id"
+            ],
+            "kind": "Hash"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', format('{0}cosmos', variables('safeName')), 'last-mile')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Maps/accounts",
+      "apiVersion": "2023-06-01",
+      "name": "[format('{0}maps', variables('safeName'))]",
+      "location": "global",
+      "tags": "[variables('tags')]",
+      "kind": "Gen2",
+      "sku": {
+        "name": "G2"
+      },
+      "properties": {
+        "disableLocalAuth": false
+      }
+    },
+    {
+      "type": "Microsoft.Communication/communicationServices",
+      "apiVersion": "2023-04-01",
+      "name": "[format('{0}communication', variables('safeName'))]",
+      "location": "global",
+      "tags": "[variables('tags')]",
+      "properties": {
+        "dataLocation": "United States"
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2023-12-01",
+      "name": "[format('{0}api', variables('safeName'))]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('tags')]",
+      "kind": "functionapp,linux",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format('{0}-consumption', parameters('namePrefix')))]",
+        "httpsOnly": true,
+        "siteConfig": {
+          "linuxFxVersion": "Python|3.12",
+          "minTlsVersion": "1.2",
+          "ftpsState": "Disabled",
+          "functionAppScaleLimit": 2,
+          "appSettings": [
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~4"
+            },
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "python"
+            },
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[format('DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix={2}', take(format('{0}fn', variables('safeName')), 24), listKeys(resourceId('Microsoft.Storage/storageAccounts', take(format('{0}fn', variables('safeName')), 24)), '2023-05-01').keys[0].value, environment().suffixes.storage)]"
+            },
+            {
+              "name": "APP_ENV",
+              "value": "azure"
+            },
+            {
+              "name": "PUBLIC_BASE_URL",
+              "value": "[format('https://{0}api.azurewebsites.net', variables('safeName'))]"
+            },
+            {
+              "name": "AZURE_USE_MANAGED_IDENTITY",
+              "value": "true"
+            },
+            {
+              "name": "AZURE_FOUNDRY_ENDPOINT",
+              "value": "[format('https://{0}.openai.azure.com', format('{0}foundry', variables('safeName')))]"
+            },
+            {
+              "name": "AZURE_FOUNDRY_MODEL",
+              "value": "[parameters('foundryModelDeployment')]"
+            },
+            {
+              "name": "AZURE_TRANSLATOR_KEY",
+              "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', format('{0}translator', variables('safeName'))), '2024-10-01').key1]"
+            },
+            {
+              "name": "AZURE_TRANSLATOR_REGION",
+              "value": "global"
+            },
+            {
+              "name": "AZURE_SPEECH_KEY",
+              "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', format('{0}speech', variables('safeName'))), '2024-10-01').key1]"
+            },
+            {
+              "name": "AZURE_SPEECH_REGION",
+              "value": "[parameters('location')]"
+            },
+            {
+              "name": "AZURE_CONTENT_SAFETY_ENDPOINT",
+              "value": "[reference(resourceId('Microsoft.CognitiveServices/accounts', format('{0}safety', variables('safeName'))), '2024-10-01').endpoint]"
+            },
+            {
+              "name": "AZURE_CONTENT_SAFETY_KEY",
+              "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', format('{0}safety', variables('safeName'))), '2024-10-01').key1]"
+            },
+            {
+              "name": "AZURE_MAPS_KEY",
+              "value": "[listKeys(resourceId('Microsoft.Maps/accounts', format('{0}maps', variables('safeName'))), '2023-06-01').primaryKey]"
+            },
+            {
+              "name": "AZURE_COSMOS_ENDPOINT",
+              "value": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName'))), '2024-11-15').documentEndpoint]"
+            },
+            {
+              "name": "AZURE_COMMUNICATION_ENDPOINT",
+              "value": "[format('https://{0}.communication.azure.com', format('{0}communication', variables('safeName')))]"
+            },
+            {
+              "name": "SMS_SEND_ENABLED",
+              "value": "false"
+            },
+            {
+              "name": "SMS_AUTOREPLY_ENABLED",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Communication/communicationServices', format('{0}communication', variables('safeName')))]",
+        "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}safety', variables('safeName')))]",
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName')))]",
+        "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}foundry', variables('safeName')))]",
+        "[resourceId('Microsoft.Web/serverfarms', format('{0}-consumption', parameters('namePrefix')))]",
+        "[resourceId('Microsoft.Maps/accounts', format('{0}maps', variables('safeName')))]",
+        "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}speech', variables('safeName')))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', take(format('{0}fn', variables('safeName')), 24))]",
+        "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}translator', variables('safeName')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}foundry', variables('safeName')))]",
+      "name": "[guid(resourceId('Microsoft.CognitiveServices/accounts', format('{0}foundry', variables('safeName'))), resourceId('Microsoft.Web/sites', format('{0}api', variables('safeName'))), 'openai-user')]",
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd')]",
+        "principalId": "[reference(resourceId('Microsoft.Web/sites', format('{0}api', variables('safeName'))), '2023-12-01', 'full').identity.principalId]",
+        "principalType": "ServicePrincipal"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}foundry', variables('safeName')))]",
+        "[resourceId('Microsoft.Web/sites', format('{0}api', variables('safeName')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments",
+      "apiVersion": "2024-11-15",
+      "name": "[format('{0}/{1}', format('{0}cosmos', variables('safeName')), guid(resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName'))), resourceId('Microsoft.Web/sites', format('{0}api', variables('safeName'))), 'data-contributor'))]",
+      "properties": {
+        "roleDefinitionId": "[format('{0}/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002', resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName'))))]",
+        "principalId": "[reference(resourceId('Microsoft.Web/sites', format('{0}api', variables('safeName'))), '2023-12-01', 'full').identity.principalId]",
+        "scope": "[resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName')))]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName')))]",
+        "[resourceId('Microsoft.Web/sites', format('{0}api', variables('safeName')))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "functionAppName": {
+      "type": "string",
+      "value": "[format('{0}api', variables('safeName'))]"
+    },
+    "applicationUrl": {
+      "type": "string",
+      "value": "[format('https://{0}', reference(resourceId('Microsoft.Web/sites', format('{0}api', variables('safeName'))), '2023-12-01').defaultHostName)]"
+    },
+    "foundryResourceName": {
+      "type": "string",
+      "value": "[format('{0}foundry', variables('safeName'))]"
+    },
+    "foundryEndpoint": {
+      "type": "string",
+      "value": "[format('https://{0}.openai.azure.com', format('{0}foundry', variables('safeName')))]"
+    },
+    "cosmosFreeTier": {
+      "type": "bool",
+      "value": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName'))), '2024-11-15').enableFreeTier]"
+    },
+    "communicationEndpoint": {
+      "type": "string",
+      "value": "[format('https://{0}.communication.azure.com', format('{0}communication', variables('safeName')))]"
+    },
+    "costGuardrails": {
+      "type": "array",
+      "value": [
+        "Azure Functions Dynamic Y1 plan; scales to zero and is capped at two instances.",
+        "Cosmos DB lifetime free tier with 400 RU/s shared throughput.",
+        "Translator, Speech, and Content Safety use F0 tiers.",
+        "Foundry is pay-per-token; no model is deployed by this template.",
+        "SMS sending and automatic replies remain disabled.",
+        "No always-on App Service, Premium plan, VM, or managed GPU is deployed."
+      ]
+    }
+  }
+}

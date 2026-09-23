@@ -69,12 +69,20 @@ The cloud path uses Microsoft services where each service has a specific job:
 | Azure Cosmos DB | Alert, manifest, and safe render cache behind a store interface |
 | Azure Key Vault | Production manifest signing key / asymmetric signing target |
 | Azure Static Web Apps | No-build front end, linked to the API backend |
-| Azure App Service | FastAPI backend |
+| Azure Functions | Consumption-based FastAPI backend, NWS ingest timer, and Event Grid SMS processing |
 | Azure Communication Services | Consent-gated delivery of the already-verified SMS channel, plus Event Grid delivery reports and inbound recovery commands |
 
 Copy `.env.example` to `.env`, supply only the services you have, and keep secrets in Key Vault in deployed environments. Every cloud call is isolated behind a provider and has a cached or deterministic fallback.
 
 The Foundry provider calls the current OpenAI-compatible `/openai/v1/chat/completions` endpoint, uses JSON-only outputs, preserves sentinels structurally, and runs a separate entailment judgment. See [Microsoft Foundry’s REST reference](https://learn.microsoft.com/en-us/azure/foundry/openai/latest), [Azure AI Translator’s REST reference](https://learn.microsoft.com/en-us/rest/api/translator/translator/translate?view=rest-translator-v3.0), [Azure AI Content Safety](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/quickstart-text), and [Azure AI Speech](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-text-to-speech).
+
+### Student-credit deployment
+
+`infra/student.bicep` is the cost-guarded hackathon deployment. It replaces the always-on App Service plan with a scale-to-zero Azure Functions Consumption plan capped at two instances, opts in to the Cosmos DB lifetime free tier at 400 RU/s, and uses F0 tiers for Translator, Speech, and Content Safety. It creates a Foundry resource but intentionally does not deploy a model; model availability must be checked first and inference is the main metered workload. Communication Services is created with SMS sending and automatic replies disabled, because an SMS-capable sender cannot be purchased with Azure trial credit.
+
+Student subscriptions have a subscription-specific region allow-list. Check **Azure Policy > Assignments > Allowed resource deployment regions** and provide one of those values explicitly as the required `location` parameter. For this subscription, the portal template was validated with `canadacentral`.
+
+The function host serves the complete FastAPI and web experience, so a separate paid web host is not required. The deployment also provisions Azure Maps and low-volume Storage. Do not add an always-ready Functions instance, dedicated App Service plan, VM, managed GPU deployment, or Cosmos throughput above 1,000 RU/s on the student subscription.
 
 ## API
 

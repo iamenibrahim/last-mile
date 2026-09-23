@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import tempfile
 from pathlib import Path
 from threading import Lock
 from typing import Protocol
@@ -20,7 +21,12 @@ class SQLiteRenderStore:
     """Local alert/render cache. Citizen navigation profiles are never stored here."""
 
     def __init__(self, path: Path | None = None):
-        self.path = path or ROOT / "data" / "last_mile.db"
+        default_path = (
+            Path(tempfile.gettempdir()) / "last_mile.db"
+            if settings.environment == "azure"
+            else ROOT / "data" / "last_mile.db"
+        )
+        self.path = path or default_path
         self._lock = Lock()
         self._prepare()
 
@@ -85,4 +91,3 @@ def create_store() -> RenderStore:
         except Exception:
             pass
     return SQLiteRenderStore()
-

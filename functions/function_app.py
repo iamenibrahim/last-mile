@@ -8,10 +8,12 @@ from __future__ import annotations
 
 import json
 import logging
+import tempfile
 from pathlib import Path
 
 import azure.functions as func
 
+from api.main import app as fastapi_app
 from api.ingest import fetch_active_va_alerts, payload_hash
 from api.providers.azure_sms import handle_event_grid_events
 
@@ -19,10 +21,17 @@ from api.providers.azure_sms import handle_event_grid_events
 app = func.FunctionApp()
 
 
+@app.route(route="{*route}", auth_level=func.AuthLevel.ANONYMOUS)
+def http_app(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
+    """Expose the complete FastAPI experience through consumption-based Azure Functions."""
+
+    return func.AsgiMiddleware(fastapi_app).handle(req, context)
+
+
 @app.timer_trigger(schedule="0 */5 * * * *", arg_name="timer", run_on_startup=False)
 def ingest_nws(timer: func.TimerRequest) -> None:
     payload = fetch_active_va_alerts()
-    cache = Path(__file__).resolve().parents[1] / "data" / "ingest_snapshot.json"
+    cache = Path(tempfile.gettempdir()) / "last-mile-ingest-snapshot.json"
     safe_snapshot = {
         "fetched_at": payload["fetched_at"],
         "transport": payload["transport"],
