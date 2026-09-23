@@ -5,7 +5,7 @@
     "description": "Read-only caseworker tools. GetHandoff returns a resident's signed Last-Mile action packet by its RBX recovery code; SearchSourceQuotes returns exact sentences from saved agency pages. Nothing is generated, and neither decides eligibility.",
     "version": "1.0"
   },
-  "host": "REPLACE-WITH-FUNCTION-APP-HOST.azurewebsites.net",
+  "host": "lmva3fcshw5lauukqapi.azurewebsites.net",
   "basePath": "/",
   "schemes": [
     "https"
