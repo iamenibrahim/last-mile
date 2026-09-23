@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-23T18:22:57.877578+00:00",
-  "scope": "Deterministic local fallback against the checked-in NWS-schema demo fixture.",
+  "generated_at": "2026-09-23T21:12:37.476242+00:00",
+  "scope": "clean and corruption_detection: deterministic local fallback against the single synthetic demo fixture. real_alert_corpus: the grounded pipeline over 80 real NWS alerts; quote that one.",
   "warning": "These are harness results, not claims about a production deployment or Azure model quality.",
   "clean": {
     "iterations": 20,
     "segments": 140,
     "false_abstention_rate": 0.0,
     "latency_ms": {
-      "p50": 1.14,
-      "p95": 1.82
+      "p50": 0.78,
+      "p95": 1.46
     },
     "reading_grade": {
       "source": 5.2,
@@ -60,8 +60,869 @@
     "reason": "Requires a dated 12-month NWS archive and ACS B16004 run; do not invent a headline number."
   },
   "connectivity": {
-    "cached_shell_bytes_uncompressed": 91990,
+    "cached_shell_bytes_uncompressed": 95655,
     "offline_packet_bytes_uncompressed": 602,
     "measurement_note": "Repository byte count before HTTP compression; not a network benchmark."
+  },
+  "real_alert_corpus": {
+    "scope": "80 real NWS alerts in data/grounded/cached_alerts, language en.",
+    "engines": {
+      "translator": "local-glossary-substitution",
+      "simplifier": "local-rule-simplifier",
+      "embedder": "local-hashed-bow",
+      "judge": "local-rule-entailment",
+      "speech": "local-sapi",
+      "content_safety": "local-guard",
+      "signer": "local-hmac-sha256"
+    },
+    "engine_warning": "Local stub engines measure whether the pipeline catches the failures it is built to catch, not model quality. Rerun with Azure keys for the Foundry and Translator figures.",
+    "generated_at": "2026-09-21T14:37:10Z",
+    "readability": {
+      "n": 80,
+      "applies_to": "the English render",
+      "median_source_fk": 8.48,
+      "median_output_fk": 6.78,
+      "median_output_fk_excluding_locked_entities": 6.31,
+      "pct_at_or_below_target": 0.675,
+      "pct_at_or_below_target_excluding_locked_entities": 0.7875,
+      "target_grade": 7.0,
+      "floor_note": "County, town and river names are locked entities and are polysyllabic by nature, so they put a floor under Flesch-Kincaid that no simplifier can lower without breaking the safety guarantee. The 'excluding_locked_entities' figures show the score for the prose we actually control.",
+      "rows": [
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.001.1",
+          "event": "Flood Warning",
+          "source_fk": 8.29,
+          "output_fk": 6.63,
+          "source_dale_chall": 10.42,
+          "output_dale_chall": 10.0,
+          "output_fk_excluding_locked_entities": 6.62
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.002.1",
+          "event": "Flood Warning",
+          "source_fk": 8.21,
+          "output_fk": 6.38,
+          "source_dale_chall": 10.6,
+          "output_dale_chall": 10.15,
+          "output_fk_excluding_locked_entities": 6.04
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.034324fd98904b0c263c0fe3ae531734d2becb14.001.1",
+          "event": "Flood Warning",
+          "source_fk": 8.64,
+          "output_fk": 6.63,
+          "source_dale_chall": 11.39,
+          "output_dale_chall": 10.53,
+          "output_fk_excluding_locked_entities": 5.35
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.b7443a7275d420f6d5369bc0a5b3e213b79240f4.001.1",
+          "event": "Flood Warning",
+          "source_fk": 9.0,
+          "output_fk": 6.87,
+          "source_dale_chall": 11.9,
+          "output_dale_chall": 10.77,
+          "output_fk_excluding_locked_entities": 6.62
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.de2a873d59e255a717b61c54dd399cf1e55c7f6f.001.1",
+          "event": "Flood Warning",
+          "source_fk": 9.43,
+          "output_fk": 7.23,
+          "source_dale_chall": 11.94,
+          "output_dale_chall": 10.88,
+          "output_fk_excluding_locked_entities": 6.76
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.7ca8515ed07887e26f584741041fcc7d334b9fab.001.1",
+          "event": "Severe Thunderstorm Warning",
+          "source_fk": 9.3,
+          "output_fk": 8.56,
+          "source_dale_chall": 12.71,
+          "output_dale_chall": 12.17,
+          "output_fk_excluding_locked_entities": 7.24
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.3a127715438ae310aef2cf8e6a728cdded5c5865.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 9.19,
+          "output_fk": 7.08,
+          "source_dale_chall": 12.91,
+          "output_dale_chall": 11.94,
+          "output_fk_excluding_locked_entities": 6.36
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.9c361b73ce104cfab7aaaff1405c5767a1105447.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 8.15,
+          "output_fk": 5.73,
+          "source_dale_chall": 12.08,
+          "output_dale_chall": 10.91,
+          "output_fk_excluding_locked_entities": 4.97
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.eb591dee666c1fc1670168a54d4863bb9e052299.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 9.44,
+          "output_fk": 7.25,
+          "source_dale_chall": 13.05,
+          "output_dale_chall": 12.05,
+          "output_fk_excluding_locked_entities": 6.37
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.8b692d13bd060815f13ff23845f3b9ceaca0651a.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 9.38,
+          "output_fk": 7.35,
+          "source_dale_chall": 12.54,
+          "output_dale_chall": 11.68,
+          "output_fk_excluding_locked_entities": 6.61
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.9b5aa4b907ab1be9b718ea177d393f997ef1ae86.001.1",
+          "event": "Flood Warning",
+          "source_fk": 6.76,
+          "output_fk": 4.88,
+          "source_dale_chall": 10.0,
+          "output_dale_chall": 9.6,
+          "output_fk_excluding_locked_entities": 4.47
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.9b5aa4b907ab1be9b718ea177d393f997ef1ae86.002.1",
+          "event": "Flood Warning",
+          "source_fk": 6.37,
+          "output_fk": 4.67,
+          "source_dale_chall": 9.87,
+          "output_dale_chall": 9.47,
+          "output_fk_excluding_locked_entities": 4.01
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.c8e3b4ea8885639f537b78004a26b3cefd01101b.001.1",
+          "event": "Flood Warning",
+          "source_fk": 7.31,
+          "output_fk": 5.5,
+          "source_dale_chall": 10.04,
+          "output_dale_chall": 9.69,
+          "output_fk_excluding_locked_entities": 4.31
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.c8e3b4ea8885639f537b78004a26b3cefd01101b.002.1",
+          "event": "Flood Warning",
+          "source_fk": 7.07,
+          "output_fk": 5.64,
+          "source_dale_chall": 10.0,
+          "output_dale_chall": 9.83,
+          "output_fk_excluding_locked_entities": 4.54
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.1de4d43e66479f3c37e621280141836247b01106.001.1",
+          "event": "Severe Thunderstorm Warning",
+          "source_fk": 8.76,
+          "output_fk": 7.21,
+          "source_dale_chall": 11.07,
+          "output_dale_chall": 10.57,
+          "output_fk_excluding_locked_entities": 6.17
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.9bdc42b097ea19e683c4e7c543327325777c91c7.001.1",
+          "event": "Tornado Warning",
+          "source_fk": 7.85,
+          "output_fk": 6.89,
+          "source_dale_chall": 10.94,
+          "output_dale_chall": 10.77,
+          "output_fk_excluding_locked_entities": 6.94
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.0bd2ad053786cc1b3ea8879d3518887d75617088.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 7.85,
+          "output_fk": 5.8,
+          "source_dale_chall": 12.21,
+          "output_dale_chall": 11.29,
+          "output_fk_excluding_locked_entities": 4.71
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.6b2342fd70ca76edd50a1f2644d959030de30e69.001.1",
+          "event": "Severe Thunderstorm Warning",
+          "source_fk": 9.54,
+          "output_fk": 8.93,
+          "source_dale_chall": 11.61,
+          "output_dale_chall": 11.2,
+          "output_fk_excluding_locked_entities": 7.34
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.7a4e058c9e6f2e4c107ebe9446aca8dfcfc29c0a.001.1",
+          "event": "Flash Flood Warning",
+          "source_fk": 9.42,
+          "output_fk": 7.47,
+          "source_dale_chall": 12.48,
+          "output_dale_chall": 11.39,
+          "output_fk_excluding_locked_entities": 6.54
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.0a9529e3c2b0d0841b6e8fa7c69d937bd7b79394.001.1",
+          "event": "Severe Thunderstorm Warning",
+          "source_fk": 9.38,
+          "output_fk": 8.79,
+          "source_dale_chall": 12.49,
+          "output_dale_chall": 12.03,
+          "output_fk_excluding_locked_entities": 8.57
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.eafce17bc52cdd7cd047be12ae0de76db9df02d3.001.1",
+          "event": "Flood Warning",
+          "source_fk": 7.86,
+          "output_fk": 5.92,
+          "source_dale_chall": 10.96,
+          "output_dale_chall": 10.47,
+          "output_fk_excluding_locked_entities": 4.99
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.eafce17bc52cdd7cd047be12ae0de76db9df02d3.002.1",
+          "event": "Flood Warning",
+          "source_fk": 7.27,
+          "output_fk": 5.83,
+          "source_dale_chall": 9.79,
+          "output_dale_chall": 9.63,
+          "output_fk_excluding_locked_entities": 4.62
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.eafce17bc52cdd7cd047be12ae0de76db9df02d3.003.1",
+          "event": "Flood Warning",
+          "source_fk": 7.56,
+          "output_fk": 5.81,
+          "source_dale_chall": 10.75,
+          "output_dale_chall": 10.19,
+          "output_fk_excluding_locked_entities": 4.55
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.b7594a4ad4476a77438c045da88dab915ec47f77.001.1",
+          "event": "Flash Flood Warning",
+          "source_fk": 8.85,
+          "output_fk": 6.18,
+          "source_dale_chall": 12.69,
+          "output_dale_chall": 11.51,
+          "output_fk_excluding_locked_entities": 5.53
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.a3cd8852b0085ef00069812168e2cfde86659fab.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 9.21,
+          "output_fk": 7.21,
+          "source_dale_chall": 12.44,
+          "output_dale_chall": 11.57,
+          "output_fk_excluding_locked_entities": 6.24
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.028e8251aa70e3d55ed828118c66bc70295e815d.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 8.46,
+          "output_fk": 5.9,
+          "source_dale_chall": 11.88,
+          "output_dale_chall": 11.16,
+          "output_fk_excluding_locked_entities": 5.26
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.83efe04a984fdec82a083ad6d2d6fdf7820f0d96.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 9.12,
+          "output_fk": 6.94,
+          "source_dale_chall": 12.94,
+          "output_dale_chall": 11.92,
+          "output_fk_excluding_locked_entities": 5.52
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.b7169c37789138a85156d5b571a2e61bf3f1859f.001.1",
+          "event": "Flood Warning",
+          "source_fk": 9.23,
+          "output_fk": 7.25,
+          "source_dale_chall": 11.75,
+          "output_dale_chall": 10.89,
+          "output_fk_excluding_locked_entities": 6.79
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.654d617a294fab8a8a8fdaf69947deee6e6520da.001.1",
+          "event": "Flood Warning",
+          "source_fk": 6.55,
+          "output_fk": 4.69,
+          "source_dale_chall": 10.36,
+          "output_dale_chall": 9.97,
+          "output_fk_excluding_locked_entities": 3.81
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.7a266e7a6549897356f561949339a7e944832b64.001.1",
+          "event": "Flood Warning",
+          "source_fk": 9.73,
+          "output_fk": 7.49,
+          "source_dale_chall": 11.78,
+          "output_dale_chall": 10.6,
+          "output_fk_excluding_locked_entities": 6.63
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.84b8d60b320717100bf7662fcffa53c79f433e94.002.1",
+          "event": "Severe Thunderstorm Warning",
+          "source_fk": 8.03,
+          "output_fk": 6.64,
+          "source_dale_chall": 10.93,
+          "output_dale_chall": 10.53,
+          "output_fk_excluding_locked_entities": 6.35
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.06fc682462b047e64ffab548a725e22ab40cb5f3.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 9.58,
+          "output_fk": 7.44,
+          "source_dale_chall": 12.78,
+          "output_dale_chall": 11.8,
+          "output_fk_excluding_locked_entities": 6.04
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.b0b32033c3c5415e8cae5f7d91bc6d38ee02aa81.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 8.94,
+          "output_fk": 6.23,
+          "source_dale_chall": 12.94,
+          "output_dale_chall": 11.74,
+          "output_fk_excluding_locked_entities": 5.73
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.62d969c2d86b459e20bea767ea95d1e8886586c8.001.1",
+          "event": "Flash Flood Warning",
+          "source_fk": 8.55,
+          "output_fk": 6.69,
+          "source_dale_chall": 12.55,
+          "output_dale_chall": 11.07,
+          "output_fk_excluding_locked_entities": 6.43
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.918dc24e3f336db93142605880fade864fd386f5.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 10.27,
+          "output_fk": 6.93,
+          "source_dale_chall": 13.36,
+          "output_dale_chall": 12.3,
+          "output_fk_excluding_locked_entities": 6.06
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.6a320b688a626dec238465a2743a0eb2cfdea0d4.001.1",
+          "event": "Flood Warning",
+          "source_fk": 5.95,
+          "output_fk": 3.52,
+          "source_dale_chall": 10.29,
+          "output_dale_chall": 9.54,
+          "output_fk_excluding_locked_entities": 3.65
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.8532c271b4d50c110eaf29c3f985f04f07966d40.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 9.92,
+          "output_fk": 6.95,
+          "source_dale_chall": 13.27,
+          "output_dale_chall": 11.93,
+          "output_fk_excluding_locked_entities": 5.95
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.3614157e6c761a21f01df90e71bafa92b66fff95.003.1",
+          "event": "Flood Warning",
+          "source_fk": 7.32,
+          "output_fk": 5.54,
+          "source_dale_chall": 11.77,
+          "output_dale_chall": 11.24,
+          "output_fk_excluding_locked_entities": 4.93
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.001.1",
+          "event": "Flood Warning",
+          "source_fk": 7.24,
+          "output_fk": 5.41,
+          "source_dale_chall": 10.66,
+          "output_dale_chall": 10.1,
+          "output_fk_excluding_locked_entities": 5.47
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.002.1",
+          "event": "Flood Warning",
+          "source_fk": 6.98,
+          "output_fk": 5.5,
+          "source_dale_chall": 9.98,
+          "output_dale_chall": 9.57,
+          "output_fk_excluding_locked_entities": 5.17
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.668d173384235d02acd523a9f5c92bf72ade1f10.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 7.58,
+          "output_fk": 6.94,
+          "source_dale_chall": 11.81,
+          "output_dale_chall": 12.1,
+          "output_fk_excluding_locked_entities": 5.83
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.ca4eaf4e9f3f6e41b87d89efcde4d7fd225f7029.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 9.1,
+          "output_fk": 6.3,
+          "source_dale_chall": 11.93,
+          "output_dale_chall": 10.94,
+          "output_fk_excluding_locked_entities": 6.27
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.06399d88a92d44448694d079345cfe83f31a6a93.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 9.28,
+          "output_fk": 6.49,
+          "source_dale_chall": 11.87,
+          "output_dale_chall": 10.89,
+          "output_fk_excluding_locked_entities": 6.37
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.5ca7e7d5a7a0e2aa453d231464530edf1eed7f6c.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.91,
+          "output_fk": 5.91,
+          "source_dale_chall": 11.79,
+          "output_dale_chall": 10.6,
+          "output_fk_excluding_locked_entities": 6.23
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.000c81f8cc0e212044350bdf7a38325bef3affcb.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 8.36,
+          "output_fk": 6.91,
+          "source_dale_chall": 12.09,
+          "output_dale_chall": 11.54,
+          "output_fk_excluding_locked_entities": 7.05
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.383f5199817bde030ce64c80811ca2aa005d99a8.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 10.49,
+          "output_fk": 7.47,
+          "source_dale_chall": 12.31,
+          "output_dale_chall": 11.14,
+          "output_fk_excluding_locked_entities": 6.77
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.4b85b714a89e08bdbcb92669515205fcbfa52b6a.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 7.78,
+          "output_fk": 5.94,
+          "source_dale_chall": 12.14,
+          "output_dale_chall": 11.32,
+          "output_fk_excluding_locked_entities": 6.22
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.3dfcf01bc16b6b85c8a00cc29c98fc11086ec757.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.5,
+          "output_fk": 6.89,
+          "source_dale_chall": 12.48,
+          "output_dale_chall": 11.33,
+          "output_fk_excluding_locked_entities": 6.74
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.90270ee0f853971bca09232bed0718442e85bc2b.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 7.45,
+          "output_fk": 7.07,
+          "source_dale_chall": 8.57,
+          "output_dale_chall": 9.46,
+          "output_fk_excluding_locked_entities": 6.36
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.ebdab642f0cc792924fdc61d628bdcb5118d177a.001.1",
+          "event": "Flood Advisory",
+          "source_fk": 10.1,
+          "output_fk": 6.95,
+          "source_dale_chall": 13.44,
+          "output_dale_chall": 12.34,
+          "output_fk_excluding_locked_entities": 5.97
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.9d016f8b422822cb0cb3e70a1a92c2564db349fb.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 6.72,
+          "output_fk": 5.61,
+          "source_dale_chall": 9.19,
+          "output_dale_chall": 9.5,
+          "output_fk_excluding_locked_entities": 5.01
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.cdb7a337d48766912166bf75c0f98e74bd41e18a.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.78,
+          "output_fk": 6.77,
+          "source_dale_chall": 11.89,
+          "output_dale_chall": 10.8,
+          "output_fk_excluding_locked_entities": 6.82
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.609d44310909289515808defe2c1a09f5bb57597.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.59,
+          "output_fk": 6.79,
+          "source_dale_chall": 10.83,
+          "output_dale_chall": 9.86,
+          "output_fk_excluding_locked_entities": 6.09
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.d301c89ccaab0d6f1d892c382b53a30e742b4ee5.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.27,
+          "output_fk": 6.6,
+          "source_dale_chall": 12.23,
+          "output_dale_chall": 11.19,
+          "output_fk_excluding_locked_entities": 7.75
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.252edcb9ebfb070f3ba297fa965ae859d2fac9ed.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.13,
+          "output_fk": 7.47,
+          "source_dale_chall": 9.16,
+          "output_dale_chall": 10.23,
+          "output_fk_excluding_locked_entities": 6.85
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.2468d806e4025a41ce233ce2eb724d0a700b4146.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.44,
+          "output_fk": 6.63,
+          "source_dale_chall": 12.23,
+          "output_dale_chall": 11.03,
+          "output_fk_excluding_locked_entities": 6.94
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.708224b039d76f7a0f1be7323ce34330ff6c3657.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.67,
+          "output_fk": 7.4,
+          "source_dale_chall": 12.2,
+          "output_dale_chall": 11.41,
+          "output_fk_excluding_locked_entities": 7.6
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.19c39f9b342ff277969a76a6ea2a250e0a2cf146.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 10.58,
+          "output_fk": 7.46,
+          "source_dale_chall": 12.73,
+          "output_dale_chall": 11.49,
+          "output_fk_excluding_locked_entities": 7.9
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.3292b96d21c26c5c00422f53774d74606dcec205.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.97,
+          "output_fk": 7.56,
+          "source_dale_chall": 13.16,
+          "output_dale_chall": 12.03,
+          "output_fk_excluding_locked_entities": 10.92
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.c06be099fac8a209ab5b38ff67e608c4d75853b3.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.9,
+          "output_fk": 7.87,
+          "source_dale_chall": 13.04,
+          "output_dale_chall": 11.91,
+          "output_fk_excluding_locked_entities": 10.21
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.a475239cec3ecf881a4bdc3d11dd20c01fc16ab5.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 10.14,
+          "output_fk": 8.56,
+          "source_dale_chall": 13.05,
+          "output_dale_chall": 11.9,
+          "output_fk_excluding_locked_entities": 8.47
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.0e15c4467fbe393d3ce9be370bf49931f1ad796a.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.61,
+          "output_fk": 6.97,
+          "source_dale_chall": 13.04,
+          "output_dale_chall": 12.16,
+          "output_fk_excluding_locked_entities": 6.2
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.2de20255abd6405e7b57cc7f9385c1cc7dd42bd2.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 9.23,
+          "output_fk": 6.99,
+          "source_dale_chall": 13.01,
+          "output_dale_chall": 11.6,
+          "output_fk_excluding_locked_entities": 7.06
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.8232ce29fb893c279f486bc11496f92e166163ed.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 10.53,
+          "output_fk": 8.25,
+          "source_dale_chall": 12.04,
+          "output_dale_chall": 10.8,
+          "output_fk_excluding_locked_entities": 8.24
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.902b82f47f5a41b804e64c232d7f2016fb90627b.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 7.98,
+          "output_fk": 6.43,
+          "source_dale_chall": 12.71,
+          "output_dale_chall": 11.63,
+          "output_fk_excluding_locked_entities": 6.51
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.356e30e0c7e5c07078cdea933071eb51e5a81f2e.001.1",
+          "event": "Special Weather Statement",
+          "source_fk": 8.92,
+          "output_fk": 6.92,
+          "source_dale_chall": 12.6,
+          "output_dale_chall": 11.5,
+          "output_fk_excluding_locked_entities": 8.72
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.93c00ae3a9a93db418bd67c53ad7c4e4debf9981.001.1",
+          "event": "Tsunami Warning",
+          "source_fk": 11.48,
+          "output_fk": 10.42,
+          "source_dale_chall": 14.41,
+          "output_dale_chall": 13.92,
+          "output_fk_excluding_locked_entities": 10.11
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.50cc7c4322320cb5c17a1e796257faaa12e76ac2.001.1",
+          "event": "Beach Hazards Statement",
+          "source_fk": 6.67,
+          "output_fk": 6.72,
+          "source_dale_chall": 10.92,
+          "output_dale_chall": 10.86,
+          "output_fk_excluding_locked_entities": 6.54
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.ed410393a93ceca8691b329200f29c9f4d933043.001.1",
+          "event": "Beach Hazards Statement",
+          "source_fk": 6.9,
+          "output_fk": 6.87,
+          "source_dale_chall": 11.03,
+          "output_dale_chall": 10.93,
+          "output_fk_excluding_locked_entities": 7.38
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.8d57e7d132c0b3aac6c625dcedeefc9fd7db4265.001.1",
+          "event": "Beach Hazards Statement",
+          "source_fk": 7.19,
+          "output_fk": 7.02,
+          "source_dale_chall": 10.71,
+          "output_dale_chall": 10.69,
+          "output_fk_excluding_locked_entities": 7.38
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.a44c55b3cc4708bab589591c6fd05333379df955.001.1.IPAWS",
+          "event": "Flash Flood Warning",
+          "source_fk": 9.19,
+          "output_fk": 7.14,
+          "source_dale_chall": 10.88,
+          "output_dale_chall": 10.68,
+          "output_fk_excluding_locked_entities": 6.59
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.09c2b3f78b05a05fb66cebc549cdbd72896c4e65.001.1.IPAWS",
+          "event": "Flash Flood Warning",
+          "source_fk": 7.18,
+          "output_fk": 6.12,
+          "source_dale_chall": 11.7,
+          "output_dale_chall": 11.39,
+          "output_fk_excluding_locked_entities": 6.2
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.5180750d674bcd0ad6af8b92db33986e2f9b1be6.001.1.IPAWS",
+          "event": "Flash Flood Warning",
+          "source_fk": 7.33,
+          "output_fk": 5.75,
+          "source_dale_chall": 10.84,
+          "output_dale_chall": 10.6,
+          "output_fk_excluding_locked_entities": 5.78
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.fa16a1c53a1a56e657d2abbae1e81f1adc57b262.001.1.IPAWS",
+          "event": "Flash Flood Warning",
+          "source_fk": 7.18,
+          "output_fk": 6.12,
+          "source_dale_chall": 11.7,
+          "output_dale_chall": 11.39,
+          "output_fk_excluding_locked_entities": 6.2
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.1f10fcfa107b573ee5cb7dce061c4523c870d0e5.001.1.IPAWS",
+          "event": "Flash Flood Warning",
+          "source_fk": 7.2,
+          "output_fk": 5.6,
+          "source_dale_chall": 10.81,
+          "output_dale_chall": 10.49,
+          "output_fk_excluding_locked_entities": 5.83
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.1adcd65caef3165b286282b35a673f0bc152e8b6.001.1.IPAWS",
+          "event": "Flash Flood Warning",
+          "source_fk": 7.17,
+          "output_fk": 6.06,
+          "source_dale_chall": 11.6,
+          "output_dale_chall": 11.21,
+          "output_fk_excluding_locked_entities": 6.2
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.f4e7c5f9619ef996b4431fc713ee8d51fa946417.001.1.IPAWS",
+          "event": "Flash Flood Warning",
+          "source_fk": 7.04,
+          "output_fk": 5.64,
+          "source_dale_chall": 11.64,
+          "output_dale_chall": 11.09,
+          "output_fk_excluding_locked_entities": 6.25
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.5c9ade2fb26d0a4bb7b7679b51a39ce71de6b56a.001.1.IPAWS",
+          "event": "Flash Flood Warning",
+          "source_fk": 6.79,
+          "output_fk": 5.47,
+          "source_dale_chall": 11.67,
+          "output_dale_chall": 11.09,
+          "output_fk_excluding_locked_entities": 6.22
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.8ecf710e3ea1a12c58d2d338aaeba2cdd684b013.001.1.IPAWS",
+          "event": "Flash Flood Warning",
+          "source_fk": 6.73,
+          "output_fk": 5.6,
+          "source_dale_chall": 11.66,
+          "output_dale_chall": 11.2,
+          "output_fk_excluding_locked_entities": 6.38
+        },
+        {
+          "alert_id": "urn:oid:2.49.0.1.840.0.115e66b1124950f007e4b12bcad9c4916b7a6102.001.1.IPAWS",
+          "event": "Tornado Warning",
+          "source_fk": 8.38,
+          "output_fk": 7.4,
+          "source_dale_chall": 11.4,
+          "output_dale_chall": 11.05,
+          "output_fk_excluding_locked_entities": 7.89
+        }
+      ]
+    },
+    "entity_preservation": {
+      "entities_locked": 1972,
+      "integrity_failures": 0,
+      "rate": 1.0
+    },
+    "abstention": {
+      "chosen_threshold": 0.54,
+      "recall": 1.0,
+      "false_abstention_rate": 0.073,
+      "note": "highest recall with false-abstention <= 10%",
+      "by_class": [
+        {
+          "class": "drop_negation",
+          "n": 73,
+          "recall": 1.0,
+          "caught_by": {
+            "instruction_coverage": 73
+          }
+        },
+        {
+          "class": "alter_number",
+          "n": 131,
+          "recall": 1.0,
+          "caught_by": {
+            "entity_integrity": 131
+          }
+        },
+        {
+          "class": "swap_road",
+          "n": 11,
+          "recall": 1.0,
+          "caught_by": {
+            "entity_integrity": 11
+          }
+        },
+        {
+          "class": "hallucinate_instruction",
+          "n": 137,
+          "recall": 1.0,
+          "caught_by": {
+            "grounding": 132,
+            "instruction_coverage": 5
+          }
+        },
+        {
+          "class": "drop_instruction",
+          "n": 137,
+          "recall": 1.0,
+          "caught_by": {
+            "instruction_coverage": 132,
+            "entity_integrity": 5
+          }
+        }
+      ]
+    },
+    "ablation_no_entity_lock": {
+      "by_class": [
+        {
+          "class": "drop_negation",
+          "n": 73,
+          "recall": 1.0,
+          "caught_by": {
+            "instruction_coverage": 73
+          }
+        },
+        {
+          "class": "alter_number",
+          "n": 157,
+          "recall": 0.9809,
+          "caught_by": {
+            "grounding": 154
+          }
+        },
+        {
+          "class": "swap_road",
+          "n": 11,
+          "recall": 1.0,
+          "caught_by": {
+            "grounding": 11
+          }
+        },
+        {
+          "class": "hallucinate_instruction",
+          "n": 137,
+          "recall": 1.0,
+          "caught_by": {
+            "grounding": 132,
+            "instruction_coverage": 5
+          }
+        },
+        {
+          "class": "drop_instruction",
+          "n": 137,
+          "recall": 1.0,
+          "caught_by": {
+            "instruction_coverage": 137
+          }
+        }
+      ],
+      "clean_segments": 1398
+    },
+    "latency_ms": {
+      "n": 80,
+      "p50": 16.5,
+      "p95": 83.5,
+      "max": 94.9,
+      "scope": "single alert, all segments, one language, local process; excludes network fetch and TTS"
+    },
+    "instruction_coverage_finding": {
+      "alerts": 80,
+      "with_instruction": 75,
+      "pct_with_instruction": 0.9375,
+      "note": "reported as a finding, not a score (brief section 7)"
+    }
   }
 }
