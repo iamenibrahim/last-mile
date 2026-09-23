@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import math
+import os
 import re
 
 from .entities import LockedEntity, entity_integrity
@@ -19,6 +21,31 @@ def _meaningful_tokens(value: str) -> set[str]:
     }
 
 
+# Cosine floor for Foundry embeddings. Starting value from the grounded pipeline;
+# retune on the first keyed evaluation run.
+FOUNDRY_SIMILARITY_THRESHOLD = float(os.getenv("FOUNDRY_SIMILARITY_THRESHOLD", "0.82"))
+
+
+def _foundry_similarity(source: str, output: str) -> float | None:
+    """Cosine similarity from Foundry embeddings, or None when they are not configured.
+
+    text-embedding-3-small is multilingual, so a translation can be compared with
+    its English source directly, not only through a back-translation.
+    """
+    try:
+        from grounded.providers.base import get_registry
+
+        embedder = get_registry().embedder
+        if not getattr(embedder, "semantic", False):
+            return None
+        first, second = embedder.embed([source, output])
+    except Exception:
+        return None
+    dot = sum(a * b for a, b in zip(first, second))
+    norms = math.sqrt(sum(a * a for a in first)) * math.sqrt(sum(b * b for b in second))
+    return dot / norms if norms else 0.0
+
+
 def semantic_fidelity(source: str, output: str, provider_confidence: float, translated: bool) -> dict:
     source_negations = len(re.findall(r"\b(?:not|never|no|avoid|without)\b", source, re.IGNORECASE))
     output_negations = len(re.findall(r"\b(?:not|never|no|avoid|without)\b", output, re.IGNORECASE))
@@ -30,9 +57,17 @@ def semantic_fidelity(source: str, output: str, provider_confidence: float, tran
             "source_negations": source_negations,
             "output_negations": output_negations,
         }
+    similarity = _foundry_similarity(source, output)
+    if similarity is not None:
+        return {
+            "passed": similarity >= FOUNDRY_SIMILARITY_THRESHOLD,
+            "score": round(similarity, 3),
+            "method": "Foundry embeddings cosine similarity",
+            "threshold": FOUNDRY_SIMILARITY_THRESHOLD,
+        }
     if translated:
         score = provider_confidence
-        method = "provider-confidence; Foundry embeddings in cloud evaluation"
+        method = "provider confidence (no embeddings configured; not a meaning check)"
     else:
         source_tokens = _meaningful_tokens(source)
         output_tokens = _meaningful_tokens(output)
