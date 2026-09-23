@@ -264,7 +264,18 @@ class KeyVaultSigner:
         client = KeyClient(vault_url=az.keyvault_url, credential=cred)
         key = client.get_key(az.keyvault_key_name)
         self._crypto = CryptographyClient(key, credential=cred)
+        self._jwk = key.key
         self.key_id = key.id
+
+    def public_jwk(self) -> dict:
+        """The public half, so anyone can verify a manifest without Key Vault access."""
+        import base64
+
+        def b64url(value: bytes) -> str:
+            return base64.urlsafe_b64encode(value).rstrip(b"=").decode("ascii")
+
+        return {"kty": "RSA", "alg": self.algorithm, "kid": self.key_id,
+                "n": b64url(self._jwk.n), "e": b64url(self._jwk.e)}
 
     def sign(self, payload: bytes) -> str:
         from azure.keyvault.keys.crypto import SignatureAlgorithm  # type: ignore

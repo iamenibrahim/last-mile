@@ -11,6 +11,9 @@ param location string
 @description('Foundry model deployment name configured in the application. Deploy the model separately after checking regional availability.')
 param foundryModelDeployment string = 'last-mile-gpt'
 
+@description('Foundry embedding deployment name for the semantic-fidelity check. Deploy it separately, like the chat model.')
+param foundryEmbeddingDeployment string = 'text-embedding-3-small'
+
 var suffix = uniqueString(subscription().subscriptionId, resourceGroup().id)
 var safeName = toLower('${namePrefix}${suffix}')
 var tags = {
@@ -155,6 +158,31 @@ resource communication 'Microsoft.Communication/communicationServices@2023-04-01
   properties: { dataLocation: 'United States' }
 }
 
+// Manifest and packet signing. RS256 key; the private half never leaves the vault,
+// and GET /api/signing-key publishes the public half. Standard tier, pay per
+// operation (fractions of a cent at demo volume).
+resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
+  name: take('kv${safeName}', 24)
+  location: location
+  tags: tags
+  properties: {
+    tenantId: subscription().tenantId
+    sku: { family: 'A', name: 'standard' }
+    enableRbacAuthorization: true
+    softDeleteRetentionInDays: 7
+  }
+}
+
+resource signingKey 'Microsoft.KeyVault/vaults/keys@2023-07-01' = {
+  parent: keyVault
+  name: 'manifest-signing'
+  properties: {
+    kty: 'RSA'
+    keySize: 2048
+    keyOps: [ 'sign', 'verify' ]
+  }
+}
+
 resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
   name: '${safeName}api'
   location: location
@@ -178,6 +206,10 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'AZURE_USE_MANAGED_IDENTITY', value: 'true' }
         { name: 'AZURE_FOUNDRY_ENDPOINT', value: 'https://${foundry.name}.openai.azure.com' }
         { name: 'AZURE_FOUNDRY_MODEL', value: foundryModelDeployment }
+        { name: 'AZURE_FOUNDRY_EMBED_MODEL', value: foundryEmbeddingDeployment }
+        { name: 'AZURE_FOUNDRY_API_KEY', value: foundry.listKeys().key1 }
+        { name: 'AZURE_KEYVAULT_URL', value: keyVault.properties.vaultUri }
+        { name: 'AZURE_KEYVAULT_KEY_NAME', value: signingKey.name }
         { name: 'AZURE_TRANSLATOR_KEY', value: translator.listKeys().key1 }
         { name: 'AZURE_TRANSLATOR_REGION', value: 'global' }
         { name: 'AZURE_SPEECH_KEY', value: speech.listKeys().key1 }
@@ -204,6 +236,17 @@ resource foundryUserRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = 
   }
 }
 
+resource keyVaultCryptoUserRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(keyVault.id, functionApp.id, 'crypto-user')
+  scope: keyVault
+  properties: {
+    // Key Vault Crypto User: sign and verify with keys, no key management.
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '12338af0-0e69-4776-bea7-57ae8d297424')
+    principalId: functionApp.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
 resource cosmosDataRole 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments@2024-11-15' = {
   parent: cosmos
   name: guid(cosmos.id, functionApp.id, 'data-contributor')
@@ -219,12 +262,14 @@ output applicationUrl string = 'https://${functionApp.properties.defaultHostName
 output foundryResourceName string = foundry.name
 output foundryEndpoint string = 'https://${foundry.name}.openai.azure.com'
 output cosmosFreeTier bool = cosmos.properties.enableFreeTier
+output keyVaultUri string = keyVault.properties.vaultUri
 output communicationEndpoint string = 'https://${communication.name}.communication.azure.com'
 output costGuardrails array = [
   'Azure Functions Dynamic Y1 plan; scales to zero and is capped at two instances.'
   'Cosmos DB lifetime free tier with 400 RU/s shared throughput.'
   'Translator, Speech, and Content Safety use F0 tiers.'
   'Foundry is pay-per-token; no model is deployed by this template.'
+  'Key Vault Standard; one RSA key, billed per signing operation.'
   'SMS sending and automatic replies remain disabled.'
   'No always-on App Service, Premium plan, VM, or managed GPU is deployed.'
 ]

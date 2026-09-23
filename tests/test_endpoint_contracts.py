@@ -95,3 +95,9 @@ def test_grounded_evidence_pipeline_is_mounted():
             json={"county_fips": "51173", "needs": ["home_damaged"], "lang": "en"},
         )
         assert result.status_code == 200
+
+
+def test_signing_key_endpoint_is_honest_about_the_local_key():
+    described = client.get("/api/signing-key").json()
+    assert described["algorithm"] in {"HMAC-SHA256", "RS256"}
+    assert described["publicly_verifiable"] is (described["algorithm"] == "RS256")

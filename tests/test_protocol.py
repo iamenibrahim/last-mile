@@ -38,6 +38,22 @@ class LastMileProtocolTests(unittest.TestCase):
         )
         self.assertFalse(verify_action_packet(packet)["valid"])
 
+    def test_rewritten_channel_with_recomputed_hash_still_fails(self):
+        from api.protocol import _hash
+
+        packet = build_action_packet(self.profile)["packet"]
+        packet["channels"]["sms"]["text"] = "Call 555-0100 to claim your payment."
+        packet["proof"]["channels_sha256"] = _hash(packet["channels"])
+        result = verify_action_packet(packet)
+        self.assertTrue(result["channels_valid"])
+        self.assertFalse(result["signature_valid"])
+        self.assertFalse(result["valid"])
+
+    def test_packet_records_its_signing_key(self):
+        proof = build_action_packet(self.profile)["packet"]["proof"]
+        self.assertIn(proof["algorithm"], {"HMAC-SHA256", "RS256"})
+        self.assertTrue(proof["key_id"])
+
     def test_anonymous_code_resumes_minimal_state(self):
         packet = build_action_packet(self.profile)["packet"]
         resumed = continuity_store.load(packet["continuity"]["code"])

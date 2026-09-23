@@ -23,13 +23,13 @@ Legend: ✅ done · ⏳ in progress · ⬜ not started
 ## Claude (code, no keys needed)
 
 - ✅ **6. Copilot Studio caseworker agent pieces:** the `GET /api/handoff/{code}` endpoint, a test for it, `copilot/last-mile-handoff.swagger.json`, and `copilot/README.md`.
-- ⏳ **7. Move the evidence over from `hackily`:**
+- ✅ **7. Move the evidence over from `hackily`** (now the `grounded` package, served at `/grounded`; 116 tests under `tests/grounded`):
   - the 80 real NWS alerts replace the single synthetic alert in the evaluation
   - hash-checked FEMA, eCFR, SBA and SAMHSA quotes
   - the OpenFEMA deadline rules, including the 60-day late window (44 CFR 206.112(d))
   - rerun the evaluation afterward
-- ⬜ **8. Finish and commit the phone-call feature** (Communication Services Call Automation), off by default.
-- ⬜ **9. Key Vault signing** for the provenance manifests, using an asymmetric key so anyone can check a signature with the public key.
+- ✅ **8. Finish and commit the phone-call feature** (Communication Services Call Automation), off by default.
+- ✅ **9. Key Vault signing** for the provenance manifests and packets, using an asymmetric key so anyone can check a signature with the public key. `GET /api/signing-key` publishes it. The template now creates the vault and key. **If you already deployed, redeploy `infra/student.json` to the same resource group to add it.**
 - ⬜ **10. Foundry embeddings** behind the semantic-fidelity check (does the translation still mean the same thing).
 - ⬜ **11. Foundry escalation classifier** that can only add a "hand to a person" escalation, never remove one.
 - ⬜ **12. Azure AI Search** over the FEMA, eCFR and SBA source documents, returning exact quotes only.
@@ -70,7 +70,7 @@ These make the demo real, so never cut them: **1–3, 7, 15–17**.
 | Azure Maps | Map + server-side geocoding | Browser map only; ⬜ (item 14) |
 | Azure Functions | API host + NWS ingest timer | Template ready, deploying (item 1) |
 | Cosmos DB | Alerts, manifests, render cache | Code exists, never run with keys |
-| Key Vault | Manifest signing key | ⬜ (item 9); README claims it, code doesn't do it yet |
-| Communication Services | SMS + phone calls, consent-gated | SMS built; calls in progress (item 8) |
+| Key Vault | Manifest + packet signing (RS256), public key at `/api/signing-key` | Code + template done; runs once deployed |
+| Communication Services | SMS + phone calls, consent-gated | Both built; need a trial number |
 | Application Insights | Latency and health, no personal data | ⬜ (item 13) |
 | Copilot Studio | Caseworker agent in Teams | Pieces ready; ⬜ connect (item 17) |

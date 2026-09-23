@@ -9,6 +9,7 @@ degradation is recorded in the manifest rather than hidden.
 from __future__ import annotations
 
 import os
+import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -18,6 +19,13 @@ CACHED_ALERTS_DIR = DATA_DIR / "cached_alerts"
 FIXTURES_DIR = DATA_DIR / "fixtures"
 GAZETTEER_PATH = DATA_DIR / "gazetteer_va.json"
 WEB_DIR = REPO_ROOT / "web" / "grounded"
+# Writable runtime state. Azure Functions runs from a read-only package, so the
+# cache and dev key go to the temp dir there.
+STATE_DIR = (
+    Path(tempfile.gettempdir()) / "last-mile-grounded"
+    if os.environ.get("APP_ENV") == "azure"
+    else DATA_DIR
+)
 
 # NWS requires a descriptive User-Agent with contact info (brief section 4).
 NWS_USER_AGENT = os.environ.get(
@@ -49,7 +57,11 @@ NEAR_EDGE_KM = float(os.environ.get("NEAR_EDGE_KM", "5.0"))
 
 @dataclass(frozen=True)
 class AzureConfig:
-    """Whether each Azure service is wired. Absent key => local provider."""
+    """Whether each Azure service is wired. Absent key => local provider.
+
+    Foundry and Key Vault also accept the names the Rubicon app and the
+    student Bicep template use, so one .env configures both pipelines.
+    """
 
     translator_key: str | None = field(default_factory=lambda: os.environ.get("AZURE_TRANSLATOR_KEY"))
     translator_region: str | None = field(default_factory=lambda: os.environ.get("AZURE_TRANSLATOR_REGION"))
@@ -60,13 +72,13 @@ class AzureConfig:
     )
     speech_key: str | None = field(default_factory=lambda: os.environ.get("AZURE_SPEECH_KEY"))
     speech_region: str | None = field(default_factory=lambda: os.environ.get("AZURE_SPEECH_REGION"))
-    openai_key: str | None = field(default_factory=lambda: os.environ.get("AZURE_OPENAI_KEY"))
-    openai_endpoint: str | None = field(default_factory=lambda: os.environ.get("AZURE_OPENAI_ENDPOINT"))
+    openai_key: str | None = field(default_factory=lambda: os.environ.get("AZURE_OPENAI_KEY") or os.environ.get("AZURE_FOUNDRY_API_KEY"))
+    openai_endpoint: str | None = field(default_factory=lambda: os.environ.get("AZURE_OPENAI_ENDPOINT") or os.environ.get("AZURE_FOUNDRY_ENDPOINT"))
     openai_chat_deployment: str | None = field(
-        default_factory=lambda: os.environ.get("AZURE_OPENAI_CHAT_DEPLOYMENT")
+        default_factory=lambda: os.environ.get("AZURE_OPENAI_CHAT_DEPLOYMENT") or os.environ.get("AZURE_FOUNDRY_MODEL")
     )
     openai_embed_deployment: str | None = field(
-        default_factory=lambda: os.environ.get("AZURE_OPENAI_EMBED_DEPLOYMENT")
+        default_factory=lambda: os.environ.get("AZURE_OPENAI_EMBED_DEPLOYMENT") or os.environ.get("AZURE_FOUNDRY_EMBED_MODEL")
     )
     openai_api_version: str = field(
         default_factory=lambda: os.environ.get("AZURE_OPENAI_API_VERSION", "2024-10-21")
@@ -76,7 +88,7 @@ class AzureConfig:
         default_factory=lambda: os.environ.get("AZURE_CONTENT_SAFETY_ENDPOINT")
     )
     maps_key: str | None = field(default_factory=lambda: os.environ.get("AZURE_MAPS_KEY"))
-    keyvault_url: str | None = field(default_factory=lambda: os.environ.get("AZURE_KEYVAULT_URL"))
+    keyvault_url: str | None = field(default_factory=lambda: os.environ.get("AZURE_KEYVAULT_URL") or os.environ.get("AZURE_KEY_VAULT_URL"))
     keyvault_key_name: str | None = field(default_factory=lambda: os.environ.get("AZURE_KEYVAULT_KEY_NAME"))
     cosmos_url: str | None = field(default_factory=lambda: os.environ.get("AZURE_COSMOS_URL"))
     cosmos_key: str | None = field(default_factory=lambda: os.environ.get("AZURE_COSMOS_KEY"))
@@ -91,4 +103,4 @@ OFFLINE = os.environ.get("LAST_MILE_OFFLINE", "0") == "1"
 # Local HMAC signing key for the manifest when Key Vault is not configured.
 # Dev-only: a real deployment signs with an asymmetric Key Vault key so that
 # verification does not require the signing secret.
-LOCAL_SIGNING_KEY_PATH = DATA_DIR / ".dev_signing_key"
+LOCAL_SIGNING_KEY_PATH = STATE_DIR / ".dev_signing_key"

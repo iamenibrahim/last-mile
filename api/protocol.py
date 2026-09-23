@@ -4,19 +4,25 @@ import base64
 import hashlib
 import hmac
 import json
+import os
 import re
 import secrets
 import sqlite3
+import tempfile
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from .config import settings
+from . import signing
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DISASTERS_PATH = ROOT / "data" / "disasters.json"
-CONTINUITY_PATH = ROOT / "data" / "continuity.db"
+CONTINUITY_PATH = (
+    Path(tempfile.gettempdir()) / "continuity.db"
+    if os.environ.get("APP_ENV") == "azure"
+    else ROOT / "data" / "continuity.db"
+)
 PROTOCOL_VERSION = "1.0"
 POTENTIAL_QUESTION_GROUPS = 17
 
@@ -109,10 +115,14 @@ def _normalize_needs(needs: list[str]) -> list[str]:
     return sorted({mapping.get(item, item) for item in needs})
 
 
-def _packet_signature(packet: dict) -> str:
+def _packet_message(packet: dict) -> bytes:
+    # Everything except the signature itself is signed, including channels_sha256,
+    # so a rewritten channel cannot be paired with a recomputed hash.
     unsigned = deepcopy(packet)
-    unsigned.pop("proof", None)
-    return hmac.new(settings.manifest_signing_key.encode("utf-8"), _canonical(unsigned), hashlib.sha256).hexdigest()
+    proof = unsigned.get("proof", {})
+    for field in ("signature", "key_id", "algorithm"):
+        proof.pop(field, None)
+    return _canonical(unsigned)
 
 
 def _coarse_location(location: str) -> str:
@@ -337,19 +347,16 @@ def build_action_packet(profile: dict) -> dict:
         "source_hashes": {source["id"]: source["sha256"] for source in source_hashes},
         "locked_facts": [disaster["id"], deadline["value"], jurisdiction],
         "transformation_policy": "channel-compiler-v1",
-        "signature_method": "HMAC-SHA256 local demo; Azure Key Vault asymmetric key in production",
-        "signature": "pending",
     }
     packet["channels"] = _compile_channels(packet)
     packet["proof"]["channels_sha256"] = _hash(packet["channels"])
-    packet["proof"]["signature"] = _packet_signature(packet)
+    packet["proof"].update(signing.sign(_packet_message(packet)))
     continuity_store.save(packet)
     return {"status": "complete", "packet": packet}
 
 
 def verify_action_packet(packet: dict) -> dict:
-    supplied = packet.get("proof", {}).get("signature", "")
-    expected = _packet_signature(packet)
+    signature_valid = signing.verify(_packet_message(packet), packet.get("proof", {}).get("signature", ""))
     deadline = packet.get("deadlines", [{}])[0].get("value")
     channel_blob = json.dumps(packet.get("channels", {}), ensure_ascii=False)
     locked_present = all(str(value) in channel_blob for value in [deadline, packet.get("disaster", {}).get("id"), packet.get("jurisdiction")])
@@ -357,8 +364,9 @@ def verify_action_packet(packet: dict) -> dict:
         packet.get("proof", {}).get("channels_sha256", ""), _hash(packet.get("channels", {}))
     )
     return {
-        "valid": hmac.compare_digest(supplied, expected) and locked_present and channels_valid,
-        "signature_valid": hmac.compare_digest(supplied, expected),
+        "valid": signature_valid and locked_present and channels_valid,
+        "signature_valid": signature_valid,
+        "algorithm": packet.get("proof", {}).get("algorithm"),
         "channels_valid": channels_valid,
         "locked_facts_present_across_compiled_state": locked_present,
         "proof_id": packet.get("proof", {}).get("proof_id"),

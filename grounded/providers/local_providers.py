@@ -647,6 +647,12 @@ class LocalHmacSigner:
     algorithm = "HMAC-SHA256"
 
     def __init__(self) -> None:
+        # A shared MANIFEST_SIGNING_KEY lets several instances verify each
+        # other's signatures; otherwise each machine generates its own key.
+        shared = os.environ.get("MANIFEST_SIGNING_KEY", "")
+        if shared and not shared.startswith("replace-with"):
+            self._key = shared.encode("utf-8")
+            return
         path = config.LOCAL_SIGNING_KEY_PATH
         path.parent.mkdir(parents=True, exist_ok=True)
         if not path.exists():
@@ -658,3 +664,7 @@ class LocalHmacSigner:
 
     def verify(self, payload: bytes, signature: str) -> bool:
         return hmac.compare_digest(self.sign(payload), signature)
+
+    def public_jwk(self) -> None:
+        """Symmetric: there is no public half to publish."""
+        return None

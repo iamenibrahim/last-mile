@@ -6,7 +6,7 @@ import json
 from copy import deepcopy
 from datetime import datetime, timezone
 
-from .config import settings
+from . import signing
 from .ingest import canonicalize, payload_hash
 
 
@@ -16,9 +16,8 @@ def _unsigned(manifest: dict) -> dict:
     return value
 
 
-def sign_manifest(manifest: dict) -> str:
-    message = canonicalize(_unsigned(manifest)).encode("utf-8")
-    return hmac.new(settings.manifest_signing_key.encode("utf-8"), message, hashlib.sha256).hexdigest()
+def _message(manifest: dict) -> bytes:
+    return canonicalize(_unsigned(manifest)).encode("utf-8")
 
 
 def build_manifest(alert: dict, chain: list[dict], segments: list[dict], rendered_text: str) -> dict:
@@ -46,16 +45,16 @@ def build_manifest(alert: dict, chain: list[dict], segments: list[dict], rendere
             else "NWS CAP alerts are not individually end-to-end signed. This signature attests to "
             "the payload fetched over TLS and this transformation—not an NWS digital signature."
         ),
-        "signature_method": "HMAC-SHA256 local demo; Azure Key Vault key in deployment",
     }
-    manifest["signature"] = sign_manifest(manifest)
+    # key_id and algorithm are inside the signed body, so they cannot be swapped.
+    signer = signing.describe()
+    manifest["signing"] = {"key_id": signer["key_id"], "algorithm": signer["algorithm"]}
+    manifest["signature"] = signing.sign(_message(manifest))["signature"]
     return manifest
 
 
 def validate_manifest(manifest: dict, rendered_text: str | None = None) -> dict:
-    supplied = manifest.get("signature", "")
-    expected = sign_manifest(manifest)
-    signature_valid = hmac.compare_digest(supplied, expected)
+    signature_valid = signing.verify(_message(manifest), manifest.get("signature", ""))
     content_valid = True
     if rendered_text is not None:
         content_valid = hmac.compare_digest(

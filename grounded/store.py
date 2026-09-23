@@ -13,7 +13,7 @@ from typing import Protocol
 
 from . import config
 
-DB_PATH = config.DATA_DIR / "last_mile.sqlite3"
+DB_PATH = config.STATE_DIR / "last_mile.sqlite3"
 
 
 class Store(Protocol):

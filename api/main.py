@@ -10,6 +10,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from . import signing
 from .config import settings
 from .fraud import scan_message
 from .geo import classify_position, geocode
@@ -329,6 +330,12 @@ def evaluation() -> dict:
     return {"status": "not_run", "notice": "Run python -m eval.report before quoting metrics."}
 
 
+@app.get("/api/signing-key")
+def signing_key() -> dict:
+    """The key that signs manifests and packets. With Key Vault, its public half."""
+    return signing.describe()
+
+
 @app.get("/healthz")
 def health() -> dict:
     return {"ok": True}
@@ -339,13 +346,10 @@ app.mount("/assets", StaticFiles(directory=WEB), name="assets")
 # The real-data evidence pipeline: 80 cached NWS alerts, hash-verified FEMA/eCFR/
 # SBA/SAMHSA quotes, and OpenFEMA deadline rules. Mounted before the SPA
 # catch-all so /grounded/... reaches it. Mounted apps do not get startup events,
-# so its alert store is loaded here.
+# and the Azure Functions ASGI bridge runs none at all, so its alert store is
+# loaded at import.
 app.mount("/grounded", grounded_app)
-
-
-@app.on_event("startup")
-def _load_grounded_corpus() -> None:
-    grounded_startup()
+grounded_startup()
 
 
 @app.get("/{path:path}")
