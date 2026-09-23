@@ -11,6 +11,9 @@ param location string
 @description('Foundry model deployment name configured in the application. Deploy the model separately after checking regional availability.')
 param foundryModelDeployment string = 'last-mile-gpt'
 
+@description('Set false to skip Cosmos DB. The app then uses its local store. Use this when the region has no free-tier Cosmos capacity, or one already exists in the subscription.')
+param deployCosmos bool = true
+
 @description('Foundry embedding deployment name for the semantic-fidelity check. Deploy it separately, like the chat model.')
 param foundryEmbeddingDeployment string = 'text-embedding-3-small'
 
@@ -99,7 +102,7 @@ resource contentSafety 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   }
 }
 
-resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' = {
+resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' = if (deployCosmos) {
   name: '${safeName}cosmos'
   location: location
   tags: tags
@@ -119,7 +122,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' = {
   }
 }
 
-resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2024-11-15' = {
+resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2024-11-15' = if (deployCosmos) {
   parent: cosmos
   name: 'last-mile'
   properties: {
@@ -128,7 +131,7 @@ resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2024-11-15
   }
 }
 
-resource renders 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-11-15' = {
+resource renders 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-11-15' = if (deployCosmos) {
   parent: database
   name: 'renders'
   properties: {
@@ -257,7 +260,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: contentSafety.properties.endpoint }
         { name: 'AZURE_CONTENT_SAFETY_KEY', value: contentSafety.listKeys().key1 }
         { name: 'AZURE_MAPS_KEY', value: maps.listKeys().primaryKey }
-        { name: 'AZURE_COSMOS_ENDPOINT', value: cosmos.properties.documentEndpoint }
+        { name: 'AZURE_COSMOS_ENDPOINT', value: deployCosmos ? cosmos.properties.documentEndpoint : '' }
         { name: 'AZURE_COMMUNICATION_ENDPOINT', value: 'https://${communication.name}.communication.azure.com' }
         { name: 'SMS_SEND_ENABLED', value: 'false' }
         { name: 'SMS_AUTOREPLY_ENABLED', value: 'false' }
@@ -287,7 +290,7 @@ resource keyVaultCryptoUserRole 'Microsoft.Authorization/roleAssignments@2022-04
   }
 }
 
-resource cosmosDataRole 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments@2024-11-15' = {
+resource cosmosDataRole 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments@2024-11-15' = if (deployCosmos) {
   parent: cosmos
   name: guid(cosmos.id, functionApp.id, 'data-contributor')
   properties: {
@@ -301,7 +304,7 @@ output functionAppName string = functionApp.name
 output applicationUrl string = 'https://${functionApp.properties.defaultHostName}'
 output foundryResourceName string = foundry.name
 output foundryEndpoint string = 'https://${foundry.name}.openai.azure.com'
-output cosmosFreeTier bool = cosmos.properties.enableFreeTier
+output cosmosFreeTier bool = deployCosmos ? cosmos.properties.enableFreeTier : false
 output keyVaultUri string = keyVault.properties.vaultUri
 output communicationEndpoint string = 'https://${communication.name}.communication.azure.com'
 output costGuardrails array = [

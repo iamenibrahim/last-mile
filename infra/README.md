@@ -18,4 +18,12 @@ Use `student.bicep` for the $100 Azure for Students credit. It compiles the Fast
 
 Azure for Students applies a subscription-specific allowed-region policy. In the portal, open **Policy > Assignments > Allowed resource deployment regions** and pass one listed region explicitly as the `location` parameter. Do not enter the literal expression `[resourceGroup().location]` in the custom-deployment form; Azure treats form values as strings and the policy rejects it.
 
+This subscription is restricted to **`eastus`**. That is Azure's Virginia region, so a Virginia service's data stays in Virginia - worth stating in the pitch rather than treating as a constraint.
+
+### If Cosmos DB fails
+
+Free-tier Cosmos capacity is regional and a subscription may hold only one free-tier account. A failed account also blocks recreation under the same name until it is deleted (Resource group > the `...cosmos` resource > Delete).
+
+Set `deployCosmos` to **false** to skip Cosmos entirely. `AZURE_COSMOS_ENDPOINT` is then empty and `api/store.py` falls back to its SQLite store, which is what every local run already uses. Nothing else in the deployment changes.
+
 The expected idle infrastructure cost is approximately zero, aside from negligible Function storage transactions. Cost is driven by actual Functions, Foundry, Maps, and any usage beyond the published free grants. Cosmos DB must retain `enableFreeTier: true`; that choice cannot be added after account creation.

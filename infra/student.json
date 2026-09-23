@@ -37,6 +37,13 @@
       "metadata": {
         "description": "Foundry embedding deployment name for the semantic-fidelity check. Deploy it separately, like the chat model."
       }
+    },
+    "deployCosmos": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Set false to skip Cosmos DB. The app then uses its local store. Use this when the region has no free-tier Cosmos capacity, or one already exists in the subscription."
+      }
     }
   },
   "variables": {
@@ -169,7 +176,8 @@
           "defaultConsistencyLevel": "Session"
         },
         "publicNetworkAccess": "Enabled"
-      }
+      },
+      "condition": "[parameters('deployCosmos')]"
     },
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
@@ -185,7 +193,8 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName')))]"
-      ]
+      ],
+      "condition": "[parameters('deployCosmos')]"
     },
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
@@ -204,7 +213,8 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', format('{0}cosmos', variables('safeName')), 'last-mile')]"
-      ]
+      ],
+      "condition": "[parameters('deployCosmos')]"
     },
     {
       "type": "Microsoft.Maps/accounts",
@@ -417,7 +427,7 @@
             },
             {
               "name": "AZURE_COSMOS_ENDPOINT",
-              "value": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName'))), '2024-11-15').documentEndpoint]"
+              "value": "[if(parameters('deployCosmos'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName'))), '2024-11-15').documentEndpoint, '')]"
             },
             {
               "name": "AZURE_COMMUNICATION_ENDPOINT",
@@ -437,7 +447,6 @@
       "dependsOn": [
         "[resourceId('Microsoft.Communication/communicationServices', format('{0}communication', variables('safeName')))]",
         "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}safety', variables('safeName')))]",
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName')))]",
         "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}foundry', variables('safeName')))]",
         "[resourceId('Microsoft.Web/serverfarms', format('{0}-consumption', parameters('namePrefix')))]",
         "[resourceId('Microsoft.Maps/accounts', format('{0}maps', variables('safeName')))]",
@@ -447,7 +456,8 @@
         "[resourceId('Microsoft.KeyVault/vaults', take(format('kv{0}', variables('safeName')), 24))]",
         "[resourceId('Microsoft.KeyVault/vaults/keys', take(format('kv{0}', variables('safeName')), 24), 'manifest-signing')]",
         "[resourceId('Microsoft.Insights/components', format('{0}insights', variables('safeName')))]",
-        "[resourceId('Microsoft.Search/searchServices', format('{0}search', variables('safeName')))]"
+        "[resourceId('Microsoft.Search/searchServices', format('{0}search', variables('safeName')))]",
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName')))]"
       ]
     },
     {
@@ -492,7 +502,8 @@
       "dependsOn": [
         "[resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName')))]",
         "[resourceId('Microsoft.Web/sites', format('{0}api', variables('safeName')))]"
-      ]
+      ],
+      "condition": "[parameters('deployCosmos')]"
     }
   ],
   "outputs": {
@@ -514,7 +525,7 @@
     },
     "cosmosFreeTier": {
       "type": "bool",
-      "value": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName'))), '2024-11-15').enableFreeTier]"
+      "value": "[if(parameters('deployCosmos'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', format('{0}cosmos', variables('safeName'))), '2024-11-15').enableFreeTier, false())]"
     },
     "keyVaultUri": {
       "type": "string",
