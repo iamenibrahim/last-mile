@@ -33,7 +33,7 @@ Legend: ✅ done · ⏳ in progress · ⬜ not started
 - ✅ **10. Foundry embeddings** behind the semantic-fidelity check (does the translation still mean the same thing).
 - ✅ **11. Foundry escalation classifier** that can only add a "hand to a person" escalation, never remove one.
 - ⬜ **12. Azure AI Search** over the FEMA, eCFR and SBA source documents, returning exact quotes only.
-- ⬜ **13. Application Insights** on the free tier, logging no personal data, for live latency figures.
+- ✅ **13. Application Insights** on the free tier, logging no personal data, for live latency figures.
 - ✅ **14. Azure Maps geocoding on the server**, falling back to the Census geocoder.
 
 ## Together (after 1–3)
@@ -72,5 +72,5 @@ These make the demo real, so never cut them: **1–3, 7, 15–17**.
 | Cosmos DB | Alerts, manifests, render cache | Code exists, never run with keys |
 | Key Vault | Manifest + packet signing (RS256), public key at `/api/signing-key` | Code + template done; runs once deployed |
 | Communication Services | SMS + phone calls, consent-gated | Both built; need a trial number |
-| Application Insights | Latency and health, no personal data | ⬜ (item 13) |
+| Application Insights | Request latency and failures from the Functions host; 0.1 GB/day cap | In template; runs once deployed |
 | Copilot Studio | Caseworker agent in Teams | Pieces ready; ⬜ connect (item 17) |

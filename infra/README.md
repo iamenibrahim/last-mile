@@ -14,7 +14,7 @@ The template favors a legible hackathon deployment over a claim of production ha
 
 ## Student subscription
 
-Use `student.bicep` for the $100 Azure for Students credit. It compiles the FastAPI application into an Azure Functions HTTP catch-all and provisions only free or consumption-based services. The template deliberately excludes Application Insights/Log Analytics, an always-on App Service plan, model deployments, phone numbers, and managed compute. Deploy the Foundry model separately only after confirming model availability and quota in the selected region.
+Use `student.bicep` for the $100 Azure for Students credit. It compiles the FastAPI application into an Azure Functions HTTP catch-all and provisions only free or consumption-based services. Application Insights is included on a Log Analytics workspace with a hard 0.1 GB/day ingestion cap, inside the free monthly allowance. The template deliberately excludes an always-on App Service plan, model deployments, phone numbers, and managed compute. Deploy the Foundry model separately only after confirming model availability and quota in the selected region.
 
 Azure for Students applies a subscription-specific allowed-region policy. In the portal, open **Policy > Assignments > Allowed resource deployment regions** and pass one listed region explicitly as the `location` parameter. Do not enter the literal expression `[resourceGroup().location]` in the custom-deployment form; Azure treats form values as strings and the policy rejects it.
 

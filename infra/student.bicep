@@ -158,6 +158,33 @@ resource communication 'Microsoft.Communication/communicationServices@2023-04-01
   properties: { dataLocation: 'United States' }
 }
 
+// Request latency and failures for the pitch's live numbers. The workspace has a
+// hard daily ingestion cap well inside the 5 GB/month free allowance, so it
+// cannot run up the student credit. The Functions host sends request telemetry
+// on its own; the app adds no custom logging of what people type.
+resource logs 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
+  name: '${safeName}logs'
+  location: location
+  tags: tags
+  properties: {
+    sku: { name: 'PerGB2018' }
+    retentionInDays: 30
+    workspaceCapping: { dailyQuotaGb: json('0.1') }
+  }
+}
+
+resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: '${safeName}insights'
+  location: location
+  tags: tags
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: logs.id
+    DisableIpMasking: false
+  }
+}
+
 // Manifest and packet signing. RS256 key; the private half never leaves the vault,
 // and GET /api/signing-key publishes the public half. Standard tier, pay per
 // operation (fractions of a cent at demo volume).
@@ -202,6 +229,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'FUNCTIONS_WORKER_RUNTIME', value: 'python' }
         { name: 'AzureWebJobsStorage', value: 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}' }
         { name: 'APP_ENV', value: 'azure' }
+        { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: appInsights.properties.ConnectionString }
         { name: 'PUBLIC_BASE_URL', value: 'https://${safeName}api.azurewebsites.net' }
         { name: 'AZURE_USE_MANAGED_IDENTITY', value: 'true' }
         { name: 'AZURE_FOUNDRY_ENDPOINT', value: 'https://${foundry.name}.openai.azure.com' }
@@ -270,6 +298,7 @@ output costGuardrails array = [
   'Translator, Speech, and Content Safety use F0 tiers.'
   'Foundry is pay-per-token; no model is deployed by this template.'
   'Key Vault Standard; one RSA key, billed per signing operation.'
+  'Application Insights on a Log Analytics workspace capped at 0.1 GB/day, 30-day retention.'
   'SMS sending and automatic replies remain disabled.'
   'No always-on App Service, Premium plan, VM, or managed GPU is deployed.'
 ]
