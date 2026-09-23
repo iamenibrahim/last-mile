@@ -1,0 +1,149 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.84b8d60b320717100bf7662fcffa53c79f433e94.002.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -102.49,
+          37.99
+        ],
+        [
+          -102.51,
+          38.26
+        ],
+        [
+          -102.29,
+          38.26
+        ],
+        [
+          -102.04,
+          38.2
+        ],
+        [
+          -102.05,
+          38.04
+        ],
+        [
+          -102.49,
+          37.99
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.84b8d60b320717100bf7662fcffa53c79f433e94.002.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.84b8d60b320717100bf7662fcffa53c79f433e94.002.1",
+    "areaDesc": "Prowers, CO",
+    "geocode": {
+      "SAME": [
+        "008099"
+      ],
+      "UGC": [
+        "COC099"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/COC099"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.94522b6deb478074a9a741b8e42b4351133c37ca.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.94522b6deb478074a9a741b8e42b4351133c37ca.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T18:29:00-06:00"
+      },
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f0a40153f10020a530d3e6a4d41055c1f018252d.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.f0a40153f10020a530d3e6a4d41055c1f018252d.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T18:43:00-06:00"
+      }
+    ],
+    "sent": "2026-09-20T18:51:00-06:00",
+    "effective": "2026-09-20T18:51:00-06:00",
+    "onset": "2026-09-20T18:51:00-06:00",
+    "expires": "2026-09-20T19:15:00-06:00",
+    "ends": "2026-09-20T19:15:00-06:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Severe Thunderstorm Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Pueblo CO",
+    "headline": "Severe Thunderstorm Warning issued September 20 at 6:51PM MDT until September 20 at 7:15PM MDT by NWS Pueblo CO",
+    "description": "At 650 PM MDT, a severe thunderstorm was located near Bristol, or 15\nmiles northeast of Lamar, moving south at 20 mph.\n\nHAZARD...Ping pong ball size hail and 60 mph wind gusts.\n\nSOURCE...Trained weather spotters.\n\nIMPACT...People and animals outdoors will be injured. Expect hail\ndamage to roofs, siding, windows, and vehicles. Expect wind\ndamage to roofs, siding, and trees.\n\nLocations impacted include...\nHolly, Granada, Hartman, and Bristol.",
+    "instruction": "A tornado watch remains in effect for the warned area. Tornadoes can\ndevelop quickly from severe thunderstorms. Although a tornado is not\nimmediately likely, if one is spotted act quickly and move to a place\nof safety inside a sturdy structure, such as a basement or small\ninterior room.\n\nFor your protection move to an interior room on the lowest floor of a\nbuilding.",
+    "response": "Shelter",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SVSPUB"
+      ],
+      "WMOidentifier": [
+        "WWUS55 KPUB 210051"
+      ],
+      "NWSheadline": [
+        "A SEVERE THUNDERSTORM WARNING REMAINS IN EFFECT UNTIL 715 PM MDT FOR NORTHEASTERN PROWERS COUNTY"
+      ],
+      "eventMotionDescription": [
+        "2026-09-21T00:50:00-00:00...storm...346DEG...17KT...38.18,-102.37"
+      ],
+      "windThreat": [
+        "RADAR INDICATED"
+      ],
+      "maxWindGust": [
+        "60 MPH"
+      ],
+      "hailThreat": [
+        "RADAR INDICATED"
+      ],
+      "maxHailSize": [
+        "1.50"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.CON.KPUB.SV.W.0350.000000T0000Z-260921T0115Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T19:15:00-06:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SVS"
+      ],
+      "NationalWeatherService": [
+        "SVW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.84b8d60b320717100bf7662fcffa53c79f433e94.002.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.84b8d60b320717100bf7662fcffa53c79f433e94.002.1",
+    "sha256": "025c8d1f5696c293a3f489d8132bf6ccac03745bf49732705ce42b413340f36c",
+    "sender": "NWS Pueblo CO",
+    "sent": "2026-09-20T18:51:00-06:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

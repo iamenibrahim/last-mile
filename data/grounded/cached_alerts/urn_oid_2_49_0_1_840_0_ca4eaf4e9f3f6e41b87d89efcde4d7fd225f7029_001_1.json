@@ -1,0 +1,135 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ca4eaf4e9f3f6e41b87d89efcde4d7fd225f7029.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.19,
+          36.55
+        ],
+        [
+          -81.02,
+          36.81
+        ],
+        [
+          -80.97,
+          36.82
+        ],
+        [
+          -80.91,
+          36.74
+        ],
+        [
+          -81.1,
+          36.43
+        ],
+        [
+          -81.12,
+          36.43
+        ],
+        [
+          -81.19,
+          36.55
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ca4eaf4e9f3f6e41b87d89efcde4d7fd225f7029.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.ca4eaf4e9f3f6e41b87d89efcde4d7fd225f7029.001.1",
+    "areaDesc": "Alleghany; Grayson; Carroll",
+    "geocode": {
+      "SAME": [
+        "037005",
+        "051077",
+        "051035",
+        "051640"
+      ],
+      "UGC": [
+        "NCZ002",
+        "VAZ015",
+        "VAZ016"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/NCZ002",
+      "https://api.weather.gov/zones/forecast/VAZ015",
+      "https://api.weather.gov/zones/forecast/VAZ016"
+    ],
+    "references": [],
+    "sent": "2026-09-19T19:49:00-04:00",
+    "effective": "2026-09-19T19:49:00-04:00",
+    "onset": "2026-09-19T19:49:00-04:00",
+    "expires": "2026-09-19T20:15:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Blacksburg VA",
+    "headline": "Special Weather Statement issued September 19 at 7:49PM EDT by NWS Blacksburg VA",
+    "description": "At 749 PM EDT, Doppler radar was tracking strong thunderstorms along\na line extending from near Ivanhoe to near Sparta. Movement was south\nat 15 mph.\n\nHAZARD...Wind gusts up to 40 mph.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects.\n\nLocations impacted include...\nSparta...\nIndependence...\nFries...\nTwin Oaks...\nBaywood...\nand Spring Valley.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.\n\nLocally heavy rain will quickly reduce visibility and result in\nponding of water on roadways, standing water in low lying areas, and\nminor flooding of creeks, streams, and areas of poor drainage.\nDrivers are urged to slow down and use extra caution to avoid\nhydroplaning.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSRNK"
+      ],
+      "WMOidentifier": [
+        "WWUS81 KRNK 192349"
+      ],
+      "NWSheadline": [
+        "STRONG THUNDERSTORMS WILL IMPACT NORTH CENTRAL ALLEGHANY COUNTY IN NORTHWESTERN NORTH CAROLINA...WEST CENTRAL CARROLL AND EASTERN GRAYSON COUNTIES IN SOUTHWESTERN VIRGINIA THROUGH 815 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-19T23:49:00-00:00...storm...344DEG...12KT...36.81,-80.98 36.54,-81.11"
+      ],
+      "maxWindGust": [
+        "40 MPH"
+      ],
+      "maxHailSize": [
+        "0.00"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ca4eaf4e9f3f6e41b87d89efcde4d7fd225f7029.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.ca4eaf4e9f3f6e41b87d89efcde4d7fd225f7029.001.1",
+    "sha256": "2fcc2e2144ba493b7ca8ea4c5033fd4c8337e63b3c2ce19ec74da6af98a1241e",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2026-09-19T19:49:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

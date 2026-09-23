@@ -1,0 +1,37 @@
+id: fema-ia-hub
+title: Individual Assistance
+publisher: Federal Emergency Management Agency
+url: https://www.fema.gov/assistance/individual
+lang: en
+last_updated: June 26, 2026
+browser_sha256: 664efbaa93e4fbc94697162b20212209e1a57122d38ffc8c5412c66a264f7623
+---
+FEMA can help support your recovery from a major disaster.
+For medical assistance: Call 9-1-1
+Getting Started
+FEMA Reforms Disaster Assistance Program
+On March 22, 2024, FEMA implemented significant updates to disaster assistance. Read about the updates.
+What You Need to Know Before You Apply
+Get tips on steps to take before applying for disaster assistance, such as taking photos and making a list of damages and filing a claim with your insurance company.
+What to Expect When You Apply
+Discover steps to take after applying for disaster assistance such as reviewing your application, verifying your identity and homeownership, getting a home inspection and submitting documentation.
+What to Do If You Disagree with FEMA's Decision
+Learn about required documentation, ways to submit an appeal and what to do after submitting an appeal if you disagree with FEMA’s decision.
+Graphic
+Road to Recovery
+While not all disaster survivors' path to recovery is the same, this interactive tool steps you through the typical processes and requirements to follow that can help get you the support you need after experiencing a disaster.
+Get Started on the Road to Recovery
+Understanding Types of Assistance
+Housing and Other Needs Assistance Program
+Explore the Individuals and Households Program (IHP) that provides financial assistance and direct services to eligible individuals and households affected by a disaster, who have uninsured or underinsured expenses and serious needs.
+Other Programs for Disaster Survivors
+Learn about several other programs designed to support disaster survivors offered by FEMA including mass care, crisis counseling, case management, legal services, and unemployment assistance.
+Additional Resources
+Individual Assistance Resource Library
+Get information about policies, guidance, and fact sheets of FEMA’s Individual Assistance programs, including the FEMA Individual Assistance Program and Policy Guide (IAPPG).
+Disaster Fraud
+Stay aware about how scam artists, identity thieves and other criminals often attempt to take advantage of disaster survivors.
+Reforming Individual Assistance
+Read about major changes to our Individual Assistance (IA) programs to address historic challenges faced by disaster survivors.
+Last updated June 26, 2026
+Return to top

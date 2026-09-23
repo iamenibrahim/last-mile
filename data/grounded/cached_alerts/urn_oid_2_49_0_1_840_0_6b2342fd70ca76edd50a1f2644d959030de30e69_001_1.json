@@ -1,0 +1,152 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.6b2342fd70ca76edd50a1f2644d959030de30e69.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -85.98,
+          30.27
+        ],
+        [
+          -85.96,
+          30.27
+        ],
+        [
+          -85.97,
+          30.28
+        ],
+        [
+          -85.98,
+          30.28
+        ],
+        [
+          -85.56,
+          30.56
+        ],
+        [
+          -85.38,
+          30.49
+        ],
+        [
+          -85.39,
+          30.24
+        ],
+        [
+          -85.52,
+          29.97
+        ],
+        [
+          -86,
+          30.26
+        ],
+        [
+          -85.98,
+          30.27
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.6b2342fd70ca76edd50a1f2644d959030de30e69.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.6b2342fd70ca76edd50a1f2644d959030de30e69.001.1",
+    "areaDesc": "Bay, FL; Washington, FL",
+    "geocode": {
+      "SAME": [
+        "012005",
+        "012133"
+      ],
+      "UGC": [
+        "FLC005",
+        "FLC133"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/FLC005",
+      "https://api.weather.gov/zones/county/FLC133"
+    ],
+    "references": [],
+    "sent": "2026-09-20T19:36:00-05:00",
+    "effective": "2026-09-20T19:36:00-05:00",
+    "onset": "2026-09-20T19:36:00-05:00",
+    "expires": "2026-09-20T20:45:00-05:00",
+    "ends": "2026-09-20T20:45:00-05:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Severe Thunderstorm Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Tallahassee FL",
+    "headline": "Severe Thunderstorm Warning issued September 20 at 7:36PM CDT until September 20 at 8:45PM CDT by NWS Tallahassee FL",
+    "description": "SVRTAE\n\nThe National Weather Service in Tallahassee has issued a\n\n* Severe Thunderstorm Warning for...\nBay County in the Panhandle of Florida...\nSoutheastern Washington County in the Panhandle of Florida...\n\n* Until 845 PM CDT.\n\n* At 736 PM CDT, a severe thunderstorm was located 17 miles northeast\nof Lynn Haven, moving southwest at 15 mph.\n\nHAZARD...60 mph wind gusts and quarter size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Hail damage to vehicles is expected. Expect wind damage\nto roofs, siding, and trees.\n\n* Locations impacted include...\nPanama City, Lynn Haven, Panama City Beach, Callaway, Springfield,\nHiland Park, Tyndall Air Force Base, Parker, St Andrews State Park,\nSouthport, Fountain, Cedar Grove, Dirego Park, Beacon Beach, Singer\nRoad, College Station, Gulf Resort Beach, Bayou George, West Panama\nCity, and Camp Flowers.",
+    "instruction": "For your protection move to an interior room on the lowest floor of a\nbuilding.\n\nTo report severe weather, contact your nearest law enforcement\nagency. They will send your report to the National Weather Service\noffice in Tallahassee.",
+    "response": "Shelter",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SVRTAE"
+      ],
+      "WMOidentifier": [
+        "WUUS52 KTAE 210036"
+      ],
+      "eventMotionDescription": [
+        "2026-09-21T00:36:00-00:00...storm...061DEG...12KT...30.43,-85.45"
+      ],
+      "windThreat": [
+        "RADAR INDICATED"
+      ],
+      "maxWindGust": [
+        "60 MPH"
+      ],
+      "hailThreat": [
+        "RADAR INDICATED"
+      ],
+      "maxHailSize": [
+        "1.00"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.NEW.KTAE.SV.W.0377.260921T0036Z-260921T0145Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T20:45:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SVR"
+      ],
+      "NationalWeatherService": [
+        "SVW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.6b2342fd70ca76edd50a1f2644d959030de30e69.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.6b2342fd70ca76edd50a1f2644d959030de30e69.001.1",
+    "sha256": "b2ddeb151a5a8daaf7970423d587f318a4408066cc673d88462777d2d7317b22",
+    "sender": "NWS Tallahassee FL",
+    "sent": "2026-09-20T19:36:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

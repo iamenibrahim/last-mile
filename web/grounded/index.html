@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Last-Mile Assist</title>
+<!-- No build step, no CDN, no framework. Works with no network beyond this server. -->
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --panel-2: #1c2129; --line: #2d333b;
+    --ink: #e6edf3; --ink-dim: #9198a1; --ink-faint: #6e7681;
+    --accent: #58a6ff; --accent-dim: #1f6feb;
+    --ok: #3fb950; --warn: #d29922; --bad: #f85149;
+    --abstain: #bb8009; --abstain-bg: #2b2109;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  a { color: var(--accent); }
+  header { border-bottom: 1px solid var(--line); padding: 14px 22px; display: flex; align-items: center;
+           gap: 16px; flex-wrap: wrap; background: var(--panel); position: sticky; top: 0; z-index: 10; }
+  header h1 { font-size: 17px; margin: 0; font-weight: 650; }
+  header .tag { color: var(--ink-faint); font-size: 12.5px; }
+  .spacer { flex: 1; }
+  .badge { font: 600 11px/1 var(--mono); padding: 5px 9px; border-radius: 5px; border: 1px solid var(--line);
+           color: var(--ink-dim); white-space: nowrap; }
+  .badge.live { color: var(--ok); border-color: #1d572c; background: #0d1f14; }
+  .badge.local { color: var(--warn); border-color: #5c4413; background: #21190a; }
+  main { max-width: 1080px; margin: 0 auto; padding: 22px 16px; }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 18px; margin-bottom: 18px; }
+  section > h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .09em; color: var(--ink-faint);
+                 margin: 0 0 14px; font-weight: 650; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  input[type=text], select, textarea { background: var(--bg); border: 1px solid var(--line); color: var(--ink);
+    padding: 10px 12px; border-radius: 6px; font-size: 14px; font-family: inherit; }
+  input[type=text] { flex: 1; min-width: 220px; }
+  textarea { width: 100%; min-height: 70px; resize: vertical; }
+  button { background: var(--accent-dim); color: #fff; border: 0; padding: 10px 16px; border-radius: 6px;
+           font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  button:hover { background: #388bfd; }
+  button.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink-dim); }
+  button.ghost:hover { background: var(--panel-2); color: var(--ink); }
+  .hint { color: var(--ink-faint); font-size: 12.5px; margin-top: 8px; }
+  .err { color: var(--bad); font-size: 13px; }
+  .muted { color: var(--ink-faint); }
+  label.need { display: flex; gap: 9px; align-items: flex-start; padding: 8px 10px; border: 1px solid var(--line);
+               border-radius: 6px; background: var(--panel-2); cursor: pointer; font-size: 14px; }
+  label.need:hover { border-color: var(--accent-dim); }
+  .needs { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 8px; }
+  .danger-q { margin-top: 14px; padding: 12px 14px; border: 1px solid #7d1d1d; background: #2a0f10;
+              border-radius: 7px; display: flex; gap: 10px; align-items: center; font-weight: 600; }
+  /* human-first handoff */
+  .handoff { border: 2px solid var(--bad); background: #2a0f10; border-radius: 9px; padding: 16px 18px; margin-bottom: 16px; }
+  .handoff.sensitive { border-color: var(--warn); background: #21190a; }
+  .handoff.soft { border: 1px solid var(--line); background: var(--panel-2); }
+  .handoff h3 { margin: 0 0 8px; font-size: 16px; }
+  .channel { display: flex; gap: 10px; align-items: baseline; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.07); }
+  .channel b { font-size: 15px; min-width: 150px; }
+  /* status */
+  .status { border-radius: 9px; padding: 16px 18px; margin-bottom: 16px; border: 1px solid var(--line); background: var(--panel-2); }
+  .status.open { border-color: #1d572c; background: #0d1f14; }
+  .status.late { border-color: #5c4413; background: #21190a; }
+  .status .big { font-size: 17px; font-weight: 650; }
+  .chip { display: inline-block; font: 700 12px/1 var(--mono); padding: 5px 9px; border-radius: 5px; margin-right: 6px; }
+  .chip.open { background: #1d572c; color: #aff5b4; } .chip.late { background: #5c4413; color: #f8e3a1; }
+  .chip.closed, .chip.none { background: #3d1216; color: #ffa198; }
+  /* programs */
+  .prog { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; background: var(--panel-2); }
+  .prog h4 { margin: 0 0 4px; font-size: 15.5px; }
+  .avail { font: 700 10.5px/1 var(--mono); padding: 4px 7px; border-radius: 4px; margin-left: 6px; vertical-align: 2px; }
+  .avail.likely, .avail.always { background: #1d572c; color: #aff5b4; }
+  .avail.late, .avail.check { background: #5c4413; color: #f8e3a1; }
+  .avail.closed, .avail.unavailable { background: #3d1216; color: #ffa198; }
+  .kind { font: 600 10.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .07em; color: var(--ink-faint);
+          margin: 12px 0 5px; }
+  .claim { padding: 7px 10px; border-left: 3px solid var(--accent-dim); margin: 6px 0; background: rgba(88,166,255,.05); border-radius: 0 5px 5px 0; }
+  .claim.abstained { border-left-color: var(--abstain); background: var(--abstain-bg); }
+  .cite { font: 11px/1.4 var(--mono); color: var(--ink-faint); margin-top: 4px; }
+  .cite a { color: var(--ink-dim); }
+  details.exact summary { cursor: pointer; font: 11px/1.4 var(--mono); color: var(--ink-faint); margin-top: 3px; }
+  details.exact blockquote { margin: 5px 0 0; padding: 6px 9px; border-left: 2px solid var(--line); color: var(--ink-dim); font-size: 13px; }
+  .withheld { font: 11px/1.4 var(--mono); color: var(--abstain); margin-top: 4px; }
+  .fraud { border: 1px solid #7d1d1d; background: #1c0d0e; border-radius: 8px; padding: 14px 16px; }
+  .fraud li { margin-bottom: 7px; }
+  .danger-strip { background: #2a0f10; border: 1px solid #7d1d1d; color: #ff9d95; padding: 10px 14px;
+                  border-radius: 7px; margin-bottom: 14px; font: 600 12.5px/1.45 var(--mono); }
+  .privacy { background: #0f1a2a; border: 1px solid #1f3a5f; border-radius: 7px; padding: 10px 14px; font-size: 13px; margin-bottom: 14px; }
+  .suggest button { background: transparent; border: 1px dashed var(--accent-dim); color: var(--accent); padding: 6px 11px; font-size: 13px; }
+  table.checks { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.checks td { padding: 7px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.checks td.s { width: 54px; font: 700 11px/1 var(--mono); }
+  table.checks td.n { width: 200px; font: 12px/1.4 var(--mono); color: var(--ink-dim); }
+  .s.ok { color: var(--ok); } .s.bad { color: var(--bad); }
+  .kv { font: 11.5px/1.6 var(--mono); color: var(--ink-dim); } .kv b { color: var(--ink); font-weight: 600; }
+  [dir=rtl] { text-align: right; }
+  audio { width: 100%; margin-top: 8px; }
+  .loading { color: var(--ink-faint); font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Last-Mile Assist</h1>
+  <span class="tag">disaster assistance navigator &mdash; points to authoritative help, never decides eligibility</span>
+  <span class="spacer"></span>
+  <a href="alert.html" style="font-size:12.5px">alert transformer &rarr;</a>
+  <span class="badge" id="engine-badge">checking engines&hellip;</span>
+</header>
+
+<main>
+  <section>
+    <h2>1 &middot; Where do you live?</h2>
+    <div class="row">
+      <input type="text" id="loc" value="24370" placeholder="County, city, or ZIP code" autocomplete="off">
+      <select id="lang"><option value="en">English</option></select>
+      <select id="clock" title="Replays FEMA's data as it stood at that moment. The data itself is unchanged.">
+        <option value="2024-10-21T15:00:00Z">Replay: 3 weeks after Helene was declared</option>
+        <option value="2024-12-20T15:00:00Z">Replay: after the Helene deadline</option>
+        <option value="">Now (real clock)</option>
+      </select>
+    </div>
+    <div class="hint">We only need your county. What you type here is used to find it and is not kept.</div>
+    <div id="where"></div>
+  </section>
+
+  <section>
+    <h2>2 &middot; What happened?</h2>
+    <div class="needs" id="needs"></div>
+    <div style="margin-top:12px">
+      <textarea id="text" placeholder="Or tell us in your own words (optional). Please don't include your Social Security number, bank details, or FEMA registration number &mdash; nobody here needs them."></textarea>
+    </div>
+    <div class="danger-q">
+      <input type="checkbox" id="danger"> <label for="danger">Is anyone hurt or in danger right now?</label>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button id="go">Show me what help exists</button>
+      <span class="spacer"></span>
+      <label class="muted" style="font-size:13px">Demo: inject failure</label>
+      <select id="corrupt">
+        <option value="">none (normal pipeline)</option>
+        <option value="drop_negation">drop a negation</option>
+        <option value="alter_number">alter a number</option>
+        <option value="hallucinate_instruction">hallucinate a claim</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="out-sec" hidden>
+    <h2>3 &middot; Your options</h2>
+    <div id="out"></div>
+  </section>
+
+  <section id="prov-sec" hidden>
+    <h2>4 &middot; Where every sentence came from</h2>
+    <div id="prov"></div>
+  </section>
+</main>
+
+<script src="assist.js"></script>
+</body>
+</html>

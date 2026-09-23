@@ -1,0 +1,133 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c8e3b4ea8885639f537b78004a26b3cefd01101b.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -91.29,
+          41.23
+        ],
+        [
+          -91.26,
+          41.26
+        ],
+        [
+          -91.21,
+          41.24
+        ],
+        [
+          -91.14,
+          41.19
+        ],
+        [
+          -91.13,
+          41.16
+        ],
+        [
+          -91.16,
+          41.12
+        ],
+        [
+          -91.19,
+          41.16
+        ],
+        [
+          -91.25,
+          41.21
+        ],
+        [
+          -91.29,
+          41.23
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c8e3b4ea8885639f537b78004a26b3cefd01101b.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.c8e3b4ea8885639f537b78004a26b3cefd01101b.001.1",
+    "areaDesc": "Louisa, IA",
+    "geocode": {
+      "SAME": [
+        "019115"
+      ],
+      "UGC": [
+        "IAC115"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/IAC115"
+    ],
+    "references": [],
+    "sent": "2026-09-20T19:42:00-05:00",
+    "effective": "2026-09-20T19:42:00-05:00",
+    "onset": "2026-09-21T01:00:00-05:00",
+    "expires": "2026-09-21T19:45:00-05:00",
+    "ends": "2026-09-25T17:00:00-05:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Quad Cities IA IL",
+    "headline": "Flood Warning issued September 20 at 7:42PM CDT until September 25 at 5:00PM CDT by NWS Quad Cities IA IL",
+    "description": "...The National Weather Service in Quad Cities has issued a Flood\nWarning for the following rivers in Iowa...\n\nIowa River at Wapello affecting Louisa County.\n\nIowa River at Oakville affecting Louisa County.\n\n* WHAT...Minor flooding is forecast.\n\n* WHERE...Iowa River at Wapello.\n\n* WHEN...From late tonight to Friday afternoon.\n\n* IMPACTS...At 25.0 feet, Widespread flooding of agricultural land.\nNumerous secondary roads are under water.\n\n* ADDITIONAL DETAILS...\n- At 7:00 PM CDT Sunday the stage was 20.1 feet.\n- Forecast...The river is expected to rise above flood stage just\nafter midnight tonight to a crest of 24.3 feet early Wednesday\nmorning. It will then fall below flood stage late Friday morning.\n- Flood stage is 21.0 feet.",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nMotorists should not attempt to drive around barricades or drive cars\nthrough flooded areas.\n\nCaution is urged when walking near riverbanks.\n\nThe next statement will be issued by Monday evening.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLWDVN"
+      ],
+      "WMOidentifier": [
+        "WGUS43 KDVN 210042"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING IN EFFECT FROM LATE TONIGHT TO FRIDAY AFTERNOON... ...REPLACES RIVER FLOOD WATCH"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.NEW.KDVN.FL.W.0075.260921T0600Z-260925T2200Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-25T17:00:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLW"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c8e3b4ea8885639f537b78004a26b3cefd01101b.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.c8e3b4ea8885639f537b78004a26b3cefd01101b.001.1",
+    "sha256": "cd94490dedf8e34ce006efdcd3fa89bc8d7217b865198ad45209a07d2fdd2437",
+    "sender": "NWS Quad Cities IA IL",
+    "sent": "2026-09-20T19:42:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

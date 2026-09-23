@@ -1,0 +1,155 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.654d617a294fab8a8a8fdaf69947deee6e6520da.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -91.18,
+          41.6
+        ],
+        [
+          -91.05,
+          41.6
+        ],
+        [
+          -91.07,
+          41.53
+        ],
+        [
+          -91.24,
+          41.41
+        ],
+        [
+          -91.31,
+          41.32
+        ],
+        [
+          -91.33,
+          41.27
+        ],
+        [
+          -91.36,
+          41.29
+        ],
+        [
+          -91.38,
+          41.32
+        ],
+        [
+          -91.35,
+          41.37
+        ],
+        [
+          -91.3,
+          41.46
+        ],
+        [
+          -91.15,
+          41.57
+        ],
+        [
+          -91.18,
+          41.6
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.654d617a294fab8a8a8fdaf69947deee6e6520da.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.654d617a294fab8a8a8fdaf69947deee6e6520da.001.1",
+    "areaDesc": "Louisa, IA; Muscatine, IA",
+    "geocode": {
+      "SAME": [
+        "019115",
+        "019139"
+      ],
+      "UGC": [
+        "IAC115",
+        "IAC139"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/IAC115",
+      "https://api.weather.gov/zones/county/IAC139"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.98906390b4f1ea68b5e9523015850de0e0917c3c.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.98906390b4f1ea68b5e9523015850de0e0917c3c.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T09:51:00-05:00"
+      }
+    ],
+    "sent": "2026-09-20T19:07:00-05:00",
+    "effective": "2026-09-20T19:07:00-05:00",
+    "onset": "2026-09-20T19:07:00-05:00",
+    "expires": "2026-09-21T19:15:00-05:00",
+    "ends": "2026-09-24T15:00:00-05:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Quad Cities IA IL",
+    "headline": "Flood Warning issued September 20 at 7:07PM CDT until September 24 at 3:00PM CDT by NWS Quad Cities IA IL",
+    "description": "...The Flood Warning continues for the following rivers in Iowa...\n\nCedar River near Conesville affecting Louisa and Muscatine\nCounties.\n\n* WHAT...Minor flooding is occurring and minor flooding is forecast.\n\n* WHERE...Cedar River near Conesville.\n\n* WHEN...From this evening to Thursday afternoon.\n\n* IMPACTS...At 15.0 feet, Water affects Saulsbury Road.\n\n* ADDITIONAL DETAILS...\n- At 6:00 PM CDT Sunday the stage was 13.1 feet.\n- Forecast...The river is expected to rise to a crest of 14.9 feet\nearly Tuesday morning. It will then fall below flood stage\nThursday morning.\n- Flood stage is 13.0 feet.",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nMotorists should not attempt to drive around barricades or drive cars\nthrough flooded areas.\n\nCaution is urged when walking near riverbanks.\n\nThe next statement will be issued by Monday evening.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSDVN"
+      ],
+      "WMOidentifier": [
+        "WGUS83 KDVN 210007"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING NOW IN EFFECT FROM THIS EVENING TO THURSDAY AFTERNOON"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.EXT.KDVN.FL.W.0073.260921T0007Z-260924T2000Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-24T15:00:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLS"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.654d617a294fab8a8a8fdaf69947deee6e6520da.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.654d617a294fab8a8a8fdaf69947deee6e6520da.001.1",
+    "sha256": "518efb91c5e741922e9daaa41d3ea8fdc1bdc178055a320d752f750da4620da3",
+    "sender": "NWS Quad Cities IA IL",
+    "sent": "2026-09-20T19:07:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

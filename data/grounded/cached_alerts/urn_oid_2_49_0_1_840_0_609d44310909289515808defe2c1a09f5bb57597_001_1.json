@@ -1,0 +1,154 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.609d44310909289515808defe2c1a09f5bb57597.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -82.3,
+          36.62
+        ],
+        [
+          -82.3,
+          36.6
+        ],
+        [
+          -82.29,
+          36.6
+        ],
+        [
+          -82.23,
+          36.52
+        ],
+        [
+          -82.81,
+          36.42
+        ],
+        [
+          -82.79,
+          36.78
+        ],
+        [
+          -82.77,
+          36.8
+        ],
+        [
+          -82.79,
+          36.81
+        ],
+        [
+          -82.79,
+          36.83
+        ],
+        [
+          -82.53,
+          36.91
+        ],
+        [
+          -82.3,
+          36.62
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.609d44310909289515808defe2c1a09f5bb57597.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.609d44310909289515808defe2c1a09f5bb57597.001.1",
+    "areaDesc": "Hawkins; Sullivan; Wise; Scott",
+    "geocode": {
+      "SAME": [
+        "047073",
+        "047163",
+        "051195",
+        "051720",
+        "051169"
+      ],
+      "UGC": [
+        "TNZ016",
+        "TNZ017",
+        "VAZ002",
+        "VAZ005"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/TNZ016",
+      "https://api.weather.gov/zones/forecast/TNZ017",
+      "https://api.weather.gov/zones/forecast/VAZ002",
+      "https://api.weather.gov/zones/forecast/VAZ005"
+    ],
+    "references": [],
+    "sent": "2026-09-19T15:19:00-04:00",
+    "effective": "2026-09-19T15:19:00-04:00",
+    "onset": "2026-09-19T15:19:00-04:00",
+    "expires": "2026-09-19T16:15:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Morristown TN",
+    "headline": "Special Weather Statement issued September 19 at 3:19PM EDT by NWS Morristown TN",
+    "description": "At 319 PM EDT, Doppler radar was tracking a cluster of strong\nthunderstorms 7 miles north of Gate City, moving south at 15 mph.\n\nHAZARD...Wind gusts of 50 to 55 mph and half inch hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects. Minor hail damage to vegetation is\npossible.\n\nLocations impacted include...\nKingsport, Bristol Tn, Gate City, Surgoinsville, Weber City, Colonial\nHeights, Walnut Hill, Church Hill, Mount Carmel, and Nickelsville.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.\n\nTorrential rainfall is also occurring with this storm and may lead to\nlocalized flooding. Do not drive your vehicle through flooded\nroadways.\n\nFrequent cloud to ground lightning is occurring with this storm.\nLightning can strike 10 miles away from a thunderstorm. Seek a safe\nshelter inside a building or vehicle.\n\nThis storm may intensify, so closely monitor for additional\ninformation or possible warnings from the National Weather Service.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSMRX"
+      ],
+      "WMOidentifier": [
+        "WWUS84 KMRX 191919"
+      ],
+      "NWSheadline": [
+        "STRONG THUNDERSTORMS WILL IMPACT NORTHWESTERN SULLIVAN... NORTHEASTERN HAWKINS...SCOTT AND SOUTH CENTRAL WISE COUNTIES THROUGH 415 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-19T19:19:00-00:00...storm...351DEG...11KT...36.74,-82.62"
+      ],
+      "maxWindGust": [
+        "55 MPH"
+      ],
+      "maxHailSize": [
+        "0.50"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.609d44310909289515808defe2c1a09f5bb57597.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.609d44310909289515808defe2c1a09f5bb57597.001.1",
+    "sha256": "5699b4fcb8b4590b3b3eac7cf1c34d0f8bdf2516aa39e15d7f8362d4734a4f45",
+    "sender": "NWS Morristown TN",
+    "sent": "2026-09-19T15:19:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

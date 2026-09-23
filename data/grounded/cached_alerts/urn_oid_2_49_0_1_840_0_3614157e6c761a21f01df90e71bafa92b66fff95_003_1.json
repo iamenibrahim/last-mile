@@ -1,0 +1,143 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3614157e6c761a21f01df90e71bafa92b66fff95.003.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -85.33,
+          40.8
+        ],
+        [
+          -85.33,
+          40.83
+        ],
+        [
+          -85.12,
+          40.78
+        ],
+        [
+          -85.08,
+          40.72
+        ],
+        [
+          -85.11,
+          40.69
+        ],
+        [
+          -85.33,
+          40.8
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3614157e6c761a21f01df90e71bafa92b66fff95.003.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.3614157e6c761a21f01df90e71bafa92b66fff95.003.1",
+    "areaDesc": "Wells, IN",
+    "geocode": {
+      "SAME": [
+        "018179"
+      ],
+      "UGC": [
+        "INC179"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/INC179"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c8b29ad41730f5142b0b2512eaac64414ed6639a.003.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.c8b29ad41730f5142b0b2512eaac64414ed6639a.003.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-19T22:04:00-04:00"
+      },
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.cc024079a566c0b8d0eafaafdf6262076078df46.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.cc024079a566c0b8d0eafaafdf6262076078df46.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T05:57:00-04:00"
+      },
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.905e7bcbcf148ac57ce9a60943e4c295050c8588.003.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.905e7bcbcf148ac57ce9a60943e4c295050c8588.003.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T11:56:00-04:00"
+      }
+    ],
+    "sent": "2026-09-20T16:09:00-04:00",
+    "effective": "2026-09-20T16:09:00-04:00",
+    "onset": "2026-09-20T16:09:00-04:00",
+    "expires": "2026-09-21T10:15:00-04:00",
+    "ends": "2026-09-24T00:00:00-04:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Northern Indiana",
+    "headline": "Flood Warning issued September 20 at 4:09PM EDT until September 24 at 12:00AM EDT by NWS Northern Indiana",
+    "description": "...The Flood Warning is extended for the following rivers in\nIndiana...Ohio...\n\nSaint Marys River at St. Mary's River near Fort Wayne affecting\nAllen IN County.\n\nSaint Marys River near Decatur affecting Adams, Allen IN and Van\nWert Counties.\n\n...The Flood Warning continues for the following rivers in Indiana...\n\nWabash River near Bluffton IN affecting Wells County.\n\nWabash River near Linn Grove affecting Adams and Wells Counties.\n\nKankakee River at Davis affecting La Porte, Starke and St. Joseph\nCounties.\n\nFor the Wabash River...including Linn Grove, Bluffton IN...Minor\nflooding is forecast.\nFor the Kankakee River...including Davis...Minor flooding is\nforecast.\nFor the Saint Marys River...including Decatur, St. Mary's River near\nFort Wayne...Moderate flooding is forecast.\n\n* WHAT...Minor flooding is occurring and minor flooding is forecast.\n\n* WHERE...Wabash River near Bluffton IN.\n\n* WHEN...Until late Wednesday night.\n\n* IMPACTS...At 13.0 feet, Access road to Bluffton wastewater\ntreatment plant is flooded.\n\n* ADDITIONAL DETAILS...\n- At 3:45 PM EDT Sunday the stage was 12.7 feet.\n- Recent Activity...The maximum river stage in the 24 hours ending\nat 3:45 PM EDT Sunday was 13.6 feet.\n- Forecast...The river is expected to fall below flood stage early\nWednesday morning and continue falling to 7.9 feet Friday\nmorning.\n- Flood stage is 10.0 feet.\n- http://www.weather.gov/safety/flood",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nMotorists should not attempt to drive around barricades or drive cars\nthrough flooded areas.\n\nDetailed river forecasts and additional information can be found at\nwww.weather.gov/iwx under Rivers and Lakes.\n\nThis statement will be updated within the next 12 to 24 hours.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSIWX"
+      ],
+      "WMOidentifier": [
+        "WGUS83 KIWX 202009"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING REMAINS IN EFFECT UNTIL LATE WEDNESDAY NIGHT"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.CON.KIWX.FL.W.0055.000000T0000Z-260924T0400Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-24T00:00:00-04:00"
+      ],
+      "expiredReferences": [
+        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.7f84743e3159810e0519183ec5101a7c3e239e03.003.1,2026-09-19T10:59:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.4a8e83f72397a654392e3fbbc31ba82821b3d8f5.003.1,2026-09-18T21:22:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.8d58786cec5bebdcd531b791dadc40dfa6850719.001.1,2026-09-18T17:55:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.2c29313d0bec875058915660d40bae328b26eb5a.002.1,2026-09-18T13:20:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.90c5b6a8ace3d087368fc2ef5ab6215adec3aa3c.001.1,2026-09-18T12:46:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.78c746fce3415d3ae7aebc3b5b19bc7d7ffa669d.003.1,2026-09-18T11:09:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.8b21a7ee8596585dc9769812ed63a536e75495a2.001.1,2026-09-18T02:06:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.990e982456b2d6918a2726e205cc12cfec16e1d3.003.1,2026-09-17T21:46:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.232d6a72edc109e2313fbde1260009b24493b135.001.1,2026-09-17T16:17:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.2ebba3d60c99baaacf6719e5538dd8c5bfa8397d.001.1,2026-09-17T12:31:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.30f30f4b21171922fc2c3409b8bf0fb8372a19ae.001.1,2026-09-17T10:07:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.1aca805370de1d46a25f683e9c678f69b476a705.001.1,2026-09-17T08:26:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.783622cb3e0ded1f53c5db6c69f36570c46e9b12.001.1,2026-09-17T06:25:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.8da3320d57e53561e339ea43451e6d39420f30fa.001.1,2026-09-17T04:58:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.f20b494f453ee9751426f33db48fc44eb359a4a8.002.1,2026-09-16T21:28:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.5125e7cd5eb89b06be48947298ea129e4635d21e.002.1,2026-09-16T10:32:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLS"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3614157e6c761a21f01df90e71bafa92b66fff95.003.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.3614157e6c761a21f01df90e71bafa92b66fff95.003.1",
+    "sha256": "db51a8cc44f6be186bf316da93d9dcfdd15bb06b334fb394049151f9d9381cc3",
+    "sender": "NWS Northern Indiana",
+    "sent": "2026-09-20T16:09:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0bd2ad053786cc1b3ea8879d3518887d75617088.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -82.01,
+          26.52
+        ],
+        [
+          -81.91,
+          26.67
+        ],
+        [
+          -81.82,
+          26.76
+        ],
+        [
+          -81.57,
+          26.76
+        ],
+        [
+          -81.58,
+          26.72
+        ],
+        [
+          -81.78,
+          26.6
+        ],
+        [
+          -81.98,
+          26.47
+        ],
+        [
+          -82.01,
+          26.48
+        ],
+        [
+          -82.02,
+          26.51
+        ],
+        [
+          -82.01,
+          26.52
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0bd2ad053786cc1b3ea8879d3518887d75617088.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.0bd2ad053786cc1b3ea8879d3518887d75617088.001.1",
+    "areaDesc": "Lee, FL",
+    "geocode": {
+      "SAME": [
+        "012071"
+      ],
+      "UGC": [
+        "FLC071"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/FLC071"
+    ],
+    "references": [],
+    "sent": "2026-09-20T19:38:00-04:00",
+    "effective": "2026-09-20T19:38:00-04:00",
+    "onset": "2026-09-20T19:38:00-04:00",
+    "expires": "2026-09-20T21:45:00-04:00",
+    "ends": "2026-09-20T21:45:00-04:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Minor",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Tampa Bay Ruskin FL",
+    "headline": "Flood Advisory issued September 20 at 7:38PM EDT until September 20 at 9:45PM EDT by NWS Tampa Bay Ruskin FL",
+    "description": "* WHAT...Urban area and small stream flooding caused by excessive\nrainfall is expected.\n\n* WHERE...Lee County in southwestern Florida...\n\n* WHEN...Until 945 PM EDT.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\nWater over roadways.\n\n* ADDITIONAL DETAILS...\n- At 738 PM EDT, Doppler radar indicated heavy rain due to\nthunderstorms. This  will cause urban and small stream flooding.\nUp to 2.5 inches of rain have fallen.\n- Additional rainfall amounts of 0.5 to 1.5 inches are expected\nover the area. This additional rain will result in minor\nflooding.\n- Some locations that will experience flooding include...\nCape Coral, Fort Myers, East Dunbar, Buckingham, Palmona Park,\nLochmoor Waterway Estates, Pine Manor, Villas, Olga, McGregor,\nCypress Lake, Harlem Heights, Iona, Tice, Page Field Airport,\nPage Park, North Fort Myers, Suncoast Estates and Fort Myers\nShores.\n- https://www.weather.gov/safety/flood",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe especially cautious at night when it is harder to recognize the\ndangers of flooding.\n\nBe aware of your surroundings and do not drive on flooded roads.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSTBW"
+      ],
+      "WMOidentifier": [
+        "WGUS82 KTBW 202338"
+      ],
+      "NWSheadline": [
+        "FLOOD ADVISORY IN EFFECT UNTIL 945 PM EDT THIS EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.NEW.KTBW.FA.Y.0108.260920T2338Z-260921T0145Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T21:45:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "FAY"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0bd2ad053786cc1b3ea8879d3518887d75617088.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.0bd2ad053786cc1b3ea8879d3518887d75617088.001.1",
+    "sha256": "6c27317710d93eb54ca17ac1580e9aed671ab07246e2b5ba5884fad0f7da3557",
+    "sender": "NWS Tampa Bay Ruskin FL",
+    "sent": "2026-09-20T19:38:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

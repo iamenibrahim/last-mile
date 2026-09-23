@@ -1,0 +1,148 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3dfcf01bc16b6b85c8a00cc29c98fc11086ec757.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.61,
+          36.62
+        ],
+        [
+          -81.63,
+          36.61
+        ],
+        [
+          -81.65,
+          36.61
+        ],
+        [
+          -81.67,
+          36.59
+        ],
+        [
+          -81.77,
+          36.55
+        ],
+        [
+          -81.87,
+          36.79
+        ],
+        [
+          -81.75,
+          36.83
+        ],
+        [
+          -81.7,
+          36.79
+        ],
+        [
+          -81.62,
+          36.64
+        ],
+        [
+          -81.61,
+          36.64
+        ],
+        [
+          -81.61,
+          36.62
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3dfcf01bc16b6b85c8a00cc29c98fc11086ec757.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.3dfcf01bc16b6b85c8a00cc29c98fc11086ec757.001.1",
+    "areaDesc": "Johnson; Washington",
+    "geocode": {
+      "SAME": [
+        "047091",
+        "051191",
+        "051520"
+      ],
+      "UGC": [
+        "TNZ018",
+        "VAZ008"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/TNZ018",
+      "https://api.weather.gov/zones/forecast/VAZ008"
+    ],
+    "references": [],
+    "sent": "2026-09-19T17:04:00-04:00",
+    "effective": "2026-09-19T17:04:00-04:00",
+    "onset": "2026-09-19T17:04:00-04:00",
+    "expires": "2026-09-19T17:45:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Morristown TN",
+    "headline": "Special Weather Statement issued September 19 at 5:04PM EDT by NWS Morristown TN",
+    "description": "At 504 PM EDT, Doppler radar was tracking a strong thunderstorm near\nChilhowie, moving southeast at 10 mph.\n\nHAZARD...Wind gusts up to 50 mph and pea size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects. Minor hail damage to vegetation is\npossible.\n\nLocations impacted include...\nGlade Spring, Damascus, Laurel Bloomery, Konnarock, and\nEmory-Meadowview.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSMRX"
+      ],
+      "WMOidentifier": [
+        "WWUS84 KMRX 192104"
+      ],
+      "NWSheadline": [
+        "A STRONG THUNDERSTORM WILL IMPACT NORTHEASTERN JOHNSON AND SOUTHEASTERN WASHINGTON COUNTIES THROUGH 545 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-19T21:04:00-00:00...storm...329DEG...10KT...36.74,-81.77"
+      ],
+      "maxWindGust": [
+        "50 MPH"
+      ],
+      "maxHailSize": [
+        "0.25"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3dfcf01bc16b6b85c8a00cc29c98fc11086ec757.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.3dfcf01bc16b6b85c8a00cc29c98fc11086ec757.001.1",
+    "sha256": "2c157cbf7a51e664f7a95a71b0e008114db29b84f477f0fa2e23439d4a1a9eda",
+    "sender": "NWS Morristown TN",
+    "sent": "2026-09-19T17:04:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

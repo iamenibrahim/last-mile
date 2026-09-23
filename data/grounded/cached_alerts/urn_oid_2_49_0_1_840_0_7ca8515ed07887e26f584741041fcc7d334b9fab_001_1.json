@@ -1,0 +1,142 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7ca8515ed07887e26f584741041fcc7d334b9fab.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -83.95,
+          39.49
+        ],
+        [
+          -83.94,
+          39.73
+        ],
+        [
+          -83.3,
+          39.72
+        ],
+        [
+          -83.31,
+          39.56
+        ],
+        [
+          -83.39,
+          39.41
+        ],
+        [
+          -83.95,
+          39.49
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7ca8515ed07887e26f584741041fcc7d334b9fab.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.7ca8515ed07887e26f584741041fcc7d334b9fab.001.1",
+    "areaDesc": "Clinton, OH; Fayette, OH; Greene, OH; Madison, OH",
+    "geocode": {
+      "SAME": [
+        "039027",
+        "039047",
+        "039057",
+        "039097"
+      ],
+      "UGC": [
+        "OHC027",
+        "OHC047",
+        "OHC057",
+        "OHC097"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/OHC027",
+      "https://api.weather.gov/zones/county/OHC047",
+      "https://api.weather.gov/zones/county/OHC057",
+      "https://api.weather.gov/zones/county/OHC097"
+    ],
+    "references": [],
+    "sent": "2026-09-20T20:37:00-04:00",
+    "effective": "2026-09-20T20:37:00-04:00",
+    "onset": "2026-09-20T20:37:00-04:00",
+    "expires": "2026-09-20T21:15:00-04:00",
+    "ends": "2026-09-20T21:15:00-04:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Severe Thunderstorm Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Wilmington OH",
+    "headline": "Severe Thunderstorm Warning issued September 20 at 8:37PM EDT until September 20 at 9:15PM EDT by NWS Wilmington OH",
+    "description": "SVRILN\n\nThe National Weather Service in Wilmington has issued a\n\n* Severe Thunderstorm Warning for...\nFayette County in central Ohio...\nNorthern Clinton County in southwestern Ohio...\nSoutheastern Greene County in west central Ohio...\nSouthwestern Madison County in central Ohio...\n\n* Until 915 PM EDT.\n\n* At 836 PM EDT, a severe thunderstorm was located near Jamestown,\nmoving east at 40 mph.\n\nHAZARD...60 mph wind gusts.\n\nSOURCE...Radar indicated.\n\nIMPACT...Expect damage to trees and power lines.\n\n* Locations impacted include...\nXenia, Washington Court House, Sabina, Jamestown, Jeffersonville,\nBloomingburg, Wilberforce, New Jasper, Staunton, Good Hope,\nBowersville, Port William, Milledgeville, Octa, Paintersville,\nMelvin, Interstate 71 at State Route 38, Rosemoor, Lumberton, and\nMadison Mills.\n\nThis includes I-71 in Ohio between mile markers 46 and 78.",
+    "instruction": "For your protection move to an interior room on the lowest floor of a\nbuilding.\n\nTo report severe weather, go to our website at weather.gov/iln and\nsubmit your report via social media, when you can do so safely.",
+    "response": "Shelter",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SVRILN"
+      ],
+      "WMOidentifier": [
+        "WUUS51 KILN 210037"
+      ],
+      "eventMotionDescription": [
+        "2026-09-21T00:36:00-00:00...storm...272DEG...33KT...39.61,-83.85"
+      ],
+      "windThreat": [
+        "RADAR INDICATED"
+      ],
+      "maxWindGust": [
+        "60 MPH"
+      ],
+      "hailThreat": [
+        "RADAR INDICATED"
+      ],
+      "maxHailSize": [
+        "Up to .75"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.NEW.KILN.SV.W.0284.260921T0037Z-260921T0115Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T21:15:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SVR"
+      ],
+      "NationalWeatherService": [
+        "SVW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7ca8515ed07887e26f584741041fcc7d334b9fab.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.7ca8515ed07887e26f584741041fcc7d334b9fab.001.1",
+    "sha256": "3ea8f8b123d911e767e1dc1eb6ec29c91cc13b76515d40cead2223b90a920d72",
+    "sender": "NWS Wilmington OH",
+    "sent": "2026-09-20T20:37:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

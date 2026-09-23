@@ -1,0 +1,118 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9d016f8b422822cb0cb3e70a1a92c2564db349fb.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -82.48,
+          37.23
+        ],
+        [
+          -82.45,
+          37.24
+        ],
+        [
+          -82.37,
+          37.26
+        ],
+        [
+          -82.31,
+          37.17
+        ],
+        [
+          -82.41,
+          37.11
+        ],
+        [
+          -82.48,
+          37.23
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9d016f8b422822cb0cb3e70a1a92c2564db349fb.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.9d016f8b422822cb0cb3e70a1a92c2564db349fb.001.1",
+    "areaDesc": "Dickenson",
+    "geocode": {
+      "SAME": [
+        "051051"
+      ],
+      "UGC": [
+        "VAZ003"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/VAZ003"
+    ],
+    "references": [],
+    "sent": "2026-09-19T16:23:00-04:00",
+    "effective": "2026-09-19T16:23:00-04:00",
+    "onset": "2026-09-19T16:23:00-04:00",
+    "expires": "2026-09-19T17:15:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Charleston WV",
+    "headline": "Special Weather Statement issued September 19 at 4:23PM EDT by NWS Charleston WV",
+    "description": "Locations impacted include...\nClinchco.\n\nHeavy rain may cause ponding of water on roadways and water\nissues in low-lying areas.\n\nDo not drive your vehicle into areas where the water covers the\nroadway. The water depth may be too great to allow your car to cross\nsafely. Move to higher ground.",
+    "instruction": null,
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSRLX"
+      ],
+      "WMOidentifier": [
+        "WWUS81 KRLX 192023"
+      ],
+      "NWSheadline": [
+        "HEAVY RAIN AFFECTING NORTHWESTERN DICKENSON COUNTY"
+      ],
+      "eventMotionDescription": [
+        "2026-09-19T20:22:00-00:00...storm...240DEG...49KT...37.21,-82.41"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9d016f8b422822cb0cb3e70a1a92c2564db349fb.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.9d016f8b422822cb0cb3e70a1a92c2564db349fb.001.1",
+    "sha256": "bf1afa0ebcca6b283e23bb8180d048381da6773f7c982a102a6f4cfe346691e4",
+    "sender": "NWS Charleston WV",
+    "sent": "2026-09-19T16:23:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

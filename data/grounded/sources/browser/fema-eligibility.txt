@@ -1,0 +1,40 @@
+id: fema-eligibility
+title: Eligibility Criteria for FEMA Assistance
+publisher: Federal Emergency Management Agency
+url: https://www.fema.gov/assistance/individual/program/eligibility
+lang: en
+last_updated: June 26, 2026
+browser_sha256: 47367b3445976cef7409f1040b16e86c5cc5dbf8059d872f8af1630b33f074cc
+---
+When you apply for assistance, FEMA will check to make sure you meet certain requirements. FEMA must ensure all applicants for FEMA assistance meet certain eligibility requirements prior to giving assistance. Learn more about what the law requires FEMA to do.
+Who is Eligible to Receive FEMA Assistance from the Individuals and Households Program?
+Before you can receive any assistance, you must meet the following general conditions of eligibility.
+Citizenship Status
+Only United States citizens, non-citizen nationals, or qualified aliens are eligible to receive assistance from FEMA.  Therefore, FEMA needs to verify all applicants’ status before providing assistance.
+Learn about citizenship and immigration status requirements for federal public benefits.
+Identity Verification
+You need to prove your identity with a valid Social Security number. FEMA usually checks your identity using public records when you apply. If FEMA cannot verify your identity this way,  we might ask for more information.
+Review the types of documents you can provide to verify your identity.
+Ownership/Occupancy Verification
+For certain types of assistance, FEMA must confirm the disaster-damaged home is your primary residence. For Home Repair or Replacement Assistance, FEMA also needs to confirm you owned the residence at the time of the disaster.
+FEMA usually verifies this information through an automated public records search when you apply. If FEMA cannot confirm your occupancy or ownership status through the public records search, we might ask you to provide additional documents for verification.
+Review the types of documents you can provide to verify home occupancy and/or ownership.
+Unmet Need After Insurance
+FEMA cannot provide assistance for disaster needs that have already been met by another source, like insurance or other programs. But, if your insurance or another program does not cover all your disaster-caused needs, you may be eligible for assistance from FEMA.
+You must tell FEMA about any insurance coverage you have that can help you with your disaster-caused needs when you apply for FEMA assistance.
+If you have insurance coverage, you will need to give FEMA proof of the insurance settlement or a letter explaining you were denied coverage before FEMA can determine what assistance you are eligible for.
+Documents can be uploaded directly to your online DisasterAssistance.gov accounts visit a document drop-off center near you.
+Apply for Assistance
+If you think you meet the above eligibility criteria, you can complete an application for FEMA Individuals and Households Program assistance at DisasterAssistance.gov.
+You can also apply in person, online, or by phone.
+FEMA's Legal Requirements to Protect Federal Dollars
+FEMA is required by law to make sure that any help given to those affected by a major disaster was given correctly, without duplicating assistance from other sources, used for necessary expenses related to the disaster, and not obtained through fraudulent means.
+Federal laws require government agencies, including FEMA, to work to find and collect any payments that were made improperly because of fraud.  These laws include:
+Debt Collection Improvement Act of 1996
+Improper Payments and Information Act of 2002
+Improper Payments Elimination and Recovery Act of 2010
+Improper Payments Elimination and Recovery Improvement Act of 2012
+When you apply for FEMA assistance, you must say that all the information you provided is true. Your application is a legal document and the information you give us is provided under penalty of perjury—meaning you could face criminal charges, including up to five years in prison, if you provide FEMA with false information that you know is untrue or incorrect. FEMA may check the information you give us by reviewing other sources. It is against federal and state laws to make false statements or  withhold information to obtain FEMA assistance.
+FEMA staff are required to report suspected fraud to the Department of Homeland Security Office of Inspector General (OIG). The OIG investigates potential fraud cases and refers them to the Department of Justice to investigate and take legal action when warranted. FEMA will also initiate collection of a potential debt, regardless of the size of the debt, when assistance was obtained through fraudulent means.
+Last updated June 26, 2026
+Return to top

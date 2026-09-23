@@ -1,0 +1,158 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ebdab642f0cc792924fdc61d628bdcb5118d177a.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -82.33,
+          36.83
+        ],
+        [
+          -82.15,
+          36.96
+        ],
+        [
+          -82.12,
+          37.04
+        ],
+        [
+          -82.1,
+          37.05
+        ],
+        [
+          -82.09,
+          37.04
+        ],
+        [
+          -82.08,
+          37.04
+        ],
+        [
+          -82.06,
+          37.05
+        ],
+        [
+          -82.04,
+          37.05
+        ],
+        [
+          -82.03,
+          37.07
+        ],
+        [
+          -82.02,
+          37.07
+        ],
+        [
+          -81.99,
+          37.08
+        ],
+        [
+          -81.96,
+          36.98
+        ],
+        [
+          -82.03,
+          36.88
+        ],
+        [
+          -82.28,
+          36.76
+        ],
+        [
+          -82.31,
+          36.79
+        ],
+        [
+          -82.33,
+          36.83
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ebdab642f0cc792924fdc61d628bdcb5118d177a.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.ebdab642f0cc792924fdc61d628bdcb5118d177a.001.1",
+    "areaDesc": "Russell, VA",
+    "geocode": {
+      "SAME": [
+        "051167"
+      ],
+      "UGC": [
+        "VAC167"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/VAC167"
+    ],
+    "references": [],
+    "sent": "2026-09-19T16:33:00-04:00",
+    "effective": "2026-09-19T16:33:00-04:00",
+    "onset": "2026-09-19T16:33:00-04:00",
+    "expires": "2026-09-19T19:30:00-04:00",
+    "ends": "2026-09-19T19:30:00-04:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Minor",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Morristown TN",
+    "headline": "Flood Advisory issued September 19 at 4:33PM EDT until September 19 at 7:30PM EDT by NWS Morristown TN",
+    "description": "* WHAT...Flooding caused by excessive rainfall is expected.\n\n* WHERE...Central Russell County in southwestern Virginia...\n\n* WHEN...Until 730 PM EDT.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\n\n* ADDITIONAL DETAILS...\n- At 433 PM EDT, Doppler radar indicated heavy rain due to\nthunderstorms. Minor flooding is ongoing or expected to begin\nshortly in the advisory area. Between 1.5 and 2 inches of rain\nhave fallen.\n- Some locations that will experience flooding include...\nLebanon, Cleveland Va, Honaker and Castlewood.\n- http://www.weather.gov/safety/flood",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSMRX"
+      ],
+      "WMOidentifier": [
+        "WGUS84 KMRX 192033"
+      ],
+      "NWSheadline": [
+        "FLOOD ADVISORY IN EFFECT UNTIL 730 PM EDT THIS EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.NEW.KMRX.FA.Y.0199.260919T2033Z-260919T2330Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-19T19:30:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "FAY"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ebdab642f0cc792924fdc61d628bdcb5118d177a.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.ebdab642f0cc792924fdc61d628bdcb5118d177a.001.1",
+    "sha256": "ddbdb8c14e01faf622c44fb23ba3141500322e49c0ed8ee2a3f27f89e174080c",
+    "sender": "NWS Morristown TN",
+    "sent": "2026-09-19T16:33:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

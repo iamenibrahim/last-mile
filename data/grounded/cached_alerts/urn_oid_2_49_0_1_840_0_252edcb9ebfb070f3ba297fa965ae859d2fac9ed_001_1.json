@@ -1,0 +1,131 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.252edcb9ebfb070f3ba297fa965ae859d2fac9ed.001.1",
+  "type": "Feature",
+  "geometry": null,
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.252edcb9ebfb070f3ba297fa965ae859d2fac9ed.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.252edcb9ebfb070f3ba297fa965ae859d2fac9ed.001.1",
+    "areaDesc": "Ashe; Alleghany; Watauga; Tazewell; Smyth; Bland; Giles; Wythe; Pulaski; Grayson; Carroll; Mercer; Summers; Monroe; Eastern Greenbrier; Western Greenbrier",
+    "geocode": {
+      "SAME": [
+        "037009",
+        "037005",
+        "037189",
+        "051185",
+        "051173",
+        "051021",
+        "051071",
+        "051197",
+        "051155",
+        "051750",
+        "051077",
+        "051035",
+        "051640",
+        "054055",
+        "054089",
+        "054063",
+        "054025"
+      ],
+      "UGC": [
+        "NCZ001",
+        "NCZ002",
+        "NCZ018",
+        "VAZ007",
+        "VAZ009",
+        "VAZ010",
+        "VAZ011",
+        "VAZ012",
+        "VAZ013",
+        "VAZ015",
+        "VAZ016",
+        "WVZ042",
+        "WVZ043",
+        "WVZ044",
+        "WVZ507",
+        "WVZ508"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/NCZ001",
+      "https://api.weather.gov/zones/forecast/NCZ002",
+      "https://api.weather.gov/zones/forecast/NCZ018",
+      "https://api.weather.gov/zones/forecast/VAZ007",
+      "https://api.weather.gov/zones/forecast/VAZ009",
+      "https://api.weather.gov/zones/forecast/VAZ010",
+      "https://api.weather.gov/zones/forecast/VAZ011",
+      "https://api.weather.gov/zones/forecast/VAZ012",
+      "https://api.weather.gov/zones/forecast/VAZ013",
+      "https://api.weather.gov/zones/forecast/VAZ015",
+      "https://api.weather.gov/zones/forecast/VAZ016",
+      "https://api.weather.gov/zones/forecast/WVZ042",
+      "https://api.weather.gov/zones/forecast/WVZ043",
+      "https://api.weather.gov/zones/forecast/WVZ044",
+      "https://api.weather.gov/zones/forecast/WVZ507",
+      "https://api.weather.gov/zones/forecast/WVZ508"
+    ],
+    "references": [],
+    "sent": "2026-09-19T06:26:00-04:00",
+    "effective": "2026-09-19T06:26:00-04:00",
+    "onset": "2026-09-19T06:26:00-04:00",
+    "expires": "2026-09-19T09:00:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Blacksburg VA",
+    "headline": "Special Weather Statement issued September 19 at 6:26AM EDT by NWS Blacksburg VA",
+    "description": "Visibilities are a half mile or less across portions of the\nmountains this morning. The fog will impact travel, especially\nalong I-81 between Chilhowie and Christiansburg and along the\nBlue Ridge, as well as I-64 in southeast West Virginia.\n\nBe alert to rapidly changing visibilities if traveling. Allow\nextra time to get to your destination. The fog should lift between\n9-10am.",
+    "instruction": null,
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSRNK"
+      ],
+      "WMOidentifier": [
+        "WWUS81 KRNK 191026"
+      ],
+      "NWSheadline": [
+        "PATCHY DENSE FOG THIS MORNING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.252edcb9ebfb070f3ba297fa965ae859d2fac9ed.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.252edcb9ebfb070f3ba297fa965ae859d2fac9ed.001.1",
+    "sha256": "f4809b153e979529d0457cef4f0ff210fe816acd54108db0763d3045a35dcf75",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2026-09-19T06:26:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

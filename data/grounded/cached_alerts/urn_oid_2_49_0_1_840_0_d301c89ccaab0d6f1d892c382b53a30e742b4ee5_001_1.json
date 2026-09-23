@@ -1,0 +1,132 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d301c89ccaab0d6f1d892c382b53a30e742b4ee5.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -82.45,
+          37.14
+        ],
+        [
+          -82.49,
+          37.23
+        ],
+        [
+          -82.47,
+          37.24
+        ],
+        [
+          -82.45,
+          37.24
+        ],
+        [
+          -82.35,
+          37.27
+        ],
+        [
+          -82.34,
+          37.27
+        ],
+        [
+          -82.3,
+          37.19
+        ],
+        [
+          -82.45,
+          37.14
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d301c89ccaab0d6f1d892c382b53a30e742b4ee5.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.d301c89ccaab0d6f1d892c382b53a30e742b4ee5.001.1",
+    "areaDesc": "Dickenson",
+    "geocode": {
+      "SAME": [
+        "051051"
+      ],
+      "UGC": [
+        "VAZ003"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/VAZ003"
+    ],
+    "references": [],
+    "sent": "2026-09-19T14:54:00-04:00",
+    "effective": "2026-09-19T14:54:00-04:00",
+    "onset": "2026-09-19T14:54:00-04:00",
+    "expires": "2026-09-19T15:30:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Charleston WV",
+    "headline": "Special Weather Statement issued September 19 at 2:54PM EDT by NWS Charleston WV",
+    "description": "At 254 PM EDT, Doppler radar was tracking a strong thunderstorm near\nAshcamp, or near John Flannagan Lake, moving southeast at 10 mph.\n\nHAZARD...Wind gusts up to 40 mph.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects.\n\nLocations impacted include...\nClintwood, John Flannagan Lake, and Clinchco.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.\n\nTorrential rainfall is also occurring with this storm and may lead to\nlocalized flooding. Do not drive your vehicle through flooded\nroadways.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSRLX"
+      ],
+      "WMOidentifier": [
+        "WWUS81 KRLX 191854"
+      ],
+      "NWSheadline": [
+        "A STRONG THUNDERSTORM WILL IMPACT NORTHWESTERN DICKENSON COUNTY THROUGH 330 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-19T18:54:00-00:00...storm...327DEG...7KT...37.21,-82.42"
+      ],
+      "maxWindGust": [
+        "40 MPH"
+      ],
+      "maxHailSize": [
+        "0.00"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d301c89ccaab0d6f1d892c382b53a30e742b4ee5.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.d301c89ccaab0d6f1d892c382b53a30e742b4ee5.001.1",
+    "sha256": "88ae3512eea601a359a8cc16acd7fd018cd14d057f0072ae5e4500e59c3601ad",
+    "sender": "NWS Charleston WV",
+    "sent": "2026-09-19T14:54:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "local-hashed-bow": {
+    "semantic_fidelity": 0.54,
+    "tuned_on": {
+      "corpus_size": 80,
+      "lang": "en",
+      "at": "2026-09-21T14:37:10Z",
+      "false_abstention_ceiling": 0.1
+    }
+  }
+}

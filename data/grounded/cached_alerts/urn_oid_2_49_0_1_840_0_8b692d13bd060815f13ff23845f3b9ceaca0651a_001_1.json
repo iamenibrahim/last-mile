@@ -1,0 +1,157 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8b692d13bd060815f13ff23845f3b9ceaca0651a.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -84.82,
+          39.52
+        ],
+        [
+          -84.85,
+          39.53
+        ],
+        [
+          -84.72,
+          39.71
+        ],
+        [
+          -84.68,
+          39.75
+        ],
+        [
+          -84.77,
+          39.8
+        ],
+        [
+          -84.77,
+          39.98
+        ],
+        [
+          -84.67,
+          40.03
+        ],
+        [
+          -84.38,
+          40.06
+        ],
+        [
+          -84.32,
+          39.91
+        ],
+        [
+          -84.4,
+          39.62
+        ],
+        [
+          -84.6,
+          39.47
+        ],
+        [
+          -84.82,
+          39.52
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8b692d13bd060815f13ff23845f3b9ceaca0651a.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.8b692d13bd060815f13ff23845f3b9ceaca0651a.001.1",
+    "areaDesc": "Union, IN; Butler, OH; Darke, OH; Miami, OH; Montgomery, OH; Preble, OH",
+    "geocode": {
+      "SAME": [
+        "018161",
+        "039017",
+        "039037",
+        "039109",
+        "039113",
+        "039135"
+      ],
+      "UGC": [
+        "INC161",
+        "OHC017",
+        "OHC037",
+        "OHC109",
+        "OHC113",
+        "OHC135"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/INC161",
+      "https://api.weather.gov/zones/county/OHC017",
+      "https://api.weather.gov/zones/county/OHC037",
+      "https://api.weather.gov/zones/county/OHC109",
+      "https://api.weather.gov/zones/county/OHC113",
+      "https://api.weather.gov/zones/county/OHC135"
+    ],
+    "references": [],
+    "sent": "2026-09-20T19:51:00-04:00",
+    "effective": "2026-09-20T19:51:00-04:00",
+    "onset": "2026-09-20T19:51:00-04:00",
+    "expires": "2026-09-20T22:15:00-04:00",
+    "ends": "2026-09-20T22:15:00-04:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Minor",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Wilmington OH",
+    "headline": "Flood Advisory issued September 20 at 7:51PM EDT until September 20 at 10:15PM EDT by NWS Wilmington OH",
+    "description": "* WHAT...Flooding caused by excessive rainfall is expected.\n\n* WHERE...Southeastern Union County in east central Indiana...\nNorthwestern Butler County in southwestern Ohio...\nSouthern Darke County in west central Ohio...\nSouthwestern Miami County in west central Ohio...\nWestern Montgomery County in west central Ohio...\nPreble County in west central Ohio...\n\n* WHEN...Until 1015 PM EDT.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\n\n* ADDITIONAL DETAILS...\n- At 751 PM EDT, radar indicated heavy rain due to thunderstorms.\nMinor flooding is ongoing or expected to begin shortly in the\nadvisory area. Between 1 and 1.5 inches of rain have fallen.\nAdditional rainfall amounts of 0.5 to 1 inch are possible in the\nwarned area.\n- Some locations that may experience flooding include...\nTrotwood, Oxford, Englewood, Eaton, West Milton, Arcanum, Camden,\nLewisburg, West Alexandria, New Madison, Gratis, West College\nCorner, Darrtown, Clayton, Union, Brookville, New Lebanon,\nFarmersville, Wayne Lakes and Phillipsburg.",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe especially cautious at night when it is harder to recognize the\ndangers of flooding.\n\nTo report flooding, go to our website at weather.gov/iln and submit\nyour report via social media, when you can do so safely.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSILN"
+      ],
+      "WMOidentifier": [
+        "WGUS81 KILN 202351"
+      ],
+      "NWSheadline": [
+        "FLOOD ADVISORY IN EFFECT UNTIL 1015 PM EDT THIS EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.NEW.KILN.FA.Y.0221.260920T2351Z-260921T0215Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T22:15:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "FAY"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8b692d13bd060815f13ff23845f3b9ceaca0651a.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.8b692d13bd060815f13ff23845f3b9ceaca0651a.001.1",
+    "sha256": "f68ae6825a4673c1d2f07866fdc7090ea49e38664969e2914316238c1eb33253",
+    "sender": "NWS Wilmington OH",
+    "sent": "2026-09-20T19:51:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

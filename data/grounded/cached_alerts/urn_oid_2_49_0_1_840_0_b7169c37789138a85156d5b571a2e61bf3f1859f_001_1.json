@@ -1,0 +1,160 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b7169c37789138a85156d5b571a2e61bf3f1859f.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -89.62,
+          41.59
+        ],
+        [
+          -89.59,
+          41.59
+        ],
+        [
+          -89.51,
+          41.64
+        ],
+        [
+          -89.34,
+          41.67
+        ],
+        [
+          -89.21,
+          41.73
+        ],
+        [
+          -89.13,
+          41.78
+        ],
+        [
+          -89.13,
+          41.8
+        ],
+        [
+          -89.16,
+          41.81
+        ],
+        [
+          -89.27,
+          41.74
+        ],
+        [
+          -89.37,
+          41.71
+        ],
+        [
+          -89.54,
+          41.67
+        ],
+        [
+          -89.63,
+          41.63
+        ],
+        [
+          -89.63,
+          41.59
+        ],
+        [
+          -89.62,
+          41.59
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b7169c37789138a85156d5b571a2e61bf3f1859f.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.b7169c37789138a85156d5b571a2e61bf3f1859f.001.1",
+    "areaDesc": "Lee, IL",
+    "geocode": {
+      "SAME": [
+        "017103"
+      ],
+      "UGC": [
+        "ILC103"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/ILC103"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.1573778a6d0328ec822e155acee41b4d3151f0e5.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.1573778a6d0328ec822e155acee41b4d3151f0e5.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T10:10:00-05:00"
+      }
+    ],
+    "sent": "2026-09-20T19:10:00-05:00",
+    "effective": "2026-09-20T19:10:00-05:00",
+    "onset": "2026-09-20T19:10:00-05:00",
+    "expires": "2026-09-21T11:00:00-05:00",
+    "ends": "2026-09-21T11:00:00-05:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Chicago IL",
+    "headline": "Flood Warning issued September 20 at 7:10PM CDT until September 21 at 11:00AM CDT by NWS Chicago IL",
+    "description": "* WHAT...Flooding caused by excessive rainfall on the Green River and\nnearby tributaries continues.\n\n* WHERE...Portions of Lee County in north central Illinois...\n\n* WHEN...Until 1100 AM CDT Monday.\n\n* IMPACTS...Creeks and streams have risen out of their banks. Roads\nand streets are flooded. Flooding of structures is occurring. High\nwater may be slow to recede from flooded areas.\n\n* ADDITIONAL DETAILS...\n- At 654 PM CDT, emergency management officials reported that\nflooding was ongoing along the Green River. Multiple structures\nat and near O'Connell's RV Campground remain surrounded by flood\nwaters as of 700 PM CDT on Sunday, September 20th, and some roads\nin the area are still flooded as well.\n- Some locations that will experience flooding include...\nAmboy.\n- http://www.weather.gov/safety/flood",
+    "instruction": "A Flood Warning means flooding is imminent or may already be\noccurring. Persons along rivers, creeks, and other waterways should\ntake immediate precautions to protect life and property.\n\nTurn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nCampers and hikers should be especially cautious during periods of\nheavy rainfall and flooding. Know your location relative to rivers,\nstreams, or drainage areas. Heavy rainfall can cause quick rises on\nwaterways, including trails or campgrounds that are usually dry.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLWLOT"
+      ],
+      "WMOidentifier": [
+        "WGUS43 KLOT 210010"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING NOW IN EFFECT UNTIL 11 AM CDT MONDAY"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.EXT.KLOT.FA.W.0022.000000T0000Z-260921T1600Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-21T11:00:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLW"
+      ],
+      "NationalWeatherService": [
+        "FAW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b7169c37789138a85156d5b571a2e61bf3f1859f.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.b7169c37789138a85156d5b571a2e61bf3f1859f.001.1",
+    "sha256": "d1b6d1010fcb543cbb1a4a11d389f4b84dc84c5890b64fc9ad5b91bd41adc545",
+    "sender": "NWS Chicago IL",
+    "sent": "2026-09-20T19:10:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

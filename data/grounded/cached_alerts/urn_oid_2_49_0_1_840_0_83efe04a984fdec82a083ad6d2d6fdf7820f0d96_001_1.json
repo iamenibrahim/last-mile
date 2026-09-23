@@ -1,0 +1,181 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.83efe04a984fdec82a083ad6d2d6fdf7820f0d96.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -96.94,
+          33.5
+        ],
+        [
+          -96.83,
+          33.63
+        ],
+        [
+          -96.7,
+          33.59
+        ],
+        [
+          -96.52,
+          33.62
+        ],
+        [
+          -96.41,
+          33.76
+        ],
+        [
+          -96.35,
+          33.69
+        ],
+        [
+          -96.32,
+          33.7
+        ],
+        [
+          -96.3,
+          33.76
+        ],
+        [
+          -96.18,
+          33.76
+        ],
+        [
+          -96.15,
+          33.84
+        ],
+        [
+          -96.03,
+          33.86
+        ],
+        [
+          -96.02,
+          33.84
+        ],
+        [
+          -96,
+          33.87
+        ],
+        [
+          -95.95,
+          33.86
+        ],
+        [
+          -95.94,
+          33.89
+        ],
+        [
+          -95.85,
+          33.84
+        ],
+        [
+          -95.86,
+          33.41
+        ],
+        [
+          -96.38,
+          33.34
+        ],
+        [
+          -96.39,
+          33.4
+        ],
+        [
+          -96.94,
+          33.42
+        ],
+        [
+          -96.94,
+          33.5
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.83efe04a984fdec82a083ad6d2d6fdf7820f0d96.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.83efe04a984fdec82a083ad6d2d6fdf7820f0d96.001.1",
+    "areaDesc": "Fannin, TX; Grayson, TX",
+    "geocode": {
+      "SAME": [
+        "048147",
+        "048181"
+      ],
+      "UGC": [
+        "TXC147",
+        "TXC181"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/TXC147",
+      "https://api.weather.gov/zones/county/TXC181"
+    ],
+    "references": [],
+    "sent": "2026-09-20T19:11:00-05:00",
+    "effective": "2026-09-20T19:11:00-05:00",
+    "onset": "2026-09-20T19:11:00-05:00",
+    "expires": "2026-09-20T21:30:00-05:00",
+    "ends": "2026-09-20T21:30:00-05:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Minor",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Fort Worth TX",
+    "headline": "Flood Advisory issued September 20 at 7:11PM CDT until September 20 at 9:30PM CDT by NWS Fort Worth TX",
+    "description": "* WHAT...Flooding caused by excessive rainfall is expected.\n\n* WHERE...Fannin County in north central Texas...\nSouthern Grayson County in north central Texas...\n\n* WHEN...Until 930 PM CDT.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\nDangerous flows over low-water crossings. Ponding of water in urban\nor other areas is occurring or is imminent.\n\n* ADDITIONAL DETAILS...\n- At 710 PM CDT, Doppler radar indicated heavy rain due to\nthunderstorms. Overflowing poor drainage areas will cause minor\nflooding in the advisory area.\n- Some locations that will experience flooding include...\nSherman, Bonham, Van Alstyne, Howe, Leonard, Honey Grove,\nWhitewright, Gunter, Bells, Tom Bean, Savoy, Ector, Trenton, Dodd\nCity, Ravenna, Dorchester, Randolph, Valley Lake, Bonham State\nPark and Lake Bonham.",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe aware of your surroundings and do not drive on flooded roads.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSFWD"
+      ],
+      "WMOidentifier": [
+        "WGUS84 KFWD 210011"
+      ],
+      "NWSheadline": [
+        "FLOOD ADVISORY IN EFFECT UNTIL 930 PM CDT THIS EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.NEW.KFWD.FA.Y.0122.260921T0011Z-260921T0230Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T21:30:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "FAY"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.83efe04a984fdec82a083ad6d2d6fdf7820f0d96.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.83efe04a984fdec82a083ad6d2d6fdf7820f0d96.001.1",
+    "sha256": "ccdf70f3d70e30b0216cbeede4a348c6fd806fbb45ccbe5250b16f61c414ef2e",
+    "sender": "NWS Fort Worth TX",
+    "sent": "2026-09-20T19:11:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

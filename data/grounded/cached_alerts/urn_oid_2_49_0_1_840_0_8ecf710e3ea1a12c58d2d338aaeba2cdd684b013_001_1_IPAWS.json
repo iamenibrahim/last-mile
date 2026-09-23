@@ -1,0 +1,137 @@
+{
+  "id": "urn:oid:2.49.0.1.840.0.8ecf710e3ea1a12c58d2d338aaeba2cdd684b013.001.1.IPAWS",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.9,
+          37.15
+        ],
+        [
+          -81.73,
+          37.24
+        ],
+        [
+          -81.68,
+          37.2
+        ],
+        [
+          -81.55,
+          37.21
+        ],
+        [
+          -81.36,
+          37.34
+        ],
+        [
+          -81.23,
+          37.23
+        ],
+        [
+          -81.26,
+          37.22
+        ],
+        [
+          -80.97,
+          36.82
+        ],
+        [
+          -81.04,
+          36.81
+        ],
+        [
+          -81.03,
+          36.8
+        ],
+        [
+          -80.93,
+          36.67
+        ],
+        [
+          -80.88,
+          36.69
+        ],
+        [
+          -80.91,
+          36.65
+        ],
+        [
+          -80.84,
+          36.56
+        ],
+        [
+          -81.67,
+          36.59
+        ],
+        [
+          -81.61,
+          36.64
+        ],
+        [
+          -81.83,
+          36.93
+        ],
+        [
+          -81.78,
+          36.96
+        ],
+        [
+          -81.9,
+          37.15
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "id": "urn:oid:2.49.0.1.840.0.8ecf710e3ea1a12c58d2d338aaeba2cdd684b013.001.1.IPAWS",
+    "@id": "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$filter=identifier eq 'urn:oid:2.49.0.1.840.0.8ecf710e3ea1a12c58d2d338aaeba2cdd684b013.001.1.IPAWS'",
+    "sent": "2024-09-26T12:29:00-04:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "event": "Flash Flood Warning",
+    "severity": "Severe",
+    "certainty": "Likely",
+    "urgency": "Immediate",
+    "headline": "Flash Flood Warning issued September 26 at 12:29PM EDT until September 26 at 6:30PM EDT by NWS Blacksburg VA",
+    "description": "FFWRNK\n\nThe National Weather Service in Blacksburg has issued a\n\n* Flash Flood Warning for...\nSouthwestern Bland County in southwestern Virginia...\nGrayson County in southwestern Virginia...\nSmyth County in southwestern Virginia...\nTazewell County in southwestern Virginia...\nWestern Wythe County in southwestern Virginia...\nThe City of Galax in southwestern Virginia...\n\n* Until 630 PM EDT Thursday.\n\n* At 1229 PM EDT, Doppler radar indicated thunderstorms producing\nheavy rain across the warned area. Between 3 and 5 inches of rain\nhave fallen. The expected rainfall rate is 0.75 to 1.5 inches in 1\nhour. Additional rainfall amounts of 1.5 to 3 inches are possible\nin the warned area. Flash flooding is ongoing or expected to begin\nshortly.\n\nHAZARD...Life threatening flash flooding. Thunderstorms\nproducing flash flooding.\n\nSOURCE...Radar.\n\nIMPACT...Life threatening flash flooding of creeks and streams,\nurban areas, highways, streets and underpasses.\n\n* Some locations that will experience flash flooding include...\nWytheville...                      Galax...\nMarion...                          Richlands...\nBluefield...                       Tazewell...\nSaltville...\n\nThis includes the following streams and drainages...\nBeaver Creek, Blue Spring Creek, Big Creek, Beaverdam Creek, Bear\nBranch, Bluestone River, Beech Fork and Big Horse Creek.",
+    "instruction": "Turn around, and do not drive on flooded roads. Most flood deaths\noccur in vehicles.\n\nWhen it is safe to do so, please send your reports of flooding,\nincluding mudslides or flooded roads, to the National Weather\nService by calling toll free at 1...8 6 6...2 1 5...4 3 2 4. Reports\nand pictures can also be shared on the National Weather Service\nBlacksburg Facebook page and on Twitter.",
+    "onset": "2024-09-26T12:29:00-04:00",
+    "effective": "2024-09-26T12:29:00-04:00",
+    "expires": "2024-09-26T18:30:00-04:00",
+    "senderName": "NWS Blacksburg VA",
+    "areaDesc": "Bland, VA; Grayson, VA; Smyth, VA; Tazewell, VA; Wythe, VA; City of Galax, VA",
+    "geocode": {
+      "SAME": [
+        "051021",
+        "051077",
+        "051173",
+        "051185",
+        "051197",
+        "051640"
+      ],
+      "UGC": [
+        "VAC021",
+        "VAC077",
+        "VAC173",
+        "VAC185",
+        "VAC197",
+        "VAC640"
+      ]
+    },
+    "affectedZones": []
+  },
+  "_provenance": {
+    "url": "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$filter=identifier eq 'urn:oid:2.49.0.1.840.0.8ecf710e3ea1a12c58d2d338aaeba2cdd684b013.001.1.IPAWS'",
+    "cap_id": "urn:oid:2.49.0.1.840.0.8ecf710e3ea1a12c58d2d338aaeba2cdd684b013.001.1.IPAWS",
+    "sha256": "8d9c06d756bd4ced4592c976c2707682de934433c9b8ae04885fd158f5b8d1da",
+    "original_xml_sha256": "83dd0c2001a877f0493abd2f15b0c9c4fdcd68d34eff4714d710e1268e34d741",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2024-09-26T12:29:00-04:00",
+    "fetched_at": "2026-09-21T14:11:31Z",
+    "transport": "TLS to www.fema.gov/api/open (OpenFEMA IPAWS archive)",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

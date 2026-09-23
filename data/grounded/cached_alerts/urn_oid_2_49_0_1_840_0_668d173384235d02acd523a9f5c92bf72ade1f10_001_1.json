@@ -1,0 +1,148 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.668d173384235d02acd523a9f5c92bf72ade1f10.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.81,
+          37.03
+        ],
+        [
+          -81.74,
+          37.05
+        ],
+        [
+          -81.52,
+          36.79
+        ],
+        [
+          -81.68,
+          36.75
+        ],
+        [
+          -81.7,
+          36.79
+        ],
+        [
+          -81.84,
+          36.93
+        ],
+        [
+          -81.83,
+          36.93
+        ],
+        [
+          -81.82,
+          36.94
+        ],
+        [
+          -81.82,
+          36.95
+        ],
+        [
+          -81.81,
+          36.95
+        ],
+        [
+          -81.78,
+          36.96
+        ],
+        [
+          -81.81,
+          37.03
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.668d173384235d02acd523a9f5c92bf72ade1f10.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.668d173384235d02acd523a9f5c92bf72ade1f10.001.1",
+    "areaDesc": "Smyth, VA; Tazewell, VA",
+    "geocode": {
+      "SAME": [
+        "051173",
+        "051185"
+      ],
+      "UGC": [
+        "VAC173",
+        "VAC185"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/VAC173",
+      "https://api.weather.gov/zones/county/VAC185"
+    ],
+    "references": [],
+    "sent": "2026-09-19T20:33:00-04:00",
+    "effective": "2026-09-19T20:33:00-04:00",
+    "onset": "2026-09-19T20:33:00-04:00",
+    "expires": "2026-09-19T20:43:00-04:00",
+    "ends": "2026-09-19T20:30:00-04:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Minor",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Blacksburg VA",
+    "headline": "Flood Advisory issued September 19 at 8:33PM EDT until September 19 at 8:30PM EDT by NWS Blacksburg VA",
+    "description": "The Flood Advisory has expired for a portion of southwest Virginia,\nincluding the following areas, Smyth and Tazewell.\n\nThe heavy rain has ended. Flooding is no longer expected to pose a\nthreat. Please continue to heed remaining road closures.",
+    "instruction": null,
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSRNK"
+      ],
+      "WMOidentifier": [
+        "WGUS81 KRNK 200033"
+      ],
+      "NWSheadline": [
+        "FLOOD ADVISORY HAS EXPIRED"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.EXP.KRNK.FA.Y.0122.000000T0000Z-260920T0030Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-19T20:30:00-04:00"
+      ],
+      "expiredReferences": [
+        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.000c81f8cc0e212044350bdf7a38325bef3affcb.001.1,2026-09-19T18:46:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.4b85b714a89e08bdbcb92669515205fcbfa52b6a.001.1,2026-09-19T17:33:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "FAY"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.668d173384235d02acd523a9f5c92bf72ade1f10.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.668d173384235d02acd523a9f5c92bf72ade1f10.001.1",
+    "sha256": "b9c8ac0b45a5b20e741b353ef0bc90ab62ff0454aea1a0d095167083cab2562e",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2026-09-19T20:33:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

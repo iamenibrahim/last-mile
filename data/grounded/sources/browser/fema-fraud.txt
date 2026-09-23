@@ -1,0 +1,47 @@
+id: fema-fraud
+title: Disaster Fraud
+publisher: Federal Emergency Management Agency
+url: https://www.fema.gov/assistance/individual/disaster-fraud
+lang: en
+last_updated: June 26, 2026
+browser_sha256: bce7843ef0b913d0499a09d4b7229298d0f97094b03760ffa4039f7dc2d717f7
+---
+After a disaster, scam artists, identity thieves and other criminals often attempt to take advantage of disaster survivors. We encourage survivors to watch for and report any suspicious activity.
+Beware of Fraud and Scams
+FEMA Housing Inspectors
+An inspector will:
+Graphic
+Never ask for your nine-digit registration number. They already have it in their records.
+Always wear an official government badge to identify themselves. Ask the person to show you their identification.
+Not ask for bank information. FEMA never charges a fee for an inspection.
+Not climb on roofs or enter crawl spaces.
+Fake Offers of Local or Federal Aid
+Don’t trust someone who asks for money. DHS, FEMA, SBA, and other federal agencies will never charge applicants for disaster assistance or help in filling out applications.
+Don’t believe anyone who promises a disaster grant and asks for large cash deposits or advance payments in full.
+Graphic
+Fraudulent Building Contractors
+Graphic
+Use licensed or verified local contractors backed by reliable references.
+Don’t pay more than half the costs of repairs in advance.
+Demand that contractors detail the job to be done with guarantees in writing.
+Identity Theft
+Disaster survivors should be aware con artists and criminals may try to apply for FEMA assistance using names, addresses and Social Security numbers they have stolen from survivors.
+If a FEMA inspector comes to your home and you have not filed a FEMA application, your information may have been used without your knowledge. Tell the inspector you did not apply for FEMA assistance.
+If you receive a letter from FEMA but did not apply for assistance, please call our Helpline at 800-621-3362 between 7 a.m. to 11 p.m. ET daily.
+Graphic
+Visit IdentityTheft.gov for more information and steps you can take if you suspect you're the victim of identity theft.
+Report Fraud or Scams
+Graphic
+Contact FEMA Investigations and Inspections Division
+Email: StopFEMAFraud@fema.dhs.gov
+Fax: 202-212-4926
+Mail:
+400 C Street SW
+Suite 7SW-1009
+Mail Stop 3005
+Washington D.C., 20472-3005
+Contact your state consumer protection offices.
+Report corruption, fraud, waste, abuse, mismanagement or misconduct to DHS Office of the Inspector General.
+File a complaint with the National Center for Disaster Fraud.
+Last updated June 26, 2026
+Return to top

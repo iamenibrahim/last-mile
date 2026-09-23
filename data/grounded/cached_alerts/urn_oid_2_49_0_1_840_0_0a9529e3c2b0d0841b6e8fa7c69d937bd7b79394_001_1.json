@@ -1,0 +1,189 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0a9529e3c2b0d0841b6e8fa7c69d937bd7b79394.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -86.39,
+          30.72
+        ],
+        [
+          -86.08,
+          30.84
+        ],
+        [
+          -86.04,
+          30.76
+        ],
+        [
+          -86.04,
+          30.71
+        ],
+        [
+          -86,
+          30.7
+        ],
+        [
+          -85.98,
+          30.66
+        ],
+        [
+          -86.14,
+          30.44
+        ],
+        [
+          -86.16,
+          30.44
+        ],
+        [
+          -86.16,
+          30.46
+        ],
+        [
+          -86.14,
+          30.47
+        ],
+        [
+          -86.19,
+          30.46
+        ],
+        [
+          -86.2,
+          30.48
+        ],
+        [
+          -86.19,
+          30.49
+        ],
+        [
+          -86.2,
+          30.5
+        ],
+        [
+          -86.22,
+          30.48
+        ],
+        [
+          -86.26,
+          30.49
+        ],
+        [
+          -86.3,
+          30.47
+        ],
+        [
+          -86.33,
+          30.48
+        ],
+        [
+          -86.39,
+          30.46
+        ],
+        [
+          -86.39,
+          30.72
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0a9529e3c2b0d0841b6e8fa7c69d937bd7b79394.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.0a9529e3c2b0d0841b6e8fa7c69d937bd7b79394.001.1",
+    "areaDesc": "Walton, FL",
+    "geocode": {
+      "SAME": [
+        "012131"
+      ],
+      "UGC": [
+        "FLC131"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/FLC131"
+    ],
+    "references": [],
+    "sent": "2026-09-20T19:33:00-05:00",
+    "effective": "2026-09-20T19:33:00-05:00",
+    "onset": "2026-09-20T19:33:00-05:00",
+    "expires": "2026-09-20T20:30:00-05:00",
+    "ends": "2026-09-20T20:30:00-05:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Severe Thunderstorm Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Tallahassee FL",
+    "headline": "Severe Thunderstorm Warning issued September 20 at 7:33PM CDT until September 20 at 8:30PM CDT by NWS Tallahassee FL",
+    "description": "SVRTAE\n\nThe National Weather Service in Tallahassee has issued a\n\n* Severe Thunderstorm Warning for...\nNorthwestern Walton County in the Panhandle of Florida...\n\n* Until 830 PM CDT.\n\n* At 733 PM CDT, a severe thunderstorm was located over De Funiak\nSprings, moving southwest at 15 mph.\n\nHAZARD...60 mph wind gusts.\n\nSOURCE...Radar indicated.\n\nIMPACT...Expect damage to roofs, siding, and trees.\n\n* Locations impacted include...\nDe Funiak Springs, Eglin Air Force Base, Freeport, Oakwood Hills,\nPortland, Alpine Heights, Villa Tasso, De Funiak Spring Airport,\nRock Hill, Eucheeanna, Pleasant Ridge, Center Ridge, New Home,\nPiney Grove, Argyle, and Mossy Head.",
+    "instruction": "For your protection move to an interior room on the lowest floor of a\nbuilding.\n\nTo report severe weather, contact your nearest law enforcement\nagency. They will send your report to the National Weather Service\noffice in Tallahassee.",
+    "response": "Shelter",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SVRTAE"
+      ],
+      "WMOidentifier": [
+        "WUUS52 KTAE 210033"
+      ],
+      "eventMotionDescription": [
+        "2026-09-21T00:33:00-00:00...storm...061DEG...12KT...30.71,-86.11"
+      ],
+      "windThreat": [
+        "RADAR INDICATED"
+      ],
+      "maxWindGust": [
+        "60 MPH"
+      ],
+      "hailThreat": [
+        "RADAR INDICATED"
+      ],
+      "maxHailSize": [
+        "Up to .75"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.NEW.KTAE.SV.W.0376.260921T0033Z-260921T0130Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T20:30:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SVR"
+      ],
+      "NationalWeatherService": [
+        "SVW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0a9529e3c2b0d0841b6e8fa7c69d937bd7b79394.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.0a9529e3c2b0d0841b6e8fa7c69d937bd7b79394.001.1",
+    "sha256": "0fb2755f88e1866358fd635764eff37ebdd74c23cd8ee641b8a16e12e4992001",
+    "sender": "NWS Tallahassee FL",
+    "sent": "2026-09-20T19:33:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

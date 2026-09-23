@@ -1,0 +1,135 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.002.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -88.3,
+          42.62
+        ],
+        [
+          -88.17,
+          42.62
+        ],
+        [
+          -88.14,
+          42.55
+        ],
+        [
+          -88.14,
+          42.46
+        ],
+        [
+          -88.22,
+          42.46
+        ],
+        [
+          -88.24,
+          42.55
+        ],
+        [
+          -88.3,
+          42.62
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.002.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.002.1",
+    "areaDesc": "Lake, IL; Kenosha, WI",
+    "geocode": {
+      "SAME": [
+        "017097",
+        "055059"
+      ],
+      "UGC": [
+        "ILC097",
+        "WIC059"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/ILC097",
+      "https://api.weather.gov/zones/county/WIC059"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.59d4a4222baa9398474395e5bb3f808c23c7e938.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.59d4a4222baa9398474395e5bb3f808c23c7e938.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T09:35:00-05:00"
+      }
+    ],
+    "sent": "2026-09-20T15:35:00-05:00",
+    "effective": "2026-09-20T15:35:00-05:00",
+    "onset": "2026-09-20T20:30:00-05:00",
+    "expires": "2026-09-21T03:45:00-05:00",
+    "ends": "2026-09-23T15:00:00-05:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Milwaukee/Sullivan WI",
+    "headline": "Flood Warning issued September 20 at 3:35PM CDT until September 23 at 3:00PM CDT by NWS Milwaukee/Sullivan WI",
+    "description": "...The Flood Warning continues for the following rivers in\nWisconsin...Illinois...\n\nRoot River Canal At Raymond affecting Racine County.\n\nFox River Lower Near New Munster affecting Kenosha and Lake\nCounties.\n\n* WHAT...Minor flooding is forecast.\n\n* WHERE...Fox River Lower near New Munster.\n\n* WHEN...From this evening to Wednesday afternoon.\n\n* IMPACTS...At 12.0 feet, Water is up to the first floor levels of\nsome homes in the Town of Wheatland, Silver Lake and Village of\nSalem Lakes area along Riverside Drive and Shorewood Drive. Hoosier\nCreek Rd floods.\n\n* ADDITIONAL DETAILS...\n- At 3:00 PM CDT Sunday the stage was 10.5 feet.\n- Bankfull stage is 10.0 feet.\n- Forecast...The river is expected to rise above flood stage this\nevening to a crest of 11.9 feet early tomorrow afternoon. It will\nthen fall below flood stage late Wednesday morning.\n- Flood stage is 11.0 feet.\n- Flood History...This crest compares to a previous crest of 11.7\nfeet on 05/10/2019.\n- http://www.weather.gov/safety/flood",
+    "instruction": "Motorists should not attempt to drive around barricades or drive cars\nthrough flooded areas.\n\nAdditional information is available at www.weather.gov.\n\nThe next statement will be issued late tonight at 345 AM CDT.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSMKX"
+      ],
+      "WMOidentifier": [
+        "WGUS83 KMKX 202035"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING REMAINS IN EFFECT FROM THIS EVENING TO WEDNESDAY AFTERNOON"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.CON.KMKX.FL.W.0045.260921T0130Z-260923T2000Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-23T15:00:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLS"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.002.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.002.1",
+    "sha256": "fc5ed7bd950b56e6551bab1506933b551eae0fe0abb95ce4cd8552b665204ab1",
+    "sender": "NWS Milwaukee/Sullivan WI",
+    "sent": "2026-09-20T15:35:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

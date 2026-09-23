@@ -1,0 +1,135 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ca7e7d5a7a0e2aa453d231464530edf1eed7f6c.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.28,
+          36.76
+        ],
+        [
+          -81.26,
+          36.77
+        ],
+        [
+          -81.27,
+          36.78
+        ],
+        [
+          -81.25,
+          36.79
+        ],
+        [
+          -81.15,
+          36.81
+        ],
+        [
+          -81.06,
+          36.66
+        ],
+        [
+          -81.28,
+          36.65
+        ],
+        [
+          -81.28,
+          36.76
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ca7e7d5a7a0e2aa453d231464530edf1eed7f6c.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.5ca7e7d5a7a0e2aa453d231464530edf1eed7f6c.001.1",
+    "areaDesc": "Wythe; Grayson",
+    "geocode": {
+      "SAME": [
+        "051197",
+        "051077"
+      ],
+      "UGC": [
+        "VAZ012",
+        "VAZ015"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/VAZ012",
+      "https://api.weather.gov/zones/forecast/VAZ015"
+    ],
+    "references": [],
+    "sent": "2026-09-19T19:05:00-04:00",
+    "effective": "2026-09-19T19:05:00-04:00",
+    "onset": "2026-09-19T19:05:00-04:00",
+    "expires": "2026-09-19T19:30:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Blacksburg VA",
+    "headline": "Special Weather Statement issued September 19 at 7:05PM EDT by NWS Blacksburg VA",
+    "description": "At 705 PM EDT, Doppler radar was tracking a strong thunderstorm over\nElk Creek, or near Speedwell, moving south at 15 mph.\n\nHAZARD...Wind gusts up to 40 mph.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects.\n\nLocations impacted include...\nElk Creek...\nand Comers Rock.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.\n\nLocally heavy rain will quickly reduce visibility and result in\nponding of water on roadways, standing water in low lying areas, and\nminor flooding of creeks, streams, and areas of poor drainage.\nDrivers are urged to slow down and use extra caution to avoid\nhydroplaning.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSRNK"
+      ],
+      "WMOidentifier": [
+        "WWUS81 KRNK 192305"
+      ],
+      "NWSheadline": [
+        "A STRONG THUNDERSTORM WILL IMPACT SOUTH CENTRAL WYTHE AND CENTRAL GRAYSON COUNTIES THROUGH 730 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-19T23:05:00-00:00...storm...348DEG...11KT...36.73,-81.21"
+      ],
+      "maxWindGust": [
+        "40 MPH"
+      ],
+      "maxHailSize": [
+        "0.00"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ca7e7d5a7a0e2aa453d231464530edf1eed7f6c.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.5ca7e7d5a7a0e2aa453d231464530edf1eed7f6c.001.1",
+    "sha256": "ca6531a7cae7f296ce067ab87d5914824b786f2a93d16cdd08c3fb9b3614fa11",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2026-09-19T19:05:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

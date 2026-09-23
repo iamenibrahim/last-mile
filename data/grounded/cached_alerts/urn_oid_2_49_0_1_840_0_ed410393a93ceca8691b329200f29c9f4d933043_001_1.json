@@ -1,0 +1,100 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ed410393a93ceca8691b329200f29c9f4d933043.001.1",
+  "type": "Feature",
+  "geometry": null,
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ed410393a93ceca8691b329200f29c9f4d933043.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.ed410393a93ceca8691b329200f29c9f4d933043.001.1",
+    "areaDesc": "Eastern Currituck; Virginia Beach",
+    "geocode": {
+      "SAME": [
+        "037053",
+        "051810"
+      ],
+      "UGC": [
+        "NCZ102",
+        "VAZ098"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/NCZ102",
+      "https://api.weather.gov/zones/forecast/VAZ098"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8d57e7d132c0b3aac6c625dcedeefc9fd7db4265.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.8d57e7d132c0b3aac6c625dcedeefc9fd7db4265.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-14T19:44:00-04:00"
+      }
+    ],
+    "sent": "2026-09-14T21:48:00-04:00",
+    "effective": "2026-09-14T21:48:00-04:00",
+    "onset": "2026-09-15T08:00:00-04:00",
+    "expires": "2026-09-15T06:00:00-04:00",
+    "ends": "2026-09-15T20:00:00-04:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Beach Hazards Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Wakefield VA",
+    "headline": "Beach Hazards Statement issued September 14 at 9:48PM EDT until September 15 at 8:00PM EDT by NWS Wakefield VA",
+    "description": "* WHAT...Breaking waves of 3 to 5 ft and onshore flow will\nresult in rough surf conditions and a high risk of rip\ncurrents.\n\n* WHERE...In North Carolina, Eastern Currituck County. In\nVirginia, Virginia Beach.\n\n* WHEN...From 8 AM EDT Tuesday through Tuesday evening.\n\n* IMPACTS...A high risk of rip currents and rough surf is\nexpected.",
+    "instruction": "Remain out of the water to avoid hazardous swimming conditions.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "CFWAKQ"
+      ],
+      "WMOidentifier": [
+        "WHUS41 KAKQ 150148"
+      ],
+      "NWSheadline": [
+        "BEACH HAZARDS STATEMENT REMAINS IN EFFECT FROM 8 AM EDT TUESDAY THROUGH TUESDAY EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.CON.KAKQ.BH.S.0012.260915T1200Z-260916T0000Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-15T20:00:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "BHS"
+      ]
+    },
+    "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.24dfae4c6396d0598095a482d3a3753391f09f0e.001.1",
+    "replacedAt": "2026-09-15T20:16:00-04:00"
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ed410393a93ceca8691b329200f29c9f4d933043.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.ed410393a93ceca8691b329200f29c9f4d933043.001.1",
+    "sha256": "d5931b9a1079c8a0098d9c84f2ecc0f299def87151087bcda3029688f3b5530c",
+    "sender": "NWS Wakefield VA",
+    "sent": "2026-09-14T21:48:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

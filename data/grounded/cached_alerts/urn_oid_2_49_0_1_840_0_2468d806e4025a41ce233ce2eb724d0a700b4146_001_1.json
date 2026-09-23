@@ -1,0 +1,150 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.2468d806e4025a41ce233ce2eb724d0a700b4146.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -83.18,
+          36.71
+        ],
+        [
+          -83.06,
+          36.56
+        ],
+        [
+          -83.29,
+          36.39
+        ],
+        [
+          -83.31,
+          36.39
+        ],
+        [
+          -83.31,
+          36.4
+        ],
+        [
+          -83.32,
+          36.4
+        ],
+        [
+          -83.33,
+          36.41
+        ],
+        [
+          -83.34,
+          36.41
+        ],
+        [
+          -83.36,
+          36.42
+        ],
+        [
+          -83.5,
+          36.6
+        ],
+        [
+          -83.18,
+          36.71
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.2468d806e4025a41ce233ce2eb724d0a700b4146.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.2468d806e4025a41ce233ce2eb724d0a700b4146.001.1",
+    "areaDesc": "Claiborne; Hancock; Lee",
+    "geocode": {
+      "SAME": [
+        "047025",
+        "047067",
+        "051105"
+      ],
+      "UGC": [
+        "TNZ014",
+        "TNZ015",
+        "VAZ001"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/TNZ014",
+      "https://api.weather.gov/zones/forecast/TNZ015",
+      "https://api.weather.gov/zones/forecast/VAZ001"
+    ],
+    "references": [],
+    "sent": "2026-09-18T16:27:00-04:00",
+    "effective": "2026-09-18T16:27:00-04:00",
+    "onset": "2026-09-18T16:27:00-04:00",
+    "expires": "2026-09-18T17:00:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Morristown TN",
+    "headline": "Special Weather Statement issued September 18 at 4:27PM EDT by NWS Morristown TN",
+    "description": "At 427 PM EDT, Doppler radar was tracking a strong thunderstorm near\nSneedville, moving southwest at 15 mph.\n\nHAZARD...Wind gusts up to 50 mph and nickel size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects. Minor hail damage to vegetation is\npossible.\n\nLocations impacted include...\nSneedville, Evanston, and Ewing.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSMRX"
+      ],
+      "WMOidentifier": [
+        "WWUS84 KMRX 182027"
+      ],
+      "NWSheadline": [
+        "A STRONG THUNDERSTORM WILL IMPACT NORTHEASTERN CLAIBORNE...HANCOCK AND SOUTH CENTRAL LEE COUNTIES THROUGH 500 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-18T20:27:00-00:00...storm...057DEG...12KT...36.6,-83.21"
+      ],
+      "maxWindGust": [
+        "50 MPH"
+      ],
+      "maxHailSize": [
+        "0.88"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.2468d806e4025a41ce233ce2eb724d0a700b4146.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.2468d806e4025a41ce233ce2eb724d0a700b4146.001.1",
+    "sha256": "4e5ab4d9db48814b8fdf085e48b82af8e5ab4bddb1dc0219eb1616def9a8dd7f",
+    "sender": "NWS Morristown TN",
+    "sent": "2026-09-18T16:27:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

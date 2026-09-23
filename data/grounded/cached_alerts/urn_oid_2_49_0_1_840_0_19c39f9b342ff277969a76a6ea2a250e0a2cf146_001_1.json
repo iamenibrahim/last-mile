@@ -1,0 +1,128 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.19c39f9b342ff277969a76a6ea2a250e0a2cf146.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -79.58,
+          36.63
+        ],
+        [
+          -79.47,
+          36.66
+        ],
+        [
+          -79.14,
+          36.5
+        ],
+        [
+          -79.14,
+          36.44
+        ],
+        [
+          -79.34,
+          36.29
+        ],
+        [
+          -79.58,
+          36.63
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.19c39f9b342ff277969a76a6ea2a250e0a2cf146.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.19c39f9b342ff277969a76a6ea2a250e0a2cf146.001.1",
+    "areaDesc": "Caswell; Pittsylvania",
+    "geocode": {
+      "SAME": [
+        "037033",
+        "051143",
+        "051590"
+      ],
+      "UGC": [
+        "NCZ006",
+        "VAZ044"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/NCZ006",
+      "https://api.weather.gov/zones/forecast/VAZ044"
+    ],
+    "references": [],
+    "sent": "2026-09-18T13:46:00-04:00",
+    "effective": "2026-09-18T13:46:00-04:00",
+    "onset": "2026-09-18T13:46:00-04:00",
+    "expires": "2026-09-18T14:15:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Blacksburg VA",
+    "headline": "Special Weather Statement issued September 18 at 1:46PM EDT by NWS Blacksburg VA",
+    "description": "At 146 PM EDT, Doppler radar was tracking a strong thunderstorm over\nWestover Hills, or over Danville, moving southeast at 25 mph.\n\nHAZARD...Wind gusts up to 40 mph.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects.\n\nLocations impacted include...\nDanville...\nYanceyville...\nBethel...\nProvidence...\nMilton...\nBlanch...\nand Hamer.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.\n\nLocally heavy rain will quickly reduce visibility and result in\nponding of water on roadways, standing water in low lying areas, and\nminor flooding of creeks, streams, and areas of poor drainage.\nDrivers are urged to slow down and use extra caution to avoid\nhydroplaning.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSRNK"
+      ],
+      "WMOidentifier": [
+        "WWUS81 KRNK 181746"
+      ],
+      "NWSheadline": [
+        "A STRONG THUNDERSTORM WILL IMPACT CASWELL AND SOUTH CENTRAL PITTSYLVANIA COUNTIES AND THE CITY OF DANVILLE THROUGH 215 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-18T17:46:00-00:00...storm...317DEG...22KT...36.59,-79.45"
+      ],
+      "maxWindGust": [
+        "40 MPH"
+      ],
+      "maxHailSize": [
+        "0.00"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.19c39f9b342ff277969a76a6ea2a250e0a2cf146.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.19c39f9b342ff277969a76a6ea2a250e0a2cf146.001.1",
+    "sha256": "8324810f18ea0d803df460405b3995a93e0d5bb35cd28811f2dcead05f6866c1",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2026-09-18T13:46:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

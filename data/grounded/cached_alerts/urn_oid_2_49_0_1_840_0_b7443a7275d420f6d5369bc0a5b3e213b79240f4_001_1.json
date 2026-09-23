@@ -1,0 +1,169 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b7443a7275d420f6d5369bc0a5b3e213b79240f4.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -82.76,
+          39.21
+        ],
+        [
+          -82.75,
+          39.37
+        ],
+        [
+          -82.65,
+          39.36
+        ],
+        [
+          -82.64,
+          39.33
+        ],
+        [
+          -82.47,
+          39.32
+        ],
+        [
+          -82.48,
+          39.24
+        ],
+        [
+          -82.38,
+          39.23
+        ],
+        [
+          -82.39,
+          39.13
+        ],
+        [
+          -82.31,
+          39.12
+        ],
+        [
+          -82.79,
+          39.14
+        ],
+        [
+          -82.79,
+          39.17
+        ],
+        [
+          -82.77,
+          39.17
+        ],
+        [
+          -82.76,
+          39.19
+        ],
+        [
+          -82.76,
+          39.21
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b7443a7275d420f6d5369bc0a5b3e213b79240f4.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.b7443a7275d420f6d5369bc0a5b3e213b79240f4.001.1",
+    "areaDesc": "Jackson, OH; Meigs, OH; Vinton, OH",
+    "geocode": {
+      "SAME": [
+        "039079",
+        "039105",
+        "039163"
+      ],
+      "UGC": [
+        "OHC079",
+        "OHC105",
+        "OHC163"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/OHC079",
+      "https://api.weather.gov/zones/county/OHC105",
+      "https://api.weather.gov/zones/county/OHC163"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b47d8e7305603a3ff220d3c802fc192d282d8104.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.b47d8e7305603a3ff220d3c802fc192d282d8104.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T18:54:00-04:00"
+      }
+    ],
+    "sent": "2026-09-20T20:44:00-04:00",
+    "effective": "2026-09-20T20:44:00-04:00",
+    "onset": "2026-09-20T20:44:00-04:00",
+    "expires": "2026-09-21T00:00:00-04:00",
+    "ends": "2026-09-21T00:00:00-04:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Charleston WV",
+    "headline": "Flood Warning issued September 20 at 8:44PM EDT until September 21 at 12:00AM EDT by NWS Charleston WV",
+    "description": "* WHAT...Flooding caused by excessive rainfall earlier this morning\ncontinues.\n\n* WHERE...Northern Jackson County in southeastern Ohio...\nNorthwestern Meigs County in southeastern Ohio...\nNorthern Vinton County in southeastern Ohio...\n\n* WHEN...Until midnight EDT tonight.\n\n* IMPACTS...Flooding of rivers, creeks, streams, and other low-lying\nand flood-prone locations is imminent or occurring. Low-water\ncrossings are inundated with water and may not be passable. It will\ntake several hours for all the water from these storms to work\nthrough local drainage systems.\n\n* ADDITIONAL DETAILS...\n- At 843 PM EDT, Emergency management reported numerous flooded\nroadways in the warned area due to thunderstorms earlier this\nmorning. Flooding is ongoing. Between 2.5 and 3.5 inches of rain\nhave fallen. Additional Rainfall is expected tonight.\n- Additional rainfall amounts of 1 to 3 inches are possible in the\nwarned area.\n- Some locations that will experience flooding include...\nWellston, Mcarthur, Hamden, Allensville, Byer, and Eagle Mills.\n- http://www.weather.gov/safety/flood",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe especially cautious at night when it is harder to recognize the\ndangers of flooding.\n\nBe aware of your surroundings and do not drive on flooded roads.\n\nReport flooding to the National Weather Service by calling toll free,\n800 401 9535, when you can do so safely.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLWRLX"
+      ],
+      "WMOidentifier": [
+        "WGUS41 KRLX 210044"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING NOW IN EFFECT UNTIL MIDNIGHT EDT TONIGHT"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.EXT.KRLX.FA.W.0124.000000T0000Z-260921T0400Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-21T00:00:00-04:00"
+      ],
+      "expiredReferences": [
+        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.cdddd666475b4c260bf22d8b2e8ef92e5dc7cc57.001.1,2026-09-20T15:40:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.dd4034e1bd64f7bd1995dde00e52b53e1e00daa6.001.1,2026-09-20T12:19:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.ffe302485ecefee7fb603bb2c67a168bace9fe94.001.1,2026-09-20T04:58:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLW"
+      ],
+      "NationalWeatherService": [
+        "FAW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b7443a7275d420f6d5369bc0a5b3e213b79240f4.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.b7443a7275d420f6d5369bc0a5b3e213b79240f4.001.1",
+    "sha256": "52cfb0614aecd91defcd471a7dd0b7042694eca6ded7f9f2e2292daf458e0e55",
+    "sender": "NWS Charleston WV",
+    "sent": "2026-09-20T20:44:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

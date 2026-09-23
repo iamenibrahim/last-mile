@@ -1,0 +1,148 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a475239cec3ecf881a4bdc3d11dd20c01fc16ab5.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -78.92,
+          37.32
+        ],
+        [
+          -78.98,
+          37.46
+        ],
+        [
+          -78.94,
+          37.49
+        ],
+        [
+          -78.95,
+          37.5
+        ],
+        [
+          -78.92,
+          37.5
+        ],
+        [
+          -78.89,
+          37.52
+        ],
+        [
+          -78.89,
+          37.53
+        ],
+        [
+          -78.86,
+          37.54
+        ],
+        [
+          -78.82,
+          37.54
+        ],
+        [
+          -78.82,
+          37.55
+        ],
+        [
+          -78.74,
+          37.4
+        ],
+        [
+          -78.92,
+          37.32
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a475239cec3ecf881a4bdc3d11dd20c01fc16ab5.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.a475239cec3ecf881a4bdc3d11dd20c01fc16ab5.001.1",
+    "areaDesc": "Appomattox",
+    "geocode": {
+      "SAME": [
+        "051011"
+      ],
+      "UGC": [
+        "VAZ046"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/VAZ046"
+    ],
+    "references": [],
+    "sent": "2026-09-17T17:26:00-04:00",
+    "effective": "2026-09-17T17:26:00-04:00",
+    "onset": "2026-09-17T17:26:00-04:00",
+    "expires": "2026-09-17T17:45:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Blacksburg VA",
+    "headline": "Special Weather Statement issued September 17 at 5:26PM EDT by NWS Blacksburg VA",
+    "description": "At 526 PM EDT, Doppler radar was tracking a strong thunderstorm over\nOakville, or near Appomattox, moving southeast at 20 mph.\n\nHAZARD...Wind gusts up to 40 mph.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects.\n\nLocations impacted include...\nAppomattox...\nBent Creek...\nOakville...\nAppomattox National Historic Park...\nSpout Spring...\nand Stonewall.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSRNK"
+      ],
+      "WMOidentifier": [
+        "WWUS81 KRNK 172126"
+      ],
+      "NWSheadline": [
+        "A STRONG THUNDERSTORM WILL IMPACT NORTHWESTERN APPOMATTOX COUNTY THROUGH 545 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-17T21:26:00-00:00...storm...332DEG...19KT...37.44,-78.88"
+      ],
+      "maxWindGust": [
+        "40 MPH"
+      ],
+      "maxHailSize": [
+        "0.00"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a475239cec3ecf881a4bdc3d11dd20c01fc16ab5.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.a475239cec3ecf881a4bdc3d11dd20c01fc16ab5.001.1",
+    "sha256": "4df46cc11e9c44013dc837f26193e1d2441263ba1a28acaa44b984817ec5e960",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2026-09-17T17:26:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

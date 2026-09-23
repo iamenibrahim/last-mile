@@ -1,0 +1,5 @@
+{
+  "available": false,
+  "reason": "CENSUS_API_KEY is not set and there is no cached ACS extract.\napi.census.gov now requires a key for every dataset and year.\nFree, instant signup: https://api.census.gov/data/key_signup.html\nNo impact figure is produced without real data.",
+  "generated_at": "2026-09-21T01:29:40Z"
+}

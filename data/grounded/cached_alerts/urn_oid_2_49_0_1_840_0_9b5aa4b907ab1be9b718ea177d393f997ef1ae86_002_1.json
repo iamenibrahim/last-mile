@@ -1,0 +1,131 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9b5aa4b907ab1be9b718ea177d393f997ef1ae86.002.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -90.61,
+          41.48
+        ],
+        [
+          -90.32,
+          41.52
+        ],
+        [
+          -90.27,
+          41.48
+        ],
+        [
+          -90.43,
+          41.44
+        ],
+        [
+          -90.64,
+          41.45
+        ],
+        [
+          -90.61,
+          41.48
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9b5aa4b907ab1be9b718ea177d393f997ef1ae86.002.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.9b5aa4b907ab1be9b718ea177d393f997ef1ae86.002.1",
+    "areaDesc": "Henry, IL; Rock Island, IL",
+    "geocode": {
+      "SAME": [
+        "017073",
+        "017161"
+      ],
+      "UGC": [
+        "ILC073",
+        "ILC161"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/ILC073",
+      "https://api.weather.gov/zones/county/ILC161"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a99ab54c5361fe31c1179d88dbfea1a85034cfad.002.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.a99ab54c5361fe31c1179d88dbfea1a85034cfad.002.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T09:23:00-05:00"
+      }
+    ],
+    "sent": "2026-09-20T19:47:00-05:00",
+    "effective": "2026-09-20T19:47:00-05:00",
+    "onset": "2026-09-21T20:00:00-05:00",
+    "expires": "2026-09-21T20:00:00-05:00",
+    "ends": "2026-09-25T00:00:00-05:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Quad Cities IA IL",
+    "headline": "Flood Warning issued September 20 at 7:47PM CDT until September 25 at 12:00AM CDT by NWS Quad Cities IA IL",
+    "description": "...The Flood Warning is extended for the following rivers in\nIllinois...\n\nRock River near Joslin affecting Whiteside, Rock Island and Henry\nIL Counties.\n\n...The Flood Warning continues for the following rivers in\nIllinois...\n\nRock River at Moline affecting Rock Island and Henry IL Counties.\n\n* WHAT...Moderate flooding is forecast.\n\n* WHERE...Rock River at Moline.\n\n* WHEN...From Monday evening to late Thursday night.\n\n* IMPACTS...At 13.2 feet, Water affects 60th Street south of John\nDeere Road in Moline and 56th Ave from Green Valley Park 48th St.\nWater is on Canal Road in Big Island. Smith's Island is affected by\nflood waters.\n\n* ADDITIONAL DETAILS...\n- At 7:30 PM CDT Sunday the stage was 9.9 feet.\n- Forecast...The river is expected to rise above flood stage\ntomorrow evening to a crest of 13.2 feet Tuesday evening. It will\nthen fall below flood stage Thursday afternoon.\n- Flood stage is 12.0 feet.",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nMotorists should not attempt to drive around barricades or drive cars\nthrough flooded areas.\n\nCaution is urged when walking near riverbanks.\n\nThe next statement will be issued by Monday evening.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSDVN"
+      ],
+      "WMOidentifier": [
+        "WGUS83 KDVN 210047"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING NOW IN EFFECT FROM MONDAY EVENING TO LATE THURSDAY NIGHT"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.EXT.KDVN.FL.W.0071.260922T0100Z-260925T0500Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-25T00:00:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLS"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9b5aa4b907ab1be9b718ea177d393f997ef1ae86.002.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.9b5aa4b907ab1be9b718ea177d393f997ef1ae86.002.1",
+    "sha256": "91ad9e6764969514dc5b93c78de31a83cba64fe79d2b756c414b0c6841e10376",
+    "sender": "NWS Quad Cities IA IL",
+    "sent": "2026-09-20T19:47:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

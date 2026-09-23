@@ -1,0 +1,167 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.708224b039d76f7a0f1be7323ce34330ff6c3657.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -78.49,
+          36.89
+        ],
+        [
+          -78.65,
+          36.7
+        ],
+        [
+          -78.56,
+          36.64
+        ],
+        [
+          -78.55,
+          36.63
+        ],
+        [
+          -78.58,
+          36.64
+        ],
+        [
+          -78.65,
+          36.69
+        ],
+        [
+          -78.68,
+          36.69
+        ],
+        [
+          -78.7,
+          36.68
+        ],
+        [
+          -78.72,
+          36.58
+        ],
+        [
+          -78.74,
+          36.56
+        ],
+        [
+          -78.73,
+          36.54
+        ],
+        [
+          -78.81,
+          36.54
+        ],
+        [
+          -78.9,
+          36.88
+        ],
+        [
+          -78.59,
+          37.03
+        ],
+        [
+          -78.47,
+          36.98
+        ],
+        [
+          -78.49,
+          36.89
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.708224b039d76f7a0f1be7323ce34330ff6c3657.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.708224b039d76f7a0f1be7323ce34330ff6c3657.001.1",
+    "areaDesc": "Halifax; Charlotte",
+    "geocode": {
+      "SAME": [
+        "051083",
+        "051037"
+      ],
+      "UGC": [
+        "VAZ058",
+        "VAZ059"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/VAZ058",
+      "https://api.weather.gov/zones/forecast/VAZ059"
+    ],
+    "references": [],
+    "sent": "2026-09-18T14:48:00-04:00",
+    "effective": "2026-09-18T14:48:00-04:00",
+    "onset": "2026-09-18T14:48:00-04:00",
+    "expires": "2026-09-18T15:15:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Blacksburg VA",
+    "headline": "Special Weather Statement issued September 18 at 2:48PM EDT by NWS Blacksburg VA",
+    "description": "At 248 PM EDT, Doppler radar was tracking a cluster of strong\nthunderstorms near Clover, moving southeast at 20 mph.\n\nHAZARD...Wind gusts up to 40 mph and pea size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects.\n\nLocations impacted include...\nRedoak...\nClover...\nDrakes Branch...\nScottsburg...\nHitesburg...\nStaunton River State Park...\nand Wylliesburg.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSRNK"
+      ],
+      "WMOidentifier": [
+        "WWUS81 KRNK 181848"
+      ],
+      "NWSheadline": [
+        "STRONG THUNDERSTORMS WILL IMPACT SOUTHEASTERN CHARLOTTE AND EASTERN HALIFAX COUNTIES THROUGH 315 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-18T18:48:00-00:00...storm...331DEG...16KT...36.78,-78.74"
+      ],
+      "maxWindGust": [
+        "40 MPH"
+      ],
+      "maxHailSize": [
+        "0.25"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.708224b039d76f7a0f1be7323ce34330ff6c3657.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.708224b039d76f7a0f1be7323ce34330ff6c3657.001.1",
+    "sha256": "d6053601736a3954b57056bc77fb5138943d19535659859055cd7d6852eac76d",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2026-09-18T14:48:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

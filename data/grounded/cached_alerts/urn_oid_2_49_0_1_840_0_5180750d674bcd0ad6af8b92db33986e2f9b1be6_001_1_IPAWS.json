@@ -1,0 +1,129 @@
+{
+  "id": "urn:oid:2.49.0.1.840.0.5180750d674bcd0ad6af8b92db33986e2f9b1be6.001.1.IPAWS",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.71,
+          36.98
+        ],
+        [
+          -81.68,
+          36.93
+        ],
+        [
+          -81.58,
+          36.99
+        ],
+        [
+          -81.48,
+          36.99
+        ],
+        [
+          -81.44,
+          37.01
+        ],
+        [
+          -81.33,
+          36.9
+        ],
+        [
+          -81.26,
+          36.76
+        ],
+        [
+          -81.09,
+          36.77
+        ],
+        [
+          -81.04,
+          36.81
+        ],
+        [
+          -80.94,
+          36.67
+        ],
+        [
+          -80.93,
+          36.63
+        ],
+        [
+          -80.92,
+          36.65
+        ],
+        [
+          -80.91,
+          36.65
+        ],
+        [
+          -80.84,
+          36.56
+        ],
+        [
+          -81.68,
+          36.59
+        ],
+        [
+          -81.61,
+          36.62
+        ],
+        [
+          -81.7,
+          36.79
+        ],
+        [
+          -81.84,
+          36.93
+        ],
+        [
+          -81.71,
+          36.98
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "id": "urn:oid:2.49.0.1.840.0.5180750d674bcd0ad6af8b92db33986e2f9b1be6.001.1.IPAWS",
+    "@id": "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$filter=identifier eq 'urn:oid:2.49.0.1.840.0.5180750d674bcd0ad6af8b92db33986e2f9b1be6.001.1.IPAWS'",
+    "sent": "2024-09-27T16:05:00-04:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "event": "Flash Flood Warning",
+    "severity": "Severe",
+    "certainty": "Likely",
+    "urgency": "Immediate",
+    "headline": "Flash Flood Warning issued September 27 at 4:05PM EDT until September 27 at 6:45PM EDT by NWS Blacksburg VA",
+    "description": "FFWRNK\n\nThe National Weather Service in Blacksburg has extended the\n\n* Flash Flood Warning for...\nGrayson County in southwestern Virginia...\nSmyth County in southwestern Virginia...\n\n* Until 645 PM EDT.\n\n* At 405 PM EDT, Doppler radar and automated rain gauges indicated\nthunderstorms producing heavy rain across the warned area. Between\n6 and 9 inches of rain have fallen. Flash flooding is already\noccurring.\n\nThis is a FLASH FLOOD EMERGENCY for Smyth and Grayson Counties.\nThis is a PARTICULARLY DANGEROUS SITUATION. SEEK HIGHER GROUND NOW!\n\nHAZARD...Life threatening flash flooding. Thunderstorms\nproducing flash flooding.\n\nSOURCE...Radar and automated gauges.\n\nIMPACT...This is a PARTICULARLY DANGEROUS SITUATION. SEEK\nHIGHER GROUND NOW! Life threatening flash flooding of\nlow water crossings, small creeks and streams, urban\nareas, highways, streets and underpasses.\n\n* Some locations that will experience flash flooding include...\nGalax...                           Marion...\nSaltville...                       Chilhowie...\nIndependence...                    Fries...\nSugar Grove...\n\nThis includes the following streams and drainages...\nBear Branch, Blue Spring Creek, Chestnut Creek, Bull Run, Bridle\nCreek, Beaverdam Creek, Brush Creek, Campbell Creek, Big Horse\nCreek and Beaver Creek.",
+    "instruction": "Move to higher ground now! This is an extremely dangerous and\nlife-threatening situation. Do not attempt to travel unless you are\nfleeing an area subject to flooding or under an evacuation order.\n\nTurn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe aware of your surroundings and do not drive on flooded roads.\n\nStay away or be swept away. River banks and culverts can become\nunstable and unsafe.\n\nWhen it is safe to do so, please send your reports of flooding,\nincluding mudslides or flooded roads, to the National Weather\nService by calling toll free at 1...8 6 6...2 1 5...4 3 2 4. Reports\nand pictures can also be shared on the National Weather Service\nBlacksburg Facebook page and on Twitter.",
+    "onset": "2024-09-27T16:05:00-04:00",
+    "effective": "2024-09-27T16:05:00-04:00",
+    "expires": "2024-09-27T18:45:00-04:00",
+    "senderName": "NWS Blacksburg VA",
+    "areaDesc": "Grayson, VA; Smyth, VA",
+    "geocode": {
+      "SAME": [
+        "051077",
+        "051173"
+      ],
+      "UGC": [
+        "VAC077",
+        "VAC173"
+      ]
+    },
+    "affectedZones": []
+  },
+  "_provenance": {
+    "url": "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$filter=identifier eq 'urn:oid:2.49.0.1.840.0.5180750d674bcd0ad6af8b92db33986e2f9b1be6.001.1.IPAWS'",
+    "cap_id": "urn:oid:2.49.0.1.840.0.5180750d674bcd0ad6af8b92db33986e2f9b1be6.001.1.IPAWS",
+    "sha256": "2b173f5436362e77dc6f3105b56acf68690ee156e761e5ea112a02be6911a1ba",
+    "original_xml_sha256": "07a659e4e5f61bec0f5265e373225fa18256d216623a6396d110a6bad6aad7c5",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2024-09-27T16:05:00-04:00",
+    "fetched_at": "2026-09-21T14:11:31Z",
+    "transport": "TLS to www.fema.gov/api/open (OpenFEMA IPAWS archive)",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

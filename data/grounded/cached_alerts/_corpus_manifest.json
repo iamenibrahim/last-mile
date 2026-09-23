@@ -1,0 +1,19 @@
+{
+  "fetched_at": "2026-09-21T00:56:30Z",
+  "area": "VA",
+  "window_days": 7,
+  "count": 71,
+  "with_instruction": 65,
+  "with_geometry": 65,
+  "events": {
+    "Flood Advisory": 16,
+    "Special Weather Statement": 22,
+    "Tsunami Warning": 1,
+    "Beach Hazards Statement": 4,
+    "Severe Thunderstorm Warning": 5,
+    "Flood Warning": 19,
+    "Tornado Warning": 1,
+    "Flash Flood Warning": 3
+  },
+  "note": "Real NWS CAP products. No alert in this directory is synthetic."
+}

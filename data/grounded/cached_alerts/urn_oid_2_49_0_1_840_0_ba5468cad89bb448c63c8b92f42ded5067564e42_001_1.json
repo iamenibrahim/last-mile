@@ -1,0 +1,128 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -88.03,
+          42.86
+        ],
+        [
+          -87.96,
+          42.86
+        ],
+        [
+          -87.96,
+          42.78
+        ],
+        [
+          -88.02,
+          42.78
+        ],
+        [
+          -88.03,
+          42.82
+        ],
+        [
+          -88.03,
+          42.86
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.001.1",
+    "areaDesc": "Racine, WI",
+    "geocode": {
+      "SAME": [
+        "055101"
+      ],
+      "UGC": [
+        "WIC101"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/WIC101"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d468ed114ba69923102255be651f9b2aeb540d3d.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.d468ed114ba69923102255be651f9b2aeb540d3d.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T09:37:00-05:00"
+      }
+    ],
+    "sent": "2026-09-20T15:35:00-05:00",
+    "effective": "2026-09-20T15:35:00-05:00",
+    "onset": "2026-09-20T15:35:00-05:00",
+    "expires": "2026-09-21T03:45:00-05:00",
+    "ends": "2026-09-22T02:30:00-05:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Milwaukee/Sullivan WI",
+    "headline": "Flood Warning issued September 20 at 3:35PM CDT until September 22 at 2:30AM CDT by NWS Milwaukee/Sullivan WI",
+    "description": "...The Flood Warning continues for the following rivers in\nWisconsin...Illinois...\n\nRoot River Canal At Raymond affecting Racine County.\n\nFox River Lower Near New Munster affecting Kenosha and Lake\nCounties.\n\n* WHAT...Minor flooding is occurring and minor flooding is forecast.\n\n* WHERE...Root River Canal at Raymond.\n\n* WHEN...Until late Monday night.\n\n* IMPACTS...At 9.0 feet, Water floods Koerber Park on 6 Mile Road.\nFlooding of rural land and agricultural land.\n\n* ADDITIONAL DETAILS...\n- At 3:00 PM CDT Sunday the stage was 9.3 feet.\n- Bankfull stage is 7.0 feet.\n- Recent Activity...The maximum river stage in the 24 hours ending\nat 3:00 PM CDT Sunday was 9.3 feet.\n- Forecast...The river is expected to rise to a crest of 9.6 feet\nthis evening. It will then fall below flood stage early tomorrow\nafternoon.\n- Flood stage is 9.0 feet.\n- Flood History...This crest compares to a previous crest of 9.6\nfeet on 02/25/1985.\n- http://www.weather.gov/safety/flood",
+    "instruction": "Motorists should not attempt to drive around barricades or drive cars\nthrough flooded areas.\n\nAdditional information is available at www.weather.gov.\n\nThe next statement will be issued late tonight at 345 AM CDT.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSMKX"
+      ],
+      "WMOidentifier": [
+        "WGUS83 KMKX 202035"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING NOW IN EFFECT UNTIL LATE MONDAY NIGHT"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.EXT.KMKX.FL.W.0046.000000T0000Z-260922T0730Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-22T02:30:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLS"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.001.1",
+    "sha256": "4700e255463bb47107b36c27d6d7d0a51c6749645f428a33cee0d88915a1ec4e",
+    "sender": "NWS Milwaukee/Sullivan WI",
+    "sent": "2026-09-20T15:35:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

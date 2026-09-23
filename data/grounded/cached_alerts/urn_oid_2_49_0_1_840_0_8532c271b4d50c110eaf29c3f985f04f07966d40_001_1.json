@@ -1,0 +1,178 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8532c271b4d50c110eaf29c3f985f04f07966d40.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -96.56,
+          34.02
+        ],
+        [
+          -96.43,
+          34.07
+        ],
+        [
+          -96.35,
+          34.06
+        ],
+        [
+          -96.28,
+          33.99
+        ],
+        [
+          -96.31,
+          33.88
+        ],
+        [
+          -96.42,
+          33.77
+        ],
+        [
+          -96.42,
+          33.78
+        ],
+        [
+          -96.44,
+          33.78
+        ],
+        [
+          -96.5,
+          33.77
+        ],
+        [
+          -96.52,
+          33.79
+        ],
+        [
+          -96.53,
+          33.82
+        ],
+        [
+          -96.57,
+          33.82
+        ],
+        [
+          -96.62,
+          33.84
+        ],
+        [
+          -96.61,
+          33.87
+        ],
+        [
+          -96.59,
+          33.89
+        ],
+        [
+          -96.59,
+          33.9
+        ],
+        [
+          -96.58,
+          33.91
+        ],
+        [
+          -96.59,
+          33.92
+        ],
+        [
+          -96.58,
+          33.92
+        ],
+        [
+          -96.59,
+          33.93
+        ],
+        [
+          -96.56,
+          34.02
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8532c271b4d50c110eaf29c3f985f04f07966d40.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.8532c271b4d50c110eaf29c3f985f04f07966d40.001.1",
+    "areaDesc": "Bryan, OK",
+    "geocode": {
+      "SAME": [
+        "040013"
+      ],
+      "UGC": [
+        "OKC013"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/OKC013"
+    ],
+    "references": [],
+    "sent": "2026-09-20T17:19:00-05:00",
+    "effective": "2026-09-20T17:19:00-05:00",
+    "onset": "2026-09-20T17:19:00-05:00",
+    "expires": "2026-09-20T20:15:00-05:00",
+    "ends": "2026-09-20T20:15:00-05:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Minor",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Norman OK",
+    "headline": "Flood Advisory issued September 20 at 5:19PM CDT until September 20 at 8:15PM CDT by NWS Norman OK",
+    "description": "* WHAT...Flooding caused by excessive rainfall is expected.\n\n* WHERE...Western Bryan County in southeastern Oklahoma...\n\n* WHEN...Until 815 PM CDT.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\n\n* ADDITIONAL DETAILS...\n- At 518 PM CDT, Doppler radar indicated heavy rain due to\nthunderstorms. Minor flooding is ongoing or expected to begin\nshortly in the advisory area. Up to 1 inch of rain has fallen.\n- Additional rainfall amounts of 1 to 2 inches are expected over\nthe area. This additional rain will result in minor flooding.\n- Some locations that will experience flooding include...\nDurant, Colbert, Achille, Silo, Mead, Armstrong, Cartwright,\neastern Lake Texoma and Calera.\n- http://www.weather.gov/safety/flood",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSOUN"
+      ],
+      "WMOidentifier": [
+        "WGUS84 KOUN 202219"
+      ],
+      "NWSheadline": [
+        "FLOOD ADVISORY IN EFFECT UNTIL 815 PM CDT THIS EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.NEW.KOUN.FA.Y.0246.260920T2219Z-260921T0115Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T20:15:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "FAY"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8532c271b4d50c110eaf29c3f985f04f07966d40.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.8532c271b4d50c110eaf29c3f985f04f07966d40.001.1",
+    "sha256": "3a3fc300e246d2aa1fbdb21b45b867176ee1ed1b7ea06fe32cfc34421a239ca6",
+    "sender": "NWS Norman OK",
+    "sent": "2026-09-20T17:19:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

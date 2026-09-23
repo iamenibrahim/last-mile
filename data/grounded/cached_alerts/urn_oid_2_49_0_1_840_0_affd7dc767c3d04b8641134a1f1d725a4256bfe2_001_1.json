@@ -1,0 +1,130 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.94,
+          27.26
+        ],
+        [
+          -81.98,
+          27.08
+        ],
+        [
+          -82.02,
+          27.08
+        ],
+        [
+          -82.01,
+          27.26
+        ],
+        [
+          -81.94,
+          27.26
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.001.1",
+    "areaDesc": "DeSoto, FL",
+    "geocode": {
+      "SAME": [
+        "012027"
+      ],
+      "UGC": [
+        "FLC027"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/FLC027"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.93e66d098cbd094093b4a1d9cd9936b4de253e68.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.93e66d098cbd094093b4a1d9cd9936b4de253e68.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T06:20:00-04:00"
+      },
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.30e03b85d086e2625e73530757d82c05cef5231e.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.30e03b85d086e2625e73530757d82c05cef5231e.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T08:57:00-04:00"
+      }
+    ],
+    "sent": "2026-09-20T20:48:00-04:00",
+    "effective": "2026-09-20T20:48:00-04:00",
+    "onset": "2026-09-20T20:48:00-04:00",
+    "expires": "2026-09-21T09:00:00-04:00",
+    "ends": "2026-09-21T18:00:00-04:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Tampa Bay Ruskin FL",
+    "headline": "Flood Warning issued September 20 at 8:48PM EDT until September 21 at 6:00PM EDT by NWS Tampa Bay Ruskin FL",
+    "description": "...The Flood Warning is extended for the following rivers in\nFlorida...\n\nHorse Creek Near Arcadia at SR 72 affecting DeSoto County.\n\n...The Flood Warning continues for the following rivers in Florida...\n\nWithlacoochee At US 41 Dunnellon affecting Citrus, Levy and Marion\nCounties.\n\n.Due to recent heavy rainfall water levels remain elevated along the\nHorse Creek near Arcadia.\n\nThe Withlacoochee River at Dunnellon has been steadily rising since\nJuly, and on September 15 reached flood stage. The cause of the high\nwater along the Withlacoochee River at Dunnellon is due to excessive\nhydrilla growth (from the river bottom to the water surface) along a\n4.5 mile stretch of river between US 41 and Lake Rousseau.  The\nhydrilla is acting like a dam and holding water back, causing water\nlevels to rise.\n\n* WHAT...Minor flooding is occurring and minor flooding is forecast.\n\n* WHERE...Horse Creek near Arcadia at SR 72.\n\n* WHEN...Until Monday evening.\n\n* IMPACTS...At 12.0 feet, The access road to Hidden Oak is\nimpassable.\n\n* ADDITIONAL DETAILS...\n- At 7:30 PM EDT Sunday the stage was 12.4 feet.\n- Bankfull stage is 12.0 feet.\n- Recent Activity...The maximum river stage in the 24 hours ending\nat 7:30 PM EDT Sunday was 12.4 feet.\n- Forecast...The river is expected to fall below flood stage early\ntomorrow afternoon and continue falling to 10.6 feet Wednesday\nevening.\n- Flood stage is 12.0 feet.\n- Flood History...This crest compares to a previous crest of 12.4\nfeet on 08/30/1994.\n- https://www.weather.gov/safety/flood",
+    "instruction": "Motorists should not attempt to drive around barricades or drive cars\nthrough flooded areas.\n\nCaution is urged when walking near riverbanks.\n\nAdditional information is available at www.weather.gov.\n\nThe next statement will be issued Monday morning at 900 AM EDT.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSTBW"
+      ],
+      "WMOidentifier": [
+        "WGUS82 KTBW 210048"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING NOW IN EFFECT UNTIL MONDAY EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.EXT.KTBW.FL.W.0008.000000T0000Z-260921T2200Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-21T18:00:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLS"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.001.1",
+    "sha256": "9a1459f6a6ba00fea87598b1bc58e220941bc23b4e128ce0b5799cd98ae032f5",
+    "sender": "NWS Tampa Bay Ruskin FL",
+    "sent": "2026-09-20T20:48:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

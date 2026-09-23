@@ -1,0 +1,138 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.6a320b688a626dec238465a2743a0eb2cfdea0d4.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -84.33,
+          40.65
+        ],
+        [
+          -84.38,
+          40.52
+        ],
+        [
+          -84.47,
+          40.65
+        ],
+        [
+          -84.72,
+          40.69
+        ],
+        [
+          -84.73,
+          40.73
+        ],
+        [
+          -84.66,
+          40.73
+        ],
+        [
+          -84.33,
+          40.65
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.6a320b688a626dec238465a2743a0eb2cfdea0d4.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.6a320b688a626dec238465a2743a0eb2cfdea0d4.001.1",
+    "areaDesc": "Auglaize, OH; Mercer, OH",
+    "geocode": {
+      "SAME": [
+        "039011",
+        "039107"
+      ],
+      "UGC": [
+        "OHC011",
+        "OHC107"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/OHC011",
+      "https://api.weather.gov/zones/county/OHC107"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.977e2678b52af5f66b97d67968135c037cbba62a.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.977e2678b52af5f66b97d67968135c037cbba62a.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T13:05:00-04:00"
+      }
+    ],
+    "sent": "2026-09-20T17:21:00-04:00",
+    "effective": "2026-09-20T17:21:00-04:00",
+    "onset": "2026-09-20T17:21:00-04:00",
+    "expires": "2026-09-21T08:00:00-04:00",
+    "ends": "2026-09-21T08:00:00-04:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Wilmington OH",
+    "headline": "Flood Warning issued September 20 at 5:21PM EDT until September 21 at 8:00AM EDT by NWS Wilmington OH",
+    "description": "...The Flood Warning continues for the following rivers...\n\nSt. Marys River at Rockford.\n\n* WHAT...Minor flooding is forecast.\n\n* WHERE...St. Marys River at Rockford.\n\n* WHEN...Until Monday morning.\n\n* IMPACTS...At 13.0 feet, State Route 117 near Route 118 north of\nRockford is water-covered and closed.\n\n* ADDITIONAL DETAILS...\n- At 4:40 PM EDT Sunday the stage was 12.9 feet.\n- Forecast...The river is expected to rise to a crest of 13.0 feet\nthis evening. It will then fall below flood stage just after\nmidnight tonight.\n- Flood stage is 13.0 feet.",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nAdditional information is available at www.weather.gov/iln.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSILN"
+      ],
+      "WMOidentifier": [
+        "WGUS81 KILN 202121"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING REMAINS IN EFFECT UNTIL MONDAY MORNING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.CON.KILN.FL.W.0063.000000T0000Z-260921T1200Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-21T08:00:00-04:00"
+      ],
+      "expiredReferences": [
+        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.c7685d2f3df122e158182e509bfa340ce9af53bc.001.1,2026-09-20T09:40:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.aaf4d5280c2ca42ed2ab5f0b82f89b288e77e583.001.1,2026-09-19T21:56:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.4561eaeb7108a2d933b09eec2956d6bd916b0f57.001.1,2026-09-19T10:54:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLS"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.6a320b688a626dec238465a2743a0eb2cfdea0d4.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.6a320b688a626dec238465a2743a0eb2cfdea0d4.001.1",
+    "sha256": "6b5bd28af50972cdd089ce6476ca0dad80268ba72ffec488a1cbff590e1d1a6b",
+    "sender": "NWS Wilmington OH",
+    "sent": "2026-09-20T17:21:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

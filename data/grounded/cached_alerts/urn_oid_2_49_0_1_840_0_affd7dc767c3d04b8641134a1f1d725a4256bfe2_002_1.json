@@ -1,0 +1,130 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.002.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -82.44,
+          28.98
+        ],
+        [
+          -82.48,
+          29.02
+        ],
+        [
+          -82.44,
+          29.09
+        ],
+        [
+          -82.37,
+          29.07
+        ],
+        [
+          -82.44,
+          28.98
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.002.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.002.1",
+    "areaDesc": "Citrus, FL; Levy, FL; Marion, FL",
+    "geocode": {
+      "SAME": [
+        "012017",
+        "012075",
+        "012083"
+      ],
+      "UGC": [
+        "FLC017",
+        "FLC075",
+        "FLC083"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/FLC017",
+      "https://api.weather.gov/zones/county/FLC075",
+      "https://api.weather.gov/zones/county/FLC083"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.30e03b85d086e2625e73530757d82c05cef5231e.002.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.30e03b85d086e2625e73530757d82c05cef5231e.002.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T08:57:00-04:00"
+      }
+    ],
+    "sent": "2026-09-20T20:48:00-04:00",
+    "effective": "2026-09-20T20:48:00-04:00",
+    "onset": "2026-09-20T20:48:00-04:00",
+    "expires": "2026-09-21T09:00:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Tampa Bay Ruskin FL",
+    "headline": "Flood Warning issued September 20 at 8:48PM EDT by NWS Tampa Bay Ruskin FL",
+    "description": "...The Flood Warning is extended for the following rivers in\nFlorida...\n\nHorse Creek Near Arcadia at SR 72 affecting DeSoto County.\n\n...The Flood Warning continues for the following rivers in Florida...\n\nWithlacoochee At US 41 Dunnellon affecting Citrus, Levy and Marion\nCounties.\n\n.Due to recent heavy rainfall water levels remain elevated along the\nHorse Creek near Arcadia.\n\nThe Withlacoochee River at Dunnellon has been steadily rising since\nJuly, and on September 15 reached flood stage. The cause of the high\nwater along the Withlacoochee River at Dunnellon is due to excessive\nhydrilla growth (from the river bottom to the water surface) along a\n4.5 mile stretch of river between US 41 and Lake Rousseau.  The\nhydrilla is acting like a dam and holding water back, causing water\nlevels to rise.\n\n* WHAT...Minor flooding is occurring and minor flooding is forecast.\n\n* WHERE...Withlacoochee at US 41 Dunnellon.\n\n* WHEN...Until further notice.\n\n* IMPACTS...At 28.2 feet, Docks and boat ramps flood along the river\nin Citrus and Marion counties.\n\n* ADDITIONAL DETAILS...\n- At 7:45 PM EDT Sunday the stage was 28.2 feet.\n- Bankfull stage is 28.2 feet.\n- Recent Activity...The maximum river stage in the 24 hours ending\nat 7:45 PM EDT Sunday was 28.2 feet.\n- Forecast...The river is expected to remain steady at flood stage.\n- Flood stage is 28.2 feet.\n- Flood History...This crest compares to a previous crest of 28.2\nfeet on 10/02/1979.\n- https://www.weather.gov/safety/flood",
+    "instruction": "Motorists should not attempt to drive around barricades or drive cars\nthrough flooded areas.\n\nCaution is urged when walking near riverbanks.\n\nAdditional information is available at www.weather.gov.\n\nThe next statement will be issued Monday morning at 900 AM EDT.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSTBW"
+      ],
+      "WMOidentifier": [
+        "WGUS82 KTBW 210048"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING REMAINS IN EFFECT UNTIL FURTHER NOTICE"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.CON.KTBW.FL.W.0007.000000T0000Z-000000T0000Z/"
+      ],
+      "expiredReferences": [
+        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.eadaddebd396f39240d8188056d1ea671d9b7390.001.1,2026-09-19T21:00:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.3c315fb686896c055cbd235b7dbb8d8912f2d12c.001.1,2026-09-19T09:50:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.50b53ebb063eb40849eec0645423d262682955a2.001.1,2026-09-18T20:56:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.ce2a425775ca20a7fd5696c589fdead4637b7a3a.001.1,2026-09-18T09:18:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.3d88e48db7f18257b7bd14005836d6ead5984b5a.001.1,2026-09-17T21:29:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.8c7dc21cc5dd016c4b6ac68138bbe42388bc3ddb.001.1,2026-09-17T10:44:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.6ebc5de05d23ebb1c6951a0fc9f8255c3682f562.001.1,2026-09-16T21:14:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.4898fe751b4b133fa986b0e2b7db5d1c72fdde59.001.1,2026-09-16T15:10:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLS"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.002.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.affd7dc767c3d04b8641134a1f1d725a4256bfe2.002.1",
+    "sha256": "83e8c4499d3259cb33de589f3483eb3642410b05ed30c2886bc3af8facc32ed0",
+    "sender": "NWS Tampa Bay Ruskin FL",
+    "sent": "2026-09-20T20:48:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

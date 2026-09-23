@@ -1,0 +1,138 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9bdc42b097ea19e683c4e7c543327325777c91c7.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -88.41,
+          38.75
+        ],
+        [
+          -88.38,
+          38.86
+        ],
+        [
+          -87.91,
+          38.69
+        ],
+        [
+          -87.91,
+          38.57
+        ],
+        [
+          -88.11,
+          38.57
+        ],
+        [
+          -88.41,
+          38.75
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9bdc42b097ea19e683c4e7c543327325777c91c7.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.9bdc42b097ea19e683c4e7c543327325777c91c7.001.1",
+    "areaDesc": "Clay, IL; Richland, IL",
+    "geocode": {
+      "SAME": [
+        "017025",
+        "017159"
+      ],
+      "UGC": [
+        "ILC025",
+        "ILC159"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/ILC025",
+      "https://api.weather.gov/zones/county/ILC159"
+    ],
+    "references": [],
+    "sent": "2026-09-20T19:39:00-05:00",
+    "effective": "2026-09-20T19:39:00-05:00",
+    "onset": "2026-09-20T19:39:00-05:00",
+    "expires": "2026-09-20T20:30:00-05:00",
+    "ends": "2026-09-20T20:30:00-05:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Extreme",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Tornado Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Lincoln IL",
+    "headline": "Tornado Warning issued September 20 at 7:39PM CDT until September 20 at 8:30PM CDT by NWS Lincoln IL",
+    "description": "TORILX\n\nThe National Weather Service in Lincoln has issued a\n\n* Tornado Warning for...\nRichland County in southeastern Illinois...\nNortheastern Clay County in south central Illinois...\n\n* Until 830 PM CDT.\n\n* At 739 PM CDT, a severe thunderstorm capable of producing a tornado\nwas located over Sailor Springs, or 10 miles northeast of Flora,\nmoving southeast at 30 mph.\n\nHAZARD...Tornado and quarter size hail.\n\nSOURCE...Radar indicated rotation.\n\nIMPACT...Flying debris will be dangerous to those caught without\nshelter. Mobile homes will be damaged or destroyed.\nDamage to roofs, windows, and vehicles will occur.  Tree\ndamage is likely.\n\n* This dangerous storm will be near...\nSailor Springs around 745 PM CDT.\nNoble and Olney Noble Airport around 755 PM CDT.\n\nOther locations in the path of this tornadic thunderstorm include\nOlney.",
+    "instruction": "TAKE COVER NOW! Move to a basement or an interior room on the lowest\nfloor of a sturdy building. Avoid windows. If you are outdoors, in a\nmobile home, or in a vehicle, move to the closest substantial shelter\nand protect yourself from flying debris.",
+    "response": "Shelter",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "TORILX"
+      ],
+      "WMOidentifier": [
+        "WFUS53 KILX 210039"
+      ],
+      "eventMotionDescription": [
+        "2026-09-21T00:39:00-00:00...storm...299DEG...26KT...38.8,-88.37"
+      ],
+      "maxHailSize": [
+        "1.00"
+      ],
+      "tornadoDetection": [
+        "RADAR INDICATED"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.NEW.KILX.TO.W.0142.260921T0039Z-260921T0130Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T20:30:00-05:00"
+      ],
+      "WEAHandling": [
+        "Imminent Threat"
+      ],
+      "CMAMtext": [
+        "NWS: TORNADO WARNING in this area til 8:30 PM CDT. Take shelter now. Check media."
+      ],
+      "CMAMlongtext": [
+        "National Weather Service: TORNADO WARNING in this area until 8:30 PM CDT. Take shelter now in a basement or an interior room on the lowest floor of a sturdy building. If you are outdoors, in a mobile home, or in a vehicle, move to the closest substantial shelter and protect yourself from flying debris. Check media."
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "TOR"
+      ],
+      "NationalWeatherService": [
+        "TOW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9bdc42b097ea19e683c4e7c543327325777c91c7.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.9bdc42b097ea19e683c4e7c543327325777c91c7.001.1",
+    "sha256": "c818d07ac80bc770a8829425834b830153ded607e1ae9201f170c54729d0db34",
+    "sender": "NWS Lincoln IL",
+    "sent": "2026-09-20T19:39:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

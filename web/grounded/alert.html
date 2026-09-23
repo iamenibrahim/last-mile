@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Last-Mile Alert</title>
+<!--
+  No build step (brief section 11). No CDN, no bundler, no framework.
+  The map is inline SVG rather than a tile layer so that the demo renders with
+  no network at all - a tile server is one more thing that can be down at the
+  worst possible moment (brief section 12).
+-->
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --panel-2: #1c2129; --line: #2d333b;
+    --ink: #e6edf3; --ink-dim: #9198a1; --ink-faint: #6e7681;
+    --accent: #58a6ff; --accent-dim: #1f6feb;
+    --ok: #3fb950; --warn: #d29922; --bad: #f85149;
+    --abstain: #bb8009; --abstain-bg: #2b2109;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: var(--accent); }
+  header {
+    border-bottom: 1px solid var(--line); padding: 14px 22px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: var(--panel); position: sticky; top: 0; z-index: 10;
+  }
+  header h1 { font-size: 17px; margin: 0; font-weight: 650; letter-spacing: -0.01em; }
+  header .tag { color: var(--ink-faint); font-size: 12.5px; }
+  .spacer { flex: 1; }
+  .badge {
+    font: 600 11px/1 var(--mono); padding: 5px 9px; border-radius: 5px;
+    border: 1px solid var(--line); color: var(--ink-dim); white-space: nowrap;
+  }
+  .badge.live { color: var(--ok); border-color: #1d572c; background: #0d1f14; }
+  .badge.local { color: var(--warn); border-color: #5c4413; background: #21190a; }
+
+  main { max-width: 1280px; margin: 0 auto; padding: 22px; }
+  section {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 9px; padding: 18px; margin-bottom: 18px;
+  }
+  section > h2 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.09em;
+    color: var(--ink-faint); margin: 0 0 14px; font-weight: 650;
+  }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  input[type=text], select {
+    background: var(--bg); border: 1px solid var(--line); color: var(--ink);
+    padding: 10px 12px; border-radius: 6px; font-size: 14px; font-family: inherit;
+  }
+  input[type=text] { flex: 1; min-width: 260px; }
+  button {
+    background: var(--accent-dim); color: #fff; border: 0; padding: 10px 16px;
+    border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer;
+    font-family: inherit;
+  }
+  button:hover { background: #388bfd; }
+  button.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink-dim); }
+  button.ghost:hover { background: var(--panel-2); color: var(--ink); }
+  button:disabled { opacity: .5; cursor: default; }
+
+  .hint { color: var(--ink-faint); font-size: 12.5px; margin-top: 8px; }
+  .err { color: var(--bad); font-size: 13px; }
+
+  /* alert picker */
+  .alert-card {
+    border: 1px solid var(--line); border-radius: 7px; padding: 12px 14px;
+    margin-bottom: 8px; cursor: pointer; background: var(--panel-2);
+  }
+  .alert-card:hover { border-color: var(--accent-dim); }
+  .alert-card.sel { border-color: var(--accent); background: #10233d; }
+  .alert-card .ev { font-weight: 650; }
+  .alert-card .meta { color: var(--ink-dim); font-size: 12.5px; margin-top: 3px; }
+  .pill {
+    display: inline-block; font: 600 10.5px/1 var(--mono); padding: 3px 7px;
+    border-radius: 4px; margin-left: 7px; vertical-align: middle;
+  }
+  .pill.inside { background: #3d1216; color: #ff9d95; }
+  .pill.near { background: #2b2109; color: #e3b341; }
+
+  /* split view */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 1000px) { .split { grid-template-columns: 1fr; } }
+  .pane-title {
+    font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink-faint); margin-bottom: 10px; display: flex; gap: 8px; align-items: center;
+  }
+  pre.raw {
+    background: #010409; border: 1px solid var(--line); border-radius: 7px;
+    padding: 14px; font: 12.5px/1.5 var(--mono); color: #b9c0c8;
+    white-space: pre-wrap; word-break: break-word; max-height: 460px; overflow: auto; margin: 0;
+  }
+
+  /* position banner */
+  .position {
+    border-radius: 8px; padding: 14px 16px; margin-bottom: 14px;
+    border: 1px solid var(--line); background: var(--panel-2);
+  }
+  .position.inside { border-color: #7d1d1d; background: #2a0f10; }
+  .position.near   { border-color: #5c4413; background: #21190a; }
+  .position .big { font-size: 17px; font-weight: 650; }
+  .position .sub { color: var(--ink-dim); font-size: 13px; margin-top: 5px; }
+
+  /* readability badge */
+  .fk { display: flex; gap: 10px; align-items: center; font: 600 12px/1 var(--mono); }
+  .fk .from { color: var(--bad); }
+  .fk .to { color: var(--ok); }
+  .fk .arrow { color: var(--ink-faint); }
+
+  /* steps */
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; }
+  ol.steps li {
+    counter-increment: s; position: relative; padding: 12px 12px 12px 46px;
+    border: 1px solid var(--line); border-radius: 7px; margin-bottom: 8px;
+    background: var(--panel-2);
+  }
+  ol.steps li::before {
+    content: counter(s); position: absolute; left: 12px; top: 12px;
+    width: 24px; height: 24px; border-radius: 50%; background: var(--accent-dim);
+    color: #fff; font: 700 12px/24px var(--mono); text-align: center;
+  }
+  ol.steps li.abstained { border-color: var(--abstain); background: var(--abstain-bg); }
+  ol.steps li.abstained::before { background: var(--abstain); }
+  .cite {
+    font: 11px/1.4 var(--mono); color: var(--ink-faint); margin-top: 7px;
+  }
+  .cite b { color: var(--ink-dim); font-weight: 600; }
+
+  .abstain-note {
+    margin-top: 9px; padding: 9px 11px; border-radius: 6px;
+    background: #1a1405; border: 1px solid #4d3a08; font-size: 12.5px; color: #e3b341;
+  }
+  .abstain-note strong { display: block; margin-bottom: 3px; }
+  .abstain-note .interp { color: var(--ink-dim); margin-top: 5px; display: block; }
+
+  /* body segments */
+  .seg { padding: 9px 0; border-bottom: 1px solid var(--line); }
+  .seg:last-child { border-bottom: 0; }
+  .seg .lab {
+    font: 600 10.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .07em;
+    color: var(--ink-faint); display: block; margin-bottom: 4px;
+  }
+  .seg.abstained { background: var(--abstain-bg); border-radius: 6px; padding: 9px 11px; }
+  .seg.abstained .txt { color: #e6d7a8; }
+  .seg .why { font: 11px/1.4 var(--mono); color: var(--abstain); margin-top: 5px; }
+
+  [dir=rtl] { text-align: right; }
+
+  /* map */
+  svg.map { width: 100%; height: auto; display: block; border-radius: 7px; background: #010409; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--ink-dim); margin-top: 9px; }
+  .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+
+  /* verify */
+  table.checks { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.checks td { padding: 7px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.checks td.s { width: 54px; font: 700 11px/1 var(--mono); }
+  table.checks td.n { width: 190px; font: 12px/1.4 var(--mono); color: var(--ink-dim); }
+  .s.ok { color: var(--ok); } .s.bad { color: var(--bad); }
+  pre.json {
+    background: #010409; border: 1px solid var(--line); border-radius: 7px; padding: 13px;
+    font: 11.5px/1.5 var(--mono); color: #9db4cc; max-height: 320px; overflow: auto;
+    white-space: pre-wrap; word-break: break-all; margin: 0;
+  }
+  .limits { margin-top: 12px; padding: 12px 14px; border-radius: 7px;
+            background: #12161c; border: 1px solid var(--line); }
+  .limits h3 { margin: 0 0 7px; font-size: 12px; text-transform: uppercase;
+               letter-spacing: .08em; color: var(--warn); }
+  .limits li { font-size: 12.5px; color: var(--ink-dim); margin-bottom: 6px; }
+
+  .danger-strip {
+    background: #2a0f10; border: 1px solid #7d1d1d; color: #ff9d95;
+    padding: 10px 14px; border-radius: 7px; margin-bottom: 14px;
+    font: 600 12.5px/1.45 var(--mono);
+  }
+  .muted { color: var(--ink-faint); }
+  .kv { font: 11.5px/1.6 var(--mono); color: var(--ink-dim); }
+  .kv b { color: var(--ink); font-weight: 600; }
+  audio { width: 100%; margin-top: 10px; }
+  .loading { color: var(--ink-faint); font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Last-Mile Alert</h1>
+  <a href="./" style="font-size:12.5px">&larr; disaster assistance navigator</a>
+  <span class="tag">transforms authoritative NWS alerts &mdash; never originates one</span>
+  <span class="spacer"></span>
+  <span class="badge" id="engine-badge">checking engines&hellip;</span>
+  <span class="badge" id="corpus-badge">&mdash;</span>
+</header>
+
+<main>
+  <!-- 1. address -->
+  <section>
+    <h2>1 &middot; Your address</h2>
+    <div class="row">
+      <input type="text" id="addr" placeholder="217 Palmer Ave, Saltville, VA 24370"
+             value="217 Palmer Ave, Saltville, VA 24370" autocomplete="off">
+      <button id="find">Find alerts for this address</button>
+    </div>
+    <div class="hint" id="addr-hint">
+      Geocoded by the US Census geocoder (free, no key), with Azure Maps used when a key is present.
+    </div>
+    <div id="locate-out"></div>
+  </section>
+
+  <!-- 2. alerts -->
+  <section id="alerts-sec" hidden>
+    <h2>2 &middot; Alerts covering that point</h2>
+    <div id="alert-list"></div>
+  </section>
+
+  <!-- 3. render -->
+  <section id="render-sec" hidden>
+    <h2>3 &middot; The alert, transformed</h2>
+    <div class="row" style="margin-bottom:14px">
+      <label class="muted" style="font-size:13px">Language</label>
+      <select id="lang"></select>
+      <label class="muted" style="font-size:13px">Reading grade</label>
+      <select id="grade">
+        <option value="6">6</option>
+        <option value="7" selected>7</option>
+        <option value="8">8</option>
+      </select>
+      <label class="muted" style="font-size:13px">Clock</label>
+      <select id="clock" title="Cached alerts have expired. Replaying the clock at issue time shows the countdown a household would have seen; the alert text is untouched.">
+        <option value="issue">replay at issue time</option>
+        <option value="now">now (real clock)</option>
+      </select>
+      <button id="rerender">Render</button>
+      <span class="spacer"></span>
+      <label class="muted" style="font-size:13px">Demo: inject failure</label>
+      <select id="corrupt">
+        <option value="">none (normal pipeline)</option>
+        <option value="drop_negation">drop a negation</option>
+        <option value="alter_number">alter a number</option>
+        <option value="swap_road">swap a road number</option>
+        <option value="hallucinate_instruction">hallucinate an instruction</option>
+        <option value="drop_instruction">drop an instruction</option>
+      </select>
+    </div>
+    <div id="render-out"><span class="loading">&nbsp;</span></div>
+  </section>
+
+  <!-- 4. provenance -->
+  <section id="prov-sec" hidden>
+    <h2>4 &middot; Provenance</h2>
+    <div id="prov-out"></div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

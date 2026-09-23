@@ -1,0 +1,149 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.de2a873d59e255a717b61c54dd399cf1e55c7f6f.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -82.31,
+          39.12
+        ],
+        [
+          -82.32,
+          39.12
+        ],
+        [
+          -82.39,
+          39.13
+        ],
+        [
+          -82.38,
+          39.23
+        ],
+        [
+          -82.48,
+          39.24
+        ],
+        [
+          -82.47,
+          39.32
+        ],
+        [
+          -82.16,
+          39.3
+        ],
+        [
+          -82.13,
+          39.2
+        ],
+        [
+          -82.31,
+          39.12
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.de2a873d59e255a717b61c54dd399cf1e55c7f6f.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.de2a873d59e255a717b61c54dd399cf1e55c7f6f.001.1",
+    "areaDesc": "Athens, OH; Meigs, OH; Vinton, OH",
+    "geocode": {
+      "SAME": [
+        "039009",
+        "039105",
+        "039163"
+      ],
+      "UGC": [
+        "OHC009",
+        "OHC105",
+        "OHC163"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/OHC009",
+      "https://api.weather.gov/zones/county/OHC105",
+      "https://api.weather.gov/zones/county/OHC163"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0efcf1e5f4d34be38d0634f1c90b092b60e83aed.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.0efcf1e5f4d34be38d0634f1c90b092b60e83aed.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T18:54:00-04:00"
+      }
+    ],
+    "sent": "2026-09-20T20:43:00-04:00",
+    "effective": "2026-09-20T20:43:00-04:00",
+    "onset": "2026-09-20T20:43:00-04:00",
+    "expires": "2026-09-21T00:00:00-04:00",
+    "ends": "2026-09-21T00:00:00-04:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Charleston WV",
+    "headline": "Flood Warning issued September 20 at 8:43PM EDT until September 21 at 12:00AM EDT by NWS Charleston WV",
+    "description": "* WHAT...Flooding caused by excessive rainfall earlier this morning\ncontinues.\n\n* WHERE...Southwestern Athens County in southeastern Ohio...\nNorthwestern Meigs County in southeastern Ohio...\nNortheastern Vinton County in southeastern Ohio...\n\n* WHEN...Until midnight EDT tonight.\n\n* IMPACTS...Flooding of rivers, creeks, streams, and other low-lying\nand flood-prone locations is imminent or occurring. Low-water\ncrossings are inundated with water and may not be passable. It will\ntake several hours for all the water from these storms to work\nthrough local drainage systems.\n\n* ADDITIONAL DETAILS...\n- At 838 PM EDT, Emergency management reported numerous flooded\nroadways in the warned area due to thunderstorms earlier this\nmorning. Flooding is ongoing. Between 2.5 and 3.5 inches of rain\nhave fallen. Additional rainfall is expected tonight.\n- Additional rainfall amounts of 1 to 3 inches are possible in the\nwarned area.\n- Some locations that will experience flooding include...\nMcarthur, Albany, Zaleski, Carpenter, Radcliffe, and Creola.\n- http://www.weather.gov/safety/flood",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe especially cautious at night when it is harder to recognize the\ndangers of flooding.\n\nBe aware of your surroundings and do not drive on flooded roads.\n\nReport flooding to the National Weather Service by calling toll free,\n800 401 9535, when you can do so safely.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLWRLX"
+      ],
+      "WMOidentifier": [
+        "WGUS41 KRLX 210043"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING NOW IN EFFECT UNTIL MIDNIGHT EDT TONIGHT"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.EXT.KRLX.FA.W.0123.000000T0000Z-260921T0400Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-21T00:00:00-04:00"
+      ],
+      "expiredReferences": [
+        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.bcf56c1d49e957c57c7db04ef21746165184a6ef.001.1,2026-09-20T15:35:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.0e700e20f2019e9cd0689ea4455bb8dcf82e51d7.001.1,2026-09-20T12:22:00-04:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.852f6fdb412ff4c4f1870fe91515eebed15b3556.001.1,2026-09-20T04:56:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLW"
+      ],
+      "NationalWeatherService": [
+        "FAW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.de2a873d59e255a717b61c54dd399cf1e55c7f6f.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.de2a873d59e255a717b61c54dd399cf1e55c7f6f.001.1",
+    "sha256": "adfd2897e4f561fb4a5fed4f9bb70ec97153533ddf034b3f4710edf36356d39d",
+    "sender": "NWS Charleston WV",
+    "sent": "2026-09-20T20:43:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

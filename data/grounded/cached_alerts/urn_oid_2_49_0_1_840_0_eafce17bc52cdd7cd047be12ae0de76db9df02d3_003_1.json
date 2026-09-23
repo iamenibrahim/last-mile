@@ -1,0 +1,143 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.eafce17bc52cdd7cd047be12ae0de76db9df02d3.003.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -91.94,
+          41.51
+        ],
+        [
+          -91.53,
+          41.52
+        ],
+        [
+          -91.52,
+          41.46
+        ],
+        [
+          -91.73,
+          41.44
+        ],
+        [
+          -91.94,
+          41.48
+        ],
+        [
+          -91.94,
+          41.51
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.eafce17bc52cdd7cd047be12ae0de76db9df02d3.003.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.eafce17bc52cdd7cd047be12ae0de76db9df02d3.003.1",
+    "areaDesc": "Johnson, IA; Washington, IA",
+    "geocode": {
+      "SAME": [
+        "019103",
+        "019183"
+      ],
+      "UGC": [
+        "IAC103",
+        "IAC183"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/IAC103",
+      "https://api.weather.gov/zones/county/IAC183"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b2aea88df6673a613401b127e1ea1cb1d9298d00.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.b2aea88df6673a613401b127e1ea1cb1d9298d00.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T05:17:00-05:00"
+      },
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3d0fbcb045ac793c5109bbb95bdd0d1be0ee8af9.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.3d0fbcb045ac793c5109bbb95bdd0d1be0ee8af9.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T05:32:00-05:00"
+      },
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3e1e12edb7ea04b84eaa442314dccc626d295d64.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.3e1e12edb7ea04b84eaa442314dccc626d295d64.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-20T10:10:00-05:00"
+      }
+    ],
+    "sent": "2026-09-20T19:31:00-05:00",
+    "effective": "2026-09-20T19:31:00-05:00",
+    "onset": "2026-09-20T19:31:00-05:00",
+    "expires": "2026-09-21T19:45:00-05:00",
+    "ends": "2026-09-22T21:00:00-05:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Severe",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "event": "Flood Warning",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Quad Cities IA IL",
+    "headline": "Flood Warning issued September 20 at 7:31PM CDT until September 22 at 9:00PM CDT by NWS Quad Cities IA IL",
+    "description": "...The Flood Warning continues for the following rivers in Iowa...\n\nIowa River at Marengo affecting Benton and Iowa Counties.\n\nIowa River near Lone Tree affecting Louisa, Washington and Johnson\nCounties.\n\nEnglish River at Kalona affecting Washington and Johnson Counties.\n\n* WHAT...Major flooding is occurring and major flooding is forecast.\n\n* WHERE...English River at Kalona.\n\n* WHEN...Until Tuesday evening.\n\n* IMPACTS...At 18.0 feet, Water has overtopped roads causing\nclosures. This includes 130th St, Kiwi Ave, Orange Ave and Poplar\nAve. Extensive agricultural land near the river is flooded. Water\nbegins backing into town on the north side of the river.\n\n* ADDITIONAL DETAILS...\n- At 7:00 PM CDT Sunday the stage was 18.5 feet.\n- Forecast...The river is expected to rise to a crest of 18.6 feet\njust after midnight tonight. It will then fall below flood stage\nearly Tuesday afternoon.\n- Flood stage is 14.0 feet.",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nMotorists should not attempt to drive around barricades or drive cars\nthrough flooded areas.\n\nCaution is urged when walking near riverbanks.\n\nThe next statement will be issued by Monday afternoon.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSDVN"
+      ],
+      "WMOidentifier": [
+        "WGUS83 KDVN 210031"
+      ],
+      "NWSheadline": [
+        "FLOOD WARNING NOW IN EFFECT UNTIL TUESDAY EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ],
+      "VTEC": [
+        "/O.EXT.KDVN.FL.W.0068.000000T0000Z-260923T0200Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-22T21:00:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "FLS"
+      ],
+      "NationalWeatherService": [
+        "FLW"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.eafce17bc52cdd7cd047be12ae0de76db9df02d3.003.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.eafce17bc52cdd7cd047be12ae0de76db9df02d3.003.1",
+    "sha256": "2f13a0bb5c1e0c8172add21ba9f1171c5e4cc30a3a4e5771434082c31f10dc67",
+    "sender": "NWS Quad Cities IA IL",
+    "sent": "2026-09-20T19:31:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

@@ -1,0 +1,35 @@
+id: fema-ihp
+title: Individuals and Households Program
+publisher: Federal Emergency Management Agency
+url: https://www.fema.gov/assistance/individual/program
+lang: en
+last_updated: July 28, 2026
+browser_sha256: f69d28c0989061d4d5829e4dbb0bc6ce1ce02574ebdf79230eba11c5f1f6f55b
+---
+Individuals and Households Program (IHP) provides financial and direct services to eligible individuals and households affected by a disaster, who have uninsured or under-insured necessary expenses and serious needs. IHP assistance is not a substitute for insurance and cannot compensate for all losses caused by a disaster. The assistance is intended to meet your basic needs and supplement disaster recovery efforts.
+Graphic
+FEMA is committed to providing equal access to disaster recovery resources and assistance. Let FEMA know if you or anyone in your household has a disability or language need.
+IHP Assistance may include:
+Funds for temporary housing while you are unable to live in your home, such as rental assistance or reimbursement for hotel costs
+Funds to support the repair or replacement of owner-occupied homes  that serve as the household’s primary residence, including privately-owned access routes, such as driveways, roads, or bridges
+A temporary housing unit, if approved for the disaster, when you are not able to use rental assistance due to a lack of available housing resources
+Funds for hazard mitigation assistance to help eligible homeowners repair or rebuild stronger, more durable homes
+Funds for other uninsured or under-insured disaster-caused expenses and serious needs
+The Privacy Act requires FEMA to obtain written consent from the applicant in order to share their disaster assistance records with a third party. Applicants who wish to authorize FEMA to share their information with a third party must complete the FEMA FORM FF-104-FY-21-118: Authorization for the Release of Information Under the Privacy Act and return it to FEMA.
+Graphic
+Road to Recovery
+While not all disaster survivors' path to recovery is the same, this interactive tool steps you through the typical processes and requirements to follow that can help get you the support you need after experiencing a disaster.
+Get Started on the Road to Recovery
+Learn About FEMA IHP Assistance
+How to apply for assistance online, by phone or in person.
+Understand general eligibility criteria that need to be met to receive assistance.
+Learn about citizenship and immigration status requirements for federal public benefits.
+What to expect for a home inspection.
+Learn about proof of ownership and occupancy requirements.
+How to appeal if you disagree with FEMA’s decision.
+Applicants in need of Continued Temporary Housing Assistance may request additional assistance by completing FEMA Form FF-104-FY-21-115: Application for Continued Temporary Housing Assistance and return it to FEMA along with supporting documentation.
+Other Assistance Programs
+Graphic
+In addition to IHP assistance, FEMA has other Individual Assistance programs designed to support disaster survivors, such as Disaster Unemployment Assistance, Crisis Counseling, Disaster Legal Services and more.
+Last updated July 28, 2026
+Return to top

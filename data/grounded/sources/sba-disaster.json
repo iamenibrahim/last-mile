@@ -1,0 +1,12 @@
+{
+ "id": "sba-disaster",
+ "title": "Disaster assistance",
+ "publisher": "U.S. Small Business Administration",
+ "url": "https://www.sba.gov/funding-programs/disaster-assistance",
+ "fetched_at": "2026-09-21T14:22:03Z",
+ "retrieval": "scripted",
+ "transport": "TLS to www.sba.gov",
+ "text": "Disaster recovery Explore SBA's low-interest disaster loans designed to help businesses of all sizes, homeowners, renters, and private nonprofit organizations recover from declared disasters. Repair existing damage, reduce future risks, or get help with financial obligations when essential employees are called to serve.",
+ "sha256": "4fd2ccd40188fc7de7daed373ca8abb162ae3433b58d25eeee426bc3499eaabf",
+ "note": null
+}

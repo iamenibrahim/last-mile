@@ -1,0 +1,175 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.cdb7a337d48766912166bf75c0f98e74bd41e18a.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.84,
+          36.75
+        ],
+        [
+          -82.45,
+          36.69
+        ],
+        [
+          -82.49,
+          37.04
+        ],
+        [
+          -82.47,
+          37.02
+        ],
+        [
+          -82.37,
+          36.98
+        ],
+        [
+          -82.36,
+          36.96
+        ],
+        [
+          -82.29,
+          37
+        ],
+        [
+          -82.25,
+          36.99
+        ],
+        [
+          -82.17,
+          37.04
+        ],
+        [
+          -82.12,
+          37.04
+        ],
+        [
+          -82.11,
+          37.05
+        ],
+        [
+          -82.08,
+          37.04
+        ],
+        [
+          -82.04,
+          37.05
+        ],
+        [
+          -82.02,
+          37.07
+        ],
+        [
+          -82.01,
+          37.12
+        ],
+        [
+          -81.84,
+          36.75
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.cdb7a337d48766912166bf75c0f98e74bd41e18a.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.cdb7a337d48766912166bf75c0f98e74bd41e18a.001.1",
+    "areaDesc": "Wise; Scott; Russell; Washington",
+    "geocode": {
+      "SAME": [
+        "051195",
+        "051720",
+        "051169",
+        "051167",
+        "051191",
+        "051520"
+      ],
+      "UGC": [
+        "VAZ002",
+        "VAZ005",
+        "VAZ006",
+        "VAZ008"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/VAZ002",
+      "https://api.weather.gov/zones/forecast/VAZ005",
+      "https://api.weather.gov/zones/forecast/VAZ006",
+      "https://api.weather.gov/zones/forecast/VAZ008"
+    ],
+    "references": [],
+    "sent": "2026-09-19T15:50:00-04:00",
+    "effective": "2026-09-19T15:50:00-04:00",
+    "onset": "2026-09-19T15:50:00-04:00",
+    "expires": "2026-09-19T16:45:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Morristown TN",
+    "headline": "Special Weather Statement issued September 19 at 3:50PM EDT by NWS Morristown TN",
+    "description": "At 350 PM EDT, Doppler radar was tracking a cluster of strong\nthunderstorms over Trammel, or 11 miles southwest of Davenport,\nmoving south at 10 mph.\n\nHAZARD...Wind gusts of 50 to 55 mph.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects.\n\nLocations impacted include...\nLebanon, Cleveland Va, Coeburn, Honaker, St. Paul, Nickelsville,\nDungannon, Lindell, Collingwood, and Castlewood.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.\n\nTorrential rainfall is also occurring with this storm and may lead to\nlocalized flooding. Do not drive your vehicle through flooded\nroadways.\n\nFrequent cloud to ground lightning is occurring with this storm.\nLightning can strike 10 miles away from a thunderstorm. Seek a safe\nshelter inside a building or vehicle.\n\nThis storm may intensify, so closely monitor for additional\ninformation or possible warnings from the National Weather Service.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSMRX"
+      ],
+      "WMOidentifier": [
+        "WWUS84 KMRX 191950"
+      ],
+      "NWSheadline": [
+        "STRONG THUNDERSTORMS WILL IMPACT RUSSELL...NORTHEASTERN SCOTT... CENTRAL WASHINGTON AND SOUTHEASTERN WISE COUNTIES THROUGH 445 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-19T19:50:00-00:00...storm...348DEG...9KT...36.99,-82.29"
+      ],
+      "maxWindGust": [
+        "55 MPH"
+      ],
+      "maxHailSize": [
+        "0.00"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.cdb7a337d48766912166bf75c0f98e74bd41e18a.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.cdb7a337d48766912166bf75c0f98e74bd41e18a.001.1",
+    "sha256": "c6cfaa9188dc77fb7f9738e7105a2d0d24cd47c8dce4199a27b09fc01a295344",
+    "sender": "NWS Morristown TN",
+    "sent": "2026-09-19T15:50:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

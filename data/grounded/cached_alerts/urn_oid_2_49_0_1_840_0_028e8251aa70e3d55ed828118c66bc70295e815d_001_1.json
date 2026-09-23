@@ -1,0 +1,126 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.028e8251aa70e3d55ed828118c66bc70295e815d.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -99.37,
+          30.25
+        ],
+        [
+          -99.3,
+          30.22
+        ],
+        [
+          -99.3,
+          30.2
+        ],
+        [
+          -99.44,
+          30.04
+        ],
+        [
+          -99.6,
+          30.12
+        ],
+        [
+          -99.55,
+          30.18
+        ],
+        [
+          -99.41,
+          30.16
+        ],
+        [
+          -99.37,
+          30.25
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.028e8251aa70e3d55ed828118c66bc70295e815d.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.028e8251aa70e3d55ed828118c66bc70295e815d.001.1",
+    "areaDesc": "Kerr, TX",
+    "geocode": {
+      "SAME": [
+        "048265"
+      ],
+      "UGC": [
+        "TXC265"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/TXC265"
+    ],
+    "references": [],
+    "sent": "2026-09-20T19:13:00-05:00",
+    "effective": "2026-09-20T19:13:00-05:00",
+    "onset": "2026-09-20T19:13:00-05:00",
+    "expires": "2026-09-20T20:45:00-05:00",
+    "ends": "2026-09-20T20:45:00-05:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Minor",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Austin/San Antonio TX",
+    "headline": "Flood Advisory issued September 20 at 7:13PM CDT until September 20 at 8:45PM CDT by NWS Austin/San Antonio TX",
+    "description": "* WHAT...Flooding caused by excessive rainfall is expected.\n\n* WHERE...Northwestern Kerr County in south central Texas...\n\n* WHEN...Until 845 PM CDT.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\nRises in small streams and normally dry creeks.\n\n* ADDITIONAL DETAILS...\n- At 713 PM CDT, Doppler radar indicated heavy rain due to\nthunderstorms. Minor flooding is ongoing or expected to begin\nshortly in the advisory area. Between 1 and 3 inches of rain have\nfallen.\n- Additional rainfall amounts up to 1 inch are expected over the\narea. This additional rain will result in minor flooding.\n- Some locations that will experience flooding include...\nKerr Wildlife Management Area and Mountain Home.\n- http://www.weather.gov/safety/flood",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe especially cautious at night when it is harder to recognize the\ndangers of flooding.\n\nIn hilly terrain there are hundreds of low water crossings which are\npotentially dangerous in heavy rain. Do not attempt to cross flooded\nroads. Find an alternate route.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSEWX"
+      ],
+      "WMOidentifier": [
+        "WGUS84 KEWX 210013"
+      ],
+      "NWSheadline": [
+        "FLOOD ADVISORY IN EFFECT UNTIL 845 PM CDT THIS EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.NEW.KEWX.FA.Y.0199.260921T0013Z-260921T0145Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T20:45:00-05:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "FAY"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.028e8251aa70e3d55ed828118c66bc70295e815d.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.028e8251aa70e3d55ed828118c66bc70295e815d.001.1",
+    "sha256": "80c82cccdf0600ad0dfc7a213bee87a5950bf48003c6485c4556b506bbd8cc83",
+    "sender": "NWS Austin/San Antonio TX",
+    "sent": "2026-09-20T19:13:00-05:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

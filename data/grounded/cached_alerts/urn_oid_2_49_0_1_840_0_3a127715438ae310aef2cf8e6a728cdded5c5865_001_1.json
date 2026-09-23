@@ -1,0 +1,143 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3a127715438ae310aef2cf8e6a728cdded5c5865.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -84.11,
+          39.58
+        ],
+        [
+          -84.04,
+          39.85
+        ],
+        [
+          -83.66,
+          39.82
+        ],
+        [
+          -83.72,
+          39.55
+        ],
+        [
+          -83.8,
+          39.37
+        ],
+        [
+          -83.99,
+          39.36
+        ],
+        [
+          -84.2,
+          39.42
+        ],
+        [
+          -84.12,
+          39.56
+        ],
+        [
+          -84.11,
+          39.57
+        ],
+        [
+          -84.11,
+          39.58
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3a127715438ae310aef2cf8e6a728cdded5c5865.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.3a127715438ae310aef2cf8e6a728cdded5c5865.001.1",
+    "areaDesc": "Clark, OH; Clinton, OH; Greene, OH; Warren, OH",
+    "geocode": {
+      "SAME": [
+        "039023",
+        "039027",
+        "039057",
+        "039165"
+      ],
+      "UGC": [
+        "OHC023",
+        "OHC027",
+        "OHC057",
+        "OHC165"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/OHC023",
+      "https://api.weather.gov/zones/county/OHC027",
+      "https://api.weather.gov/zones/county/OHC057",
+      "https://api.weather.gov/zones/county/OHC165"
+    ],
+    "references": [],
+    "sent": "2026-09-20T20:36:00-04:00",
+    "effective": "2026-09-20T20:36:00-04:00",
+    "onset": "2026-09-20T20:36:00-04:00",
+    "expires": "2026-09-20T23:00:00-04:00",
+    "ends": "2026-09-20T23:00:00-04:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Minor",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Wilmington OH",
+    "headline": "Flood Advisory issued September 20 at 8:36PM EDT until September 20 at 11:00PM EDT by NWS Wilmington OH",
+    "description": "* WHAT...Flooding caused by excessive rainfall is expected.\n\n* WHERE...Northwestern Clinton County in southwestern Ohio...\nNortheastern Warren County in southwestern Ohio...\nSouthwestern Clark County in west central Ohio...\nGreene County in west central Ohio...\n\n* WHEN...Until 1100 PM EDT.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\n\n* ADDITIONAL DETAILS...\n- At 836 PM EDT, radar indicated heavy rain due to thunderstorms.\nMinor flooding is ongoing or expected to begin shortly in the\nadvisory area. Between 0.5 and 1.5 inches of rain have fallen.\nAdditional rainfall amounts of 0.5 to 1 inch are possible in the\nwarned area.\n- Some locations that may experience flooding include...\nBeavercreek, Fairborn, Xenia, Lebanon, Wilmington, Bellbrook,\nYellow Springs, Wright-Patterson Afb, Cedarville, Waynesville,\nJamestown, Wilberforce, New Jasper, Clarksville, Harveysburg,\nSpring Valley, Corwin, Bowersville, Port William and Clifton.",
+    "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe especially cautious at night when it is harder to recognize the\ndangers of flooding.\n\nTo report flooding, go to our website at weather.gov/iln and submit\nyour report via social media, when you can do so safely.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSILN"
+      ],
+      "WMOidentifier": [
+        "WGUS81 KILN 210036"
+      ],
+      "NWSheadline": [
+        "FLOOD ADVISORY IN EFFECT UNTIL 11 PM EDT THIS EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.NEW.KILN.FA.Y.0223.260921T0036Z-260921T0300Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-20T23:00:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "FAY"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3a127715438ae310aef2cf8e6a728cdded5c5865.001.1",
+    "collection_url": "https://api.weather.gov/alerts/active",
+    "cap_id": "urn:oid:2.49.0.1.840.0.3a127715438ae310aef2cf8e6a728cdded5c5865.001.1",
+    "sha256": "d510752baabe7436388b26e754291562753bd5e8a7eb8d53bebd43dedf63ba02",
+    "sender": "NWS Wilmington OH",
+    "sent": "2026-09-20T20:36:00-04:00",
+    "fetched_at": "2026-09-21T00:56:33Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

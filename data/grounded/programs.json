@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "rule": "No sentence in this file describes a program in its own words. Every claim is a verbatim quote from a cached authoritative document (data/sources/), located by exact match at load time. A quote that cannot be found is dropped and reported, never shown. Program names and the needs they map to are this system's labels, not claims about the program.",
+  "programs": [
+    {
+      "id": "fema-ihp-housing",
+      "name": "FEMA Housing Assistance (Individuals and Households Program)",
+      "agency": "FEMA",
+      "needs": ["home_damaged", "cant_stay_home"],
+      "gate": "individual_assistance",
+      "gate_note": "Available only where the declaration includes Individual Assistance for your county.",
+      "claims": [
+        {"kind": "what", "doc": "fema-ihp", "quote": "Funds for temporary housing while you are unable to live in your home, such as rental assistance or reimbursement for hotel costs"},
+        {"kind": "what", "doc": "fema-ihp", "quote": "Funds to support the repair or replacement of owner-occupied homes that serve as the household's primary residence"},
+        {"kind": "what", "doc": "fema-ihp", "quote": "IHP assistance is not a substitute for insurance and cannot compensate for all losses caused by a disaster."},
+        {"kind": "who", "doc": "fema-eligibility", "quote": "For certain types of assistance, FEMA must confirm the disaster-damaged home is your primary residence."},
+        {"kind": "documents", "doc": "fema-eligibility", "quote": "If you have insurance coverage, you will need to give FEMA proof of the insurance settlement or a letter explaining you were denied coverage before FEMA can determine what assistance you are eligible for."},
+        {"kind": "how_to_apply", "doc": "fema-eligibility", "quote": "you can complete an application for FEMA Individuals and Households Program assistance at DisasterAssistance.gov."},
+        {"kind": "how_to_apply", "doc": "fema-eligibility", "quote": "You can also apply in person, online, or by phone."},
+        {"kind": "deadline", "doc": "ecfr-44-206-112", "quote": "The standard FEMA registration period is 60 days following the date that the President declares an incident a major disaster or an emergency."}
+      ]
+    },
+    {
+      "id": "fema-ihp-other-needs",
+      "name": "FEMA Other Needs Assistance (Individuals and Households Program)",
+      "agency": "FEMA",
+      "needs": ["lost_belongings", "medical_costs", "funeral_costs", "child_care"],
+      "gate": "individual_assistance",
+      "gate_note": "Available only where the declaration includes Individual Assistance for your county.",
+      "claims": [
+        {"kind": "what", "doc": "fema-ihp", "quote": "Funds for other uninsured or under-insured disaster-caused expenses and serious needs"},
+        {"kind": "what", "doc": "fema-citizenship", "quote": "Disaster assistance may include money for temporary housing needs, repairs to owner-occupied homes, personal property loss, medical expenses, funeral expenses, and other serious disaster-related needs or expenses not covered by insurance or other means."},
+        {"kind": "what", "doc": "ecfr-44-206-119", "quote": "Medical and dental. Necessary expenses to assist applicants with medical and dental costs"},
+        {"kind": "what", "doc": "ecfr-44-206-119", "quote": "Funeral. Necessary expenses to assist applicants with funeral costs"},
+        {"kind": "what", "doc": "ecfr-44-206-119", "quote": "Child care. Necessary expenses to assist applicants with child care costs"},
+        {"kind": "what", "doc": "ecfr-44-206-119", "quote": "Personal property. Necessary expenses to assist applicants whose primary residences were damaged by the disaster with personal property costs"},
+        {"kind": "how_to_apply", "doc": "fema-eligibility", "quote": "you can complete an application for FEMA Individuals and Households Program assistance at DisasterAssistance.gov."},
+        {"kind": "how_to_apply", "doc": "fema-eligibility", "quote": "You can also apply in person, online, or by phone."}
+      ]
+    },
+    {
+      "id": "dua",
+      "name": "Disaster Unemployment Assistance",
+      "agency": "U.S. Department of Labor, through your state workforce agency",
+      "needs": ["lost_work"],
+      "gate": "major_disaster",
+      "gate_note": "Tied to a presidentially declared major disaster and run by the state workforce agency. Whether it was approved for your area is not in FEMA's declaration data, so confirm with the state.",
+      "claims": [
+        {"kind": "what", "doc": "fema-other-programs", "quote": "If you couldn't work as a direct result of a presidentially declared major disaster, you may be eligible for Disaster Unemployment Assistance (DUA)."},
+        {"kind": "who", "doc": "fema-other-programs", "quote": "Became unemployed, including self-employed individuals, as a direct result of the presidentially declared disaster;"},
+        {"kind": "who", "doc": "fema-other-programs", "quote": "Not qualify for regular unemployment insurance benefits from any state;"},
+        {"kind": "who", "doc": "fema-other-programs", "quote": "Establish that the work or self-employment they can no longer perform was their primary source of income."},
+        {"kind": "who", "doc": "fema-other-programs", "quote": "Be a U.S. citizen, non-citizen national or a qualified alien;"},
+        {"kind": "how_to_apply", "doc": "fema-other-programs", "quote": "These services are the responsibility of the U.S. Department of Labor, funded by FEMA, and administered by the affected state, tribal, or territorial workforce agency."}
+      ]
+    },
+    {
+      "id": "crisis-counseling",
+      "name": "Crisis counseling and the Disaster Distress Helpline",
+      "agency": "FEMA and SAMHSA",
+      "needs": ["emotional_distress"],
+      "gate": "always",
+      "gate_note": "The Disaster Distress Helpline runs year-round. Local crisis counseling teams depend on the declaration.",
+      "status_independent": true,
+      "claims": [
+        {"kind": "contact", "doc": "fema-other-programs", "quote": "For free and confidential crisis support in any language, call or text the Disaster Distress Helpline at 800-985-5990."},
+        {"kind": "what", "doc": "samhsa-ddh", "quote": "This toll-free, multilingual, crisis support service is available 24/7 to all residents in the U.S. and its territories who are experiencing emotional distress related to natural or human-caused disasters."},
+        {"kind": "what", "doc": "fema-other-programs", "quote": "free and confidential crisis counseling and mental health support may be offered in your area."},
+        {"kind": "who", "doc": "fema-citizenship", "quote": "All individuals, regardless of citizenship and immigration status, affected by a major disaster may be eligible for crisis counseling assistance, disaster legal services, disaster case management, disaster supplemental nutrition assistance program and other non-monetary, in-kind emergency disaster-relief programs."}
+      ]
+    },
+    {
+      "id": "legal-services",
+      "name": "Disaster Legal Services",
+      "agency": "FEMA with the American Bar Association Young Lawyers Division",
+      "needs": ["legal_help", "lost_documents", "appeal"],
+      "gate": "major_disaster",
+      "gate_note": "Tied to a presidentially declared major disaster; whether it was activated for your area is not in FEMA's declaration data.",
+      "status_independent": true,
+      "claims": [
+        {"kind": "what", "doc": "fema-other-programs", "quote": "Disaster Legal Services (DLS) provides legal help to survivors affected by a presidentially declared major disaster."},
+        {"kind": "who", "doc": "fema-other-programs", "quote": "These services are available to survivors who qualify as low-income and are limited to cases that would not normally incur legal fees."},
+        {"kind": "what", "doc": "fema-other-programs", "quote": "New wills, powers of attorney and other legal papers lost in the disaster"},
+        {"kind": "what", "doc": "fema-other-programs", "quote": "Home repair contracts and disputes with contractors and/or landlords"},
+        {"kind": "privacy", "doc": "fema-other-programs", "quote": "DLS attorneys are not FEMA employees."},
+        {"kind": "privacy", "doc": "fema-other-programs", "quote": "They do not share information with FEMA."},
+        {"kind": "who", "doc": "fema-citizenship", "quote": "All individuals, regardless of citizenship and immigration status, affected by a major disaster may be eligible for crisis counseling assistance, disaster legal services, disaster case management, disaster supplemental nutrition assistance program and other non-monetary, in-kind emergency disaster-relief programs."}
+      ]
+    },
+    {
+      "id": "case-management",
+      "name": "Disaster Case Management",
+      "agency": "FEMA",
+      "needs": ["recovery_plan"],
+      "gate": "major_disaster",
+      "gate_note": "Available only if approved for the declaration; FEMA's Helpline can say whether it was.",
+      "status_independent": true,
+      "claims": [
+        {"kind": "what", "doc": "fema-other-programs", "quote": "You may be eligible to get a case manager to help with your recovery-if approved for the presidentially declared major disaster."},
+        {"kind": "contact", "doc": "fema-other-programs", "quote": "Call FEMA's Helpline at 1-800-621-3362 to see if case managers are available in your area."}
+      ]
+    },
+    {
+      "id": "sba-loans",
+      "name": "SBA disaster loans",
+      "agency": "U.S. Small Business Administration",
+      "needs": ["home_damaged", "lost_belongings", "business_damaged"],
+      "gate": "any_declaration",
+      "gate_note": "SBA lends after declared disasters. Whether SBA loans were offered for your specific declaration is announced by SBA and is not in FEMA's declaration data.",
+      "claims": [
+        {"kind": "what", "doc": "sba-disaster", "quote": "low-interest disaster loans designed to help businesses of all sizes, homeowners, renters, and private nonprofit organizations recover from declared disasters."}
+      ]
+    },
+    {
+      "id": "appeals",
+      "name": "Appealing a FEMA decision",
+      "agency": "FEMA",
+      "needs": ["appeal"],
+      "gate": "always",
+      "gate_note": "",
+      "claims": [
+        {"kind": "what", "doc": "fema-appeals", "quote": "If you disagree with FEMA's decision, you may appeal within 60 days of the date of the letter."},
+        {"kind": "deadline", "doc": "ecfr-44-206-115", "quote": "Applicants must file their appeal within 60 days after the date that we notify the applicant of the award or denial of assistance."},
+        {"kind": "documents", "doc": "fema-appeals", "quote": "When submitting any documentation or information to FEMA, you must include your FEMA application number and disaster number on every page."},
+        {"kind": "how_to_apply", "doc": "fema-appeals", "quote": "You can submit your appeal documents online, in person, by mail or by fax."},
+        {"kind": "contact", "doc": "fema-appeals", "quote": "If you have questions regarding your letter or how to file an appeal, call the FEMA Helpline at 1-800-621-3362."}
+      ]
+    }
+  ],
+  "status_notes": [
+    {"kind": "who", "doc": "fema-citizenship", "quote": "The parent or legal guardian of a minor child who is a U.S. citizen or qualified alien applies for assistance on behalf of the minor child, so long as they live in the same household."},
+    {"kind": "who", "doc": "fema-citizenship", "quote": "Individuals should consult an immigration expert to verify if they meet the immigration status requirements for FEMA disaster assistance."},
+    {"kind": "who", "doc": "fema-citizenship", "quote": "Additionally, voluntary agencies provide help regardless of citizenship or immigration status."}
+  ],
+  "fraud_warnings": [
+    {"kind": "warning", "doc": "fema-fraud", "quote": "DHS, FEMA, SBA, and other federal agencies will never charge applicants for disaster assistance or help in filling out applications."},
+    {"kind": "warning", "doc": "fema-fraud", "quote": "Never ask for your nine-digit registration number. They already have it in their records."},
+    {"kind": "warning", "doc": "fema-fraud", "quote": "Not ask for bank information. FEMA never charges a fee for an inspection."},
+    {"kind": "warning", "doc": "fema-fraud", "quote": "Always wear an official government badge to identify themselves. Ask the person to show you their identification."},
+    {"kind": "warning", "doc": "fema-fraud", "quote": "Don't pay more than half the costs of repairs in advance."},
+    {"kind": "warning", "doc": "fema-fraud", "quote": "If you receive a letter from FEMA but did not apply for assistance, please call our Helpline at 800-621-3362 between 7 a.m. to 11 p.m. ET daily."},
+    {"kind": "report", "doc": "fema-fraud", "quote": "Email: StopFEMAFraud@fema.dhs.gov"}
+  ],
+  "rules": {
+    "late_registration": {"doc": "ecfr-44-206-112", "quote": "After the standard or extended registration period ends, FEMA will accept late registrations for an additional 60 days."},
+    "late_registration_reason": {"doc": "ecfr-44-206-112", "quote": "We will process late registrations for those registrants who explain the reason for the delay in their registration."},
+    "extension": {"doc": "ecfr-44-206-112", "quote": "FEMA may extend the registration period when the State requests more time to collect registrations from the affected population."},
+    "language_need": {"doc": "fema-ihp", "quote": "Let FEMA know if you or anyone in your household has a disability or language need."},
+    "not_all_losses": {"doc": "fema-other-programs", "quote": "FEMA's Individual Assistance programs are intended to meet only essential needs and are not intended to cover all losses."},
+    "no_duplication": {"doc": "fema-other-programs", "quote": "However, you cannot receive assistance for the same exact need from more than one program or entity, including your insurance."}
+  },
+  "channels": {
+    "emergency_911": {"label": "911", "doc": "fema-ia-hub", "quote": "For medical assistance: Call 9-1-1"},
+    "crisis_988": {"label": "988 Suicide & Crisis Lifeline", "doc": "samhsa-988", "quote": "Text, call, or chat 988."},
+    "distress_line": {"label": "Disaster Distress Helpline", "doc": "fema-other-programs", "quote": "call or text the Disaster Distress Helpline at 800-985-5990."},
+    "fema_helpline": {"label": "FEMA Helpline", "doc": "fema-fraud", "quote": "call our Helpline at 800-621-3362 between 7 a.m. to 11 p.m. ET daily."},
+    "immigration_expert": {"label": "An immigration expert", "doc": "fema-citizenship", "quote": "Individuals should consult an immigration expert to verify if they meet the immigration status requirements for FEMA disaster assistance."},
+    "legal_aid": {"label": "Disaster Legal Services", "doc": "fema-other-programs", "quote": "Disaster Legal Services (DLS) provides legal help to survivors affected by a presidentially declared major disaster."},
+    "identity_theft": {"label": "IdentityTheft.gov", "doc": "fema-fraud", "quote": "Visit IdentityTheft.gov for more information and steps you can take if you suspect you're the victim of identity theft."},
+    "fraud_report": {"label": "FEMA Investigations and Inspections Division", "doc": "fema-fraud", "quote": "Email: StopFEMAFraud@fema.dhs.gov"}
+  }
+}

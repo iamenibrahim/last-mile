@@ -1,0 +1,7210 @@
+{
+"note": "Census 2023 Gazetteer county-equivalents (counties and independent cities) and 2020 ZCTA-to-county relationship file, state 51. Keyless.",
+"counties": {
+"51001": "Accomack County",
+"51003": "Albemarle County",
+"51005": "Alleghany County",
+"51007": "Amelia County",
+"51009": "Amherst County",
+"51011": "Appomattox County",
+"51013": "Arlington County",
+"51015": "Augusta County",
+"51017": "Bath County",
+"51019": "Bedford County",
+"51021": "Bland County",
+"51023": "Botetourt County",
+"51025": "Brunswick County",
+"51027": "Buchanan County",
+"51029": "Buckingham County",
+"51031": "Campbell County",
+"51033": "Caroline County",
+"51035": "Carroll County",
+"51036": "Charles City County",
+"51037": "Charlotte County",
+"51041": "Chesterfield County",
+"51043": "Clarke County",
+"51045": "Craig County",
+"51047": "Culpeper County",
+"51049": "Cumberland County",
+"51051": "Dickenson County",
+"51053": "Dinwiddie County",
+"51057": "Essex County",
+"51059": "Fairfax County",
+"51061": "Fauquier County",
+"51063": "Floyd County",
+"51065": "Fluvanna County",
+"51067": "Franklin County",
+"51069": "Frederick County",
+"51071": "Giles County",
+"51073": "Gloucester County",
+"51075": "Goochland County",
+"51077": "Grayson County",
+"51079": "Greene County",
+"51081": "Greensville County",
+"51083": "Halifax County",
+"51085": "Hanover County",
+"51087": "Henrico County",
+"51089": "Henry County",
+"51091": "Highland County",
+"51093": "Isle of Wight County",
+"51095": "James City County",
+"51097": "King and Queen County",
+"51099": "King George County",
+"51101": "King William County",
+"51103": "Lancaster County",
+"51105": "Lee County",
+"51107": "Loudoun County",
+"51109": "Louisa County",
+"51111": "Lunenburg County",
+"51113": "Madison County",
+"51115": "Mathews County",
+"51117": "Mecklenburg County",
+"51119": "Middlesex County",
+"51121": "Montgomery County",
+"51125": "Nelson County",
+"51127": "New Kent County",
+"51131": "Northampton County",
+"51133": "Northumberland County",
+"51135": "Nottoway County",
+"51137": "Orange County",
+"51139": "Page County",
+"51141": "Patrick County",
+"51143": "Pittsylvania County",
+"51145": "Powhatan County",
+"51147": "Prince Edward County",
+"51149": "Prince George County",
+"51153": "Prince William County",
+"51155": "Pulaski County",
+"51157": "Rappahannock County",
+"51159": "Richmond County",
+"51161": "Roanoke County",
+"51163": "Rockbridge County",
+"51165": "Rockingham County",
+"51167": "Russell County",
+"51169": "Scott County",
+"51171": "Shenandoah County",
+"51173": "Smyth County",
+"51175": "Southampton County",
+"51177": "Spotsylvania County",
+"51179": "Stafford County",
+"51181": "Surry County",
+"51183": "Sussex County",
+"51185": "Tazewell County",
+"51187": "Warren County",
+"51191": "Washington County",
+"51193": "Westmoreland County",
+"51195": "Wise County",
+"51197": "Wythe County",
+"51199": "York County",
+"51510": "Alexandria city",
+"51520": "Bristol city",
+"51530": "Buena Vista city",
+"51540": "Charlottesville city",
+"51550": "Chesapeake city",
+"51570": "Colonial Heights city",
+"51580": "Covington city",
+"51590": "Danville city",
+"51595": "Emporia city",
+"51600": "Fairfax city",
+"51610": "Falls Church city",
+"51620": "Franklin city",
+"51630": "Fredericksburg city",
+"51640": "Galax city",
+"51650": "Hampton city",
+"51660": "Harrisonburg city",
+"51670": "Hopewell city",
+"51678": "Lexington city",
+"51680": "Lynchburg city",
+"51683": "Manassas city",
+"51685": "Manassas Park city",
+"51690": "Martinsville city",
+"51700": "Newport News city",
+"51710": "Norfolk city",
+"51720": "Norton city",
+"51730": "Petersburg city",
+"51735": "Poquoson city",
+"51740": "Portsmouth city",
+"51750": "Radford city",
+"51760": "Richmond city",
+"51770": "Roanoke city",
+"51775": "Salem city",
+"51790": "Staunton city",
+"51800": "Suffolk city",
+"51810": "Virginia Beach city",
+"51820": "Waynesboro city",
+"51830": "Williamsburg city",
+"51840": "Winchester city"
+},
+"zcta_to_county": {
+"20105": [
+{
+"county_fips": "51107",
+"land_part": 92370992
+}
+],
+"20106": [
+{
+"county_fips": "51047",
+"land_part": 29187162
+},
+{
+"county_fips": "51061",
+"land_part": 9876377
+},
+{
+"county_fips": "51157",
+"land_part": 99340538
+}
+],
+"20109": [
+{
+"county_fips": "51153",
+"land_part": 61711986
+}
+],
+"20110": [
+{
+"county_fips": "51153",
+"land_part": 7752850
+},
+{
+"county_fips": "51683",
+"land_part": 25493247
+}
+],
+"20111": [
+{
+"county_fips": "51153",
+"land_part": 34631850
+},
+{
+"county_fips": "51685",
+"land_part": 7857548
+}
+],
+"20112": [
+{
+"county_fips": "51153",
+"land_part": 87765037
+}
+],
+"20115": [
+{
+"county_fips": "51061",
+"land_part": 255438964
+}
+],
+"20117": [
+{
+"county_fips": "51061",
+"land_part": 13359362
+},
+{
+"county_fips": "51107",
+"land_part": 112531255
+}
+],
+"20119": [
+{
+"county_fips": "51061",
+"land_part": 166426363
+},
+{
+"county_fips": "51153",
+"land_part": 1680749
+}
+],
+"20120": [
+{
+"county_fips": "51059",
+"land_part": 41841748
+},
+{
+"county_fips": "51107",
+"land_part": 4726422
+}
+],
+"20121": [
+{
+"county_fips": "51059",
+"land_part": 22430496
+}
+],
+"20124": [
+{
+"county_fips": "51059",
+"land_part": 56176956
+}
+],
+"20129": [
+{
+"county_fips": "51107",
+"land_part": 11093134
+}
+],
+"20130": [
+{
+"county_fips": "51043",
+"land_part": 15458414
+},
+{
+"county_fips": "51061",
+"land_part": 6690767
+},
+{
+"county_fips": "51107",
+"land_part": 6478193
+}
+],
+"20132": [
+{
+"county_fips": "51107",
+"land_part": 219019898
+}
+],
+"20135": [
+{
+"county_fips": "51043",
+"land_part": 60768383
+},
+{
+"county_fips": "51107",
+"land_part": 38569612
+}
+],
+"20136": [
+{
+"county_fips": "51153",
+"land_part": 35831699
+}
+],
+"20137": [
+{
+"county_fips": "51061",
+"land_part": 39179739
+},
+{
+"county_fips": "51153",
+"land_part": 8709772
+}
+],
+"20141": [
+{
+"county_fips": "51107",
+"land_part": 67369583
+}
+],
+"20143": [
+{
+"county_fips": "51153",
+"land_part": 16519771
+}
+],
+"20144": [
+{
+"county_fips": "51061",
+"land_part": 115527328
+}
+],
+"20147": [
+{
+"county_fips": "51107",
+"land_part": 51399621
+}
+],
+"20148": [
+{
+"county_fips": "51107",
+"land_part": 50224023
+}
+],
+"20151": [
+{
+"county_fips": "51059",
+"land_part": 41072179
+}
+],
+"20152": [
+{
+"county_fips": "51107",
+"land_part": 34508164
+}
+],
+"20155": [
+{
+"county_fips": "51153",
+"land_part": 65980999
+}
+],
+"20158": [
+{
+"county_fips": "51107",
+"land_part": 34318206
+}
+],
+"20164": [
+{
+"county_fips": "51107",
+"land_part": 19700767
+}
+],
+"20165": [
+{
+"county_fips": "51107",
+"land_part": 25505132
+}
+],
+"20166": [
+{
+"county_fips": "51107",
+"land_part": 70417218
+}
+],
+"20169": [
+{
+"county_fips": "51061",
+"land_part": 2922103
+},
+{
+"county_fips": "51153",
+"land_part": 94010338
+}
+],
+"20170": [
+{
+"county_fips": "51059",
+"land_part": 22675941
+}
+],
+"20171": [
+{
+"county_fips": "51059",
+"land_part": 30088777
+}
+],
+"20175": [
+{
+"county_fips": "51107",
+"land_part": 152835418
+}
+],
+"20176": [
+{
+"county_fips": "51107",
+"land_part": 142191649
+}
+],
+"20180": [
+{
+"county_fips": "51107",
+"land_part": 111462333
+}
+],
+"20181": [
+{
+"county_fips": "51061",
+"land_part": 13082646
+},
+{
+"county_fips": "51153",
+"land_part": 188682547
+}
+],
+"20184": [
+{
+"county_fips": "51061",
+"land_part": 41020690
+},
+{
+"county_fips": "51107",
+"land_part": 52400078
+}
+],
+"20186": [
+{
+"county_fips": "51047",
+"land_part": 2510977
+},
+{
+"county_fips": "51061",
+"land_part": 149480318
+}
+],
+"20187": [
+{
+"county_fips": "51061",
+"land_part": 132263667
+}
+],
+"20190": [
+{
+"county_fips": "51059",
+"land_part": 11300650
+}
+],
+"20191": [
+{
+"county_fips": "51059",
+"land_part": 20088990
+}
+],
+"20194": [
+{
+"county_fips": "51059",
+"land_part": 8074424
+}
+],
+"20197": [
+{
+"county_fips": "51107",
+"land_part": 38036418
+}
+],
+"20198": [
+{
+"county_fips": "51061",
+"land_part": 180169350
+}
+],
+"22003": [
+{
+"county_fips": "51059",
+"land_part": 32721594
+}
+],
+"22015": [
+{
+"county_fips": "51059",
+"land_part": 21980248
+}
+],
+"22025": [
+{
+"county_fips": "51153",
+"land_part": 24947743
+}
+],
+"22026": [
+{
+"county_fips": "51153",
+"land_part": 21735475
+}
+],
+"22027": [
+{
+"county_fips": "51059",
+"land_part": 1650225
+}
+],
+"22030": [
+{
+"county_fips": "51059",
+"land_part": 38305047
+},
+{
+"county_fips": "51600",
+"land_part": 12056917
+}
+],
+"22031": [
+{
+"county_fips": "51059",
+"land_part": 15207894
+},
+{
+"county_fips": "51600",
+"land_part": 3250939
+}
+],
+"22032": [
+{
+"county_fips": "51059",
+"land_part": 17857435
+},
+{
+"county_fips": "51600",
+"land_part": 854872
+}
+],
+"22033": [
+{
+"county_fips": "51059",
+"land_part": 20255445
+}
+],
+"22035": [
+{
+"county_fips": "51059",
+"land_part": 108906
+}
+],
+"22039": [
+{
+"county_fips": "51059",
+"land_part": 61164798
+}
+],
+"22041": [
+{
+"county_fips": "51059",
+"land_part": 7186895
+}
+],
+"22042": [
+{
+"county_fips": "51059",
+"land_part": 16473084
+},
+{
+"county_fips": "51610",
+"land_part": 157859
+}
+],
+"22043": [
+{
+"county_fips": "51059",
+"land_part": 11954263
+},
+{
+"county_fips": "51610",
+"land_part": 147582
+}
+],
+"22044": [
+{
+"county_fips": "51059",
+"land_part": 5227338
+},
+{
+"county_fips": "51610",
+"land_part": 320487
+}
+],
+"22046": [
+{
+"county_fips": "51059",
+"land_part": 2380486
+},
+{
+"county_fips": "51610",
+"land_part": 4674334
+}
+],
+"22060": [
+{
+"county_fips": "51059",
+"land_part": 34014005
+}
+],
+"22066": [
+{
+"county_fips": "51059",
+"land_part": 65661988
+},
+{
+"county_fips": "51107",
+"land_part": 597762
+}
+],
+"22079": [
+{
+"county_fips": "51059",
+"land_part": 73616464
+}
+],
+"22101": [
+{
+"county_fips": "51013",
+"land_part": 172660
+},
+{
+"county_fips": "51059",
+"land_part": 33764913
+}
+],
+"22102": [
+{
+"county_fips": "51059",
+"land_part": 31875619
+}
+],
+"22124": [
+{
+"county_fips": "51059",
+"land_part": 26746700
+}
+],
+"22125": [
+{
+"county_fips": "51153",
+"land_part": 392540
+}
+],
+"22134": [
+{
+"county_fips": "51153",
+"land_part": 27563107
+},
+{
+"county_fips": "51179",
+"land_part": 94523239
+}
+],
+"22150": [
+{
+"county_fips": "51059",
+"land_part": 19744100
+}
+],
+"22151": [
+{
+"county_fips": "51059",
+"land_part": 13175684
+}
+],
+"22152": [
+{
+"county_fips": "51059",
+"land_part": 15615799
+}
+],
+"22153": [
+{
+"county_fips": "51059",
+"land_part": 22942276
+}
+],
+"22172": [
+{
+"county_fips": "51153",
+"land_part": 53350639
+}
+],
+"22180": [
+{
+"county_fips": "51059",
+"land_part": 15260321
+}
+],
+"22181": [
+{
+"county_fips": "51059",
+"land_part": 14456067
+}
+],
+"22182": [
+{
+"county_fips": "51059",
+"land_part": 32356841
+}
+],
+"22191": [
+{
+"county_fips": "51153",
+"land_part": 39956382
+}
+],
+"22192": [
+{
+"county_fips": "51153",
+"land_part": 49736817
+}
+],
+"22193": [
+{
+"county_fips": "51153",
+"land_part": 47349675
+}
+],
+"22201": [
+{
+"county_fips": "51013",
+"land_part": 5943660
+}
+],
+"22202": [
+{
+"county_fips": "51013",
+"land_part": 10156729
+}
+],
+"22203": [
+{
+"county_fips": "51013",
+"land_part": 4027611
+},
+{
+"county_fips": "51059",
+"land_part": 37769
+}
+],
+"22204": [
+{
+"county_fips": "51013",
+"land_part": 10666980
+}
+],
+"22205": [
+{
+"county_fips": "51013",
+"land_part": 7065633
+}
+],
+"22206": [
+{
+"county_fips": "51013",
+"land_part": 5180797
+},
+{
+"county_fips": "51510",
+"land_part": 157412
+}
+],
+"22207": [
+{
+"county_fips": "51013",
+"land_part": 16607956
+},
+{
+"county_fips": "51059",
+"land_part": 105569
+}
+],
+"22209": [
+{
+"county_fips": "51013",
+"land_part": 1939192
+}
+],
+"22211": [
+{
+"county_fips": "51013",
+"land_part": 2787707
+}
+],
+"22213": [
+{
+"county_fips": "51013",
+"land_part": 1532358
+}
+],
+"22214": [
+{
+"county_fips": "51013",
+"land_part": 1251707
+}
+],
+"22301": [
+{
+"county_fips": "51510",
+"land_part": 3594846
+}
+],
+"22302": [
+{
+"county_fips": "51059",
+"land_part": 255625
+},
+{
+"county_fips": "51510",
+"land_part": 5617141
+}
+],
+"22303": [
+{
+"county_fips": "51059",
+"land_part": 4978584
+}
+],
+"22304": [
+{
+"county_fips": "51059",
+"land_part": 424110
+},
+{
+"county_fips": "51510",
+"land_part": 12127750
+}
+],
+"22305": [
+{
+"county_fips": "51510",
+"land_part": 3448858
+}
+],
+"22306": [
+{
+"county_fips": "51059",
+"land_part": 17576522
+}
+],
+"22307": [
+{
+"county_fips": "51059",
+"land_part": 8065382
+}
+],
+"22308": [
+{
+"county_fips": "51059",
+"land_part": 11486644
+}
+],
+"22309": [
+{
+"county_fips": "51059",
+"land_part": 19493918
+}
+],
+"22310": [
+{
+"county_fips": "51059",
+"land_part": 17463379
+}
+],
+"22311": [
+{
+"county_fips": "51059",
+"land_part": 969203
+},
+{
+"county_fips": "51510",
+"land_part": 3039109
+}
+],
+"22312": [
+{
+"county_fips": "51059",
+"land_part": 12165151
+},
+{
+"county_fips": "51510",
+"land_part": 1110335
+}
+],
+"22314": [
+{
+"county_fips": "51510",
+"land_part": 9586886
+}
+],
+"22315": [
+{
+"county_fips": "51059",
+"land_part": 14263051
+}
+],
+"22401": [
+{
+"county_fips": "51630",
+"land_part": 26845645
+}
+],
+"22405": [
+{
+"county_fips": "51179",
+"land_part": 138084010
+}
+],
+"22406": [
+{
+"county_fips": "51061",
+"land_part": 8813031
+},
+{
+"county_fips": "51179",
+"land_part": 179494457
+}
+],
+"22407": [
+{
+"county_fips": "51047",
+"land_part": 3986059
+},
+{
+"county_fips": "51177",
+"land_part": 153857350
+},
+{
+"county_fips": "51630",
+"land_part": 168894
+}
+],
+"22408": [
+{
+"county_fips": "51033",
+"land_part": 20428312
+},
+{
+"county_fips": "51177",
+"land_part": 102118748
+},
+{
+"county_fips": "51630",
+"land_part": 51960
+}
+],
+"22427": [
+{
+"county_fips": "51033",
+"land_part": 273794984
+}
+],
+"22432": [
+{
+"county_fips": "51133",
+"land_part": 8186757
+}
+],
+"22433": [
+{
+"county_fips": "51137",
+"land_part": 9689493
+}
+],
+"22435": [
+{
+"county_fips": "51133",
+"land_part": 61422200
+},
+{
+"county_fips": "51159",
+"land_part": 3645432
+},
+{
+"county_fips": "51193",
+"land_part": 931191
+}
+],
+"22436": [
+{
+"county_fips": "51057",
+"land_part": 75594017
+}
+],
+"22437": [
+{
+"county_fips": "51057",
+"land_part": 32676193
+},
+{
+"county_fips": "51097",
+"land_part": 63805621
+}
+],
+"22438": [
+{
+"county_fips": "51033",
+"land_part": 11793063
+},
+{
+"county_fips": "51057",
+"land_part": 94719964
+}
+],
+"22443": [
+{
+"county_fips": "51099",
+"land_part": 489684
+},
+{
+"county_fips": "51193",
+"land_part": 152999946
+}
+],
+"22448": [
+{
+"county_fips": "51099",
+"land_part": 10615543
+}
+],
+"22454": [
+{
+"county_fips": "51057",
+"land_part": 116214540
+}
+],
+"22460": [
+{
+"county_fips": "51159",
+"land_part": 149280317
+}
+],
+"22469": [
+{
+"county_fips": "51193",
+"land_part": 78948612
+}
+],
+"22472": [
+{
+"county_fips": "51159",
+"land_part": 663678
+}
+],
+"22473": [
+{
+"county_fips": "51103",
+"land_part": 9675010
+},
+{
+"county_fips": "51133",
+"land_part": 286639836
+}
+],
+"22476": [
+{
+"county_fips": "51057",
+"land_part": 45371700
+}
+],
+"22480": [
+{
+"county_fips": "51103",
+"land_part": 6405136
+}
+],
+"22482": [
+{
+"county_fips": "51103",
+"land_part": 28673443
+},
+{
+"county_fips": "51133",
+"land_part": 50051017
+}
+],
+"22485": [
+{
+"county_fips": "51099",
+"land_part": 454128810
+},
+{
+"county_fips": "51193",
+"land_part": 1096291
+}
+],
+"22488": [
+{
+"county_fips": "51193",
+"land_part": 65101466
+}
+],
+"22503": [
+{
+"county_fips": "51103",
+"land_part": 220085802
+},
+{
+"county_fips": "51133",
+"land_part": 4585741
+}
+],
+"22504": [
+{
+"county_fips": "51057",
+"land_part": 26230181
+},
+{
+"county_fips": "51119",
+"land_part": 6086576
+}
+],
+"22508": [
+{
+"county_fips": "51137",
+"land_part": 134434070
+},
+{
+"county_fips": "51177",
+"land_part": 14628695
+}
+],
+"22509": [
+{
+"county_fips": "51057",
+"land_part": 38148590
+}
+],
+"22511": [
+{
+"county_fips": "51133",
+"land_part": 41117306
+}
+],
+"22514": [
+{
+"county_fips": "51033",
+"land_part": 194828249
+},
+{
+"county_fips": "51097",
+"land_part": 4753644
+}
+],
+"22520": [
+{
+"county_fips": "51159",
+"land_part": 6510412
+},
+{
+"county_fips": "51193",
+"land_part": 243396902
+}
+],
+"22529": [
+{
+"county_fips": "51193",
+"land_part": 19816935
+}
+],
+"22534": [
+{
+"county_fips": "51177",
+"land_part": 85878746
+}
+],
+"22535": [
+{
+"county_fips": "51033",
+"land_part": 111839960
+}
+],
+"22538": [
+{
+"county_fips": "51033",
+"land_part": 62937550
+}
+],
+"22539": [
+{
+"county_fips": "51133",
+"land_part": 43802589
+}
+],
+"22542": [
+{
+"county_fips": "51137",
+"land_part": 44173433
+}
+],
+"22546": [
+{
+"county_fips": "51033",
+"land_part": 398267371
+},
+{
+"county_fips": "51085",
+"land_part": 19601774
+},
+{
+"county_fips": "51177",
+"land_part": 6477936
+}
+],
+"22548": [
+{
+"county_fips": "51159",
+"land_part": 2574021
+}
+],
+"22551": [
+{
+"county_fips": "51137",
+"land_part": 2700089
+},
+{
+"county_fips": "51177",
+"land_part": 432834859
+}
+],
+"22553": [
+{
+"county_fips": "51177",
+"land_part": 112860883
+}
+],
+"22554": [
+{
+"county_fips": "51179",
+"land_part": 166066787
+}
+],
+"22556": [
+{
+"county_fips": "51061",
+"land_part": 976692
+},
+{
+"county_fips": "51179",
+"land_part": 119069258
+}
+],
+"22560": [
+{
+"county_fips": "51057",
+"land_part": 227663606
+},
+{
+"county_fips": "51097",
+"land_part": 29034782
+}
+],
+"22567": [
+{
+"county_fips": "51137",
+"land_part": 116423516
+},
+{
+"county_fips": "51177",
+"land_part": 767655
+}
+],
+"22572": [
+{
+"county_fips": "51159",
+"land_part": 333251566
+},
+{
+"county_fips": "51193",
+"land_part": 31660461
+}
+],
+"22576": [
+{
+"county_fips": "51103",
+"land_part": 31966964
+}
+],
+"22578": [
+{
+"county_fips": "51103",
+"land_part": 48455122
+}
+],
+"22580": [
+{
+"county_fips": "51033",
+"land_part": 220881770
+},
+{
+"county_fips": "51177",
+"land_part": 24791305
+}
+],
+"22601": [
+{
+"county_fips": "51069",
+"land_part": 1507083
+},
+{
+"county_fips": "51840",
+"land_part": 23809500
+}
+],
+"22602": [
+{
+"county_fips": "51069",
+"land_part": 293863419
+}
+],
+"22603": [
+{
+"county_fips": "51069",
+"land_part": 255261428
+}
+],
+"22610": [
+{
+"county_fips": "51139",
+"land_part": 23373
+},
+{
+"county_fips": "51187",
+"land_part": 135452113
+}
+],
+"22611": [
+{
+"county_fips": "51043",
+"land_part": 214499363
+}
+],
+"22620": [
+{
+"county_fips": "51043",
+"land_part": 118397634
+}
+],
+"22623": [
+{
+"county_fips": "51157",
+"land_part": 3105119
+}
+],
+"22624": [
+{
+"county_fips": "51069",
+"land_part": 53161835
+}
+],
+"22625": [
+{
+"county_fips": "51069",
+"land_part": 109344172
+}
+],
+"22627": [
+{
+"county_fips": "51157",
+"land_part": 82990799
+}
+],
+"22630": [
+{
+"county_fips": "51043",
+"land_part": 1915981
+},
+{
+"county_fips": "51061",
+"land_part": 625967
+},
+{
+"county_fips": "51069",
+"land_part": 4970384
+},
+{
+"county_fips": "51157",
+"land_part": 132614
+},
+{
+"county_fips": "51187",
+"land_part": 308116443
+}
+],
+"22637": [
+{
+"county_fips": "51069",
+"land_part": 109175866
+}
+],
+"22639": [
+{
+"county_fips": "51061",
+"land_part": 84662683
+}
+],
+"22640": [
+{
+"county_fips": "51157",
+"land_part": 62193640
+}
+],
+"22641": [
+{
+"county_fips": "51171",
+"land_part": 12493213
+}
+],
+"22642": [
+{
+"county_fips": "51061",
+"land_part": 35186481
+},
+{
+"county_fips": "51187",
+"land_part": 38281817
+}
+],
+"22643": [
+{
+"county_fips": "51061",
+"land_part": 54955722
+}
+],
+"22644": [
+{
+"county_fips": "51171",
+"land_part": 156745360
+}
+],
+"22645": [
+{
+"county_fips": "51069",
+"land_part": 53701093
+},
+{
+"county_fips": "51187",
+"land_part": 40501805
+}
+],
+"22646": [
+{
+"county_fips": "51043",
+"land_part": 2606595
+}
+],
+"22650": [
+{
+"county_fips": "51139",
+"land_part": 76091525
+}
+],
+"22652": [
+{
+"county_fips": "51171",
+"land_part": 180536251
+}
+],
+"22654": [
+{
+"county_fips": "51069",
+"land_part": 73270060
+},
+{
+"county_fips": "51171",
+"land_part": 34210933
+}
+],
+"22655": [
+{
+"county_fips": "51069",
+"land_part": 84042913
+},
+{
+"county_fips": "51187",
+"land_part": 7743709
+}
+],
+"22656": [
+{
+"county_fips": "51069",
+"land_part": 22756381
+}
+],
+"22657": [
+{
+"county_fips": "51171",
+"land_part": 128608177
+},
+{
+"county_fips": "51187",
+"land_part": 20915366
+}
+],
+"22660": [
+{
+"county_fips": "51171",
+"land_part": 30996212
+}
+],
+"22663": [
+{
+"county_fips": "51043",
+"land_part": 42017776
+},
+{
+"county_fips": "51069",
+"land_part": 8959194
+},
+{
+"county_fips": "51187",
+"land_part": 4792752
+}
+],
+"22664": [
+{
+"county_fips": "51171",
+"land_part": 117465501
+}
+],
+"22701": [
+{
+"county_fips": "51047",
+"land_part": 349758305
+},
+{
+"county_fips": "51113",
+"land_part": 32377903
+},
+{
+"county_fips": "51137",
+"land_part": 63954990
+}
+],
+"22709": [
+{
+"county_fips": "51113",
+"land_part": 30338391
+}
+],
+"22711": [
+{
+"county_fips": "51113",
+"land_part": 5929598
+}
+],
+"22712": [
+{
+"county_fips": "51061",
+"land_part": 93975094
+}
+],
+"22713": [
+{
+"county_fips": "51047",
+"land_part": 39002426
+},
+{
+"county_fips": "51157",
+"land_part": 18697280
+}
+],
+"22714": [
+{
+"county_fips": "51047",
+"land_part": 54219000
+}
+],
+"22715": [
+{
+"county_fips": "51113",
+"land_part": 18700920
+}
+],
+"22716": [
+{
+"county_fips": "51047",
+"land_part": 1904365
+},
+{
+"county_fips": "51157",
+"land_part": 63739022
+}
+],
+"22718": [
+{
+"county_fips": "51047",
+"land_part": 64754494
+}
+],
+"22719": [
+{
+"county_fips": "51113",
+"land_part": 49404882
+}
+],
+"22720": [
+{
+"county_fips": "51061",
+"land_part": 35851384
+}
+],
+"22722": [
+{
+"county_fips": "51113",
+"land_part": 6777452
+}
+],
+"22723": [
+{
+"county_fips": "51113",
+"land_part": 9741241
+}
+],
+"22724": [
+{
+"county_fips": "51047",
+"land_part": 42615926
+}
+],
+"22725": [
+{
+"county_fips": "51113",
+"land_part": 1876696
+}
+],
+"22726": [
+{
+"county_fips": "51047",
+"land_part": 43857814
+}
+],
+"22727": [
+{
+"county_fips": "51113",
+"land_part": 275331058
+}
+],
+"22728": [
+{
+"county_fips": "51061",
+"land_part": 125476748
+}
+],
+"22729": [
+{
+"county_fips": "51047",
+"land_part": 26486354
+}
+],
+"22730": [
+{
+"county_fips": "51113",
+"land_part": 10451278
+}
+],
+"22731": [
+{
+"county_fips": "51113",
+"land_part": 4915409
+}
+],
+"22732": [
+{
+"county_fips": "51113",
+"land_part": 10365481
+}
+],
+"22733": [
+{
+"county_fips": "51047",
+"land_part": 58217309
+},
+{
+"county_fips": "51113",
+"land_part": 2238202
+},
+{
+"county_fips": "51137",
+"land_part": 55176504
+}
+],
+"22734": [
+{
+"county_fips": "51047",
+"land_part": 32060563
+},
+{
+"county_fips": "51061",
+"land_part": 60629493
+}
+],
+"22735": [
+{
+"county_fips": "51047",
+"land_part": 30736061
+},
+{
+"county_fips": "51113",
+"land_part": 51839083
+}
+],
+"22736": [
+{
+"county_fips": "51047",
+"land_part": 62816714
+}
+],
+"22737": [
+{
+"county_fips": "51047",
+"land_part": 107359316
+}
+],
+"22738": [
+{
+"county_fips": "51113",
+"land_part": 62647797
+}
+],
+"22740": [
+{
+"county_fips": "51047",
+"land_part": 8174851
+},
+{
+"county_fips": "51113",
+"land_part": 3643076
+},
+{
+"county_fips": "51157",
+"land_part": 178673383
+}
+],
+"22741": [
+{
+"county_fips": "51047",
+"land_part": 16905476
+}
+],
+"22742": [
+{
+"county_fips": "51061",
+"land_part": 51705072
+}
+],
+"22743": [
+{
+"county_fips": "51113",
+"land_part": 149964251
+}
+],
+"22746": [
+{
+"county_fips": "51047",
+"land_part": 7535993
+}
+],
+"22747": [
+{
+"county_fips": "51157",
+"land_part": 106075565
+}
+],
+"22749": [
+{
+"county_fips": "51157",
+"land_part": 74952962
+}
+],
+"22801": [
+{
+"county_fips": "51165",
+"land_part": 60390139
+},
+{
+"county_fips": "51660",
+"land_part": 27469159
+}
+],
+"22802": [
+{
+"county_fips": "51165",
+"land_part": 219877952
+},
+{
+"county_fips": "51660",
+"land_part": 15751570
+}
+],
+"22807": [
+{
+"county_fips": "51660",
+"land_part": 1687657
+}
+],
+"22810": [
+{
+"county_fips": "51171",
+"land_part": 49521725
+}
+],
+"22811": [
+{
+"county_fips": "51165",
+"land_part": 74253255
+}
+],
+"22812": [
+{
+"county_fips": "51015",
+"land_part": 52878551
+},
+{
+"county_fips": "51165",
+"land_part": 76098611
+}
+],
+"22815": [
+{
+"county_fips": "51165",
+"land_part": 177980391
+},
+{
+"county_fips": "51171",
+"land_part": 5581348
+}
+],
+"22820": [
+{
+"county_fips": "51165",
+"land_part": 50053126
+}
+],
+"22821": [
+{
+"county_fips": "51165",
+"land_part": 187782375
+}
+],
+"22824": [
+{
+"county_fips": "51171",
+"land_part": 221404260
+}
+],
+"22827": [
+{
+"county_fips": "51139",
+"land_part": 92036201
+},
+{
+"county_fips": "51165",
+"land_part": 319377921
+}
+],
+"22830": [
+{
+"county_fips": "51165",
+"land_part": 302968815
+}
+],
+"22831": [
+{
+"county_fips": "51165",
+"land_part": 180994283
+}
+],
+"22832": [
+{
+"county_fips": "51165",
+"land_part": 53921693
+}
+],
+"22834": [
+{
+"county_fips": "51165",
+"land_part": 49012316
+}
+],
+"22835": [
+{
+"county_fips": "51139",
+"land_part": 387449567
+}
+],
+"22840": [
+{
+"county_fips": "51165",
+"land_part": 81340741
+}
+],
+"22841": [
+{
+"county_fips": "51015",
+"land_part": 1469610
+},
+{
+"county_fips": "51165",
+"land_part": 76385405
+}
+],
+"22842": [
+{
+"county_fips": "51171",
+"land_part": 211609563
+}
+],
+"22843": [
+{
+"county_fips": "51015",
+"land_part": 273110466
+}
+],
+"22844": [
+{
+"county_fips": "51165",
+"land_part": 24694938
+},
+{
+"county_fips": "51171",
+"land_part": 103767299
+}
+],
+"22845": [
+{
+"county_fips": "51171",
+"land_part": 17254875
+}
+],
+"22846": [
+{
+"county_fips": "51165",
+"land_part": 28807038
+}
+],
+"22847": [
+{
+"county_fips": "51171",
+"land_part": 37126250
+}
+],
+"22849": [
+{
+"county_fips": "51139",
+"land_part": 104934154
+},
+{
+"county_fips": "51165",
+"land_part": 14502966
+}
+],
+"22850": [
+{
+"county_fips": "51165",
+"land_part": 34715330
+}
+],
+"22851": [
+{
+"county_fips": "51139",
+"land_part": 142414863
+}
+],
+"22853": [
+{
+"county_fips": "51165",
+"land_part": 92374545
+},
+{
+"county_fips": "51171",
+"land_part": 8598379
+}
+],
+"22901": [
+{
+"county_fips": "51003",
+"land_part": 127877883
+},
+{
+"county_fips": "51540",
+"land_part": 7237081
+}
+],
+"22902": [
+{
+"county_fips": "51003",
+"land_part": 157173024
+},
+{
+"county_fips": "51065",
+"land_part": 2248858
+},
+{
+"county_fips": "51540",
+"land_part": 7173745
+}
+],
+"22903": [
+{
+"county_fips": "51003",
+"land_part": 166671006
+},
+{
+"county_fips": "51540",
+"land_part": 12047203
+}
+],
+"22904": [
+{
+"county_fips": "51003",
+"land_part": 613233
+},
+{
+"county_fips": "51540",
+"land_part": 62565
+}
+],
+"22908": [
+{
+"county_fips": "51540",
+"land_part": 14017
+}
+],
+"22911": [
+{
+"county_fips": "51003",
+"land_part": 133093145
+}
+],
+"22920": [
+{
+"county_fips": "51003",
+"land_part": 74136537
+},
+{
+"county_fips": "51015",
+"land_part": 9571920
+},
+{
+"county_fips": "51125",
+"land_part": 116936153
+}
+],
+"22922": [
+{
+"county_fips": "51009",
+"land_part": 6306110
+},
+{
+"county_fips": "51125",
+"land_part": 114058068
+}
+],
+"22923": [
+{
+"county_fips": "51003",
+"land_part": 52986783
+},
+{
+"county_fips": "51079",
+"land_part": 18185277
+},
+{
+"county_fips": "51137",
+"land_part": 51582493
+}
+],
+"22931": [
+{
+"county_fips": "51003",
+"land_part": 36229543
+}
+],
+"22932": [
+{
+"county_fips": "51003",
+"land_part": 262948257
+}
+],
+"22935": [
+{
+"county_fips": "51003",
+"land_part": 21568112
+},
+{
+"county_fips": "51079",
+"land_part": 36054482
+}
+],
+"22936": [
+{
+"county_fips": "51003",
+"land_part": 96751506
+}
+],
+"22937": [
+{
+"county_fips": "51003",
+"land_part": 129610208
+}
+],
+"22938": [
+{
+"county_fips": "51003",
+"land_part": 8506161
+},
+{
+"county_fips": "51125",
+"land_part": 85444996
+}
+],
+"22939": [
+{
+"county_fips": "51015",
+"land_part": 45775960
+}
+],
+"22940": [
+{
+"county_fips": "51003",
+"land_part": 68441115
+},
+{
+"county_fips": "51079",
+"land_part": 22217697
+}
+],
+"22942": [
+{
+"county_fips": "51003",
+"land_part": 40980577
+},
+{
+"county_fips": "51109",
+"land_part": 158173118
+},
+{
+"county_fips": "51137",
+"land_part": 105661268
+}
+],
+"22943": [
+{
+"county_fips": "51003",
+"land_part": 29790250
+}
+],
+"22946": [
+{
+"county_fips": "51003",
+"land_part": 4865921
+}
+],
+"22947": [
+{
+"county_fips": "51003",
+"land_part": 110323749
+},
+{
+"county_fips": "51065",
+"land_part": 6514972
+},
+{
+"county_fips": "51109",
+"land_part": 8272236
+}
+],
+"22948": [
+{
+"county_fips": "51113",
+"land_part": 17834246
+}
+],
+"22949": [
+{
+"county_fips": "51125",
+"land_part": 104500238
+}
+],
+"22952": [
+{
+"county_fips": "51015",
+"land_part": 118013914
+},
+{
+"county_fips": "51125",
+"land_part": 1376503
+}
+],
+"22957": [
+{
+"county_fips": "51137",
+"land_part": 3726109
+}
+],
+"22958": [
+{
+"county_fips": "51015",
+"land_part": 2015783
+},
+{
+"county_fips": "51125",
+"land_part": 72432735
+}
+],
+"22959": [
+{
+"county_fips": "51003",
+"land_part": 120255356
+}
+],
+"22960": [
+{
+"county_fips": "51113",
+"land_part": 51782199
+},
+{
+"county_fips": "51137",
+"land_part": 253662399
+},
+{
+"county_fips": "51177",
+"land_part": 10180870
+}
+],
+"22963": [
+{
+"county_fips": "51065",
+"land_part": 322874437
+}
+],
+"22964": [
+{
+"county_fips": "51125",
+"land_part": 9326810
+}
+],
+"22967": [
+{
+"county_fips": "51009",
+"land_part": 49423903
+},
+{
+"county_fips": "51125",
+"land_part": 201691454
+}
+],
+"22968": [
+{
+"county_fips": "51003",
+"land_part": 7048940
+},
+{
+"county_fips": "51079",
+"land_part": 87417314
+},
+{
+"county_fips": "51137",
+"land_part": 1579072
+}
+],
+"22969": [
+{
+"county_fips": "51003",
+"land_part": 54658859
+},
+{
+"county_fips": "51125",
+"land_part": 62426516
+}
+],
+"22971": [
+{
+"county_fips": "51125",
+"land_part": 144921389
+}
+],
+"22972": [
+{
+"county_fips": "51113",
+"land_part": 2008996
+},
+{
+"county_fips": "51137",
+"land_part": 40624633
+}
+],
+"22973": [
+{
+"county_fips": "51079",
+"land_part": 240026151
+},
+{
+"county_fips": "51113",
+"land_part": 27786639
+}
+],
+"22974": [
+{
+"county_fips": "51003",
+"land_part": 7935220
+},
+{
+"county_fips": "51065",
+"land_part": 71626370
+},
+{
+"county_fips": "51109",
+"land_part": 13835068
+}
+],
+"22976": [
+{
+"county_fips": "51125",
+"land_part": 49945930
+}
+],
+"22980": [
+{
+"county_fips": "51015",
+"land_part": 154249043
+},
+{
+"county_fips": "51820",
+"land_part": 38771593
+}
+],
+"22989": [
+{
+"county_fips": "51113",
+"land_part": 4494908
+}
+],
+"23002": [
+{
+"county_fips": "51007",
+"land_part": 658008734
+},
+{
+"county_fips": "51135",
+"land_part": 5325453
+}
+],
+"23004": [
+{
+"county_fips": "51029",
+"land_part": 99439965
+}
+],
+"23005": [
+{
+"county_fips": "51085",
+"land_part": 179440541
+}
+],
+"23009": [
+{
+"county_fips": "51101",
+"land_part": 210230990
+}
+],
+"23011": [
+{
+"county_fips": "51127",
+"land_part": 53813003
+}
+],
+"23015": [
+{
+"county_fips": "51033",
+"land_part": 17152877
+},
+{
+"county_fips": "51085",
+"land_part": 173822818
+},
+{
+"county_fips": "51109",
+"land_part": 2147555
+},
+{
+"county_fips": "51177",
+"land_part": 32716810
+}
+],
+"23021": [
+{
+"county_fips": "51115",
+"land_part": 3616308
+}
+],
+"23022": [
+{
+"county_fips": "51065",
+"land_part": 66994238
+}
+],
+"23023": [
+{
+"county_fips": "51097",
+"land_part": 58928615
+}
+],
+"23024": [
+{
+"county_fips": "51085",
+"land_part": 13515637
+},
+{
+"county_fips": "51109",
+"land_part": 228582331
+},
+{
+"county_fips": "51177",
+"land_part": 37083530
+}
+],
+"23025": [
+{
+"county_fips": "51115",
+"land_part": 11381920
+}
+],
+"23027": [
+{
+"county_fips": "51049",
+"land_part": 113273686
+}
+],
+"23030": [
+{
+"county_fips": "51036",
+"land_part": 383952230
+},
+{
+"county_fips": "51087",
+"land_part": 2706716
+}
+],
+"23032": [
+{
+"county_fips": "51119",
+"land_part": 44885782
+}
+],
+"23035": [
+{
+"county_fips": "51115",
+"land_part": 28112757
+}
+],
+"23038": [
+{
+"county_fips": "51049",
+"land_part": 76196697
+},
+{
+"county_fips": "51065",
+"land_part": 38940365
+},
+{
+"county_fips": "51075",
+"land_part": 79395514
+}
+],
+"23039": [
+{
+"county_fips": "51075",
+"land_part": 39721837
+}
+],
+"23040": [
+{
+"county_fips": "51029",
+"land_part": 36531978
+},
+{
+"county_fips": "51049",
+"land_part": 347176354
+}
+],
+"23043": [
+{
+"county_fips": "51119",
+"land_part": 17637568
+}
+],
+"23045": [
+{
+"county_fips": "51115",
+"land_part": 8986504
+}
+],
+"23047": [
+{
+"county_fips": "51033",
+"land_part": 12928661
+},
+{
+"county_fips": "51085",
+"land_part": 98630331
+}
+],
+"23050": [
+{
+"county_fips": "51073",
+"land_part": 1408547
+},
+{
+"county_fips": "51115",
+"land_part": 18611935
+}
+],
+"23055": [
+{
+"county_fips": "51065",
+"land_part": 36176259
+}
+],
+"23056": [
+{
+"county_fips": "51115",
+"land_part": 17794343
+}
+],
+"23059": [
+{
+"county_fips": "51075",
+"land_part": 2193832
+},
+{
+"county_fips": "51085",
+"land_part": 70338094
+},
+{
+"county_fips": "51087",
+"land_part": 46164989
+}
+],
+"23060": [
+{
+"county_fips": "51087",
+"land_part": 39436598
+}
+],
+"23061": [
+{
+"county_fips": "51073",
+"land_part": 409327079
+}
+],
+"23062": [
+{
+"county_fips": "51073",
+"land_part": 4001426
+}
+],
+"23063": [
+{
+"county_fips": "51075",
+"land_part": 265568322
+}
+],
+"23065": [
+{
+"county_fips": "51075",
+"land_part": 33505826
+},
+{
+"county_fips": "51109",
+"land_part": 10500325
+}
+],
+"23066": [
+{
+"county_fips": "51115",
+"land_part": 6073076
+}
+],
+"23068": [
+{
+"county_fips": "51115",
+"land_part": 2182404
+}
+],
+"23069": [
+{
+"county_fips": "51033",
+"land_part": 41011061
+},
+{
+"county_fips": "51085",
+"land_part": 74641494
+},
+{
+"county_fips": "51101",
+"land_part": 63409574
+}
+],
+"23070": [
+{
+"county_fips": "51119",
+"land_part": 8193064
+}
+],
+"23071": [
+{
+"county_fips": "51119",
+"land_part": 31599899
+}
+],
+"23072": [
+{
+"county_fips": "51073",
+"land_part": 92195862
+}
+],
+"23075": [
+{
+"county_fips": "51087",
+"land_part": 11935671
+}
+],
+"23076": [
+{
+"county_fips": "51115",
+"land_part": 7485115
+}
+],
+"23079": [
+{
+"county_fips": "51119",
+"land_part": 55642003
+}
+],
+"23081": [
+{
+"county_fips": "51095",
+"land_part": 7753698
+}
+],
+"23083": [
+{
+"county_fips": "51007",
+"land_part": 158138626
+},
+{
+"county_fips": "51135",
+"land_part": 2613208
+}
+],
+"23084": [
+{
+"county_fips": "51065",
+"land_part": 74752197
+},
+{
+"county_fips": "51075",
+"land_part": 19222765
+},
+{
+"county_fips": "51109",
+"land_part": 7136283
+}
+],
+"23085": [
+{
+"county_fips": "51097",
+"land_part": 110895829
+}
+],
+"23086": [
+{
+"county_fips": "51101",
+"land_part": 214178459
+}
+],
+"23089": [
+{
+"county_fips": "51095",
+"land_part": 18814187
+},
+{
+"county_fips": "51127",
+"land_part": 137882192
+}
+],
+"23091": [
+{
+"county_fips": "51097",
+"land_part": 67582938
+}
+],
+"23092": [
+{
+"county_fips": "51119",
+"land_part": 14929113
+}
+],
+"23093": [
+{
+"county_fips": "51065",
+"land_part": 4206183
+},
+{
+"county_fips": "51075",
+"land_part": 22477086
+},
+{
+"county_fips": "51109",
+"land_part": 500154192
+}
+],
+"23102": [
+{
+"county_fips": "51075",
+"land_part": 53466275
+},
+{
+"county_fips": "51085",
+"land_part": 4674603
+},
+{
+"county_fips": "51109",
+"land_part": 12932211
+}
+],
+"23103": [
+{
+"county_fips": "51075",
+"land_part": 99507737
+}
+],
+"23106": [
+{
+"county_fips": "51101",
+"land_part": 61536344
+}
+],
+"23108": [
+{
+"county_fips": "51097",
+"land_part": 23457848
+}
+],
+"23109": [
+{
+"county_fips": "51115",
+"land_part": 52550332
+}
+],
+"23110": [
+{
+"county_fips": "51097",
+"land_part": 54402268
+}
+],
+"23111": [
+{
+"county_fips": "51085",
+"land_part": 199833089
+}
+],
+"23112": [
+{
+"county_fips": "51041",
+"land_part": 82421300
+},
+{
+"county_fips": "51145",
+"land_part": 611566
+}
+],
+"23113": [
+{
+"county_fips": "51041",
+"land_part": 50575612
+},
+{
+"county_fips": "51145",
+"land_part": 43769651
+},
+{
+"county_fips": "51760",
+"land_part": 100599
+}
+],
+"23114": [
+{
+"county_fips": "51041",
+"land_part": 31434785
+}
+],
+"23116": [
+{
+"county_fips": "51085",
+"land_part": 142389179
+}
+],
+"23117": [
+{
+"county_fips": "51075",
+"land_part": 12060321
+},
+{
+"county_fips": "51109",
+"land_part": 333108831
+},
+{
+"county_fips": "51177",
+"land_part": 25455059
+}
+],
+"23119": [
+{
+"county_fips": "51115",
+"land_part": 5805390
+}
+],
+"23120": [
+{
+"county_fips": "51041",
+"land_part": 153230427
+},
+{
+"county_fips": "51145",
+"land_part": 10407101
+}
+],
+"23123": [
+{
+"county_fips": "51029",
+"land_part": 102584722
+},
+{
+"county_fips": "51049",
+"land_part": 9329452
+}
+],
+"23124": [
+{
+"county_fips": "51127",
+"land_part": 138113517
+}
+],
+"23126": [
+{
+"county_fips": "51097",
+"land_part": 57532969
+}
+],
+"23128": [
+{
+"county_fips": "51073",
+"land_part": 3681724
+},
+{
+"county_fips": "51115",
+"land_part": 18468717
+}
+],
+"23129": [
+{
+"county_fips": "51075",
+"land_part": 10377649
+}
+],
+"23130": [
+{
+"county_fips": "51115",
+"land_part": 8148982
+}
+],
+"23138": [
+{
+"county_fips": "51115",
+"land_part": 29336756
+}
+],
+"23139": [
+{
+"county_fips": "51049",
+"land_part": 8210184
+},
+{
+"county_fips": "51145",
+"land_part": 614655937
+}
+],
+"23140": [
+{
+"county_fips": "51036",
+"land_part": 79292728
+},
+{
+"county_fips": "51127",
+"land_part": 107906049
+}
+],
+"23141": [
+{
+"county_fips": "51127",
+"land_part": 91096682
+}
+],
+"23146": [
+{
+"county_fips": "51075",
+"land_part": 18089643
+},
+{
+"county_fips": "51085",
+"land_part": 65483647
+}
+],
+"23147": [
+{
+"county_fips": "51036",
+"land_part": 143646
+}
+],
+"23148": [
+{
+"county_fips": "51057",
+"land_part": 9875662
+},
+{
+"county_fips": "51097",
+"land_part": 141092710
+}
+],
+"23149": [
+{
+"county_fips": "51073",
+"land_part": 53510076
+},
+{
+"county_fips": "51097",
+"land_part": 24224685
+},
+{
+"county_fips": "51119",
+"land_part": 58215466
+}
+],
+"23150": [
+{
+"county_fips": "51087",
+"land_part": 76374289
+}
+],
+"23153": [
+{
+"county_fips": "51075",
+"land_part": 34288759
+},
+{
+"county_fips": "51109",
+"land_part": 98492
+}
+],
+"23156": [
+{
+"county_fips": "51097",
+"land_part": 108956596
+}
+],
+"23160": [
+{
+"county_fips": "51145",
+"land_part": 4477028
+}
+],
+"23161": [
+{
+"county_fips": "51097",
+"land_part": 24110223
+}
+],
+"23163": [
+{
+"county_fips": "51115",
+"land_part": 3953519
+}
+],
+"23168": [
+{
+"county_fips": "51095",
+"land_part": 77150700
+}
+],
+"23169": [
+{
+"county_fips": "51119",
+"land_part": 22630951
+}
+],
+"23173": [
+{
+"county_fips": "51760",
+"land_part": 847391
+}
+],
+"23175": [
+{
+"county_fips": "51119",
+"land_part": 41181527
+}
+],
+"23176": [
+{
+"county_fips": "51119",
+"land_part": 12016976
+}
+],
+"23177": [
+{
+"county_fips": "51097",
+"land_part": 47454059
+},
+{
+"county_fips": "51101",
+"land_part": 6176944
+}
+],
+"23180": [
+{
+"county_fips": "51119",
+"land_part": 24535223
+}
+],
+"23181": [
+{
+"county_fips": "51101",
+"land_part": 153892538
+},
+{
+"county_fips": "51127",
+"land_part": 15177420
+}
+],
+"23185": [
+{
+"county_fips": "51036",
+"land_part": 576167
+},
+{
+"county_fips": "51095",
+"land_part": 80918674
+},
+{
+"county_fips": "51199",
+"land_part": 46687703
+},
+{
+"county_fips": "51830",
+"land_part": 20067537
+}
+],
+"23188": [
+{
+"county_fips": "51095",
+"land_part": 183913424
+},
+{
+"county_fips": "51199",
+"land_part": 64904737
+},
+{
+"county_fips": "51830",
+"land_part": 3082233
+}
+],
+"23192": [
+{
+"county_fips": "51085",
+"land_part": 168774124
+},
+{
+"county_fips": "51109",
+"land_part": 7223998
+}
+],
+"23219": [
+{
+"county_fips": "51760",
+"land_part": 3437193
+}
+],
+"23220": [
+{
+"county_fips": "51760",
+"land_part": 12524598
+}
+],
+"23221": [
+{
+"county_fips": "51760",
+"land_part": 8552677
+}
+],
+"23222": [
+{
+"county_fips": "51087",
+"land_part": 12363526
+},
+{
+"county_fips": "51760",
+"land_part": 8777818
+}
+],
+"23223": [
+{
+"county_fips": "51087",
+"land_part": 33076269
+},
+{
+"county_fips": "51760",
+"land_part": 10101181
+}
+],
+"23224": [
+{
+"county_fips": "51041",
+"land_part": 1655590
+},
+{
+"county_fips": "51760",
+"land_part": 28287842
+}
+],
+"23225": [
+{
+"county_fips": "51041",
+"land_part": 7029699
+},
+{
+"county_fips": "51760",
+"land_part": 29098743
+}
+],
+"23226": [
+{
+"county_fips": "51087",
+"land_part": 6450430
+},
+{
+"county_fips": "51760",
+"land_part": 8127157
+}
+],
+"23227": [
+{
+"county_fips": "51087",
+"land_part": 21794336
+},
+{
+"county_fips": "51760",
+"land_part": 7933362
+}
+],
+"23228": [
+{
+"county_fips": "51087",
+"land_part": 28751745
+}
+],
+"23229": [
+{
+"county_fips": "51087",
+"land_part": 36280592
+}
+],
+"23230": [
+{
+"county_fips": "51087",
+"land_part": 7899960
+},
+{
+"county_fips": "51760",
+"land_part": 3128359
+}
+],
+"23231": [
+{
+"county_fips": "51036",
+"land_part": 9746777
+},
+{
+"county_fips": "51087",
+"land_part": 215622948
+},
+{
+"county_fips": "51760",
+"land_part": 3051550
+}
+],
+"23233": [
+{
+"county_fips": "51075",
+"land_part": 8995981
+},
+{
+"county_fips": "51087",
+"land_part": 24384254
+}
+],
+"23234": [
+{
+"county_fips": "51041",
+"land_part": 31016036
+},
+{
+"county_fips": "51760",
+"land_part": 18474117
+}
+],
+"23235": [
+{
+"county_fips": "51041",
+"land_part": 33950260
+},
+{
+"county_fips": "51760",
+"land_part": 12150791
+}
+],
+"23236": [
+{
+"county_fips": "51041",
+"land_part": 37646588
+}
+],
+"23237": [
+{
+"county_fips": "51041",
+"land_part": 55897341
+}
+],
+"23238": [
+{
+"county_fips": "51075",
+"land_part": 31579871
+},
+{
+"county_fips": "51087",
+"land_part": 23294158
+}
+],
+"23250": [
+{
+"county_fips": "51087",
+"land_part": 7689720
+}
+],
+"23284": [
+{
+"county_fips": "51760",
+"land_part": 323025
+}
+],
+"23294": [
+{
+"county_fips": "51087",
+"land_part": 10989192
+}
+],
+"23298": [
+{
+"county_fips": "51760",
+"land_part": 288664
+}
+],
+"23301": [
+{
+"county_fips": "51001",
+"land_part": 74663748
+}
+],
+"23302": [
+{
+"county_fips": "51001",
+"land_part": 5954179
+}
+],
+"23303": [
+{
+"county_fips": "51001",
+"land_part": 14636606
+}
+],
+"23304": [
+{
+"county_fips": "51093",
+"land_part": 471838
+}
+],
+"23306": [
+{
+"county_fips": "51001",
+"land_part": 30585574
+}
+],
+"23307": [
+{
+"county_fips": "51131",
+"land_part": 21733874
+}
+],
+"23308": [
+{
+"county_fips": "51001",
+"land_part": 91262192
+}
+],
+"23310": [
+{
+"county_fips": "51131",
+"land_part": 168678627
+}
+],
+"23314": [
+{
+"county_fips": "51093",
+"land_part": 50403759
+}
+],
+"23315": [
+{
+"county_fips": "51093",
+"land_part": 77744240
+}
+],
+"23316": [
+{
+"county_fips": "51131",
+"land_part": 1416693
+}
+],
+"23320": [
+{
+"county_fips": "51550",
+"land_part": 82208399
+}
+],
+"23321": [
+{
+"county_fips": "51550",
+"land_part": 68894482
+},
+{
+"county_fips": "51740",
+"land_part": 60691
+},
+{
+"county_fips": "51800",
+"land_part": 86065
+}
+],
+"23322": [
+{
+"county_fips": "51550",
+"land_part": 486331791
+}
+],
+"23323": [
+{
+"county_fips": "51550",
+"land_part": 212167014
+}
+],
+"23324": [
+{
+"county_fips": "51550",
+"land_part": 17235880
+}
+],
+"23325": [
+{
+"county_fips": "51550",
+"land_part": 9760489
+}
+],
+"23336": [
+{
+"county_fips": "51001",
+"land_part": 50030287
+}
+],
+"23337": [
+{
+"county_fips": "51001",
+"land_part": 15779870
+}
+],
+"23347": [
+{
+"county_fips": "51131",
+"land_part": 27565025
+}
+],
+"23350": [
+{
+"county_fips": "51131",
+"land_part": 85163490
+}
+],
+"23354": [
+{
+"county_fips": "51131",
+"land_part": 16379794
+}
+],
+"23356": [
+{
+"county_fips": "51001",
+"land_part": 9202654
+}
+],
+"23357": [
+{
+"county_fips": "51001",
+"land_part": 14919136
+}
+],
+"23358": [
+{
+"county_fips": "51001",
+"land_part": 14359118
+}
+],
+"23359": [
+{
+"county_fips": "51001",
+"land_part": 34139509
+}
+],
+"23389": [
+{
+"county_fips": "51001",
+"land_part": 2300531
+}
+],
+"23395": [
+{
+"county_fips": "51001",
+"land_part": 18873189
+}
+],
+"23398": [
+{
+"county_fips": "51131",
+"land_part": 3345516
+}
+],
+"23401": [
+{
+"county_fips": "51001",
+"land_part": 5554702
+}
+],
+"23405": [
+{
+"county_fips": "51131",
+"land_part": 66533866
+}
+],
+"23407": [
+{
+"county_fips": "51001",
+"land_part": 15673979
+}
+],
+"23408": [
+{
+"county_fips": "51131",
+"land_part": 2767587
+}
+],
+"23409": [
+{
+"county_fips": "51001",
+"land_part": 20446944
+}
+],
+"23410": [
+{
+"county_fips": "51001",
+"land_part": 73692745
+}
+],
+"23413": [
+{
+"county_fips": "51131",
+"land_part": 19237870
+}
+],
+"23414": [
+{
+"county_fips": "51001",
+"land_part": 834234
+}
+],
+"23415": [
+{
+"county_fips": "51001",
+"land_part": 81803090
+}
+],
+"23416": [
+{
+"county_fips": "51001",
+"land_part": 18045983
+}
+],
+"23417": [
+{
+"county_fips": "51001",
+"land_part": 122561674
+}
+],
+"23418": [
+{
+"county_fips": "51001",
+"land_part": 35139635
+}
+],
+"23420": [
+{
+"county_fips": "51001",
+"land_part": 92327224
+}
+],
+"23421": [
+{
+"county_fips": "51001",
+"land_part": 83503178
+}
+],
+"23422": [
+{
+"county_fips": "51001",
+"land_part": 9124491
+}
+],
+"23423": [
+{
+"county_fips": "51001",
+"land_part": 37799179
+}
+],
+"23426": [
+{
+"county_fips": "51001",
+"land_part": 10346779
+}
+],
+"23427": [
+{
+"county_fips": "51001",
+"land_part": 12633011
+}
+],
+"23430": [
+{
+"county_fips": "51093",
+"land_part": 261554454
+},
+{
+"county_fips": "51181",
+"land_part": 8100129
+}
+],
+"23432": [
+{
+"county_fips": "51800",
+"land_part": 35168095
+}
+],
+"23433": [
+{
+"county_fips": "51800",
+"land_part": 4440929
+}
+],
+"23434": [
+{
+"county_fips": "51800",
+"land_part": 535540859
+}
+],
+"23435": [
+{
+"county_fips": "51800",
+"land_part": 92404619
+}
+],
+"23436": [
+{
+"county_fips": "51800",
+"land_part": 4033110
+}
+],
+"23437": [
+{
+"county_fips": "51800",
+"land_part": 259306797
+}
+],
+"23438": [
+{
+"county_fips": "51800",
+"land_part": 102838548
+}
+],
+"23440": [
+{
+"county_fips": "51001",
+"land_part": 4107047
+}
+],
+"23441": [
+{
+"county_fips": "51001",
+"land_part": 519586
+}
+],
+"23442": [
+{
+"county_fips": "51001",
+"land_part": 45401560
+}
+],
+"23451": [
+{
+"county_fips": "51810",
+"land_part": 51193555
+}
+],
+"23452": [
+{
+"county_fips": "51810",
+"land_part": 39174227
+}
+],
+"23453": [
+{
+"county_fips": "51810",
+"land_part": 23633068
+}
+],
+"23454": [
+{
+"county_fips": "51810",
+"land_part": 58248460
+}
+],
+"23455": [
+{
+"county_fips": "51810",
+"land_part": 39306549
+}
+],
+"23456": [
+{
+"county_fips": "51810",
+"land_part": 129858790
+}
+],
+"23457": [
+{
+"county_fips": "51810",
+"land_part": 175840834
+}
+],
+"23459": [
+{
+"county_fips": "51810",
+"land_part": 4340331
+}
+],
+"23460": [
+{
+"county_fips": "51810",
+"land_part": 15506819
+}
+],
+"23461": [
+{
+"county_fips": "51810",
+"land_part": 3257710
+}
+],
+"23462": [
+{
+"county_fips": "51710",
+"land_part": 2359
+},
+{
+"county_fips": "51810",
+"land_part": 28561522
+}
+],
+"23464": [
+{
+"county_fips": "51810",
+"land_part": 43168550
+}
+],
+"23480": [
+{
+"county_fips": "51001",
+"land_part": 4991169
+}
+],
+"23486": [
+{
+"county_fips": "51131",
+"land_part": 911101
+}
+],
+"23487": [
+{
+"county_fips": "51093",
+"land_part": 247024383
+}
+],
+"23488": [
+{
+"county_fips": "51001",
+"land_part": 18775558
+}
+],
+"23502": [
+{
+"county_fips": "51710",
+"land_part": 25656644
+}
+],
+"23503": [
+{
+"county_fips": "51710",
+"land_part": 13068162
+}
+],
+"23504": [
+{
+"county_fips": "51710",
+"land_part": 10593491
+}
+],
+"23505": [
+{
+"county_fips": "51710",
+"land_part": 17015862
+}
+],
+"23507": [
+{
+"county_fips": "51710",
+"land_part": 2350970
+}
+],
+"23508": [
+{
+"county_fips": "51710",
+"land_part": 8651695
+}
+],
+"23509": [
+{
+"county_fips": "51710",
+"land_part": 6588934
+}
+],
+"23510": [
+{
+"county_fips": "51710",
+"land_part": 2977149
+}
+],
+"23511": [
+{
+"county_fips": "51710",
+"land_part": 13247430
+}
+],
+"23513": [
+{
+"county_fips": "51710",
+"land_part": 13133902
+}
+],
+"23517": [
+{
+"county_fips": "51710",
+"land_part": 2139314
+}
+],
+"23518": [
+{
+"county_fips": "51710",
+"land_part": 15881556
+}
+],
+"23523": [
+{
+"county_fips": "51710",
+"land_part": 5414631
+}
+],
+"23551": [
+{
+"county_fips": "51710",
+"land_part": 1259332
+}
+],
+"23601": [
+{
+"county_fips": "51700",
+"land_part": 19259119
+}
+],
+"23602": [
+{
+"county_fips": "51700",
+"land_part": 34064099
+}
+],
+"23603": [
+{
+"county_fips": "51199",
+"land_part": 495421
+},
+{
+"county_fips": "51700",
+"land_part": 17508447
+}
+],
+"23604": [
+{
+"county_fips": "51700",
+"land_part": 31376277
+}
+],
+"23605": [
+{
+"county_fips": "51650",
+"land_part": 1429038
+},
+{
+"county_fips": "51700",
+"land_part": 8065223
+}
+],
+"23606": [
+{
+"county_fips": "51700",
+"land_part": 25023619
+}
+],
+"23607": [
+{
+"county_fips": "51650",
+"land_part": 5380
+},
+{
+"county_fips": "51700",
+"land_part": 15543431
+}
+],
+"23608": [
+{
+"county_fips": "51700",
+"land_part": 27839239
+}
+],
+"23651": [
+{
+"county_fips": "51650",
+"land_part": 2033725
+}
+],
+"23661": [
+{
+"county_fips": "51650",
+"land_part": 12247018
+}
+],
+"23662": [
+{
+"county_fips": "51735",
+"land_part": 39773690
+}
+],
+"23663": [
+{
+"county_fips": "51650",
+"land_part": 7279323
+}
+],
+"23664": [
+{
+"county_fips": "51650",
+"land_part": 13927766
+}
+],
+"23665": [
+{
+"county_fips": "51199",
+"land_part": 1319165
+},
+{
+"county_fips": "51650",
+"land_part": 11404944
+}
+],
+"23666": [
+{
+"county_fips": "51650",
+"land_part": 50215841
+}
+],
+"23667": [
+{
+"county_fips": "51650",
+"land_part": 235296
+}
+],
+"23668": [
+{
+"county_fips": "51650",
+"land_part": 125580
+}
+],
+"23669": [
+{
+"county_fips": "51650",
+"land_part": 31308972
+}
+],
+"23681": [
+{
+"county_fips": "51650",
+"land_part": 3069732
+}
+],
+"23690": [
+{
+"county_fips": "51199",
+"land_part": 29705128
+}
+],
+"23691": [
+{
+"county_fips": "51199",
+"land_part": 27893993
+}
+],
+"23692": [
+{
+"county_fips": "51199",
+"land_part": 50302433
+}
+],
+"23693": [
+{
+"county_fips": "51199",
+"land_part": 35375101
+}
+],
+"23696": [
+{
+"county_fips": "51199",
+"land_part": 14506599
+}
+],
+"23701": [
+{
+"county_fips": "51740",
+"land_part": 19997468
+}
+],
+"23702": [
+{
+"county_fips": "51740",
+"land_part": 6211549
+}
+],
+"23703": [
+{
+"county_fips": "51740",
+"land_part": 36095329
+}
+],
+"23704": [
+{
+"county_fips": "51740",
+"land_part": 11707951
+}
+],
+"23707": [
+{
+"county_fips": "51740",
+"land_part": 10098498
+}
+],
+"23708": [
+{
+"county_fips": "51740",
+"land_part": 447907
+}
+],
+"23709": [
+{
+"county_fips": "51740",
+"land_part": 1628812
+}
+],
+"23801": [
+{
+"county_fips": "51149",
+"land_part": 17180281
+}
+],
+"23803": [
+{
+"county_fips": "51041",
+"land_part": 76441916
+},
+{
+"county_fips": "51053",
+"land_part": 82917234
+},
+{
+"county_fips": "51730",
+"land_part": 27597687
+}
+],
+"23805": [
+{
+"county_fips": "51053",
+"land_part": 74529589
+},
+{
+"county_fips": "51149",
+"land_part": 79397059
+},
+{
+"county_fips": "51730",
+"land_part": 31248043
+}
+],
+"23821": [
+{
+"county_fips": "51025",
+"land_part": 174557695
+}
+],
+"23824": [
+{
+"county_fips": "51025",
+"land_part": 44919062
+},
+{
+"county_fips": "51053",
+"land_part": 63703713
+},
+{
+"county_fips": "51111",
+"land_part": 13848114
+},
+{
+"county_fips": "51135",
+"land_part": 387799105
+}
+],
+"23827": [
+{
+"county_fips": "51175",
+"land_part": 108419475
+}
+],
+"23828": [
+{
+"county_fips": "51175",
+"land_part": 106462317
+}
+],
+"23829": [
+{
+"county_fips": "51175",
+"land_part": 208652566
+}
+],
+"23830": [
+{
+"county_fips": "51053",
+"land_part": 67427456
+},
+{
+"county_fips": "51149",
+"land_part": 27578635
+},
+{
+"county_fips": "51183",
+"land_part": 35374533
+}
+],
+"23831": [
+{
+"county_fips": "51041",
+"land_part": 61247248
+}
+],
+"23832": [
+{
+"county_fips": "51041",
+"land_part": 107565128
+}
+],
+"23833": [
+{
+"county_fips": "51007",
+"land_part": 39681629
+},
+{
+"county_fips": "51053",
+"land_part": 111414108
+}
+],
+"23834": [
+{
+"county_fips": "51041",
+"land_part": 42098959
+},
+{
+"county_fips": "51570",
+"land_part": 19475360
+}
+],
+"23836": [
+{
+"county_fips": "51041",
+"land_part": 68840587
+}
+],
+"23837": [
+{
+"county_fips": "51175",
+"land_part": 264975273
+},
+{
+"county_fips": "51183",
+"land_part": 21017494
+}
+],
+"23838": [
+{
+"county_fips": "51041",
+"land_part": 255823095
+}
+],
+"23839": [
+{
+"county_fips": "51181",
+"land_part": 88977453
+}
+],
+"23840": [
+{
+"county_fips": "51053",
+"land_part": 135467986
+}
+],
+"23841": [
+{
+"county_fips": "51053",
+"land_part": 195776671
+}
+],
+"23842": [
+{
+"county_fips": "51149",
+"land_part": 298547540
+},
+{
+"county_fips": "51181",
+"land_part": 7172373
+},
+{
+"county_fips": "51183",
+"land_part": 55819964
+}
+],
+"23843": [
+{
+"county_fips": "51025",
+"land_part": 70336299
+}
+],
+"23844": [
+{
+"county_fips": "51175",
+"land_part": 112130929
+}
+],
+"23845": [
+{
+"county_fips": "51025",
+"land_part": 31255979
+}
+],
+"23846": [
+{
+"county_fips": "51181",
+"land_part": 110331175
+}
+],
+"23847": [
+{
+"county_fips": "51025",
+"land_part": 48302703
+},
+{
+"county_fips": "51081",
+"land_part": 560459994
+},
+{
+"county_fips": "51175",
+"land_part": 47502296
+},
+{
+"county_fips": "51183",
+"land_part": 38387131
+},
+{
+"county_fips": "51595",
+"land_part": 17881071
+}
+],
+"23850": [
+{
+"county_fips": "51007",
+"land_part": 35142853
+},
+{
+"county_fips": "51053",
+"land_part": 83626447
+}
+],
+"23851": [
+{
+"county_fips": "51093",
+"land_part": 38294457
+},
+{
+"county_fips": "51175",
+"land_part": 221797921
+},
+{
+"county_fips": "51620",
+"land_part": 21438217
+}
+],
+"23856": [
+{
+"county_fips": "51025",
+"land_part": 125794900
+},
+{
+"county_fips": "51081",
+"land_part": 6771507
+}
+],
+"23857": [
+{
+"county_fips": "51025",
+"land_part": 37324672
+}
+],
+"23860": [
+{
+"county_fips": "51149",
+"land_part": 90327930
+},
+{
+"county_fips": "51670",
+"land_part": 26817673
+}
+],
+"23866": [
+{
+"county_fips": "51093",
+"land_part": 76971702
+},
+{
+"county_fips": "51175",
+"land_part": 138646754
+},
+{
+"county_fips": "51181",
+"land_part": 999041
+}
+],
+"23867": [
+{
+"county_fips": "51081",
+"land_part": 104903669
+},
+{
+"county_fips": "51183",
+"land_part": 146880761
+}
+],
+"23868": [
+{
+"county_fips": "51025",
+"land_part": 311978208
+}
+],
+"23870": [
+{
+"county_fips": "51081",
+"land_part": 3643171
+}
+],
+"23872": [
+{
+"county_fips": "51053",
+"land_part": 258184503
+}
+],
+"23874": [
+{
+"county_fips": "51175",
+"land_part": 120894452
+}
+],
+"23875": [
+{
+"county_fips": "51149",
+"land_part": 92194956
+}
+],
+"23876": [
+{
+"county_fips": "51025",
+"land_part": 93340006
+}
+],
+"23878": [
+{
+"county_fips": "51175",
+"land_part": 94850467
+}
+],
+"23879": [
+{
+"county_fips": "51081",
+"land_part": 88856211
+}
+],
+"23881": [
+{
+"county_fips": "51149",
+"land_part": 82005840
+},
+{
+"county_fips": "51181",
+"land_part": 199010667
+}
+],
+"23882": [
+{
+"county_fips": "51053",
+"land_part": 77660513
+},
+{
+"county_fips": "51183",
+"land_part": 302961626
+}
+],
+"23883": [
+{
+"county_fips": "51181",
+"land_part": 134864338
+}
+],
+"23884": [
+{
+"county_fips": "51183",
+"land_part": 966485
+}
+],
+"23885": [
+{
+"county_fips": "51053",
+"land_part": 88506980
+}
+],
+"23887": [
+{
+"county_fips": "51025",
+"land_part": 50405142
+}
+],
+"23888": [
+{
+"county_fips": "51175",
+"land_part": 62603752
+},
+{
+"county_fips": "51181",
+"land_part": 64747157
+},
+{
+"county_fips": "51183",
+"land_part": 97072982
+}
+],
+"23889": [
+{
+"county_fips": "51025",
+"land_part": 79674762
+}
+],
+"23890": [
+{
+"county_fips": "51181",
+"land_part": 101762086
+},
+{
+"county_fips": "51183",
+"land_part": 407465013
+}
+],
+"23891": [
+{
+"county_fips": "51183",
+"land_part": 2158492
+}
+],
+"23893": [
+{
+"county_fips": "51025",
+"land_part": 57432304
+}
+],
+"23894": [
+{
+"county_fips": "51053",
+"land_part": 65842645
+},
+{
+"county_fips": "51135",
+"land_part": 6706046
+}
+],
+"23897": [
+{
+"county_fips": "51183",
+"land_part": 161574522
+}
+],
+"23898": [
+{
+"county_fips": "51093",
+"land_part": 65155754
+},
+{
+"county_fips": "51175",
+"land_part": 64973570
+}
+],
+"23899": [
+{
+"county_fips": "51181",
+"land_part": 6511333
+}
+],
+"23901": [
+{
+"county_fips": "51029",
+"land_part": 94721262
+},
+{
+"county_fips": "51049",
+"land_part": 205457999
+},
+{
+"county_fips": "51147",
+"land_part": 200163312
+}
+],
+"23909": [
+{
+"county_fips": "51147",
+"land_part": 245978
+}
+],
+"23915": [
+{
+"county_fips": "51117",
+"land_part": 92098280
+}
+],
+"23917": [
+{
+"county_fips": "51117",
+"land_part": 279551979
+}
+],
+"23919": [
+{
+"county_fips": "51025",
+"land_part": 7690469
+},
+{
+"county_fips": "51117",
+"land_part": 61647716
+}
+],
+"23920": [
+{
+"county_fips": "51025",
+"land_part": 272610192
+},
+{
+"county_fips": "51111",
+"land_part": 23291125
+},
+{
+"county_fips": "51117",
+"land_part": 34720481
+}
+],
+"23921": [
+{
+"county_fips": "51029",
+"land_part": 211268210
+}
+],
+"23922": [
+{
+"county_fips": "51135",
+"land_part": 147099072
+},
+{
+"county_fips": "51147",
+"land_part": 43208586
+}
+],
+"23923": [
+{
+"county_fips": "51037",
+"land_part": 222938900
+},
+{
+"county_fips": "51147",
+"land_part": 13600010
+}
+],
+"23924": [
+{
+"county_fips": "51037",
+"land_part": 21233590
+},
+{
+"county_fips": "51111",
+"land_part": 34196854
+},
+{
+"county_fips": "51117",
+"land_part": 310859484
+}
+],
+"23927": [
+{
+"county_fips": "51117",
+"land_part": 186802823
+}
+],
+"23930": [
+{
+"county_fips": "51135",
+"land_part": 259849642
+}
+],
+"23934": [
+{
+"county_fips": "51037",
+"land_part": 47190154
+},
+{
+"county_fips": "51147",
+"land_part": 57902239
+}
+],
+"23936": [
+{
+"county_fips": "51029",
+"land_part": 525850953
+},
+{
+"county_fips": "51049",
+"land_part": 10809942
+}
+],
+"23937": [
+{
+"county_fips": "51037",
+"land_part": 135537658
+},
+{
+"county_fips": "51111",
+"land_part": 39026166
+}
+],
+"23938": [
+{
+"county_fips": "51025",
+"land_part": 34009809
+},
+{
+"county_fips": "51111",
+"land_part": 22686722
+}
+],
+"23942": [
+{
+"county_fips": "51111",
+"land_part": 61920949
+},
+{
+"county_fips": "51147",
+"land_part": 98435918
+}
+],
+"23943": [
+{
+"county_fips": "51147",
+"land_part": 772118
+}
+],
+"23944": [
+{
+"county_fips": "51111",
+"land_part": 330886055
+}
+],
+"23947": [
+{
+"county_fips": "51037",
+"land_part": 140172317
+},
+{
+"county_fips": "51111",
+"land_part": 194283436
+},
+{
+"county_fips": "51147",
+"land_part": 41009043
+}
+],
+"23950": [
+{
+"county_fips": "51025",
+"land_part": 26906049
+},
+{
+"county_fips": "51117",
+"land_part": 145315421
+}
+],
+"23952": [
+{
+"county_fips": "51111",
+"land_part": 39300162
+}
+],
+"23954": [
+{
+"county_fips": "51111",
+"land_part": 61082124
+},
+{
+"county_fips": "51147",
+"land_part": 113020656
+}
+],
+"23955": [
+{
+"county_fips": "51135",
+"land_part": 3047826
+}
+],
+"23958": [
+{
+"county_fips": "51011",
+"land_part": 115614907
+},
+{
+"county_fips": "51037",
+"land_part": 29226875
+},
+{
+"county_fips": "51147",
+"land_part": 107924150
+}
+],
+"23959": [
+{
+"county_fips": "51037",
+"land_part": 138330963
+}
+],
+"23960": [
+{
+"county_fips": "51011",
+"land_part": 3243521
+},
+{
+"county_fips": "51147",
+"land_part": 107235457
+}
+],
+"23962": [
+{
+"county_fips": "51037",
+"land_part": 111292041
+},
+{
+"county_fips": "51083",
+"land_part": 26475542
+}
+],
+"23963": [
+{
+"county_fips": "51011",
+"land_part": 2117020
+},
+{
+"county_fips": "51031",
+"land_part": 12623033
+},
+{
+"county_fips": "51037",
+"land_part": 39063126
+}
+],
+"23964": [
+{
+"county_fips": "51037",
+"land_part": 103601620
+},
+{
+"county_fips": "51117",
+"land_part": 14166060
+}
+],
+"23966": [
+{
+"county_fips": "51007",
+"land_part": 29407503
+},
+{
+"county_fips": "51135",
+"land_part": 1825231
+},
+{
+"county_fips": "51147",
+"land_part": 122839334
+}
+],
+"23967": [
+{
+"county_fips": "51037",
+"land_part": 107477137
+}
+],
+"23968": [
+{
+"county_fips": "51117",
+"land_part": 91597996
+}
+],
+"23970": [
+{
+"county_fips": "51111",
+"land_part": 68498855
+},
+{
+"county_fips": "51117",
+"land_part": 246281229
+}
+],
+"23974": [
+{
+"county_fips": "51111",
+"land_part": 229077146
+}
+],
+"23976": [
+{
+"county_fips": "51037",
+"land_part": 22414436
+}
+],
+"24011": [
+{
+"county_fips": "51770",
+"land_part": 427964
+}
+],
+"24012": [
+{
+"county_fips": "51023",
+"land_part": 14452587
+},
+{
+"county_fips": "51161",
+"land_part": 12225799
+},
+{
+"county_fips": "51770",
+"land_part": 25988435
+}
+],
+"24013": [
+{
+"county_fips": "51770",
+"land_part": 5643049
+}
+],
+"24014": [
+{
+"county_fips": "51161",
+"land_part": 51061235
+},
+{
+"county_fips": "51770",
+"land_part": 19656432
+}
+],
+"24015": [
+{
+"county_fips": "51161",
+"land_part": 378409
+},
+{
+"county_fips": "51770",
+"land_part": 11744774
+}
+],
+"24016": [
+{
+"county_fips": "51770",
+"land_part": 7755897
+}
+],
+"24017": [
+{
+"county_fips": "51770",
+"land_part": 23373995
+}
+],
+"24018": [
+{
+"county_fips": "51161",
+"land_part": 103957514
+},
+{
+"county_fips": "51770",
+"land_part": 6844577
+}
+],
+"24019": [
+{
+"county_fips": "51023",
+"land_part": 18657580
+},
+{
+"county_fips": "51161",
+"land_part": 51587976
+},
+{
+"county_fips": "51770",
+"land_part": 8075248
+}
+],
+"24020": [
+{
+"county_fips": "51161",
+"land_part": 920647
+}
+],
+"24022": [
+{
+"county_fips": "51770",
+"land_part": 92209
+}
+],
+"24053": [
+{
+"county_fips": "51035",
+"land_part": 4699595
+},
+{
+"county_fips": "51141",
+"land_part": 125099910
+}
+],
+"24054": [
+{
+"county_fips": "51089",
+"land_part": 190948679
+},
+{
+"county_fips": "51143",
+"land_part": 92565817
+}
+],
+"24055": [
+{
+"county_fips": "51067",
+"land_part": 27454422
+},
+{
+"county_fips": "51089",
+"land_part": 176370911
+},
+{
+"county_fips": "51141",
+"land_part": 20505176
+}
+],
+"24058": [
+{
+"county_fips": "51155",
+"land_part": 6941795
+}
+],
+"24059": [
+{
+"county_fips": "51067",
+"land_part": 7216594
+},
+{
+"county_fips": "51121",
+"land_part": 298985
+},
+{
+"county_fips": "51161",
+"land_part": 58545504
+}
+],
+"24060": [
+{
+"county_fips": "51121",
+"land_part": 338829409
+}
+],
+"24061": [
+{
+"county_fips": "51121",
+"land_part": 2810084
+}
+],
+"24064": [
+{
+"county_fips": "51019",
+"land_part": 61295112
+},
+{
+"county_fips": "51023",
+"land_part": 27862029
+}
+],
+"24065": [
+{
+"county_fips": "51067",
+"land_part": 179034507
+},
+{
+"county_fips": "51161",
+"land_part": 32854111
+}
+],
+"24066": [
+{
+"county_fips": "51023",
+"land_part": 400898228
+},
+{
+"county_fips": "51163",
+"land_part": 6756078
+}
+],
+"24067": [
+{
+"county_fips": "51067",
+"land_part": 161364889
+}
+],
+"24069": [
+{
+"county_fips": "51143",
+"land_part": 80526585
+}
+],
+"24070": [
+{
+"county_fips": "51045",
+"land_part": 74961747
+},
+{
+"county_fips": "51121",
+"land_part": 7844772
+},
+{
+"county_fips": "51161",
+"land_part": 76516705
+}
+],
+"24072": [
+{
+"county_fips": "51063",
+"land_part": 77623860
+}
+],
+"24073": [
+{
+"county_fips": "51121",
+"land_part": 232109081
+}
+],
+"24076": [
+{
+"county_fips": "51141",
+"land_part": 100581875
+}
+],
+"24077": [
+{
+"county_fips": "51023",
+"land_part": 1505645
+}
+],
+"24078": [
+{
+"county_fips": "51089",
+"land_part": 17904855
+}
+],
+"24079": [
+{
+"county_fips": "51063",
+"land_part": 97432539
+},
+{
+"county_fips": "51067",
+"land_part": 3075035
+}
+],
+"24082": [
+{
+"county_fips": "51141",
+"land_part": 27333536
+}
+],
+"24083": [
+{
+"county_fips": "51023",
+"land_part": 26060266
+}
+],
+"24084": [
+{
+"county_fips": "51021",
+"land_part": 74931941
+},
+{
+"county_fips": "51155",
+"land_part": 219032940
+}
+],
+"24085": [
+{
+"county_fips": "51005",
+"land_part": 6867482
+},
+{
+"county_fips": "51023",
+"land_part": 422891184
+}
+],
+"24086": [
+{
+"county_fips": "51071",
+"land_part": 16916202
+}
+],
+"24087": [
+{
+"county_fips": "51121",
+"land_part": 114278426
+},
+{
+"county_fips": "51161",
+"land_part": 4143887
+}
+],
+"24088": [
+{
+"county_fips": "51067",
+"land_part": 245073525
+},
+{
+"county_fips": "51141",
+"land_part": 45891853
+}
+],
+"24089": [
+{
+"county_fips": "51089",
+"land_part": 31945721
+}
+],
+"24090": [
+{
+"county_fips": "51023",
+"land_part": 235723378
+}
+],
+"24091": [
+{
+"county_fips": "51063",
+"land_part": 418702705
+},
+{
+"county_fips": "51067",
+"land_part": 17326912
+},
+{
+"county_fips": "51141",
+"land_part": 7130531
+}
+],
+"24092": [
+{
+"county_fips": "51067",
+"land_part": 95783253
+}
+],
+"24093": [
+{
+"county_fips": "51071",
+"land_part": 13611412
+}
+],
+"24095": [
+{
+"county_fips": "51019",
+"land_part": 64963379
+}
+],
+"24101": [
+{
+"county_fips": "51019",
+"land_part": 10519077
+},
+{
+"county_fips": "51067",
+"land_part": 131855184
+},
+{
+"county_fips": "51161",
+"land_part": 1553965
+}
+],
+"24102": [
+{
+"county_fips": "51067",
+"land_part": 77500889
+},
+{
+"county_fips": "51089",
+"land_part": 6390429
+}
+],
+"24104": [
+{
+"county_fips": "51019",
+"land_part": 191464359
+}
+],
+"24105": [
+{
+"county_fips": "51035",
+"land_part": 18117793
+},
+{
+"county_fips": "51063",
+"land_part": 34573042
+}
+],
+"24112": [
+{
+"county_fips": "51067",
+"land_part": 50390528
+},
+{
+"county_fips": "51089",
+"land_part": 313084252
+},
+{
+"county_fips": "51690",
+"land_part": 28374648
+}
+],
+"24120": [
+{
+"county_fips": "51035",
+"land_part": 17303586
+},
+{
+"county_fips": "51063",
+"land_part": 33482267
+},
+{
+"county_fips": "51141",
+"land_part": 145564624
+}
+],
+"24121": [
+{
+"county_fips": "51019",
+"land_part": 186406117
+},
+{
+"county_fips": "51067",
+"land_part": 51398394
+}
+],
+"24122": [
+{
+"county_fips": "51019",
+"land_part": 76638741
+}
+],
+"24124": [
+{
+"county_fips": "51021",
+"land_part": 24122569
+},
+{
+"county_fips": "51071",
+"land_part": 176355035
+}
+],
+"24127": [
+{
+"county_fips": "51045",
+"land_part": 568806089
+}
+],
+"24128": [
+{
+"county_fips": "51045",
+"land_part": 54763343
+},
+{
+"county_fips": "51071",
+"land_part": 136033083
+}
+],
+"24129": [
+{
+"county_fips": "51155",
+"land_part": 96279
+}
+],
+"24131": [
+{
+"county_fips": "51045",
+"land_part": 118191056
+}
+],
+"24132": [
+{
+"county_fips": "51155",
+"land_part": 37526715
+}
+],
+"24133": [
+{
+"county_fips": "51089",
+"land_part": 552115
+},
+{
+"county_fips": "51141",
+"land_part": 104560827
+}
+],
+"24134": [
+{
+"county_fips": "51071",
+"land_part": 269769262
+}
+],
+"24136": [
+{
+"county_fips": "51071",
+"land_part": 89286836
+}
+],
+"24137": [
+{
+"county_fips": "51067",
+"land_part": 148675103
+},
+{
+"county_fips": "51143",
+"land_part": 36627869
+}
+],
+"24138": [
+{
+"county_fips": "51063",
+"land_part": 32532900
+},
+{
+"county_fips": "51121",
+"land_part": 32537979
+}
+],
+"24139": [
+{
+"county_fips": "51019",
+"land_part": 14868837
+},
+{
+"county_fips": "51143",
+"land_part": 48148907
+}
+],
+"24141": [
+{
+"county_fips": "51063",
+"land_part": 12894595
+},
+{
+"county_fips": "51121",
+"land_part": 51847929
+},
+{
+"county_fips": "51155",
+"land_part": 80322010
+},
+{
+"county_fips": "51750",
+"land_part": 24766199
+}
+],
+"24142": [
+{
+"county_fips": "51750",
+"land_part": 295528
+}
+],
+"24147": [
+{
+"county_fips": "51071",
+"land_part": 15955593
+}
+],
+"24148": [
+{
+"county_fips": "51089",
+"land_part": 183737684
+}
+],
+"24149": [
+{
+"county_fips": "51063",
+"land_part": 48188416
+},
+{
+"county_fips": "51121",
+"land_part": 94537703
+}
+],
+"24150": [
+{
+"county_fips": "51071",
+"land_part": 172031581
+}
+],
+"24151": [
+{
+"county_fips": "51067",
+"land_part": 428378800
+}
+],
+"24153": [
+{
+"county_fips": "51023",
+"land_part": 2351889
+},
+{
+"county_fips": "51161",
+"land_part": 222214271
+},
+{
+"county_fips": "51775",
+"land_part": 37593968
+}
+],
+"24161": [
+{
+"county_fips": "51143",
+"land_part": 73435470
+}
+],
+"24162": [
+{
+"county_fips": "51063",
+"land_part": 2675395
+},
+{
+"county_fips": "51121",
+"land_part": 118567028
+}
+],
+"24165": [
+{
+"county_fips": "51089",
+"land_part": 54228731
+},
+{
+"county_fips": "51141",
+"land_part": 51478152
+}
+],
+"24167": [
+{
+"county_fips": "51071",
+"land_part": 16010094
+}
+],
+"24168": [
+{
+"county_fips": "51089",
+"land_part": 3003564
+}
+],
+"24171": [
+{
+"county_fips": "51141",
+"land_part": 515719128
+}
+],
+"24174": [
+{
+"county_fips": "51019",
+"land_part": 81482919
+}
+],
+"24175": [
+{
+"county_fips": "51023",
+"land_part": 198453342
+},
+{
+"county_fips": "51161",
+"land_part": 9801475
+}
+],
+"24176": [
+{
+"county_fips": "51067",
+"land_part": 56985898
+}
+],
+"24179": [
+{
+"county_fips": "51019",
+"land_part": 99374334
+},
+{
+"county_fips": "51161",
+"land_part": 23153581
+},
+{
+"county_fips": "51770",
+"land_part": 526856
+}
+],
+"24184": [
+{
+"county_fips": "51067",
+"land_part": 107157832
+}
+],
+"24185": [
+{
+"county_fips": "51141",
+"land_part": 91548145
+}
+],
+"24201": [
+{
+"county_fips": "51520",
+"land_part": 26187589
+}
+],
+"24202": [
+{
+"county_fips": "51169",
+"land_part": 60594588
+},
+{
+"county_fips": "51191",
+"land_part": 265928363
+},
+{
+"county_fips": "51520",
+"land_part": 7148641
+}
+],
+"24210": [
+{
+"county_fips": "51191",
+"land_part": 373233044
+}
+],
+"24211": [
+{
+"county_fips": "51191",
+"land_part": 181861168
+}
+],
+"24216": [
+{
+"county_fips": "51195",
+"land_part": 180517080
+}
+],
+"24217": [
+{
+"county_fips": "51027",
+"land_part": 15420945
+},
+{
+"county_fips": "51051",
+"land_part": 52637102
+}
+],
+"24219": [
+{
+"county_fips": "51105",
+"land_part": 46120329
+},
+{
+"county_fips": "51169",
+"land_part": 13342905
+},
+{
+"county_fips": "51195",
+"land_part": 128963512
+}
+],
+"24220": [
+{
+"county_fips": "51051",
+"land_part": 58154483
+}
+],
+"24221": [
+{
+"county_fips": "51105",
+"land_part": 81411218
+},
+{
+"county_fips": "51169",
+"land_part": 52129595
+}
+],
+"24224": [
+{
+"county_fips": "51167",
+"land_part": 272833714
+}
+],
+"24225": [
+{
+"county_fips": "51051",
+"land_part": 1541154
+},
+{
+"county_fips": "51167",
+"land_part": 155394496
+}
+],
+"24226": [
+{
+"county_fips": "51051",
+"land_part": 67661719
+}
+],
+"24228": [
+{
+"county_fips": "51051",
+"land_part": 239288881
+}
+],
+"24230": [
+{
+"county_fips": "51051",
+"land_part": 109544623
+},
+{
+"county_fips": "51169",
+"land_part": 24112288
+},
+{
+"county_fips": "51195",
+"land_part": 187807549
+}
+],
+"24236": [
+{
+"county_fips": "51173",
+"land_part": 6318206
+},
+{
+"county_fips": "51191",
+"land_part": 148827376
+}
+],
+"24237": [
+{
+"county_fips": "51051",
+"land_part": 107561660
+},
+{
+"county_fips": "51167",
+"land_part": 33122391
+}
+],
+"24239": [
+{
+"county_fips": "51027",
+"land_part": 6780491
+}
+],
+"24243": [
+{
+"county_fips": "51105",
+"land_part": 59504662
+}
+],
+"24244": [
+{
+"county_fips": "51105",
+"land_part": 76101795
+},
+{
+"county_fips": "51169",
+"land_part": 362632437
+}
+],
+"24245": [
+{
+"county_fips": "51169",
+"land_part": 148898856
+}
+],
+"24246": [
+{
+"county_fips": "51195",
+"land_part": 1027632
+}
+],
+"24248": [
+{
+"county_fips": "51105",
+"land_part": 141739134
+}
+],
+"24250": [
+{
+"county_fips": "51169",
+"land_part": 149006048
+}
+],
+"24251": [
+{
+"county_fips": "51169",
+"land_part": 303451722
+}
+],
+"24256": [
+{
+"county_fips": "51027",
+"land_part": 25228290
+},
+{
+"county_fips": "51051",
+"land_part": 116494241
+}
+],
+"24258": [
+{
+"county_fips": "51169",
+"land_part": 95428300
+},
+{
+"county_fips": "51191",
+"land_part": 6743892
+}
+],
+"24260": [
+{
+"county_fips": "51027",
+"land_part": 56255859
+},
+{
+"county_fips": "51167",
+"land_part": 205250102
+}
+],
+"24263": [
+{
+"county_fips": "51105",
+"land_part": 307429535
+}
+],
+"24265": [
+{
+"county_fips": "51105",
+"land_part": 101614594
+}
+],
+"24266": [
+{
+"county_fips": "51167",
+"land_part": 325950104
+}
+],
+"24269": [
+{
+"county_fips": "51051",
+"land_part": 19894466
+}
+],
+"24270": [
+{
+"county_fips": "51191",
+"land_part": 49951932
+}
+],
+"24271": [
+{
+"county_fips": "51167",
+"land_part": 1263562
+},
+{
+"county_fips": "51169",
+"land_part": 164413350
+}
+],
+"24272": [
+{
+"county_fips": "51051",
+"land_part": 60127713
+}
+],
+"24273": [
+{
+"county_fips": "51195",
+"land_part": 147660437
+},
+{
+"county_fips": "51720",
+"land_part": 19366113
+}
+],
+"24277": [
+{
+"county_fips": "51105",
+"land_part": 137728342
+}
+],
+"24279": [
+{
+"county_fips": "51195",
+"land_part": 205304041
+}
+],
+"24280": [
+{
+"county_fips": "51167",
+"land_part": 25864967
+}
+],
+"24281": [
+{
+"county_fips": "51105",
+"land_part": 135422602
+}
+],
+"24282": [
+{
+"county_fips": "51105",
+"land_part": 39828252
+}
+],
+"24283": [
+{
+"county_fips": "51051",
+"land_part": 9001166
+},
+{
+"county_fips": "51167",
+"land_part": 11047697
+},
+{
+"county_fips": "51195",
+"land_part": 46915076
+}
+],
+"24290": [
+{
+"county_fips": "51169",
+"land_part": 12996110
+}
+],
+"24292": [
+{
+"county_fips": "51077",
+"land_part": 67394247
+}
+],
+"24293": [
+{
+"county_fips": "51195",
+"land_part": 146710241
+}
+],
+"24301": [
+{
+"county_fips": "51155",
+"land_part": 221222992
+}
+],
+"24311": [
+{
+"county_fips": "51173",
+"land_part": 82000619
+}
+],
+"24312": [
+{
+"county_fips": "51035",
+"land_part": 64806881
+},
+{
+"county_fips": "51197",
+"land_part": 28004843
+}
+],
+"24313": [
+{
+"county_fips": "51155",
+"land_part": 2025946
+},
+{
+"county_fips": "51197",
+"land_part": 17686070
+}
+],
+"24314": [
+{
+"county_fips": "51021",
+"land_part": 226006230
+},
+{
+"county_fips": "51185",
+"land_part": 23560529
+}
+],
+"24315": [
+{
+"county_fips": "51021",
+"land_part": 423864902
+},
+{
+"county_fips": "51071",
+"land_part": 19238004
+}
+],
+"24316": [
+{
+"county_fips": "51173",
+"land_part": 1208900
+},
+{
+"county_fips": "51185",
+"land_part": 11983277
+}
+],
+"24317": [
+{
+"county_fips": "51035",
+"land_part": 94246525
+},
+{
+"county_fips": "51141",
+"land_part": 6512709
+}
+],
+"24318": [
+{
+"county_fips": "51021",
+"land_part": 123311382
+},
+{
+"county_fips": "51173",
+"land_part": 62614446
+}
+],
+"24319": [
+{
+"county_fips": "51173",
+"land_part": 128081857
+},
+{
+"county_fips": "51191",
+"land_part": 33539498
+}
+],
+"24322": [
+{
+"county_fips": "51197",
+"land_part": 45936800
+}
+],
+"24323": [
+{
+"county_fips": "51197",
+"land_part": 51951363
+}
+],
+"24324": [
+{
+"county_fips": "51155",
+"land_part": 76944471
+},
+{
+"county_fips": "51197",
+"land_part": 24656289
+}
+],
+"24325": [
+{
+"county_fips": "51035",
+"land_part": 124032754
+}
+],
+"24326": [
+{
+"county_fips": "51077",
+"land_part": 133861466
+}
+],
+"24327": [
+{
+"county_fips": "51191",
+"land_part": 729642
+}
+],
+"24328": [
+{
+"county_fips": "51035",
+"land_part": 98531467
+},
+{
+"county_fips": "51141",
+"land_part": 502276
+}
+],
+"24330": [
+{
+"county_fips": "51035",
+"land_part": 23710343
+},
+{
+"county_fips": "51077",
+"land_part": 87069403
+}
+],
+"24333": [
+{
+"county_fips": "51035",
+"land_part": 160126140
+},
+{
+"county_fips": "51077",
+"land_part": 193799056
+},
+{
+"county_fips": "51640",
+"land_part": 21332077
+}
+],
+"24340": [
+{
+"county_fips": "51191",
+"land_part": 172411907
+}
+],
+"24343": [
+{
+"county_fips": "51035",
+"land_part": 310301022
+},
+{
+"county_fips": "51141",
+"land_part": 8417413
+},
+{
+"county_fips": "51197",
+"land_part": 7667862
+}
+],
+"24347": [
+{
+"county_fips": "51035",
+"land_part": 18883822
+},
+{
+"county_fips": "51121",
+"land_part": 8267686
+},
+{
+"county_fips": "51155",
+"land_part": 184265803
+}
+],
+"24348": [
+{
+"county_fips": "51077",
+"land_part": 263886661
+}
+],
+"24350": [
+{
+"county_fips": "51035",
+"land_part": 38039453
+},
+{
+"county_fips": "51077",
+"land_part": 25979279
+},
+{
+"county_fips": "51197",
+"land_part": 62243720
+}
+],
+"24351": [
+{
+"county_fips": "51035",
+"land_part": 29484935
+}
+],
+"24352": [
+{
+"county_fips": "51035",
+"land_part": 75759002
+},
+{
+"county_fips": "51063",
+"land_part": 846067
+}
+],
+"24354": [
+{
+"county_fips": "51173",
+"land_part": 309930053
+}
+],
+"24360": [
+{
+"county_fips": "51035",
+"land_part": 2859685
+},
+{
+"county_fips": "51197",
+"land_part": 236344940
+}
+],
+"24361": [
+{
+"county_fips": "51191",
+"land_part": 141359264
+}
+],
+"24363": [
+{
+"county_fips": "51077",
+"land_part": 197956319
+}
+],
+"24366": [
+{
+"county_fips": "51021",
+"land_part": 54074243
+}
+],
+"24368": [
+{
+"county_fips": "51173",
+"land_part": 61532206
+},
+{
+"county_fips": "51197",
+"land_part": 162856894
+}
+],
+"24370": [
+{
+"county_fips": "51173",
+"land_part": 314082496
+},
+{
+"county_fips": "51191",
+"land_part": 78897598
+}
+],
+"24374": [
+{
+"county_fips": "51197",
+"land_part": 67145997
+}
+],
+"24375": [
+{
+"county_fips": "51173",
+"land_part": 162885630
+}
+],
+"24377": [
+{
+"county_fips": "51185",
+"land_part": 91169059
+}
+],
+"24378": [
+{
+"county_fips": "51077",
+"land_part": 172288926
+},
+{
+"county_fips": "51173",
+"land_part": 40569022
+}
+],
+"24380": [
+{
+"county_fips": "51035",
+"land_part": 17094860
+},
+{
+"county_fips": "51063",
+"land_part": 227633842
+}
+],
+"24381": [
+{
+"county_fips": "51035",
+"land_part": 131584537
+}
+],
+"24382": [
+{
+"county_fips": "51197",
+"land_part": 491955724
+}
+],
+"24401": [
+{
+"county_fips": "51015",
+"land_part": 291369000
+},
+{
+"county_fips": "51790",
+"land_part": 51556737
+}
+],
+"24411": [
+{
+"county_fips": "51015",
+"land_part": 4766226
+}
+],
+"24412": [
+{
+"county_fips": "51017",
+"land_part": 8716913
+}
+],
+"24413": [
+{
+"county_fips": "51091",
+"land_part": 61415693
+}
+],
+"24415": [
+{
+"county_fips": "51163",
+"land_part": 5798427
+}
+],
+"24416": [
+{
+"county_fips": "51163",
+"land_part": 143168350
+},
+{
+"county_fips": "51530",
+"land_part": 16674752
+}
+],
+"24421": [
+{
+"county_fips": "51015",
+"land_part": 192932937
+}
+],
+"24422": [
+{
+"county_fips": "51005",
+"land_part": 197513151
+},
+{
+"county_fips": "51017",
+"land_part": 38595
+},
+{
+"county_fips": "51023",
+"land_part": 8397572
+}
+],
+"24426": [
+{
+"county_fips": "51005",
+"land_part": 894882289
+},
+{
+"county_fips": "51045",
+"land_part": 33048203
+},
+{
+"county_fips": "51580",
+"land_part": 14163842
+}
+],
+"24430": [
+{
+"county_fips": "51015",
+"land_part": 61208345
+}
+],
+"24431": [
+{
+"county_fips": "51015",
+"land_part": 38654009
+}
+],
+"24432": [
+{
+"county_fips": "51015",
+"land_part": 95960969
+},
+{
+"county_fips": "51017",
+"land_part": 11891118
+}
+],
+"24433": [
+{
+"county_fips": "51091",
+"land_part": 42064129
+}
+],
+"24435": [
+{
+"county_fips": "51163",
+"land_part": 67205062
+}
+],
+"24437": [
+{
+"county_fips": "51015",
+"land_part": 28379046
+}
+],
+"24439": [
+{
+"county_fips": "51015",
+"land_part": 89774433
+},
+{
+"county_fips": "51163",
+"land_part": 226199341
+}
+],
+"24440": [
+{
+"county_fips": "51015",
+"land_part": 67153837
+}
+],
+"24441": [
+{
+"county_fips": "51015",
+"land_part": 89962108
+},
+{
+"county_fips": "51165",
+"land_part": 47156300
+}
+],
+"24442": [
+{
+"county_fips": "51091",
+"land_part": 107574357
+}
+],
+"24445": [
+{
+"county_fips": "51005",
+"land_part": 52032101
+},
+{
+"county_fips": "51017",
+"land_part": 197683718
+}
+],
+"24448": [
+{
+"county_fips": "51005",
+"land_part": 796018
+}
+],
+"24450": [
+{
+"county_fips": "51023",
+"land_part": 44645274
+},
+{
+"county_fips": "51163",
+"land_part": 518586953
+},
+{
+"county_fips": "51678",
+"land_part": 6473000
+}
+],
+"24457": [
+{
+"county_fips": "51005",
+"land_part": 3001414
+}
+],
+"24458": [
+{
+"county_fips": "51091",
+"land_part": 178193751
+}
+],
+"24459": [
+{
+"county_fips": "51015",
+"land_part": 109547792
+},
+{
+"county_fips": "51163",
+"land_part": 14821920
+}
+],
+"24460": [
+{
+"county_fips": "51017",
+"land_part": 649163332
+}
+],
+"24464": [
+{
+"county_fips": "51125",
+"land_part": 70424517
+}
+],
+"24465": [
+{
+"county_fips": "51091",
+"land_part": 493302579
+}
+],
+"24467": [
+{
+"county_fips": "51015",
+"land_part": 62774895
+}
+],
+"24469": [
+{
+"county_fips": "51015",
+"land_part": 326263
+}
+],
+"24471": [
+{
+"county_fips": "51165",
+"land_part": 42661220
+}
+],
+"24472": [
+{
+"county_fips": "51015",
+"land_part": 90850844
+},
+{
+"county_fips": "51163",
+"land_part": 93181928
+}
+],
+"24473": [
+{
+"county_fips": "51163",
+"land_part": 120777025
+}
+],
+"24474": [
+{
+"county_fips": "51005",
+"land_part": 1524136
+}
+],
+"24476": [
+{
+"county_fips": "51015",
+"land_part": 19079401
+}
+],
+"24477": [
+{
+"county_fips": "51015",
+"land_part": 126675497
+}
+],
+"24479": [
+{
+"county_fips": "51015",
+"land_part": 158646537
+}
+],
+"24482": [
+{
+"county_fips": "51015",
+"land_part": 42913768
+},
+{
+"county_fips": "51790",
+"land_part": 37082
+}
+],
+"24483": [
+{
+"county_fips": "51009",
+"land_part": 66107881
+},
+{
+"county_fips": "51125",
+"land_part": 5329254
+},
+{
+"county_fips": "51163",
+"land_part": 112075812
+}
+],
+"24484": [
+{
+"county_fips": "51017",
+"land_part": 406705970
+},
+{
+"county_fips": "51091",
+"land_part": 53022157
+}
+],
+"24485": [
+{
+"county_fips": "51015",
+"land_part": 219570101
+}
+],
+"24486": [
+{
+"county_fips": "51015",
+"land_part": 57077606
+},
+{
+"county_fips": "51165",
+"land_part": 5595224
+}
+],
+"24487": [
+{
+"county_fips": "51017",
+"land_part": 96426397
+},
+{
+"county_fips": "51091",
+"land_part": 139694238
+}
+],
+"24501": [
+{
+"county_fips": "51031",
+"land_part": 59139388
+},
+{
+"county_fips": "51680",
+"land_part": 34961291
+}
+],
+"24502": [
+{
+"county_fips": "51019",
+"land_part": 3342527
+},
+{
+"county_fips": "51031",
+"land_part": 29494016
+},
+{
+"county_fips": "51680",
+"land_part": 44612436
+}
+],
+"24503": [
+{
+"county_fips": "51019",
+"land_part": 61903424
+},
+{
+"county_fips": "51680",
+"land_part": 33207768
+}
+],
+"24504": [
+{
+"county_fips": "51011",
+"land_part": 8812287
+},
+{
+"county_fips": "51031",
+"land_part": 76710760
+},
+{
+"county_fips": "51680",
+"land_part": 11644739
+}
+],
+"24515": [
+{
+"county_fips": "51680",
+"land_part": 1743334
+}
+],
+"24517": [
+{
+"county_fips": "51031",
+"land_part": 84504988
+}
+],
+"24520": [
+{
+"county_fips": "51083",
+"land_part": 245398404
+}
+],
+"24521": [
+{
+"county_fips": "51009",
+"land_part": 538779648
+},
+{
+"county_fips": "51125",
+"land_part": 23619677
+}
+],
+"24522": [
+{
+"county_fips": "51011",
+"land_part": 498920508
+},
+{
+"county_fips": "51029",
+"land_part": 17607923
+},
+{
+"county_fips": "51037",
+"land_part": 1364664
+}
+],
+"24523": [
+{
+"county_fips": "51019",
+"land_part": 595531281
+}
+],
+"24526": [
+{
+"county_fips": "51009",
+"land_part": 51949664
+},
+{
+"county_fips": "51019",
+"land_part": 131716192
+}
+],
+"24527": [
+{
+"county_fips": "51143",
+"land_part": 80117690
+}
+],
+"24528": [
+{
+"county_fips": "51031",
+"land_part": 146644824
+},
+{
+"county_fips": "51037",
+"land_part": 111166635
+}
+],
+"24529": [
+{
+"county_fips": "51117",
+"land_part": 94954723
+}
+],
+"24530": [
+{
+"county_fips": "51089",
+"land_part": 9037288
+},
+{
+"county_fips": "51143",
+"land_part": 84089189
+}
+],
+"24531": [
+{
+"county_fips": "51143",
+"land_part": 509981040
+}
+],
+"24534": [
+{
+"county_fips": "51083",
+"land_part": 148903289
+}
+],
+"24536": [
+{
+"county_fips": "51019",
+"land_part": 24487833
+}
+],
+"24538": [
+{
+"county_fips": "51011",
+"land_part": 89179531
+},
+{
+"county_fips": "51031",
+"land_part": 136194376
+}
+],
+"24539": [
+{
+"county_fips": "51083",
+"land_part": 25884224
+}
+],
+"24540": [
+{
+"county_fips": "51143",
+"land_part": 149830850
+},
+{
+"county_fips": "51590",
+"land_part": 44509309
+}
+],
+"24541": [
+{
+"county_fips": "51143",
+"land_part": 128333454
+},
+{
+"county_fips": "51590",
+"land_part": 66335214
+}
+],
+"24549": [
+{
+"county_fips": "51143",
+"land_part": 133367534
+}
+],
+"24550": [
+{
+"county_fips": "51019",
+"land_part": 20348511
+},
+{
+"county_fips": "51031",
+"land_part": 143690625
+}
+],
+"24551": [
+{
+"county_fips": "51019",
+"land_part": 186780564
+},
+{
+"county_fips": "51031",
+"land_part": 4656601
+},
+{
+"county_fips": "51680",
+"land_part": 678863
+}
+],
+"24553": [
+{
+"county_fips": "51009",
+"land_part": 63648483
+},
+{
+"county_fips": "51011",
+"land_part": 59052781
+},
+{
+"county_fips": "51029",
+"land_part": 156705644
+},
+{
+"county_fips": "51125",
+"land_part": 73375661
+}
+],
+"24554": [
+{
+"county_fips": "51031",
+"land_part": 325258091
+}
+],
+"24555": [
+{
+"county_fips": "51163",
+"land_part": 59187129
+}
+],
+"24556": [
+{
+"county_fips": "51019",
+"land_part": 102579179
+}
+],
+"24557": [
+{
+"county_fips": "51083",
+"land_part": 996539
+},
+{
+"county_fips": "51143",
+"land_part": 419813597
+}
+],
+"24558": [
+{
+"county_fips": "51083",
+"land_part": 245895688
+}
+],
+"24562": [
+{
+"county_fips": "51003",
+"land_part": 3962971
+},
+{
+"county_fips": "51029",
+"land_part": 39611834
+},
+{
+"county_fips": "51125",
+"land_part": 15593549
+}
+],
+"24563": [
+{
+"county_fips": "51143",
+"land_part": 178030094
+}
+],
+"24565": [
+{
+"county_fips": "51083",
+"land_part": 24396320
+},
+{
+"county_fips": "51143",
+"land_part": 126205416
+}
+],
+"24566": [
+{
+"county_fips": "51143",
+"land_part": 96409903
+}
+],
+"24569": [
+{
+"county_fips": "51031",
+"land_part": 16250179
+},
+{
+"county_fips": "51083",
+"land_part": 16868484
+},
+{
+"county_fips": "51143",
+"land_part": 54765535
+}
+],
+"24570": [
+{
+"county_fips": "51019",
+"land_part": 2393382
+}
+],
+"24571": [
+{
+"county_fips": "51019",
+"land_part": 52564987
+},
+{
+"county_fips": "51031",
+"land_part": 79536380
+}
+],
+"24572": [
+{
+"county_fips": "51009",
+"land_part": 171765144
+}
+],
+"24574": [
+{
+"county_fips": "51009",
+"land_part": 275667219
+}
+],
+"24577": [
+{
+"county_fips": "51083",
+"land_part": 485041711
+}
+],
+"24578": [
+{
+"county_fips": "51163",
+"land_part": 91489998
+}
+],
+"24579": [
+{
+"county_fips": "51163",
+"land_part": 85792090
+}
+],
+"24580": [
+{
+"county_fips": "51117",
+"land_part": 54523859
+}
+],
+"24581": [
+{
+"county_fips": "51125",
+"land_part": 8462647
+}
+],
+"24586": [
+{
+"county_fips": "51143",
+"land_part": 138976150
+}
+],
+"24588": [
+{
+"county_fips": "51031",
+"land_part": 186843073
+}
+],
+"24589": [
+{
+"county_fips": "51083",
+"land_part": 196128679
+}
+],
+"24590": [
+{
+"county_fips": "51003",
+"land_part": 149585791
+},
+{
+"county_fips": "51029",
+"land_part": 150558730
+},
+{
+"county_fips": "51065",
+"land_part": 119296528
+}
+],
+"24592": [
+{
+"county_fips": "51083",
+"land_part": 323991437
+},
+{
+"county_fips": "51143",
+"land_part": 1081363
+}
+],
+"24593": [
+{
+"county_fips": "51011",
+"land_part": 88694462
+},
+{
+"county_fips": "51031",
+"land_part": 1754650
+}
+],
+"24594": [
+{
+"county_fips": "51083",
+"land_part": 81749318
+},
+{
+"county_fips": "51143",
+"land_part": 61062466
+}
+],
+"24595": [
+{
+"county_fips": "51009",
+"land_part": 3906579
+}
+],
+"24597": [
+{
+"county_fips": "51083",
+"land_part": 111672177
+},
+{
+"county_fips": "51143",
+"land_part": 16336747
+}
+],
+"24598": [
+{
+"county_fips": "51083",
+"land_part": 184511322
+},
+{
+"county_fips": "51117",
+"land_part": 7024316
+}
+],
+"24599": [
+{
+"county_fips": "51029",
+"land_part": 66334219
+},
+{
+"county_fips": "51125",
+"land_part": 59358445
+}
+],
+"24601": [
+{
+"county_fips": "51185",
+"land_part": 812088
+}
+],
+"24602": [
+{
+"county_fips": "51185",
+"land_part": 137741848
+}
+],
+"24603": [
+{
+"county_fips": "51027",
+"land_part": 51608645
+}
+],
+"24604": [
+{
+"county_fips": "51185",
+"land_part": 7796340
+}
+],
+"24605": [
+{
+"county_fips": "51185",
+"land_part": 127039043
+}
+],
+"24606": [
+{
+"county_fips": "51185",
+"land_part": 6082655
+}
+],
+"24607": [
+{
+"county_fips": "51027",
+"land_part": 23381802
+},
+{
+"county_fips": "51051",
+"land_part": 13955815
+}
+],
+"24609": [
+{
+"county_fips": "51167",
+"land_part": 107241487
+},
+{
+"county_fips": "51185",
+"land_part": 109787897
+}
+],
+"24612": [
+{
+"county_fips": "51185",
+"land_part": 2807690
+}
+],
+"24613": [
+{
+"county_fips": "51185",
+"land_part": 30604530
+}
+],
+"24614": [
+{
+"county_fips": "51027",
+"land_part": 342591538
+}
+],
+"24620": [
+{
+"county_fips": "51027",
+"land_part": 184649669
+}
+],
+"24622": [
+{
+"county_fips": "51027",
+"land_part": 74437030
+},
+{
+"county_fips": "51185",
+"land_part": 47880363
+}
+],
+"24630": [
+{
+"county_fips": "51185",
+"land_part": 172838364
+}
+],
+"24631": [
+{
+"county_fips": "51027",
+"land_part": 138497376
+}
+],
+"24634": [
+{
+"county_fips": "51027",
+"land_part": 38469786
+}
+],
+"24635": [
+{
+"county_fips": "51185",
+"land_part": 17338716
+}
+],
+"24637": [
+{
+"county_fips": "51185",
+"land_part": 82932326
+}
+],
+"24639": [
+{
+"county_fips": "51027",
+"land_part": 89604331
+},
+{
+"county_fips": "51167",
+"land_part": 5144903
+},
+{
+"county_fips": "51185",
+"land_part": 29598611
+}
+],
+"24641": [
+{
+"county_fips": "51185",
+"land_part": 50118331
+}
+],
+"24646": [
+{
+"county_fips": "51027",
+"land_part": 32710644
+}
+],
+"24649": [
+{
+"county_fips": "51027",
+"land_part": 570220
+},
+{
+"county_fips": "51167",
+"land_part": 83307955
+}
+],
+"24651": [
+{
+"county_fips": "51185",
+"land_part": 393571350
+}
+],
+"24656": [
+{
+"county_fips": "51027",
+"land_part": 180620506
+}
+],
+"24657": [
+{
+"county_fips": "51027",
+"land_part": 41559763
+}
+],
+"27048": [
+{
+"county_fips": "51089",
+"land_part": 3080396
+}
+],
+"28675": [
+{
+"county_fips": "51077",
+"land_part": 1983389
+}
+],
+"37642": [
+{
+"county_fips": "51169",
+"land_part": 780059
+}
+],
+"37752": [
+{
+"county_fips": "51105",
+"land_part": 722383
+}
+]
+}
+}

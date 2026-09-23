@@ -1,0 +1,154 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.000c81f8cc0e212044350bdf7a38325bef3affcb.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.81,
+          37.03
+        ],
+        [
+          -81.74,
+          37.05
+        ],
+        [
+          -81.52,
+          36.79
+        ],
+        [
+          -81.68,
+          36.75
+        ],
+        [
+          -81.7,
+          36.79
+        ],
+        [
+          -81.84,
+          36.93
+        ],
+        [
+          -81.83,
+          36.93
+        ],
+        [
+          -81.82,
+          36.94
+        ],
+        [
+          -81.82,
+          36.95
+        ],
+        [
+          -81.81,
+          36.95
+        ],
+        [
+          -81.78,
+          36.96
+        ],
+        [
+          -81.81,
+          37.03
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.000c81f8cc0e212044350bdf7a38325bef3affcb.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.000c81f8cc0e212044350bdf7a38325bef3affcb.001.1",
+    "areaDesc": "Smyth, VA; Tazewell, VA",
+    "geocode": {
+      "SAME": [
+        "051173",
+        "051185"
+      ],
+      "UGC": [
+        "VAC173",
+        "VAC185"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/county/VAC173",
+      "https://api.weather.gov/zones/county/VAC185"
+    ],
+    "references": [
+      {
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.4b85b714a89e08bdbcb92669515205fcbfa52b6a.001.1",
+        "identifier": "urn:oid:2.49.0.1.840.0.4b85b714a89e08bdbcb92669515205fcbfa52b6a.001.1",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "sent": "2026-09-19T17:33:00-04:00"
+      }
+    ],
+    "sent": "2026-09-19T18:46:00-04:00",
+    "effective": "2026-09-19T18:46:00-04:00",
+    "onset": "2026-09-19T18:46:00-04:00",
+    "expires": "2026-09-19T20:30:00-04:00",
+    "ends": "2026-09-19T20:30:00-04:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Minor",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Flood Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Blacksburg VA",
+    "headline": "Flood Advisory issued September 19 at 6:46PM EDT until September 19 at 8:30PM EDT by NWS Blacksburg VA",
+    "description": "* WHAT...Flooding caused by excessive rainfall continues.\n\n* WHERE...Northwestern Smyth County in southwestern Virginia...\nSouthwestern Tazewell County in southwestern Virginia...\n\n* WHEN...Until 830 PM EDT.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\n\n* ADDITIONAL DETAILS...\n- At 644 PM EDT, Doppler radar indicated that the heavy rain caused\nby thunderstorms has ended. Now light to moderate rain is falling\nacross the advisory area. Minor flooding is ongoing or expected\nto begin shortly in the advisory area. Between 1 and 2 inches of\nrain have fallen over portions of the advisory region.\n- This includes the following streams and drainages...\nIndian Creek, Crewey Branch, Beaver Creek, Clinch River, Laurel\nSprings Creek, Middle Fork Holston River, Little Tumbling Creek,\nLittle River and Laurel Creek.\n- Some locations that will experience flooding include...\nSaltville, Chilhowie, Broadford, Quarry, Allison Gap and Adwolf.\n- http://www.weather.gov/safety/flood",
+    "instruction": "Be aware of your surroundings and do not drive on flooded roads.\n\nWhen it is safe to do so, please send your reports of flooding,\nincluding mudslides or flooded roads, to the National Weather Service\nby calling toll free at 1...8 6 6...2 1 5...4 3 2 4. Reports and\npictures can also be shared on the National Weather Service\nBlacksburg Facebook page and on X.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "FLSRNK"
+      ],
+      "WMOidentifier": [
+        "WGUS81 KRNK 192246"
+      ],
+      "NWSheadline": [
+        "FLOOD ADVISORY REMAINS IN EFFECT UNTIL 830 PM EDT THIS EVENING"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "VTEC": [
+        "/O.CON.KRNK.FA.Y.0122.000000T0000Z-260920T0030Z/"
+      ],
+      "eventEndingTime": [
+        "2026-09-19T20:30:00-04:00"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "NWS"
+      ],
+      "NationalWeatherService": [
+        "FAY"
+      ]
+    },
+    "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.668d173384235d02acd523a9f5c92bf72ade1f10.001.1",
+    "replacedAt": "2026-09-19T20:33:00-04:00"
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.000c81f8cc0e212044350bdf7a38325bef3affcb.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.000c81f8cc0e212044350bdf7a38325bef3affcb.001.1",
+    "sha256": "8a7bf289a7b5e32f0086fda15bce1fd12b36aa9b5ef7816554bc3c875a028bad",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2026-09-19T18:46:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

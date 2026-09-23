@@ -1,0 +1,159 @@
+{
+  "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.383f5199817bde030ce64c80811ca2aa005d99a8.001.1",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.68,
+          36.57
+        ],
+        [
+          -81.68,
+          36.59
+        ],
+        [
+          -81.65,
+          36.61
+        ],
+        [
+          -81.62,
+          36.62
+        ],
+        [
+          -81.6,
+          36.64
+        ],
+        [
+          -81.58,
+          36.65
+        ],
+        [
+          -81.57,
+          36.66
+        ],
+        [
+          -81.55,
+          36.66
+        ],
+        [
+          -81.53,
+          36.68
+        ],
+        [
+          -81.51,
+          36.68
+        ],
+        [
+          -81.27,
+          36.43
+        ],
+        [
+          -81.68,
+          36.39
+        ],
+        [
+          -81.69,
+          36.57
+        ],
+        [
+          -81.68,
+          36.57
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.383f5199817bde030ce64c80811ca2aa005d99a8.001.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.383f5199817bde030ce64c80811ca2aa005d99a8.001.1",
+    "areaDesc": "Ashe; Grayson",
+    "geocode": {
+      "SAME": [
+        "037009",
+        "051077"
+      ],
+      "UGC": [
+        "NCZ001",
+        "VAZ015"
+      ]
+    },
+    "affectedZones": [
+      "https://api.weather.gov/zones/forecast/NCZ001",
+      "https://api.weather.gov/zones/forecast/VAZ015"
+    ],
+    "references": [],
+    "sent": "2026-09-19T18:01:00-04:00",
+    "effective": "2026-09-19T18:01:00-04:00",
+    "onset": "2026-09-19T18:01:00-04:00",
+    "expires": "2026-09-19T18:15:00-04:00",
+    "ends": null,
+    "status": "Actual",
+    "messageType": "Alert",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Observed",
+    "urgency": "Expected",
+    "event": "Special Weather Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Blacksburg VA",
+    "headline": "Special Weather Statement issued September 19 at 6:01PM EDT by NWS Blacksburg VA",
+    "description": "At 600 PM EDT, Doppler radar was tracking a strong thunderstorm over\nNella, or near Whitetop, moving southeast at 15 mph.\n\nHAZARD...Wind gusts up to 40 mph and pea size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects.\n\nLocations impacted include...\nJefferson...\nWest Jefferson...\nLansing...\nWhitetop...\nAshland...\nRugby...\nand Trout.",
+    "instruction": "If outdoors, consider seeking shelter inside a building.\n\nLocally heavy rain will quickly reduce visibility and result in\nponding of water on roadways, standing water in low lying areas, and\nminor flooding of creeks, streams, and areas of poor drainage.\nDrivers are urged to slow down and use extra caution to avoid\nhydroplaning.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+      "AWIPSidentifier": [
+        "SPSRNK"
+      ],
+      "WMOidentifier": [
+        "WWUS81 KRNK 192201"
+      ],
+      "NWSheadline": [
+        "A STRONG THUNDERSTORM WILL IMPACT NORTHERN ASHE AND SOUTHWESTERN GRAYSON COUNTIES THROUGH 615 PM EDT"
+      ],
+      "eventMotionDescription": [
+        "2026-09-19T22:00:00-00:00...storm...325DEG...11KT...36.57,-81.54"
+      ],
+      "maxWindGust": [
+        "40 MPH"
+      ],
+      "maxHailSize": [
+        "0.25"
+      ],
+      "BLOCKCHANNEL": [
+        "EAS",
+        "NWEM",
+        "CMAS"
+      ],
+      "EAS-ORG": [
+        "WXR"
+      ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+      "SAME": [
+        "SPS"
+      ],
+      "NationalWeatherService": [
+        "SPS"
+      ]
+    }
+  },
+  "_provenance": {
+    "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.383f5199817bde030ce64c80811ca2aa005d99a8.001.1",
+    "collection_url": "https://api.weather.gov/alerts?area=VA&limit=500&start=2026-09-14T00:56:30Z",
+    "cap_id": "urn:oid:2.49.0.1.840.0.383f5199817bde030ce64c80811ca2aa005d99a8.001.1",
+    "sha256": "9a7134447350ee28443281e1453cee96a447834cba55e4744202ac5fbf3b3052",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2026-09-19T18:01:00-04:00",
+    "fetched_at": "2026-09-21T00:56:32Z",
+    "transport": "TLS to api.weather.gov",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}

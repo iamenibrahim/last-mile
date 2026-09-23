@@ -1,0 +1,81 @@
+{
+  "id": "urn:oid:2.49.0.1.840.0.115e66b1124950f007e4b12bcad9c4916b7a6102.001.1.IPAWS",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.33,
+          36.78
+        ],
+        [
+          -81.5,
+          36.82
+        ],
+        [
+          -81.43,
+          37.1
+        ],
+        [
+          -81.26,
+          37.15
+        ],
+        [
+          -81.18,
+          37.03
+        ],
+        [
+          -81.33,
+          36.78
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "id": "urn:oid:2.49.0.1.840.0.115e66b1124950f007e4b12bcad9c4916b7a6102.001.1.IPAWS",
+    "@id": "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$filter=identifier eq 'urn:oid:2.49.0.1.840.0.115e66b1124950f007e4b12bcad9c4916b7a6102.001.1.IPAWS'",
+    "sent": "2024-09-25T20:51:00-04:00",
+    "status": "Actual",
+    "messageType": "Alert",
+    "event": "Tornado Warning",
+    "severity": "Extreme",
+    "certainty": "Observed",
+    "urgency": "Immediate",
+    "headline": "Tornado Warning issued September 25 at 8:51PM EDT until September 25 at 9:30PM EDT by NWS Blacksburg VA",
+    "description": "TORRNK\n\nThe National Weather Service in BLACKSBURG has issued a\n\n* Tornado Warning for...\nNortheastern Smyth County in southwestern Virginia...\nSoutheastern Tazewell County in southwestern Virginia...\nSouthwestern Bland County in southwestern Virginia...\nNorthwestern Wythe County in southwestern Virginia...\n\n* Until 930 PM EDT.\n\n* At 851 PM EDT, a severe thunderstorm capable of producing a tornado\nwas located over Atkins, or over Mount Rogers National Recreation\nArea, moving north at 30 mph.\n\nHAZARD...Tornado.\n\nSOURCE...Radar indicated rotation.\n\nIMPACT...Flying debris will be dangerous to those caught without\nshelter. Mobile homes will be damaged or destroyed.\nDamage to roofs, windows, and vehicles will occur.  Tree\ndamage is likely.\n\n* Locations impacted include...\nRural Retreat...\nCeres...\nMount Rogers National Recreation Area...\nBurkes Garden...\nNebo...\nMarion Wytheville...\nand Atkins.",
+    "instruction": "TAKE COVER NOW! Move to a basement or an interior room on the lowest\nfloor of a sturdy building. Avoid windows. If you are outdoors, in a\nmobile home, or in a vehicle, move to the closest substantial shelter\nand protect yourself from flying debris.\n\nWhen it is safe to do so, please send your reports of hail of any\nsize, as well as reports of any wind damage, including downed trees\nor large limbs, to the National Weather Service by calling toll free\nat 1...8 6 6...2 1 5...4 3 2 4. Reports and pictures can also be\nshared on the National Weather Service Blacksburg Facebook page and\non Twitter.",
+    "onset": "2024-09-25T20:51:00-04:00",
+    "effective": "2024-09-25T20:51:00-04:00",
+    "expires": "2024-09-25T21:30:00-04:00",
+    "senderName": "NWS Blacksburg VA",
+    "areaDesc": "Bland, VA; Smyth, VA; Tazewell, VA; Wythe, VA",
+    "geocode": {
+      "SAME": [
+        "051021",
+        "051173",
+        "051185",
+        "051197"
+      ],
+      "UGC": [
+        "VAC021",
+        "VAC173",
+        "VAC185",
+        "VAC197"
+      ]
+    },
+    "affectedZones": []
+  },
+  "_provenance": {
+    "url": "https://www.fema.gov/api/open/v1/IpawsArchivedAlerts?$filter=identifier eq 'urn:oid:2.49.0.1.840.0.115e66b1124950f007e4b12bcad9c4916b7a6102.001.1.IPAWS'",
+    "cap_id": "urn:oid:2.49.0.1.840.0.115e66b1124950f007e4b12bcad9c4916b7a6102.001.1.IPAWS",
+    "sha256": "07c8bc578ce0bd0f8d96bb44682dfea019191ac77e5e92f5a83da6485e1ff97f",
+    "original_xml_sha256": "562fd4a5c7c0232b5d3d73a6b0449986bd6d2c6f1d6223a9229569286266f4b1",
+    "sender": "NWS Blacksburg VA",
+    "sent": "2024-09-25T20:51:00-04:00",
+    "fetched_at": "2026-09-21T14:11:31Z",
+    "transport": "TLS to www.fema.gov/api/open (OpenFEMA IPAWS archive)",
+    "trust_anchor": "TLS to api.weather.gov + our own signature over the fetched bytes. NWS CAP products retrieved via this API are not individually signed in a way this system can verify end to end; this is not a verified NWS signature.",
+    "canonicalization": "json sorted-keys, no whitespace, utf-8, _provenance excluded"
+  }
+}
