@@ -118,7 +118,7 @@
       "tags": "[variables('tags')]",
       "kind": "TextTranslation",
       "sku": {
-        "name": "F0"
+        "name": "S1"
       },
       "properties": {
         "customSubDomainName": "[format('{0}translator', variables('safeName'))]",
@@ -133,7 +133,7 @@
       "tags": "[variables('tags')]",
       "kind": "SpeechServices",
       "sku": {
-        "name": "F0"
+        "name": "S0"
       },
       "properties": {
         "customSubDomainName": "[format('{0}speech', variables('safeName'))]",
@@ -540,7 +540,7 @@
       "value": [
         "Azure Functions Dynamic Y1 plan; scales to zero and is capped at two instances.",
         "Cosmos DB lifetime free tier with 400 RU/s shared throughput.",
-        "Translator, Speech, and Content Safety use F0 tiers.",
+        "Content Safety uses the F0 free tier. Translator (S1) and Speech (S0) are pay-per-character because the single free account per subscription was already taken; demo volume is a fraction of a cent.",
         "Foundry is pay-per-token; no model is deployed by this template.",
         "Azure AI Search Free tier (one per subscription).",
         "Key Vault Standard; one RSA key, billed per signing operation.",

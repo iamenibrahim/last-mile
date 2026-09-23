@@ -71,7 +71,10 @@ resource translator 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   location: 'global'
   tags: tags
   kind: 'TextTranslation'
-  sku: { name: 'F0' }
+  // S1, not F0: a subscription gets one free Translator account and a
+  // soft-deleted one still holds that slot for 48 hours. S1 is pay-per-character
+  // ($10 per million); a demo costs well under a cent.
+  sku: { name: 'S1' }
   properties: {
     customSubDomainName: '${safeName}translator'
     publicNetworkAccess: 'Enabled'
@@ -83,7 +86,8 @@ resource speech 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   location: location
   tags: tags
   kind: 'SpeechServices'
-  sku: { name: 'F0' }
+  // S0 for the same reason as Translator. Pay-per-character neural TTS.
+  sku: { name: 'S0' }
   properties: {
     customSubDomainName: '${safeName}speech'
     publicNetworkAccess: 'Enabled'
@@ -310,7 +314,7 @@ output communicationEndpoint string = 'https://${communication.name}.communicati
 output costGuardrails array = [
   'Azure Functions Dynamic Y1 plan; scales to zero and is capped at two instances.'
   'Cosmos DB lifetime free tier with 400 RU/s shared throughput.'
-  'Translator, Speech, and Content Safety use F0 tiers.'
+  'Content Safety uses the F0 free tier. Translator (S1) and Speech (S0) are pay-per-character because the single free account per subscription was already taken; demo volume is a fraction of a cent.'
   'Foundry is pay-per-token; no model is deployed by this template.'
   'Azure AI Search Free tier (one per subscription).'
   'Key Vault Standard; one RSA key, billed per signing operation.'
