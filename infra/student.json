@@ -33,9 +33,9 @@
     },
     "foundryEmbeddingDeployment": {
       "type": "string",
-      "defaultValue": "text-embedding-3-small",
+      "defaultValue": "",
       "metadata": {
-        "description": "Foundry embedding deployment name for the semantic-fidelity check. Deploy it separately, like the chat model."
+        "description": "Foundry embedding deployment name for the semantic-fidelity check. Leave empty unless an embedding model can actually be deployed - a student subscription has no quota for one, and pointing at a deployment that does not exist just fails into the fallback."
       }
     },
     "deployCosmos": {

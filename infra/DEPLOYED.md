@@ -42,12 +42,41 @@ subscription (`RequestDisallowedByAzure`). An agency deployment would use
 parameter change, not a code change. Do not claim Virginia data residency for
 this demo.
 
+## Foundry models
+
+**This subscription has zero Azure OpenAI quota.** The Foundry quota page reads
+`0/0` for every OpenAI model, in every region, for every deployment type. That
+is a standing Azure for Students limit, not something the template controls, so
+`gpt-4.1-mini` and `text-embedding-3-small` cannot be deployed at all. The same
+is true of the Cohere "Direct from Azure" models.
+
+What does deploy is Microsoft's own first-party models, which have quota
+(20,000 TPM). Deployed 2026-09-23:
+
+| Deployment | Model | Type |
+|---|---|---|
+| `last-mile-gpt` | **Phi-4-mini-instruct** (Microsoft, 3.8B, chat completion) | Global Standard |
+
+Verified in the playground: *"Residents in low-lying areas should evacuate
+immediately to higher ground."* returns *"People living in places that are close
+to the water should leave right away and go to a safer, higher place."* That is
+the simplification the pipeline needs, and Phi is multilingual (Spanish, Arabic
+and others).
+
+**No embedding model is deployed**, because none can be. The semantic-fidelity
+check therefore keeps its honest fallback, which reports the method as "provider
+confidence (no embeddings configured; not a meaning check)". Meaning is still
+checked by the Foundry entailment judge, which now runs on Phi. Leave
+`AZURE_FOUNDRY_EMBED_MODEL` empty; the Function App currently still has it set
+to `text-embedding-3-small`, which simply fails into the fallback.
+
+For the pitch: say that model choice is a deployment parameter. An agency
+subscription with OpenAI quota changes one setting; nothing in the code changes.
+
 ## Still to do
 
-1. Deploy the Foundry models: `gpt-4.1-mini` named **`last-mile-gpt`**, and
-   `text-embedding-3-small`. The template already points the app at those names.
-2. Copy the Function App's app settings into `azure-settings.txt`, then run
+1. Copy the Function App's app settings into `azure-settings.txt`, then run
    `python scripts/settings_to_env.py` for a local `.env`.
-3. Publish the code to the Function App (Deployment Center -> GitHub).
-4. Point `copilot/last-mile-handoff.swagger.json` at
+2. Publish the code to the Function App (Deployment Center -> GitHub).
+3. Point `copilot/last-mile-handoff.swagger.json` at
    `lmva3fcshw5lauukqapi.azurewebsites.net` and upload it in Copilot Studio.

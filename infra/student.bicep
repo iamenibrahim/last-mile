@@ -14,8 +14,8 @@ param foundryModelDeployment string = 'last-mile-gpt'
 @description('Set false to skip Cosmos DB. The app then uses its local store. Use this when the region has no free-tier Cosmos capacity, or one already exists in the subscription.')
 param deployCosmos bool = true
 
-@description('Foundry embedding deployment name for the semantic-fidelity check. Deploy it separately, like the chat model.')
-param foundryEmbeddingDeployment string = 'text-embedding-3-small'
+@description('Foundry embedding deployment name for the semantic-fidelity check. Leave empty unless an embedding model can actually be deployed - a student subscription has no quota for one, and pointing at a deployment that does not exist just fails into the fallback.')
+param foundryEmbeddingDeployment string = ''
 
 var suffix = uniqueString(subscription().subscriptionId, resourceGroup().id)
 var safeName = toLower('${namePrefix}${suffix}')

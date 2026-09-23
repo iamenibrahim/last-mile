@@ -8,19 +8,12 @@ Deployed environment and its caveats: [infra/DEPLOYED.md](infra/DEPLOYED.md).
 
 Legend: ✅ done · ⏳ in progress · ⬜ not started
 
-## The one thing blocking everything else
-
-- ⏳ **2. Deploy the two Foundry models.** Nothing AI-powered works until this is done.
-  Open the `lmva3fcshw5lauukqfoundry` resource → **Go to Foundry portal** → **Deployments**:
-  - `gpt-4.1-mini`, deployment name exactly **`last-mile-gpt`**
-  - `text-embedding-3-small` (any name; then set `AZURE_FOUNDRY_EMBED_MODEL` to it)
-
-  If neither model is offered in `canadacentral`, say which ones are and we pick from those.
-
 ## You (Azure portal / browser)
 
+- ✅ **2. Foundry model deployed: `last-mile-gpt` = Phi-4-mini-instruct.** Verified working in the playground. **This subscription has zero Azure OpenAI quota** (`0/0` everywhere), so no OpenAI model could be used; Microsoft's own Phi has quota. No embedding model can be deployed either — see [infra/DEPLOYED.md](infra/DEPLOYED.md).
+
 - ✅ **1. Deploy the Azure resources.** Done 2026-09-23 into `last-mile-student-rg`, `canadacentral`, prefix `lmva`.
-- ⬜ **3. Hand over the keys.** Function App `lmva3fcshw5lauukqapi` → Settings → Environment variables → **Advanced edit**, copy all of it into `azure-settings.txt` in this folder. Add the Foundry resource's **Key 1** on its own line. Never paste keys in chat; `python scripts/settings_to_env.py` turns the file into `.env` and both are gitignored.
+- ⏳ **3. Hand over the keys — this is now the only thing blocking a real demo.** Function App `lmva3fcshw5lauukqapi` → Settings → Environment variables → **Advanced edit**, copy all of it into `azure-settings.txt` in this folder. Add the Foundry resource's **Key 1** on its own line. Never paste keys in chat; `python scripts/settings_to_env.py` turns the file into `.env` and both are gitignored.
 - ⬜ **4. Check Copilot Studio access** at <https://copilotstudio.microsoft.com> with your GMU account.
 - ⬜ **5. Get a free Census API key** at <https://api.census.gov/data/key_signup.html>. Only needed for item 19.
 
@@ -54,6 +47,8 @@ Legend: ✅ done · ⏳ in progress · ⬜ not started
 
 - **Region.** This runs in Canada Central because Azure refuses US regions on a student subscription. An agency deployment uses `eastus`, Azure's Virginia region, to keep residents' data in state — a parameter, not a code change. **Do not claim Virginia data residency.**
 - **Cosmos DB is not deployed.** Free-tier Cosmos would not provision in Canada Central. The app uses its SQLite store, the same one every local run uses.
+- **No OpenAI models.** Azure gives student subscriptions zero OpenAI quota, so the pipeline runs on **Microsoft's Phi-4-mini-instruct**. Model choice is a deployment parameter; an agency subscription changes one setting. This is a *better* Microsoft story, not an apology.
+- **No embedding model**, for the same quota reason. The meaning check says so in its own output rather than pretending.
 - **Not everything is free tier.** Translator, Speech and Content Safety are pay-per-character because soft-deleted accounts hold the one-free-account slot. Demo volume is a fraction of a cent.
 - **Trust anchor.** NWS alerts are not individually signed. We attest to a payload fetched over TLS plus our own signature — not an NWS signature.
 - **The corruption numbers** come from five *mechanical* corruption classes. Say "mechanical" every time.
@@ -69,8 +64,8 @@ Never cut: **2, 3, 15** — without them no Azure service is proven to work.
 | Service | Role | Status |
 |---|---|---|
 | Azure Functions | API host + NWS ingest timer | **Deployed**; code not published yet (item 16) |
-| Foundry (gpt-4.1-mini) | Plain-language rewrite, entailment judge, escalation classifier | Resource deployed; **no model yet** (item 2) |
-| Foundry embeddings | Semantic-fidelity check (cosine, multilingual) | Resource deployed; **no model yet** (item 2) |
+| Foundry (**Phi-4-mini-instruct**) | Plain-language rewrite, entailment judge, escalation classifier | **Deployed as `last-mile-gpt`**; verified in the playground |
+| Foundry embeddings | Semantic-fidelity check (cosine, multilingual) | **Not possible** — no quota for any embedding model. Falls back, honestly labelled; the entailment judge still checks meaning |
 | Azure AI Translator | Translation + round-trip check | **Deployed** (S1); never called yet |
 | Azure AI Speech | Spoken output of verified text | **Deployed** (S0); never called yet |
 | Azure AI Content Safety | Output guard before rendering | **Deployed** (S0); never called yet |
