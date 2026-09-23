@@ -8,9 +8,9 @@ Legend: ✅ done · ⏳ in progress · ⬜ not started
 
 ## You (Azure portal)
 
-- ⏳ **1. Deploy the Azure resources.** Deploy a custom template → load `infra/student.json` → subscription **Azure for Students** (not `its-avd-001`) → resource group `last-mile-student-rg` → **Location `canadacentral`** → Foundry Model Deployment `last-mile` → Create.
+- ✅ **1. Deploy the Azure resources.** Deploy a custom template → load `infra/student.json` → subscription **Azure for Students** (not `its-avd-001`) → resource group `last-mile-student-rg` → **Location `canadacentral`** → Name Prefix `lmva` → Foundry Model Deployment `last-mile-gpt` → Create. **Deployed 2026-09-23 into `last-mile-student-rg`.**
 - ⬜ **2. Deploy the models in Foundry.** Open the `…foundry` resource → Go to Foundry portal → Deployments:
-  - `gpt-4.1-mini`, deployment name exactly **`last-mile`**
+  - `gpt-4.1-mini`, deployment name exactly **`last-mile-gpt`**
   - `text-embedding-3-small`
 - ⬜ **3. Hand over the keys.** Create `azure-settings.txt` in this folder containing:
   - the Function App (`…api`) → Settings → Environment variables → Advanced edit (copy everything)
