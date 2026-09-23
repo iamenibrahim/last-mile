@@ -10,4 +10,8 @@ htmlcov/
 .DS_Store
 Thumbs.db
 *.mp3
-
+data/*.db
+data/*.db-*
+data/continuity.db
+.deck-build/
+.codex-finalizer/

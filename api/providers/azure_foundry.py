@@ -20,10 +20,18 @@ def _chat(messages: list[dict], temperature: float = 0.0) -> dict:
         "temperature": temperature,
         "response_format": {"type": "json_object"},
     }
+    headers = {"Content-Type": "application/json"}
+    if settings.foundry_api_key:
+        headers["api-key"] = settings.foundry_api_key
+    else:
+        from azure.identity import DefaultAzureCredential  # type: ignore
+
+        token = DefaultAzureCredential().get_token("https://cognitiveservices.azure.com/.default")
+        headers["Authorization"] = f"Bearer {token.token}"
     request = urllib.request.Request(
         url,
         data=json.dumps(payload).encode("utf-8"),
-        headers={"api-key": settings.foundry_api_key, "Content-Type": "application/json"},
+        headers=headers,
         method="POST",
     )
     with urllib.request.urlopen(request, timeout=20) as response:
@@ -93,4 +101,3 @@ def explain_program(program: dict, matched_needs: list[str]) -> str:
         ]
     )
     return result["text"]
-

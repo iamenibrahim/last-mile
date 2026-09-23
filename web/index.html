@@ -33,12 +33,14 @@
         <button class="nav-link" data-view="about">How it works</button>
       </nav>
       <div class="header-actions">
+        <button class="icon-button low-data-button" id="low-data" aria-pressed="false">Low data</button>
         <button class="icon-button" id="text-size" aria-label="Increase text size">A<span>+</span></button>
         <button class="language-button" id="language-button" aria-haspopup="listbox">
           <span aria-hidden="true">◎</span> English <span aria-hidden="true">⌄</span>
         </button>
       </div>
     </header>
+    <div id="connection-banner" class="connection-banner" hidden role="status"></div>
 
     <main id="main">
       <section class="view active" id="view-home" aria-labelledby="home-title">
@@ -53,14 +55,14 @@
               <span><b aria-hidden="true">✓</b> No sensitive data</span>
             </div>
           </div>
-          <aside class="signal-card" aria-label="Current demo alert">
-            <div class="signal-topline"><span class="live-pill">DEMO FIXTURE</span><span>NWS CAP format</span></div>
+          <aside class="signal-card" aria-label="Last-Mile Protocol overview">
+            <div class="signal-topline"><span class="live-pill">LAST-MILE PROTOCOL</span><span>v1.0</span></div>
             <div class="signal-icon" aria-hidden="true">⌁</div>
-            <p class="signal-kicker">HAMPTON ROADS</p>
-            <h2>Flash Flood Warning</h2>
-            <p>Severe · Likely · Immediate</p>
-            <div class="signal-location"><span>⌖</span><div><strong>Norfolk area</strong><small>Check your location below</small></div></div>
-            <p class="demo-disclaimer">Training data only—not an active warning.</p>
+            <p class="signal-kicker">ONE VERIFIED STATE</p>
+            <h2>Whatever channel survives.</h2>
+            <p>Authoritative facts compile into one proof-carrying action packet.</p>
+            <div class="channel-row" aria-label="Supported channels"><span>WEB</span><span>SMS</span><span>VOICE</span><span>OFFLINE</span></div>
+            <p class="demo-disclaimer">Foundry transforms the packet. It never originates the facts.</p>
           </aside>
         </div>
 
@@ -84,8 +86,12 @@
               <label class="field-label" for="location">City, ZIP code, or Virginia address</label>
               <div class="location-field">
                 <span aria-hidden="true">⌖</span>
-                <input id="location" name="location" autocomplete="street-address" value="23510" placeholder="Try 23510 or Norfolk, VA" required />
+                <input id="location" name="location" autocomplete="postal-code" value="24370" placeholder="Try 24370 or Norfolk, VA" required />
                 <button type="button" id="use-location" aria-label="Use my current location">Use my location</button>
+              </div>
+              <div id="county-clarifier" class="county-clarifier" hidden>
+                <div><strong>This ZIP crosses a county boundary.</strong><small>County changes which declarations apply, so this is the only location follow-up we need.</small></div>
+                <div id="county-choices"></div>
               </div>
               <div class="choice-row" role="group" aria-label="How urgent is your situation?">
                 <button type="button" class="choice active" data-radio="urgency" data-value="safe_now"><span>○</span><strong>I’m safe right now</strong><small>Planning next steps</small></button>
@@ -131,7 +137,7 @@
                 <label><input type="checkbox" value="underinsured" /> <span><strong>Insurance may not cover it</strong><small>Unmet disaster loss</small></span></label>
                 <label><input type="checkbox" value="no_device" /> <span><strong>My device or internet is unreliable</strong><small>Create an offline plan</small></span></label>
               </div>
-              <div class="consent-line"><span aria-hidden="true">▣</span><p><strong>One-time screening</strong><br />Answers are processed for this result and are not saved server-side.</p></div>
+              <div class="consent-line"><span aria-hidden="true">▣</span><p><strong>Minimal continuity record</strong><br />The full screening is not logged. A packet with county, broad needs, constraints, and step is retained for 24 hours so the recovery code works.</p></div>
               <div class="form-footer"><button class="text-button" type="button" data-back="2">← Back</button><button class="primary-button accent" type="submit"><span>Find my next steps</span><b>→</b></button></div>
             </div>
           </form>
@@ -143,6 +149,7 @@
             <div class="results-actions"><button id="print-plan" class="outline-button">▣ Print / save</button><button id="copy-handoff" class="outline-button">□ Copy handoff</button></div>
           </div>
           <div id="urgent-panel"></div>
+          <div id="protocol-panel"></div>
           <div class="result-layout">
             <div>
               <div class="alert-context" id="alert-context"></div>
@@ -162,6 +169,11 @@
           <h1 id="alert-title">An alert that knows when <em>not</em> to translate.</h1>
           <p>Critical entities are locked before AI sees the text. Every segment is checked independently; a failed segment falls back to the exact English source.</p>
         </div>
+        <section class="lifecycle-band" aria-label="One protocol across the disaster lifecycle">
+          <div><small>BEFORE / DURING</small><strong>NWS warning</strong><span>CAP instructions + geometry</span></div>
+          <b>→</b><div class="protocol-core"><small>LAST-MILE PROTOCOL</small><strong>Same proof · same channels</strong><span>Locked facts + policy + escalation</span></div><b>→</b>
+          <div><small>AFTER</small><strong>FEMA recovery</strong><span>Declarations + deadlines + programs</span></div>
+        </section>
         <div class="lab-grid">
           <section class="lab-panel source-panel">
             <div class="panel-heading"><div><span class="panel-number">1</span><div><p>SOURCE</p><h2>Authoritative CAP alert</h2></div></div><span class="source-badge">NWS SCHEMA</span></div>
@@ -179,6 +191,7 @@
             </div>
             <div id="transform-output" class="transform-output loading-block">Preparing safe transformation…</div>
             <div class="audio-row"><button id="play-audio" class="audio-button" disabled><span>▶</span> Listen</button><small>Azure AI Speech when configured · device voice offline</small></div>
+            <div id="alert-channel-strip" class="alert-channel-strip"></div>
           </section>
         </div>
         <section class="verification-board">
@@ -238,11 +251,10 @@
       <button class="dialog-close" aria-label="Close">×</button>
       <p class="overline">DATA MINIMIZATION</p><h2>We ask for less on purpose.</h2>
       <p>Your location and broad situation are enough to screen for programs. The navigator does not request names, Social Security numbers, immigration status, bank details, or document uploads.</p>
-      <ul><li>Answers are processed in memory for one result.</li><li>Your printable plan stays on your device.</li><li>Official agencies may ask for more only when you choose to apply.</li></ul>
+      <ul><li>The full screening is not logged.</li><li>A minimal packet is retained for 24 hours only so the anonymous recovery code can resume it.</li><li>Your printable plan stays on your device.</li><li>Official agencies may ask for more only when you choose to apply.</li></ul>
     </dialog>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <script src="/assets/app.js" defer></script>
   </body>
 </html>
-

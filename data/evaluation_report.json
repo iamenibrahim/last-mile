@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T17:37:35.553743+00:00",
+  "generated_at": "2026-09-23T18:22:57.877578+00:00",
   "scope": "Deterministic local fallback against the checked-in NWS-schema demo fixture.",
   "warning": "These are harness results, not claims about a production deployment or Azure model quality.",
   "clean": {
@@ -7,8 +7,8 @@
     "segments": 140,
     "false_abstention_rate": 0.0,
     "latency_ms": {
-      "p50": 1.05,
-      "p95": 1.8
+      "p50": 1.14,
+      "p95": 1.82
     },
     "reading_grade": {
       "source": 5.2,
@@ -58,5 +58,10 @@
   "impact_estimate": {
     "status": "not_claimed",
     "reason": "Requires a dated 12-month NWS archive and ACS B16004 run; do not invent a headline number."
+  },
+  "connectivity": {
+    "cached_shell_bytes_uncompressed": 91990,
+    "offline_packet_bytes_uncompressed": 602,
+    "measurement_note": "Repository byte count before HTTP compression; not a network benchmark."
   }
 }

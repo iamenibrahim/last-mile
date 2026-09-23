@@ -20,6 +20,7 @@ class Settings:
     foundry_endpoint: str = os.getenv("AZURE_FOUNDRY_ENDPOINT", "").rstrip("/")
     foundry_api_key: str = os.getenv("AZURE_FOUNDRY_API_KEY", "")
     foundry_model: str = os.getenv("AZURE_FOUNDRY_MODEL", "gpt-4.1-mini")
+    use_managed_identity: bool = os.getenv("AZURE_USE_MANAGED_IDENTITY", "false").lower() == "true"
     translator_endpoint: str = os.getenv(
         "AZURE_TRANSLATOR_ENDPOINT", "https://api.cognitive.microsofttranslator.com"
     ).rstrip("/")
@@ -34,7 +35,7 @@ class Settings:
 
     @property
     def foundry_enabled(self) -> bool:
-        return bool(self.foundry_endpoint and self.foundry_api_key)
+        return bool(self.foundry_endpoint and (self.foundry_api_key or self.use_managed_identity))
 
     @property
     def translator_enabled(self) -> bool:
@@ -50,4 +51,3 @@ class Settings:
 
 
 settings = Settings()
-

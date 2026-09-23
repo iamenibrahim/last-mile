@@ -83,6 +83,8 @@ def classify_position(point: Point, geometry: dict | None) -> dict:
 
 
 _DEMO_LOCATIONS = {
+    "24370": Point(-81.7607, 36.8815),
+    "saltville": Point(-81.7607, 36.8815),
     "23510": Point(-76.2859, 36.8508),
     "norfolk": Point(-76.2859, 36.8508),
     "virginia beach": Point(-75.9780, 36.8529),
@@ -128,4 +130,3 @@ def geocode(address: str) -> dict:
             "provider": "cached-demo",
             "precision": "locality",
         }
-

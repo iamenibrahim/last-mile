@@ -1,0 +1,48 @@
+[
+  {
+    "id": "DR-4831-VA",
+    "name": "Tropical Storm Helene — Virginia",
+    "incident_period": {"start": "2024-09-25", "end": "2024-10-03"},
+    "snapshot_as_of": "2024-11-18T08:42:00-05:00",
+    "snapshot_status": "individual_assistance_open",
+    "current_status": "historical_application_window_closed",
+    "demo_notice": "Historical replay. The December 2, 2024 application deadline has passed; confirm current help with FEMA or Virginia 211.",
+    "individual_assistance_counties": [
+      "Giles County", "Grayson County", "Smyth County", "Tazewell County",
+      "Washington County", "Wythe County", "Galax"
+    ],
+    "zip_crosswalk": {"24370": ["Smyth County", "Washington County"]},
+    "deadlines": [
+      {
+        "id": "fema-ia-deadline",
+        "label": "FEMA Individual Assistance application deadline",
+        "value": "2024-12-02",
+        "locked": true,
+        "status_at_snapshot": "upcoming",
+        "current_status": "passed",
+        "source_id": "fema-deadline-2024-11-18"
+      }
+    ],
+    "sources": [
+      {
+        "id": "fema-dr-4831",
+        "agency": "Federal Emergency Management Agency",
+        "government_id": "FEMA-4831-DR-VA",
+        "url": "https://www.fema.gov/disaster/4831",
+        "title": "Virginia Tropical Storm Helene disaster declaration",
+        "retrieved": "2026-09-23",
+        "supports": ["disaster_id", "incident_period", "designated_areas"]
+      },
+      {
+        "id": "fema-deadline-2024-11-18",
+        "agency": "Federal Emergency Management Agency",
+        "government_id": "DR-4831-VA deadline notice",
+        "url": "https://www.fema.gov/multimedia-library",
+        "title": "Deadline to Apply for FEMA Assistance in VA is in 2 Weeks — Dec. 2",
+        "retrieved": "2026-09-23",
+        "supports": ["application_deadline"]
+      }
+    ]
+  }
+]
+

@@ -2,6 +2,8 @@ const state = {
   step: 1,
   urgency: "safe_now",
   needs: new Set(),
+  jurisdiction: null,
+  packetChannel: "web",
   navigation: null,
   transform: null,
   alert: null,
@@ -63,6 +65,88 @@ function programIcon(category) {
   return icons[category] || "→";
 }
 
+function channelText(packet, channel) {
+  const payload = packet.channels[channel];
+  if (channel === "web") {
+    return `${payload.status}\n${payload.deadline}\n\n${payload.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}`;
+  }
+  if (channel === "sms") return payload.text;
+  if (channel === "voice") return payload.script;
+  return payload.text;
+}
+
+function renderProtocol(protocol) {
+  const target = $("#protocol-panel");
+  if (!protocol || protocol.status !== "complete") {
+    target.innerHTML = "";
+    return;
+  }
+  const packet = protocol.packet;
+  const audit = packet.question_audit;
+  state.packet = packet;
+  state.packetChannel = "web";
+  target.innerHTML = `
+    <section class="protocol-packet">
+      <div class="historical-ribbon">HISTORICAL REPLAY · THE 2024 APPLICATION DEADLINE HAS PASSED · CONFIRM CURRENT HELP</div>
+      <div class="packet-head"><div><p class="overline">DISASTER ACTION PACKET · ${escapeHtml(packet.protocol)}</p><h3>One verified state. Four resilient channels.</h3><p>${escapeHtml(packet.snapshot.notice)}</p></div><span class="proof-stamp">✓ PROOF ${escapeHtml(packet.proof.proof_id)}</span></div>
+      <div class="packet-facts">
+        <div><small>Jurisdiction</small><strong>${escapeHtml(packet.jurisdiction)}</strong></div>
+        <div><small>Government ID</small><strong>${escapeHtml(packet.disaster.id)}</strong></div>
+        <div><small>Snapshot</small><strong>${escapeHtml(packet.snapshot.as_of_label)}</strong></div>
+        <div><small>Locked deadline</small><strong>${escapeHtml(packet.deadlines[0].value)} · passed</strong></div>
+      </div>
+      <div class="packet-body">
+        <div>
+          <div class="question-audit"><div><b>${audit.potential_question_groups}</b><span>possible groups</span></div><div><b>${audit.asked}</b><span>asked</span></div><div><b>${audit.skipped}</b><span>skipped</span></div></div>
+          <div class="channel-tabs" role="tablist">${["web", "sms", "voice", "offline"].map((channel) => `<button type="button" role="tab" data-packet-channel="${channel}" class="${channel === "web" ? "active" : ""}">${channel.toUpperCase()}</button>`).join("")}</div>
+          <div class="channel-preview" id="channel-preview">${escapeHtml(channelText(packet, "web"))}</div>
+        </div>
+        <aside class="continuity-card"><small>ANONYMOUS CROSS-CHANNEL CONTINUITY</small><div class="continuity-code">${escapeHtml(packet.continuity.code)}</div><p>Use <strong>${escapeHtml(packet.continuity.resume_command)}</strong> on a surviving channel. Expires in 24 hours. No name, street address, SSN, or documents.</p><button type="button" data-copy-code>Copy recovery command</button><button type="button" data-verify-packet style="margin-top:7px">Verify packet + channels</button></aside>
+      </div>
+    </section>`;
+}
+
+function fallbackMapSvg(geometry, location) {
+  const polygon = geometry?.coordinates?.[0] || [];
+  const points = [...polygon, [location.longitude, location.latitude]];
+  const xs = points.map((point) => point[0]);
+  const ys = points.map((point) => point[1]);
+  const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+  const project = ([x, y]) => [20 + ((x - minX) / Math.max(.001, maxX - minX)) * 560, 135 - ((y - minY) / Math.max(.001, maxY - minY)) * 110];
+  const path = polygon.map((point, index) => `${index ? "L" : "M"}${project(point).join(" ")}`).join(" ") + " Z";
+  const pin = project([location.longitude, location.latitude]);
+  return `<svg viewBox="0 0 600 155" role="img" aria-label="Fallback map showing the alert polygon and checked location"><defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#d8e1dc" stroke-width="1"/></pattern></defs><rect width="600" height="155" fill="url(#grid)"/><path d="${path}" fill="rgba(233,109,56,.16)" stroke="#e96d38" stroke-width="3"/><circle cx="${pin[0]}" cy="${pin[1]}" r="7" fill="#063d3b" stroke="#d7f663" stroke-width="4"/></svg><span>Geometry fallback · Azure Maps activates when configured</span>`;
+}
+
+async function renderAlertMap(alertContext, location) {
+  const target = $("#map-card");
+  if (!target) return;
+  target.innerHTML = fallbackMapSvg(alertContext.alert.geometry, location);
+  try {
+    const response = await api("/api/config");
+    const config = await response.json();
+    if (!config.azure_maps_key) return;
+    if (!window.atlas) {
+      await new Promise((resolve, reject) => {
+        const css = document.createElement("link"); css.rel = "stylesheet"; css.href = "https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css"; document.head.append(css);
+        const script = document.createElement("script"); script.src = "https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"; script.onload = resolve; script.onerror = reject; document.head.append(script);
+      });
+    }
+    target.innerHTML = "";
+    const map = new atlas.Map("map-card", { center: [location.longitude, location.latitude], zoom: 7, authOptions: { authType: "subscriptionKey", subscriptionKey: config.azure_maps_key } });
+    map.events.add("ready", () => {
+      const source = new atlas.source.DataSource(); map.sources.add(source);
+      source.add(new atlas.data.Feature(new atlas.data.Polygon(alertContext.alert.geometry.coordinates)));
+      source.add(new atlas.data.Feature(new atlas.data.Point([location.longitude, location.latitude])));
+      map.layers.add(new atlas.layer.PolygonLayer(source, null, { fillColor: "rgba(233,109,56,.2)", fillOpacity: .7 }));
+      map.layers.add(new atlas.layer.LineLayer(source, null, { strokeColor: "#e96d38", strokeWidth: 3 }));
+      map.layers.add(new atlas.layer.BubbleLayer(source, null, { color: "#063d3b", radius: 7, strokeColor: "#d7f663", strokeWidth: 3 }));
+    });
+  } catch (_) {
+    target.innerHTML = fallbackMapSvg(alertContext.alert.geometry, location);
+  }
+}
+
 function renderResults(result) {
   state.navigation = result;
   const section = $("#results");
@@ -72,12 +156,16 @@ function renderResults(result) {
   $("#urgent-panel").innerHTML = result.handoff.summary.urgency === "danger_now" ? `
     <div class="urgent-banner"><div><h3>Immediate danger comes first.</h3><p>Do not wait for this plan or collect documents.</p></div><a href="tel:911">Call 911</a></div>` : "";
 
+  renderProtocol(result.protocol);
+
   const alert = result.alert_context.alert.properties;
   const position = result.alert_context.position;
   $("#alert-context").innerHTML = `
     <div class="alert-mark">!</div>
     <div><small>DEMO CAP FIXTURE · NOT A LIVE WARNING</small><h3>${escapeHtml(alert.event)}</h3><p>${escapeHtml(alert.headline)}</p></div>
-    <div class="alert-position"><strong>${escapeHtml(position.status)}</strong><small>${escapeHtml(position.explanation)}</small></div>`;
+    <div class="alert-position"><strong>${escapeHtml(position.status)}</strong><small>${escapeHtml(position.explanation)}</small></div>
+    <div id="map-card" class="mini-map"></div>`;
+  renderAlertMap(result.alert_context, result.location_match);
 
   $("#recommendation-list").innerHTML = result.recommendations.map((program, index) => `
     <article class="recommendation-card" data-program-id="${escapeHtml(program.id)}">
@@ -99,17 +187,20 @@ function renderResults(result) {
     </article>`).join("") || `<div class="recommendation-card"><div class="recommendation-main"><div class="program-body"><h3>No confident match yet</h3><p>${escapeHtml(result.empty_notice)}</p></div></div></div>`;
 
   $("#privacy-receipt").innerHTML = `
-    <span class="receipt-status">✓ NOTHING SAVED SERVER-SIDE</span>
+    <span class="receipt-status">${result.privacy.stored ? "◷ MINIMAL PACKET · 24 HOURS" : "✓ NOTHING SAVED SERVER-SIDE"}</span>
     <h3>Your privacy receipt</h3>
     <p>${escapeHtml(result.privacy.message)}</p>
     <p><strong>Used for matching</strong></p><ul>${result.privacy.used.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+    ${result.privacy.stored_fields ? `<p><strong>Stored for continuity</strong></p><ul>${result.privacy.stored_fields.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
     <p><strong>Never requested</strong></p><ul>${result.privacy.not_requested.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
 
   const handoff = result.handoff;
+  const packetEscalation = result.protocol?.status === "complete" ? result.protocol.packet.escalation : null;
   $("#handoff-card").innerHTML = `
     <p class="overline">HUMAN HANDOFF</p><h3>${handoff.recommended ? "A person may help." : "Want a person anyway?"}</h3>
     <p>${handoff.reasons.length ? escapeHtml(handoff.reasons.join(" ")) : "You can take this short, non-sensitive summary to a 211 navigator."}</p>
     <div class="handoff-reference">${escapeHtml(handoff.reference)}</div>
+    ${packetEscalation ? `<p><strong>Read this to the representative:</strong><br />${escapeHtml(packetEscalation.read_this)}</p>` : ""}
     <ul>${handoff.contacts.map((contact) => `<li><strong>${escapeHtml(contact.value)}</strong> — ${escapeHtml(contact.when)}</li>`).join("")}</ul>
     <a href="tel:211">Call Virginia 211</a>`;
 
@@ -129,10 +220,12 @@ async function submitNavigator(event) {
       method: "POST",
       body: JSON.stringify({
         location: $("#location").value,
+        jurisdiction: state.jurisdiction,
         urgency: state.urgency,
         needs: [...state.needs],
         circumstances,
         housing,
+        context_reviewed: true,
       }),
     });
     renderResults(await response.json());
@@ -193,6 +286,7 @@ async function runTransform() {
     });
     const result = await response.json();
     state.transform = result;
+    state.alertPacket = result.protocol_packet;
     renderRawAlert(result.source_alert);
     output.className = "transform-output";
     output.innerHTML = result.segments.map((segment) => `
@@ -206,6 +300,8 @@ async function runTransform() {
     $("#trust-boundary").textContent = result.manifest.trust_boundary;
     $("#source-hash").textContent = result.manifest.source.sha256;
     $("#play-audio").disabled = false;
+    const alertPacket = result.protocol_packet;
+    $("#alert-channel-strip").innerHTML = `<p><strong>${escapeHtml(alertPacket.protocol)}</strong> compiled this verified alert into every surviving channel · ${escapeHtml(alertPacket.proof.proof_id)}</p><div class="alert-channel-buttons">${["web", "sms", "voice", "offline"].map((channel, index) => `<button type="button" data-alert-channel="${channel}" class="${index === 0 ? "active" : ""}">${channel.toUpperCase()}</button>`).join("")}</div><div id="alert-channel-preview" class="alert-channel-preview">${escapeHtml(JSON.stringify(alertPacket.channels.web, null, 2))}</div>`;
     $("#verify-result").innerHTML = "";
   } catch (error) {
     output.textContent = `Transformation unavailable: ${error.message}`;
@@ -281,6 +377,70 @@ async function checkFraud(event) {
   }
 }
 
+function adaptContextQuestions() {
+  const mappings = {
+    displaced: ["shelter", "housing", "home_repair"],
+    renter: ["housing", "home_repair", "legal"],
+    homeowner: ["housing", "home_repair"],
+    no_id: ["shelter", "housing", "home_repair", "documents", "food", "money", "medical"],
+    limited_english: ["shelter", "housing", "food", "money", "medical", "legal", "documents"],
+    accessibility: ["shelter", "transportation", "medical"],
+    lost_work: ["job", "money"],
+    underinsured: ["home_repair", "housing", "money"],
+    no_device: ["shelter", "housing", "food", "documents", "transportation"],
+  };
+  const needs = state.needs;
+  $$("#context-grid label").forEach((label) => {
+    const value = $("input", label).value;
+    const relevant = (mappings[value] || []).some((need) => needs.has(need));
+    label.hidden = !relevant;
+    if (!relevant) $("input", label).checked = false;
+  });
+}
+
+async function handleNext(button) {
+  const destination = Number(button.dataset.next);
+  if (destination === 2) {
+    if (!$("#location").reportValidity()) return;
+    try {
+      const response = await api("/api/intake/next", {
+        method: "POST",
+        body: JSON.stringify({ location: $("#location").value, jurisdiction: state.jurisdiction, needs: [] }),
+      });
+      const result = await response.json();
+      if (result.question?.id === "jurisdiction" && !state.jurisdiction) {
+        $("#county-choices").innerHTML = result.question.choices.map((county) => `<button type="button" data-county="${escapeHtml(county)}">${escapeHtml(county)}</button>`).join("");
+        $("#county-clarifier").hidden = false;
+        showToast("One answer is needed because this ZIP crosses a county boundary.");
+        return;
+      }
+    } catch (error) {
+      showToast(`Location check used the local fallback: ${error.message}`);
+    }
+  }
+  if (destination === 3) {
+    if (!state.needs.size) return showToast("Choose at least one need so we can keep the plan focused.");
+    adaptContextQuestions();
+  }
+  setStep(destination);
+}
+
+function setLowData(enabled, reason = "Manual low-data mode") {
+  document.body.classList.toggle("low-data", enabled);
+  const button = $("#low-data");
+  button.setAttribute("aria-pressed", String(enabled));
+  button.textContent = enabled ? "Low data: on" : "Low data";
+  const banner = $("#connection-banner");
+  banner.hidden = !enabled;
+  banner.textContent = enabled ? `${reason}. Essential facts, actions, phone numbers, and proof remain available.` : "";
+}
+
+function updateConnectivity() {
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const unstable = !navigator.onLine || connection?.effectiveType === "2g" || connection?.effectiveType === "slow-2g";
+  if (unstable) setLowData(true, navigator.onLine ? "Connection is unstable—switched to low-data mode" : "Offline—using the verified cached shell and last packet");
+}
+
 const innovations = [
   ["Need-first triage", "Starts with today’s need, then maps official programs—no agency knowledge required."],
   ["Confidence ladder", "Separates strong, possible, and worth-checking matches instead of pretending certainty."],
@@ -297,10 +457,7 @@ const innovations = [
 function init() {
   $$("[data-view]").forEach((button) => button.addEventListener("click", () => showView(button.dataset.view)));
   $$('[data-view-link]').forEach((link) => link.addEventListener("click", (event) => { event.preventDefault(); showView(link.dataset.viewLink); }));
-  $$("[data-next]").forEach((button) => button.addEventListener("click", () => {
-    if (state.step === 1 && !$("#location").reportValidity()) return;
-    setStep(Number(button.dataset.next));
-  }));
+  $$("[data-next]").forEach((button) => button.addEventListener("click", () => handleNext(button)));
   $$("[data-back]").forEach((button) => button.addEventListener("click", () => setStep(Number(button.dataset.back))));
   $$('[data-radio="urgency"]').forEach((button) => button.addEventListener("click", () => {
     $$('[data-radio="urgency"]').forEach((item) => item.classList.remove("active"));
@@ -314,6 +471,18 @@ function init() {
     button.setAttribute("aria-pressed", String(state.needs.has(value)));
   }));
   $("#navigator-form").addEventListener("submit", submitNavigator);
+  $("#location").addEventListener("input", () => {
+    state.jurisdiction = null;
+    $("#county-clarifier").hidden = true;
+  });
+  $("#county-choices").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-county]");
+    if (!button) return;
+    state.jurisdiction = button.dataset.county;
+    $$("#county-choices button").forEach((item) => item.classList.toggle("selected", item === button));
+    showToast(`${state.jurisdiction} selected. No more location detail is needed.`);
+    window.setTimeout(() => setStep(2), 250);
+  });
   $("#recommendation-list").addEventListener("click", (event) => {
     const button = event.target.closest("[data-details]");
     if (!button) return;
@@ -323,9 +492,33 @@ function init() {
   });
   $("#print-plan").addEventListener("click", () => window.print());
   $("#copy-handoff").addEventListener("click", async () => { await navigator.clipboard.writeText(handoffText()); showToast("Handoff summary copied—no sensitive data included."); });
+  $("#protocol-panel").addEventListener("click", async (event) => {
+    const channelButton = event.target.closest("[data-packet-channel]");
+    if (channelButton && state.packet) {
+      state.packetChannel = channelButton.dataset.packetChannel;
+      $$("[data-packet-channel]").forEach((item) => item.classList.toggle("active", item === channelButton));
+      $("#channel-preview").textContent = channelText(state.packet, state.packetChannel);
+      if (state.packetChannel === "voice" && "speechSynthesis" in window) showToast("Voice preview is ready; the same locked facts are preserved.");
+    }
+    if (event.target.closest("[data-copy-code]") && state.packet) {
+      await navigator.clipboard.writeText(state.packet.continuity.resume_command);
+      showToast("Anonymous recovery command copied.");
+    }
+    if (event.target.closest("[data-verify-packet]") && state.packet) {
+      const response = await api("/api/packet/verify", { method: "POST", body: JSON.stringify({ packet: state.packet }) });
+      const result = await response.json();
+      showToast(result.valid ? "Packet signature, channels, and locked facts verify." : "Packet verification failed.");
+    }
+  });
   $("#run-transform").addEventListener("click", runTransform);
   $("#verify-manifest").addEventListener("click", verifyManifest);
   $("#play-audio").addEventListener("click", playAudio);
+  $("#alert-channel-strip").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-alert-channel]");
+    if (!button || !state.alertPacket) return;
+    $$("[data-alert-channel]").forEach((item) => item.classList.toggle("active", item === button));
+    $("#alert-channel-preview").textContent = JSON.stringify(state.alertPacket.channels[button.dataset.alertChannel], null, 2);
+  });
   $("#download-manifest").addEventListener("click", () => {
     if (!state.transform) return;
     const blob = new Blob([JSON.stringify(state.transform.manifest, null, 2)], { type: "application/json" });
@@ -340,6 +533,7 @@ function init() {
       : "You can review disaster assistance at https://www.disasterassistance.gov/ and apply only through the official site.";
   }));
   $("#text-size").addEventListener("click", () => document.body.classList.toggle("large-text"));
+  $("#low-data").addEventListener("click", () => setLowData(!document.body.classList.contains("low-data")));
   $("#use-location").addEventListener("click", () => {
     if (!navigator.geolocation) return showToast("Location is not available on this device.");
     navigator.geolocation.getCurrentPosition(
@@ -353,6 +547,10 @@ function init() {
   $("#innovation-grid").innerHTML = innovations.map(([title, description], index) => `<article class="innovation-card"><span>${String(index + 1).padStart(2, "0")}</span><div><h2>${escapeHtml(title)}</h2><p>${escapeHtml(description)}</p></div><span class="implemented-badge">Implemented</span></article>`).join("");
 
   api("/api/alerts").then((response) => response.json()).then((alerts) => renderRawAlert(alerts.features[0])).catch(() => {});
+  window.addEventListener("online", updateConnectivity);
+  window.addEventListener("offline", updateConnectivity);
+  if (navigator.connection) navigator.connection.addEventListener("change", updateConnectivity);
+  updateConnectivity();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("/assets/sw.js").catch(() => {});
 }
 

@@ -124,11 +124,28 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
                         "reason": f"Judge unavailable: {type(error).__name__}",
                     }
                     verification["passed"] = False
+            output_safety = {"passed": True, "mode": "not-configured"}
+            if verification["passed"] and settings.content_safety_enabled:
+                try:
+                    from .providers.azure_content_safety import analyze
+
+                    output_safety = {**analyze(restored), "mode": "azure-ai-content-safety"}
+                except Exception as error:
+                    output_safety = {
+                        "passed": False,
+                        "mode": "azure-ai-content-safety",
+                        "reason": f"Guard unavailable: {type(error).__name__}",
+                    }
+                if not output_safety["passed"]:
+                    verification["passed"] = False
             status = "translated_verified" if verification["passed"] else "verbatim_abstained"
             output = restored if verification["passed"] else segment
             reason = None
             if not verification["passed"]:
-                reason = next(name for name, result in verification["checks"].items() if not result["passed"])
+                reason = next(
+                    (name for name, result in verification["checks"].items() if not result["passed"]),
+                    "output_safety",
+                )
             segment_id = f"{section}-{index}"
             rendered.append(
                 {
@@ -141,6 +158,7 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
                     "source_offset": {"start": start, "end": end},
                     "entities": [asdict(item) for item in locked.entities],
                     "verification": verification,
+                    "output_safety": output_safety,
                     "provider": provider_meta,
                 }
             )
@@ -171,9 +189,17 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
                 "checks_failed": checks_failed,
                 "prompt_sha256": hashlib.sha256(b"last-mile-transform-v1").hexdigest(),
             },
+            {
+                "step": "output_safety",
+                "engine": "azure-ai-content-safety" if settings.content_safety_enabled else "not-configured-local-demo",
+                "blocked_segments": sum(1 for item in rendered if not item["output_safety"]["passed"]),
+            },
         ]
     )
     manifest = build_manifest(alert, chain, manifest_segments, output_text)
+    from .protocol import compile_alert_packet
+
+    protocol_packet = compile_alert_packet(alert, rendered, manifest)
     return {
         "source_alert": alert,
         "language": language,
@@ -185,5 +211,6 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
         "instruction_notice": None if instruction_present else "The source alert carried no instructions. No actions were inferred.",
         "segments": rendered,
         "manifest": manifest,
+        "protocol_packet": protocol_packet,
         "provider_mode": "microsoft-foundry" if settings.foundry_enabled else "resilient-local-demo",
     }

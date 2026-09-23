@@ -1,0 +1,12 @@
+name: last-mile-navigator
+metadata:
+  template: last-mile-navigator@1.0.0
+services:
+  api:
+    project: .
+    host: appservice
+    language: python
+  web:
+    project: web
+    host: staticwebapp
+

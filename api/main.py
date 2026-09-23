@@ -16,7 +16,9 @@ from .geo import classify_position, geocode
 from .ingest import alerts_with_fallback, load_cached_alert
 from .manifest import validate_manifest
 from .navigator import navigate
+from .protocol import build_action_packet, continuity_store, next_question, verify_action_packet
 from .speech import synthesize
+from .store import create_store
 from .transform import LANGUAGES, transform_alert
 
 
@@ -35,6 +37,7 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+render_store = create_store()
 
 
 class NavigateRequest(BaseModel):
@@ -44,6 +47,8 @@ class NavigateRequest(BaseModel):
     circumstances: list[str] = Field(default_factory=list, max_length=20)
     household: str | None = None
     housing: str | None = None
+    jurisdiction: str | None = None
+    context_reviewed: bool | None = None
 
 
 class TransformRequest(BaseModel):
@@ -65,6 +70,18 @@ class FraudRequest(BaseModel):
 class SpeechRequest(BaseModel):
     text: str = Field(min_length=1, max_length=3000)
     language: str = "en"
+
+
+class PacketRequest(BaseModel):
+    location: str = Field(default="24370", max_length=200)
+    jurisdiction: str | None = None
+    needs: list[str] = Field(default_factory=list, max_length=20)
+    circumstances: list[str] = Field(default_factory=list, max_length=20)
+    context_reviewed: bool | None = None
+
+
+class PacketVerifyRequest(BaseModel):
+    packet: dict[str, Any]
 
 
 @app.get("/api/status")
@@ -110,7 +127,43 @@ def navigation(request: NavigateRequest) -> dict:
         "alert": alert,
         "position": classify_position(point, alert.get("geometry")),
     }
+    result["protocol"] = build_action_packet(request.model_dump())
+    if result["protocol"].get("status") == "complete":
+        result["privacy"].update(
+            {
+                "stored": True,
+                "retention": "24 hours",
+                "stored_fields": ["county", "disaster ID", "broad needs", "constraints", "current step"],
+                "message": (
+                    "The full screening response is not logged. To make the anonymous recovery code work, "
+                    "a minimal action packet is retained for 24 hours."
+                ),
+            }
+        )
     return result
+
+
+@app.post("/api/intake/next")
+def intake_next(request: PacketRequest) -> dict:
+    return next_question(request.model_dump(exclude_none=True))
+
+
+@app.post("/api/packet")
+def action_packet(request: PacketRequest) -> dict:
+    return build_action_packet(request.model_dump(exclude_none=True))
+
+
+@app.post("/api/packet/verify")
+def action_packet_verify(request: PacketVerifyRequest) -> dict:
+    return verify_action_packet(request.packet)
+
+
+@app.get("/api/continue/{code}")
+def continue_packet(code: str) -> dict:
+    packet = continuity_store.load(code)
+    if not packet:
+        raise HTTPException(status_code=404, detail="Recovery code not found or expired")
+    return {"status": "complete", "packet": packet, "resumed": True}
 
 
 @app.post("/api/transform")
@@ -118,7 +171,12 @@ def transform(request: TransformRequest) -> dict:
     if request.language not in LANGUAGES:
         raise HTTPException(status_code=400, detail="Unsupported demo language")
     alert = request.alert or load_cached_alert()
-    return transform_alert(alert, request.language, request.grade, request.simulate_failure)
+    result = transform_alert(alert, request.language, request.grade, request.simulate_failure)
+    try:
+        render_store.save_render(result)
+    except Exception:
+        result["cache_notice"] = "Render cache unavailable; the verified response is still shown."
+    return result
 
 
 @app.post("/api/verify")
@@ -173,4 +231,3 @@ def spa(path: str) -> FileResponse:
     if path and candidate.is_file() and WEB in candidate.resolve().parents:
         return FileResponse(candidate)
     return FileResponse(WEB / "index.html")
-
