@@ -1,14 +1,18 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Last-Mile Caseworker Handoff",
-    "description": "Read-only lookup of a resident's signed Last-Mile action packet by its RBX recovery code. Every field is copied from the signed packet; nothing is generated. It does not decide eligibility.",
+    "title": "Last-Mile Caseworker Tools",
+    "description": "Read-only caseworker tools. GetHandoff returns a resident's signed Last-Mile action packet by its RBX recovery code; SearchSourceQuotes returns exact sentences from saved agency pages. Nothing is generated, and neither decides eligibility.",
     "version": "1.0"
   },
   "host": "REPLACE-WITH-FUNCTION-APP-HOST.azurewebsites.net",
   "basePath": "/",
-  "schemes": ["https"],
-  "produces": ["application/json"],
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/api/handoff/{code}": {
       "get": {
@@ -28,9 +32,47 @@
         "responses": {
           "200": {
             "description": "Handoff summary",
-            "schema": { "$ref": "#/definitions/Handoff" }
+            "schema": {
+              "$ref": "#/definitions/Handoff"
+            }
           },
-          "404": { "description": "Recovery code not found or expired (codes last 24 hours)." }
+          "404": {
+            "description": "Recovery code not found or expired (codes last 24 hours)."
+          }
+        }
+      }
+    },
+    "/grounded/api/quotes/search": {
+      "get": {
+        "operationId": "SearchSourceQuotes",
+        "summary": "Find exact sentences in FEMA, eCFR, SBA and SAMHSA pages",
+        "description": "Use when the caseworker asks what an agency says about a topic. Returns only exact sentences from saved, hash-verified agency pages, each with its source URL. Quote them word for word.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "What to look for, for example 'appeal a decision'.",
+            "x-ms-summary": "Topic"
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "default": 5,
+            "description": "How many sentences, 1 to 10.",
+            "x-ms-summary": "Count"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exact quotes",
+            "schema": {
+              "$ref": "#/definitions/QuoteSearch"
+            }
+          }
         }
       }
     }
@@ -39,27 +81,66 @@
     "Handoff": {
       "type": "object",
       "properties": {
-        "code": { "type": "string" },
-        "packet_id": { "type": "string" },
-        "packet_verified": { "type": "boolean", "description": "False means the packet failed its signature check and must not be relied on." },
-        "jurisdiction": { "type": "string" },
-        "disaster_id": { "type": "string" },
-        "disaster_name": { "type": "string" },
-        "snapshot_notice": { "type": "string" },
-        "needs": { "type": "array", "items": { "type": "string" } },
-        "constraints": { "type": "array", "items": { "type": "string" } },
-        "escalation_required": { "type": "boolean" },
-        "escalation_topic": { "type": "string" },
-        "contact": { "type": "string" },
-        "caller_summary": { "type": "string" },
+        "code": {
+          "type": "string"
+        },
+        "packet_id": {
+          "type": "string"
+        },
+        "packet_verified": {
+          "type": "boolean",
+          "description": "False means the packet failed its signature check and must not be relied on."
+        },
+        "jurisdiction": {
+          "type": "string"
+        },
+        "disaster_id": {
+          "type": "string"
+        },
+        "disaster_name": {
+          "type": "string"
+        },
+        "snapshot_notice": {
+          "type": "string"
+        },
+        "needs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "escalation_required": {
+          "type": "boolean"
+        },
+        "escalation_topic": {
+          "type": "string"
+        },
+        "contact": {
+          "type": "string"
+        },
+        "caller_summary": {
+          "type": "string"
+        },
         "deadlines": {
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
-              "display": { "type": "string" },
-              "status": { "type": "string" },
-              "source_url": { "type": "string" }
+              "display": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "source_url": {
+                "type": "string"
+              }
             }
           }
         },
@@ -68,15 +149,70 @@
           "items": {
             "type": "object",
             "properties": {
-              "priority": { "type": "integer" },
-              "label": { "type": "string" },
-              "confidence": { "type": "string" },
-              "current_limit": { "type": "string" },
-              "source_url": { "type": "string" }
+              "priority": {
+                "type": "integer"
+              },
+              "label": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "string"
+              },
+              "current_limit": {
+                "type": "string"
+              },
+              "source_url": {
+                "type": "string"
+              }
             }
           }
         },
-        "boundary": { "type": "string" }
+        "boundary": {
+          "type": "string"
+        }
+      }
+    },
+    "QuoteSearch": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "engine": {
+          "type": "string"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "quote": {
+                "type": "string"
+              },
+              "publisher": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "doc_id": {
+                "type": "string"
+              },
+              "start": {
+                "type": "integer"
+              },
+              "end": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "boundary": {
+          "type": "string"
+        }
       }
     }
   }

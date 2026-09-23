@@ -25,7 +25,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from . import actions, config, fema, geo, ingest, manifest as mf, speech, transform
+from . import actions, config, fema, geo, ingest, manifest as mf, quote_search, speech, transform
 from .providers.base import get_registry
 from .store import get_store
 
@@ -502,6 +502,12 @@ def assist_impact() -> dict:
     if not summary:
         raise HTTPException(503, "no DR-4831 snapshot; run scripts/fetch_fema.py")
     return summary
+
+
+@app.get("/api/quotes/search")
+def quotes_search(q: str = Query(..., min_length=2, max_length=300), top: int = Query(5, ge=1, le=10)) -> dict:
+    """Exact sentences from the verified FEMA/eCFR/SBA/SAMHSA pages. Azure AI Search ranks."""
+    return quote_search.search(q, top)
 
 
 # ---------------------------------------------------------------------------

@@ -263,6 +263,20 @@
       ]
     },
     {
+      "type": "Microsoft.Search/searchServices",
+      "apiVersion": "2023-11-01",
+      "name": "[format('{0}search', variables('safeName'))]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('tags')]",
+      "sku": {
+        "name": "free"
+      },
+      "properties": {
+        "replicaCount": 1,
+        "partitionCount": 1
+      }
+    },
+    {
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2023-07-01",
       "name": "[take(format('kv{0}', variables('safeName')), 24)]",
@@ -362,6 +376,14 @@
               "value": "[reference(resourceId('Microsoft.KeyVault/vaults', take(format('kv{0}', variables('safeName')), 24)), '2023-07-01').vaultUri]"
             },
             {
+              "name": "AZURE_SEARCH_ENDPOINT",
+              "value": "[format('https://{0}.search.windows.net', format('{0}search', variables('safeName')))]"
+            },
+            {
+              "name": "AZURE_SEARCH_KEY",
+              "value": "[listAdminKeys(resourceId('Microsoft.Search/searchServices', format('{0}search', variables('safeName'))), '2023-11-01').primaryKey]"
+            },
+            {
               "name": "AZURE_KEYVAULT_KEY_NAME",
               "value": "manifest-signing"
             },
@@ -424,7 +446,8 @@
         "[resourceId('Microsoft.CognitiveServices/accounts', format('{0}translator', variables('safeName')))]",
         "[resourceId('Microsoft.KeyVault/vaults', take(format('kv{0}', variables('safeName')), 24))]",
         "[resourceId('Microsoft.KeyVault/vaults/keys', take(format('kv{0}', variables('safeName')), 24), 'manifest-signing')]",
-        "[resourceId('Microsoft.Insights/components', format('{0}insights', variables('safeName')))]"
+        "[resourceId('Microsoft.Insights/components', format('{0}insights', variables('safeName')))]",
+        "[resourceId('Microsoft.Search/searchServices', format('{0}search', variables('safeName')))]"
       ]
     },
     {
@@ -508,6 +531,7 @@
         "Cosmos DB lifetime free tier with 400 RU/s shared throughput.",
         "Translator, Speech, and Content Safety use F0 tiers.",
         "Foundry is pay-per-token; no model is deployed by this template.",
+        "Azure AI Search Free tier (one per subscription).",
         "Key Vault Standard; one RSA key, billed per signing operation.",
         "Application Insights on a Log Analytics workspace capped at 0.1 GB/day, 30-day retention.",
         "SMS sending and automatic replies remain disabled.",

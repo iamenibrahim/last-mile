@@ -185,6 +185,16 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
+// Ranks sentences from the verified source documents for the quote search.
+// Free tier: one per subscription, 50 MB, no charge.
+resource search 'Microsoft.Search/searchServices@2023-11-01' = {
+  name: '${safeName}search'
+  location: location
+  tags: tags
+  sku: { name: 'free' }
+  properties: { replicaCount: 1, partitionCount: 1 }
+}
+
 // Manifest and packet signing. RS256 key; the private half never leaves the vault,
 // and GET /api/signing-key publishes the public half. Standard tier, pay per
 // operation (fractions of a cent at demo volume).
@@ -237,6 +247,8 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'AZURE_FOUNDRY_EMBED_MODEL', value: foundryEmbeddingDeployment }
         { name: 'AZURE_FOUNDRY_API_KEY', value: foundry.listKeys().key1 }
         { name: 'AZURE_KEYVAULT_URL', value: keyVault.properties.vaultUri }
+        { name: 'AZURE_SEARCH_ENDPOINT', value: 'https://${search.name}.search.windows.net' }
+        { name: 'AZURE_SEARCH_KEY', value: search.listAdminKeys().primaryKey }
         { name: 'AZURE_KEYVAULT_KEY_NAME', value: signingKey.name }
         { name: 'AZURE_TRANSLATOR_KEY', value: translator.listKeys().key1 }
         { name: 'AZURE_TRANSLATOR_REGION', value: 'global' }
@@ -297,6 +309,7 @@ output costGuardrails array = [
   'Cosmos DB lifetime free tier with 400 RU/s shared throughput.'
   'Translator, Speech, and Content Safety use F0 tiers.'
   'Foundry is pay-per-token; no model is deployed by this template.'
+  'Azure AI Search Free tier (one per subscription).'
   'Key Vault Standard; one RSA key, billed per signing operation.'
   'Application Insights on a Log Analytics workspace capped at 0.1 GB/day, 30-day retention.'
   'SMS sending and automatic replies remain disabled.'
