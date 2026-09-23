@@ -11,3 +11,9 @@ tests/
 *.pptx
 *.pdf
 data/*.db*
+data/grounded/last_mile.sqlite3*
+data/grounded/.dev_signing_key
+grounded_eval/
+scripts/
+copilot/
+TODO.md

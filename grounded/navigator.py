@@ -265,6 +265,8 @@ def navigate(
     #    to finish the form first.
     triggers_rules = esc.rule_triggers(red.text)
     triggers_flags = esc.flag_triggers(danger_now=danger_now, needs=needs)
+    # Redacted text only. The model can add escalations, never remove them.
+    triggers_model = esc.model_triggers(red.text)
 
     # 3. Where.
     where = areas.resolve(location, pick_fips=pick_fips)
@@ -287,7 +289,7 @@ def navigate(
     if where.county_fips is None:
         # Cannot place the person. Escalation still stands: someone typing
         # "trapped" into an unresolvable box still gets 911.
-        e = esc.merge(triggers_rules, triggers_flags)
+        e = esc.merge(triggers_rules, triggers_flags, triggers_model)
         base.update({
             "needs_location_choice": where.ambiguous,
             "escalation": e.to_dict(),
@@ -312,7 +314,7 @@ def navigate(
         system.append(esc.system_trigger(
             "deadline_passed", "The recorded deadline has passed. A person can confirm whether anything is still open."))
 
-    e_pre = esc.merge(triggers_rules, triggers_flags, system)
+    e_pre = esc.merge(triggers_rules, triggers_flags, triggers_model, system)
 
     # 4. Build segments. Everything the person will read goes through the
     #    same verify-and-abstain pipeline as the alert product.
@@ -396,7 +398,7 @@ def navigate(
             "translation_withheld",
             "Part of this page is shown only in English because its translation could not be verified.",
             ["fema_helpline"]))
-    e = esc.merge(triggers_rules, triggers_flags, system)
+    e = esc.merge(triggers_rules, triggers_flags, triggers_model, system)
 
     seg_dicts = [s.to_dict() for s in segs]
     return {

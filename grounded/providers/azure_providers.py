@@ -159,6 +159,36 @@ class AzureOpenAIJudge(_AzureOpenAIBase):
             return False, 0.0, f"judge response unparseable: {raw[:120]}"
 
 
+ESCALATION_SYSTEM = """You screen a disaster survivor's free-text message for cases a human caseworker must handle.
+
+Return strict JSON only: {"labels": [...]}, using only these labels:
+- danger_now: someone may be in physical danger or need emergency care now
+- self_harm: thoughts of suicide or self-harm
+- abuse: domestic violence, abuse, or feeling unsafe with someone
+- immigration: questions or worries about immigration status
+- identity_theft: an application or account they did not make
+- fraud: someone asking for money, fees, or personal details to "help"
+- high_impact: a denial, appeal, debt, eviction, or foreclosure
+
+Include every label that plausibly applies, including indirect or non-English wording.
+When unsure, include the label. Return {"labels": []} only when none apply."""
+
+
+class AzureOpenAIEscalationClassifier(_AzureOpenAIBase):
+    """Suggests escalation labels. It can only add: see escalation.model_triggers."""
+
+    name = "azure-openai-escalation"
+
+    def __init__(self) -> None:
+        super().__init__("openai_chat_deployment")
+
+    def classify(self, text: str) -> list[str]:
+        raw = self._chat(ESCALATION_SYSTEM, text)
+        start, end = raw.find("{"), raw.rfind("}")
+        labels = json.loads(raw[start : end + 1]).get("labels", [])
+        return [str(label) for label in labels]
+
+
 class AzureOpenAIEmbedder(_AzureOpenAIBase):
     name = "azure-openai-embeddings"
     semantic = True

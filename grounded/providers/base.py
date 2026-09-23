@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
-from typing import Protocol, Sequence
+from typing import Any, Protocol, Sequence
 
 log = logging.getLogger("last_mile.providers")
 
@@ -96,6 +96,8 @@ class Registry:
     content_safety: ContentSafety
     signer: Signer
     notes: dict[str, str] = field(default_factory=dict)
+    # Optional: no local equivalent, because the rules are the local floor.
+    escalation_classifier: Any = None
 
     def describe(self) -> dict[str, str]:
         return {
@@ -136,6 +138,7 @@ def get_registry(force_local: bool = False) -> Registry:
     speech: Speech = L.LocalSpeech()
     safety: ContentSafety = L.LocalContentSafety()
     signer: Signer = L.LocalHmacSigner()
+    escalation_classifier = None
 
     if not offline:
         from . import azure_providers as A
@@ -155,6 +158,7 @@ def get_registry(force_local: bool = False) -> Registry:
             try:
                 simplifier = A.AzureOpenAISimplifier()
                 judge = A.AzureOpenAIJudge()
+                escalation_classifier = A.AzureOpenAIEscalationClassifier()
                 notes["openai"] = "azure"
             except Exception as exc:  # pragma: no cover - credential path
                 notes["openai"] = f"azure unavailable, local fallback: {exc}"
@@ -202,6 +206,7 @@ def get_registry(force_local: bool = False) -> Registry:
         content_safety=safety,
         signer=signer,
         notes=notes,
+        escalation_classifier=escalation_classifier,
     )
     if not force_local:
         _REGISTRY = registry

@@ -188,6 +188,33 @@ def flag_triggers(danger_now: bool = False, needs: list[str] | None = None) -> l
     return out
 
 
+def model_triggers(text: str | None) -> list[Trigger]:
+    """Foundry's suggestions, added on top of the rules. Never a floor.
+
+    The model only names a rule id. Level, reason and channels come from the
+    rule table, so a model cannot invent a phone number, soften the wording,
+    or pick a lower level. Unknown labels are dropped. Any failure returns
+    nothing, which leaves the rules exactly as they were.
+    """
+    if not text:
+        return []
+    try:
+        from .providers.base import get_registry
+
+        classifier = get_registry().escalation_classifier
+        if classifier is None:
+            return []
+        labels = classifier.classify(text)
+    except Exception:
+        return []
+    found: list[Trigger] = []
+    for label in dict.fromkeys(labels):
+        if label in _RULE_META:
+            level, channels, reason = _RULE_META[label]
+            found.append(Trigger(label, level, reason, channels, None, "model"))
+    return found
+
+
 def system_trigger(tid: str, reason: str, channels: list[str] | None = None) -> Trigger:
     """Raised by the navigator itself: ambiguous location, abstained segments,
     damage reported where no declaration exists."""

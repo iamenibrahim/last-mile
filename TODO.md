@@ -30,8 +30,8 @@ Legend: ✅ done · ⏳ in progress · ⬜ not started
   - rerun the evaluation afterward
 - ✅ **8. Finish and commit the phone-call feature** (Communication Services Call Automation), off by default.
 - ✅ **9. Key Vault signing** for the provenance manifests and packets, using an asymmetric key so anyone can check a signature with the public key. `GET /api/signing-key` publishes it. The template now creates the vault and key. **If you already deployed, redeploy `infra/student.json` to the same resource group to add it.**
-- ⬜ **10. Foundry embeddings** behind the semantic-fidelity check (does the translation still mean the same thing).
-- ⬜ **11. Foundry escalation classifier** that can only add a "hand to a person" escalation, never remove one.
+- ✅ **10. Foundry embeddings** behind the semantic-fidelity check (does the translation still mean the same thing).
+- ✅ **11. Foundry escalation classifier** that can only add a "hand to a person" escalation, never remove one.
 - ⬜ **12. Azure AI Search** over the FEMA, eCFR and SBA source documents, returning exact quotes only.
 - ⬜ **13. Application Insights** on the free tier, logging no personal data, for live latency figures.
 - ⬜ **14. Azure Maps geocoding on the server**, falling back to the Census geocoder.
@@ -61,7 +61,7 @@ These make the demo real, so never cut them: **1–3, 7, 15–17**.
 | Service | Role | Status |
 |---|---|---|
 | Foundry (gpt-4.1-mini) | Plain-language rewrite, entailment judge, escalation classifier | Code exists, never run with keys |
-| Foundry embeddings | Semantic-fidelity check | ⬜ (item 10) |
+| Foundry embeddings | Semantic-fidelity check (cosine, multilingual) | Code done; runs once the embedding model is deployed |
 | Foundry Evaluations | Corruption-test dashboard | ⬜ (item 18) |
 | Azure AI Translator | Translation + round-trip check | Code exists, never run with keys |
 | Azure AI Speech | Spoken output of verified text | Code exists, never run with keys |
