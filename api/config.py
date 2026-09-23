@@ -32,6 +32,18 @@ class Settings:
     content_safety_key: str = os.getenv("AZURE_CONTENT_SAFETY_KEY", "")
     azure_maps_key: str = os.getenv("AZURE_MAPS_KEY", "")
     cosmos_endpoint: str = os.getenv("AZURE_COSMOS_ENDPOINT", "")
+    communication_endpoint: str = os.getenv("AZURE_COMMUNICATION_ENDPOINT", "").rstrip("/")
+    communication_connection_string: str = os.getenv(
+        "AZURE_COMMUNICATION_CONNECTION_STRING", ""
+    )
+    sms_from_number: str = os.getenv("AZURE_SMS_FROM_NUMBER", "")
+    sms_send_enabled: bool = os.getenv("SMS_SEND_ENABLED", "false").lower() == "true"
+    sms_auto_reply_enabled: bool = os.getenv("SMS_AUTOREPLY_ENABLED", "false").lower() == "true"
+    sms_allowed_test_recipients: tuple[str, ...] = tuple(
+        number.strip()
+        for number in os.getenv("SMS_ALLOWED_TEST_RECIPIENTS", "").split(",")
+        if number.strip()
+    )
 
     @property
     def foundry_enabled(self) -> bool:
@@ -48,6 +60,11 @@ class Settings:
     @property
     def content_safety_enabled(self) -> bool:
         return bool(self.content_safety_endpoint and self.content_safety_key)
+
+    @property
+    def sms_enabled(self) -> bool:
+        has_auth = bool(self.communication_connection_string or self.communication_endpoint)
+        return bool(self.sms_send_enabled and has_auth and self.sms_from_number)
 
 
 settings = Settings()

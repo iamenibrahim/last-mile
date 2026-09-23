@@ -70,6 +70,7 @@ The cloud path uses Microsoft services where each service has a specific job:
 | Azure Key Vault | Production manifest signing key / asymmetric signing target |
 | Azure Static Web Apps | No-build front end, linked to the API backend |
 | Azure App Service | FastAPI backend |
+| Azure Communication Services | Consent-gated delivery of the already-verified SMS channel, plus Event Grid delivery reports and inbound recovery commands |
 
 Copy `.env.example` to `.env`, supply only the services you have, and keep secrets in Key Vault in deployed environments. Every cloud call is isolated behind a provider and has a cached or deterministic fallback.
 
@@ -84,6 +85,8 @@ The Foundry provider calls the current OpenAI-compatible `/openai/v1/chat/comple
 | `POST /api/packet` | Build and sign a canonical Disaster Action Packet |
 | `POST /api/packet/verify` | Verify packet signature, channel hash, and locked facts |
 | `GET /api/continue/{code}` | Resume minimal anonymous state across channels |
+| `POST /api/sms/send` | Send a verified packet through Azure Communication Services after explicit consent |
+| `POST /api/sms/events` | Receive Event Grid validation, delivery reports, and privacy-preserving recovery commands |
 | `GET /api/alerts` | Live Virginia NWS alerts with labeled fixture fallback |
 | `POST /api/transform` | Lock, transform, verify, abstain, and manifest an alert |
 | `POST /api/verify` | Validate manifest signature and rendered-content hash |
@@ -93,6 +96,12 @@ The Foundry provider calls the current OpenAI-compatible `/openai/v1/chat/comple
 | `GET /api/evaluation` | Latest checked-in evaluation report |
 
 Interactive OpenAPI documentation is at `/docs`.
+
+### SMS pilot
+
+The app compiles SMS text whether Azure is available or not. Real delivery is fail-closed and remains off until all of the following are configured: an Azure Communication Services endpoint or connection string, an approved SMS sender, `SMS_SEND_ENABLED=true`, and explicit consent in the request. For a student pilot, set `SMS_ALLOWED_TEST_RECIPIENTS` to a comma-separated list of your own E.164 test numbers. Automatic replies are a separate switch, `SMS_AUTOREPLY_ENABLED`, so an Event Grid subscription cannot begin sending replies accidentally.
+
+The inbound command format is stateless with respect to the phone number: `CONTINUE RBX-xxxxx` returns the menu, and `RBX-xxxxx 1`, `2`, or `0` returns steps, document alternatives, or human help. This avoids keeping a phone-number-to-case mapping. Delivery reports retain only the provider message ID and status in the request lifecycle; phone numbers and message bodies are not logged by application code.
 
 ## Trust and scope disclosures
 

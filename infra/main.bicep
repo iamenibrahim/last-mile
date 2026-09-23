@@ -133,6 +133,16 @@ resource maps 'Microsoft.Maps/accounts@2023-06-01' = {
   properties: { disableLocalAuth: false }
 }
 
+// The resource itself is deployable on a student subscription. Azure does not
+// provision a billable SMS number here; that remains an explicit portal step.
+resource communication 'Microsoft.Communication/communicationServices@2023-04-01' = {
+  name: '${safeName}communication'
+  location: 'global'
+  properties: {
+    dataLocation: 'United States'
+  }
+}
+
 resource api 'Microsoft.Web/sites@2023-12-01' = {
   name: '${safeName}api'
   location: location
@@ -154,6 +164,9 @@ resource api 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'AZURE_SPEECH_REGION', value: location }
         { name: 'AZURE_TRANSLATOR_REGION', value: location }
         { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: contentSafety.properties.endpoint }
+        { name: 'AZURE_COMMUNICATION_ENDPOINT', value: 'https://${communication.name}.communication.azure.com' }
+        { name: 'SMS_SEND_ENABLED', value: 'false' }
+        { name: 'SMS_AUTOREPLY_ENABLED', value: 'false' }
         { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: insights.properties.ConnectionString }
       ]
     }
@@ -175,5 +188,5 @@ output staticWebAppName string = web.name
 output foundryEndpoint string = foundry.properties.endpoint
 output keyVaultUrl string = vault.properties.vaultUri
 output cosmosEndpoint string = cosmos.properties.documentEndpoint
-output deploymentNote string = 'Deploy an approved Foundry model, assign managed-identity RBAC, and store service credentials as Key Vault references before production use.'
-
+output communicationEndpoint string = 'https://${communication.name}.communication.azure.com'
+output deploymentNote string = 'Deploy an approved Foundry model, assign managed-identity RBAC, and store service credentials as Key Vault references before production use. SMS remains disabled until a compliant sender is provisioned and explicitly enabled.'

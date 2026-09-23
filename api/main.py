@@ -16,6 +16,7 @@ from .geo import classify_position, geocode
 from .ingest import alerts_with_fallback, load_cached_alert
 from .manifest import validate_manifest
 from .navigator import navigate
+from .providers.azure_sms import handle_event_grid_events, send_verified_packet
 from .protocol import build_action_packet, continuity_store, next_question, verify_action_packet
 from .speech import synthesize
 from .store import create_store
@@ -84,6 +85,12 @@ class PacketVerifyRequest(BaseModel):
     packet: dict[str, Any]
 
 
+class SmsSendRequest(BaseModel):
+    continuity_code: str = Field(pattern=r"^RBX-[A-Z0-9]{5,12}$")
+    phone_number: str = Field(min_length=8, max_length=16)
+    consent: bool = False
+
+
 @app.get("/api/status")
 def status() -> dict:
     return {
@@ -96,6 +103,7 @@ def status() -> dict:
             "azure_ai_content_safety": settings.content_safety_enabled,
             "azure_maps": bool(settings.azure_maps_key),
             "cosmos_db": bool(settings.cosmos_endpoint),
+            "azure_communication_services_sms": settings.sms_enabled,
         },
         "fallback": "Every cloud provider has a deterministic or cached local path.",
         "languages": LANGUAGES,
@@ -164,6 +172,26 @@ def continue_packet(code: str) -> dict:
     if not packet:
         raise HTTPException(status_code=404, detail="Recovery code not found or expired")
     return {"status": "complete", "packet": packet, "resumed": True}
+
+
+@app.post("/api/sms/send")
+def sms_send(request: SmsSendRequest) -> dict:
+    packet = continuity_store.load(request.continuity_code)
+    if not packet:
+        raise HTTPException(status_code=404, detail="Recovery code not found or expired")
+    try:
+        return send_verified_packet(request.phone_number, packet, request.consent)
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error))
+    except RuntimeError as error:
+        raise HTTPException(status_code=503, detail=str(error))
+    except Exception as error:
+        raise HTTPException(status_code=502, detail=f"SMS provider unavailable: {type(error).__name__}")
+
+
+@app.post("/api/sms/events")
+def sms_events(events: list[dict[str, Any]]) -> dict:
+    return handle_event_grid_events(events)
 
 
 @app.post("/api/transform")

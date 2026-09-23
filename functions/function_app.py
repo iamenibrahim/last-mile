@@ -13,6 +13,7 @@ from pathlib import Path
 import azure.functions as func
 
 from api.ingest import fetch_active_va_alerts, payload_hash
+from api.providers.azure_sms import handle_event_grid_events
 
 
 app = func.FunctionApp()
@@ -34,3 +35,16 @@ def ingest_nws(timer: func.TimerRequest) -> None:
     cache.write_text(json.dumps(safe_snapshot), encoding="utf-8")
     logging.info("NWS ingest completed with %d Virginia alert(s)", safe_snapshot["count"])
 
+
+@app.event_grid_trigger(arg_name="event")
+def sms_event(event: func.EventGridEvent) -> None:
+    """Process ACS inbound SMS and delivery reports without logging phone numbers or message bodies."""
+
+    payload = {
+        "id": event.id,
+        "eventType": event.event_type,
+        "data": event.get_json(),
+    }
+    result = handle_event_grid_events([payload])
+    event_names = [item.get("event") for item in result.get("events", [])]
+    logging.info("Processed Communication Services event types: %s", event_names)
