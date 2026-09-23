@@ -18,7 +18,15 @@ Use `student.bicep` for the $100 Azure for Students credit. It compiles the Fast
 
 Azure for Students applies a subscription-specific allowed-region policy. In the portal, open **Policy > Assignments > Allowed resource deployment regions** and pass one listed region explicitly as the `location` parameter. Do not enter the literal expression `[resourceGroup().location]` in the custom-deployment form; Azure treats form values as strings and the policy rejects it.
 
-This subscription is restricted to **`eastus`**. That is Azure's Virginia region, so a Virginia service's data stays in Virginia - worth stating in the pitch rather than treating as a constraint.
+For this subscription Azure allows **`canadacentral`** and refuses `eastus` with
+`RequestDisallowedByAzure`. That restriction is Azure's, applied to student
+subscriptions, and is not configurable from the template.
+
+**Say this plainly rather than hiding it.** A Virginia agency would deploy to `eastus`
+(Azure's Virginia region) so that residents' data stays in state. This hackathon
+deployment runs in Canada Central because the student subscription allows nothing
+closer. Data residency is a deployment parameter, not a code change: the same template
+deploys to `eastus` on an agency subscription.
 
 ### If Cosmos DB fails
 
