@@ -44,6 +44,16 @@ class Settings:
         for number in os.getenv("SMS_ALLOWED_TEST_RECIPIENTS", "").split(",")
         if number.strip()
     )
+    call_from_number: str = os.getenv("AZURE_CALL_FROM_NUMBER", "")
+    call_start_enabled: bool = os.getenv("CALL_START_ENABLED", "false").lower() == "true"
+    call_allowed_test_recipients: tuple[str, ...] = tuple(
+        number.strip()
+        for number in os.getenv("CALL_ALLOWED_TEST_RECIPIENTS", "").split(",")
+        if number.strip()
+    )
+    call_cognitive_endpoint: str = os.getenv("AZURE_CALL_COGNITIVE_ENDPOINT", "").rstrip("/")
+    call_voice_name: str = os.getenv("AZURE_CALL_VOICE_NAME", "en-US-JennyNeural")
+    call_source_locale: str = os.getenv("AZURE_CALL_SOURCE_LOCALE", "en-US")
 
     @property
     def foundry_enabled(self) -> bool:
@@ -65,6 +75,18 @@ class Settings:
     def sms_enabled(self) -> bool:
         has_auth = bool(self.communication_connection_string or self.communication_endpoint)
         return bool(self.sms_send_enabled and has_auth and self.sms_from_number)
+
+    @property
+    def call_enabled(self) -> bool:
+        has_auth = bool(self.communication_connection_string or self.communication_endpoint)
+        callback_is_public = self.public_base_url.startswith("https://")
+        return bool(
+            self.call_start_enabled
+            and has_auth
+            and self.call_from_number
+            and self.call_cognitive_endpoint
+            and callback_is_public
+        )
 
 
 settings = Settings()

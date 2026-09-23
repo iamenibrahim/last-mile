@@ -17,10 +17,12 @@ from .ingest import alerts_with_fallback, load_cached_alert
 from .manifest import validate_manifest
 from .navigator import navigate
 from .providers.azure_sms import handle_event_grid_events, send_verified_packet
+from .providers.azure_voice import handle_call_events, start_verified_call
 from .protocol import build_action_packet, continuity_store, next_question, verify_action_packet
 from .speech import synthesize
 from .store import create_store
 from .transform import LANGUAGES, transform_alert
+from grounded.main import _startup as grounded_startup, app as grounded_app
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -91,6 +93,12 @@ class SmsSendRequest(BaseModel):
     consent: bool = False
 
 
+class CallStartRequest(BaseModel):
+    continuity_code: str = Field(pattern=r"^RBX-[A-Z0-9]{5,12}$")
+    phone_number: str = Field(min_length=8, max_length=16)
+    consent: bool = False
+
+
 @app.get("/api/status")
 def status() -> dict:
     return {
@@ -104,6 +112,7 @@ def status() -> dict:
             "azure_maps": bool(settings.azure_maps_key),
             "cosmos_db": bool(settings.cosmos_endpoint),
             "azure_communication_services_sms": settings.sms_enabled,
+            "azure_communication_services_voice": settings.call_enabled,
         },
         "fallback": "Every cloud provider has a deterministic or cached local path.",
         "languages": LANGUAGES,
@@ -174,6 +183,54 @@ def continue_packet(code: str) -> dict:
     return {"status": "complete", "packet": packet, "resumed": True}
 
 
+@app.get("/api/handoff/{code}")
+def caseworker_handoff(code: str) -> dict:
+    """Flat, read-only summary of a stored packet for a Copilot Studio caseworker agent.
+
+    Every field is copied from the signed packet; nothing is generated here, and the
+    packet signature is re-checked so the agent can refuse a packet that fails it.
+    """
+    packet = continuity_store.load(code)
+    if not packet:
+        raise HTTPException(status_code=404, detail="Recovery code not found or expired")
+    sources = {source["id"]: source for source in packet.get("sources", [])}
+    escalation = packet.get("escalation", {})
+    return {
+        "code": packet["continuity"]["code"],
+        "packet_id": packet.get("packet_id"),
+        "packet_verified": verify_action_packet(packet)["valid"],
+        "jurisdiction": packet.get("jurisdiction"),
+        "disaster_id": packet.get("disaster", {}).get("id"),
+        "disaster_name": packet.get("disaster", {}).get("name"),
+        "snapshot_notice": packet.get("snapshot", {}).get("notice"),
+        "needs": packet.get("needs", []),
+        "constraints": packet.get("constraints", []),
+        "escalation_required": bool(escalation.get("required")),
+        "escalation_topic": escalation.get("topic"),
+        "contact": escalation.get("contact"),
+        "caller_summary": escalation.get("read_this"),
+        "deadlines": [
+            {
+                "display": deadline.get("display"),
+                "status": deadline.get("current_status"),
+                "source_url": sources.get(deadline.get("source_id"), {}).get("url"),
+            }
+            for deadline in packet.get("deadlines", [])
+        ],
+        "actions": [
+            {
+                "priority": action.get("priority"),
+                "label": action.get("label"),
+                "confidence": action.get("confidence"),
+                "current_limit": action.get("current_limit"),
+                "source_url": sources.get(action.get("source_id"), {}).get("url"),
+            }
+            for action in packet.get("actions", [])
+        ],
+        "boundary": "This summary does not decide eligibility. The agency decides.",
+    }
+
+
 @app.post("/api/sms/send")
 def sms_send(request: SmsSendRequest) -> dict:
     packet = continuity_store.load(request.continuity_code)
@@ -192,6 +249,33 @@ def sms_send(request: SmsSendRequest) -> dict:
 @app.post("/api/sms/events")
 def sms_events(events: list[dict[str, Any]]) -> dict:
     return handle_event_grid_events(events)
+
+
+@app.post("/api/calls/start")
+def call_start(request: CallStartRequest) -> dict:
+    packet = continuity_store.load(request.continuity_code)
+    if not packet:
+        raise HTTPException(status_code=404, detail="Recovery code not found or expired")
+    try:
+        return start_verified_call(request.phone_number, packet, request.consent)
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error))
+    except RuntimeError as error:
+        raise HTTPException(status_code=503, detail=str(error))
+    except Exception as error:
+        raise HTTPException(status_code=502, detail=f"Call provider unavailable: {type(error).__name__}")
+
+
+@app.post("/api/calls/events/{continuity_code}")
+def call_events(
+    continuity_code: str,
+    events: list[dict[str, Any]] | dict[str, Any],
+    sig: str = "",
+) -> dict:
+    try:
+        return handle_call_events(continuity_code, sig, events)
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error))
 
 
 @app.post("/api/transform")
@@ -251,6 +335,17 @@ def health() -> dict:
 
 
 app.mount("/assets", StaticFiles(directory=WEB), name="assets")
+
+# The real-data evidence pipeline: 80 cached NWS alerts, hash-verified FEMA/eCFR/
+# SBA/SAMHSA quotes, and OpenFEMA deadline rules. Mounted before the SPA
+# catch-all so /grounded/... reaches it. Mounted apps do not get startup events,
+# so its alert store is loaded here.
+app.mount("/grounded", grounded_app)
+
+
+@app.on_event("startup")
+def _load_grounded_corpus() -> None:
+    grounded_startup()
 
 
 @app.get("/{path:path}")

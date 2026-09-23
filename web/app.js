@@ -102,7 +102,7 @@ function renderProtocol(protocol) {
           <div class="channel-tabs" role="tablist">${["web", "sms", "voice", "offline"].map((channel) => `<button type="button" role="tab" data-packet-channel="${channel}" class="${channel === "web" ? "active" : ""}">${channel.toUpperCase()}</button>`).join("")}</div>
           <div class="channel-preview" id="channel-preview">${escapeHtml(channelText(packet, "web"))}</div>
         </div>
-        <aside class="continuity-card"><small>ANONYMOUS CROSS-CHANNEL CONTINUITY</small><div class="continuity-code">${escapeHtml(packet.continuity.code)}</div><p>Use <strong>${escapeHtml(packet.continuity.resume_command)}</strong> on a surviving channel. Expires in 24 hours. No name, street address, SSN, or documents.</p><button type="button" data-copy-code>Copy recovery command</button><button type="button" data-verify-packet style="margin-top:7px">Verify packet + channels</button><div class="sms-send"><label for="sms-number">Send this verified packet by SMS</label><input id="sms-number" type="tel" inputmode="tel" autocomplete="tel" placeholder="+15715550123" maxlength="16" /><label class="sms-consent"><input id="sms-consent" type="checkbox" /> I consent to one transactional message. Message and data rates may apply.</label><button type="button" data-send-sms>Send verified SMS</button><small>${state.providers.azure_communication_services_sms ? "Azure SMS is ready." : "Azure SMS is currently in preview mode."} Never use this for 911.</small></div></aside>
+        <aside class="continuity-card"><small>ANONYMOUS CROSS-CHANNEL CONTINUITY</small><div class="continuity-code">${escapeHtml(packet.continuity.code)}</div><p>Use <strong>${escapeHtml(packet.continuity.resume_command)}</strong> on a surviving channel. Expires in 24 hours. No name, street address, SSN, or documents.</p><button type="button" data-copy-code>Copy recovery command</button><button type="button" data-verify-packet style="margin-top:7px">Verify packet + channels</button><div class="sms-send"><label for="sms-number">Send this verified packet by SMS</label><input id="sms-number" type="tel" inputmode="tel" autocomplete="tel" placeholder="+17035550123" maxlength="16" /><label class="sms-consent"><input id="sms-consent" type="checkbox" /> I consent to one transactional message. Message and data rates may apply.</label><button type="button" data-send-sms>Send verified SMS</button><small>${state.providers.azure_communication_services_sms ? "Azure SMS is ready." : "Azure SMS is currently in preview mode."} Never use this for 911.</small></div><div class="sms-send call-send"><label for="call-number">Receive this verified plan by automated call</label><input id="call-number" type="tel" inputmode="tel" autocomplete="tel" placeholder="+17035550123" maxlength="16" /><label class="sms-consent"><input id="call-consent" type="checkbox" /> I consent to one automated informational call. Carrier rates may apply.</label><button type="button" data-start-call>Call with Microsoft neural voice</button><small>${state.providers.azure_communication_services_voice ? "Azure voice calling is ready." : "Azure voice calling is disabled until a trial number is configured."} Press 0 for human-help instructions. This cannot contact 911.</small></div></aside>
       </div>
     </section>`;
 }
@@ -526,6 +526,26 @@ function init() {
         phoneInput.value = "";
         $("#sms-consent").checked = false;
         showToast(result.successful ? "Verified SMS accepted by Azure." : "Azure could not accept the SMS.");
+      } catch (error) {
+        showToast(error.message);
+      }
+    }
+    if (event.target.closest("[data-start-call]") && state.packet) {
+      const phoneInput = $("#call-number");
+      const consent = $("#call-consent").checked;
+      try {
+        const response = await api("/api/calls/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            continuity_code: state.packet.continuity.code,
+            phone_number: phoneInput.value.trim(),
+            consent,
+          }),
+        });
+        const result = await response.json();
+        showToast(`Call accepted · proof ${result.proof_id}`);
+        $("#call-consent").checked = false;
       } catch (error) {
         showToast(error.message);
       }

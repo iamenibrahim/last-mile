@@ -1,0 +1,83 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Last-Mile Caseworker Handoff",
+    "description": "Read-only lookup of a resident's signed Last-Mile action packet by its RBX recovery code. Every field is copied from the signed packet; nothing is generated. It does not decide eligibility.",
+    "version": "1.0"
+  },
+  "host": "REPLACE-WITH-FUNCTION-APP-HOST.azurewebsites.net",
+  "basePath": "/",
+  "schemes": ["https"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/handoff/{code}": {
+      "get": {
+        "operationId": "GetHandoff",
+        "summary": "Get a resident handoff by recovery code",
+        "description": "Use when a caseworker gives a recovery code that looks like RBX-XXXXX. Returns the resident's county, disaster, needs, cited next steps, deadlines, and whether the packet signature verified.",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The resident's recovery code, for example RBX-7K2QM.",
+            "x-ms-summary": "Recovery code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Handoff summary",
+            "schema": { "$ref": "#/definitions/Handoff" }
+          },
+          "404": { "description": "Recovery code not found or expired (codes last 24 hours)." }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Handoff": {
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "packet_id": { "type": "string" },
+        "packet_verified": { "type": "boolean", "description": "False means the packet failed its signature check and must not be relied on." },
+        "jurisdiction": { "type": "string" },
+        "disaster_id": { "type": "string" },
+        "disaster_name": { "type": "string" },
+        "snapshot_notice": { "type": "string" },
+        "needs": { "type": "array", "items": { "type": "string" } },
+        "constraints": { "type": "array", "items": { "type": "string" } },
+        "escalation_required": { "type": "boolean" },
+        "escalation_topic": { "type": "string" },
+        "contact": { "type": "string" },
+        "caller_summary": { "type": "string" },
+        "deadlines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "display": { "type": "string" },
+              "status": { "type": "string" },
+              "source_url": { "type": "string" }
+            }
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "priority": { "type": "integer" },
+              "label": { "type": "string" },
+              "confidence": { "type": "string" },
+              "current_limit": { "type": "string" },
+              "source_url": { "type": "string" }
+            }
+          }
+        },
+        "boundary": { "type": "string" }
+      }
+    }
+  }
+}
