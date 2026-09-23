@@ -16,7 +16,7 @@ Legend: ✅ done · ⏳ in progress · ⬜ not started
   - the Function App (`…api`) → Settings → Environment variables → Advanced edit (copy everything)
   - the Foundry resource → Keys and Endpoint → Key 1
 
-  Never paste keys in chat. The file gets converted to `.env` and is never committed.
+  Never paste keys in chat. `python scripts/settings_to_env.py` turns it into `.env` (both files are gitignored). The app now loads `.env` on start.
 - ⬜ **4. Check Copilot Studio access** at <https://copilotstudio.microsoft.com> with your GMU account.
 - ⬜ **5. Get a free Census API key** at <https://api.census.gov/data/key_signup.html>.
 

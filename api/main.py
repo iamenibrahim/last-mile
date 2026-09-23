@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +25,7 @@ from .speech import synthesize
 from .store import create_store
 from .transform import LANGUAGES, transform_alert
 from grounded.main import _startup as grounded_startup, app as grounded_app
+from grounded.providers.base import get_registry as grounded_registry
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -114,7 +116,13 @@ def status() -> dict:
             "cosmos_db": bool(settings.cosmos_endpoint),
             "azure_communication_services_sms": settings.sms_enabled,
             "azure_communication_services_voice": settings.call_enabled,
+            "azure_key_vault_signing": signing.describe()["publicly_verifiable"],
+            "azure_ai_search": bool(os.getenv("AZURE_SEARCH_ENDPOINT") and os.getenv("AZURE_SEARCH_KEY")),
+            "foundry_embeddings": bool(getattr(grounded_registry().embedder, "semantic", False)),
+            "foundry_escalation_classifier": grounded_registry().escalation_classifier is not None,
+            "application_insights": bool(os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")),
         },
+        "engine_notes": grounded_registry().notes,
         "fallback": "Every cloud provider has a deterministic or cached local path.",
         "languages": LANGUAGES,
     }
