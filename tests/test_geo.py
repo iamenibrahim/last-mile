@@ -16,3 +16,21 @@ class GeographyTests(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main()
 
+
+
+def test_azure_maps_is_tried_before_the_census_geocoder(monkeypatch):
+    import dataclasses
+    from types import SimpleNamespace
+
+    import grounded.geo
+    from api import geo
+
+    monkeypatch.setattr(geo, "settings", dataclasses.replace(geo.settings, azure_maps_key="test-key"))
+    monkeypatch.setattr(
+        grounded.geo,
+        "_azure_geocode",
+        lambda address: SimpleNamespace(lat=36.88, lon=-81.76, matched_address="Saltville, VA 24370"),
+    )
+    found = geo.geocode("742 Evergreen Terrace, Abingdon, VA")
+    assert found["provider"] == "Azure Maps"
+    assert (found["point"].longitude, found["point"].latitude) == (-81.76, 36.88)

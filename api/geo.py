@@ -6,6 +6,8 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass
 
+from .config import settings
+
 
 @dataclass(frozen=True)
 class Point:
@@ -103,6 +105,21 @@ def geocode(address: str) -> dict:
                 "provider": "cached-demo",
                 "precision": "locality",
             }
+
+    if settings.azure_maps_key:
+        try:
+            from grounded.geo import _azure_geocode
+
+            found = _azure_geocode(address)
+            if found:
+                return {
+                    "point": Point(found.lon, found.lat),
+                    "matched_address": found.matched_address,
+                    "provider": "Azure Maps",
+                    "precision": "address",
+                }
+        except Exception:
+            pass  # Census geocoder below
 
     query = urllib.parse.urlencode(
         {"address": address, "benchmark": "Public_AR_Current", "format": "json"}

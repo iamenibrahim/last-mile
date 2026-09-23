@@ -34,7 +34,7 @@ Legend: ✅ done · ⏳ in progress · ⬜ not started
 - ✅ **11. Foundry escalation classifier** that can only add a "hand to a person" escalation, never remove one.
 - ⬜ **12. Azure AI Search** over the FEMA, eCFR and SBA source documents, returning exact quotes only.
 - ⬜ **13. Application Insights** on the free tier, logging no personal data, for live latency figures.
-- ⬜ **14. Azure Maps geocoding on the server**, falling back to the Census geocoder.
+- ✅ **14. Azure Maps geocoding on the server**, falling back to the Census geocoder.
 
 ## Together (after 1–3)
 
@@ -67,7 +67,7 @@ These make the demo real, so never cut them: **1–3, 7, 15–17**.
 | Azure AI Speech | Spoken output of verified text | Code exists, never run with keys |
 | Azure AI Content Safety | Output guard before rendering | Code exists, never run with keys |
 | Azure AI Search | Exact-quote retrieval over sources | ⬜ (item 12) |
-| Azure Maps | Map + server-side geocoding | Browser map only; ⬜ (item 14) |
+| Azure Maps | Map + server-side geocoding | Code done; runs once the key is set |
 | Azure Functions | API host + NWS ingest timer | Template ready, deploying (item 1) |
 | Cosmos DB | Alerts, manifests, render cache | Code exists, never run with keys |
 | Key Vault | Manifest + packet signing (RS256), public key at `/api/signing-key` | Code + template done; runs once deployed |
