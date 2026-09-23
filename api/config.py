@@ -1,0 +1,53 @@
+from __future__ import annotations
+
+import os
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class Settings:
+    """Runtime settings. Secrets are read from the environment and never logged."""
+
+    app_name: str = "Last-Mile Navigator"
+    environment: str = os.getenv("APP_ENV", "local")
+    public_base_url: str = os.getenv("PUBLIC_BASE_URL", "http://localhost:8000")
+    nws_user_agent: str = os.getenv(
+        "NWS_USER_AGENT", "LastMileNavigator/1.0 (innovation-demo@example.org)"
+    )
+    manifest_signing_key: str = os.getenv(
+        "MANIFEST_SIGNING_KEY", "local-demo-key-not-for-production"
+    )
+    foundry_endpoint: str = os.getenv("AZURE_FOUNDRY_ENDPOINT", "").rstrip("/")
+    foundry_api_key: str = os.getenv("AZURE_FOUNDRY_API_KEY", "")
+    foundry_model: str = os.getenv("AZURE_FOUNDRY_MODEL", "gpt-4.1-mini")
+    translator_endpoint: str = os.getenv(
+        "AZURE_TRANSLATOR_ENDPOINT", "https://api.cognitive.microsofttranslator.com"
+    ).rstrip("/")
+    translator_key: str = os.getenv("AZURE_TRANSLATOR_KEY", "")
+    translator_region: str = os.getenv("AZURE_TRANSLATOR_REGION", "")
+    speech_key: str = os.getenv("AZURE_SPEECH_KEY", "")
+    speech_region: str = os.getenv("AZURE_SPEECH_REGION", "")
+    content_safety_endpoint: str = os.getenv("AZURE_CONTENT_SAFETY_ENDPOINT", "").rstrip("/")
+    content_safety_key: str = os.getenv("AZURE_CONTENT_SAFETY_KEY", "")
+    azure_maps_key: str = os.getenv("AZURE_MAPS_KEY", "")
+    cosmos_endpoint: str = os.getenv("AZURE_COSMOS_ENDPOINT", "")
+
+    @property
+    def foundry_enabled(self) -> bool:
+        return bool(self.foundry_endpoint and self.foundry_api_key)
+
+    @property
+    def translator_enabled(self) -> bool:
+        return bool(self.translator_key)
+
+    @property
+    def speech_enabled(self) -> bool:
+        return bool(self.speech_key and self.speech_region)
+
+    @property
+    def content_safety_enabled(self) -> bool:
+        return bool(self.content_safety_endpoint and self.content_safety_key)
+
+
+settings = Settings()
+

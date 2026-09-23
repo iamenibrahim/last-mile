@@ -1,0 +1,10 @@
+{
+  "name": "Last-Mile Disaster Navigator",
+  "short_name": "Last-Mile",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f1e8",
+  "theme_color": "#063d3b",
+  "icons": [{"src": "/assets/icon.svg", "sizes": "any", "type": "image/svg+xml"}]
+}
+

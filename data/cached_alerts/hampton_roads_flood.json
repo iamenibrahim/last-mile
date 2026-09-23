@@ -1,0 +1,36 @@
+{
+  "id": "urn:demo:last-mile:hampton-roads-flood-2026",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[
+      [-76.48, 36.72],
+      [-75.86, 36.72],
+      [-75.86, 37.04],
+      [-76.48, 37.04],
+      [-76.48, 36.72]
+    ]]
+  },
+  "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:demo:last-mile:hampton-roads-flood-2026",
+    "id": "urn:demo:last-mile:hampton-roads-flood-2026",
+    "event": "Flash Flood Warning",
+    "severity": "Severe",
+    "certainty": "Likely",
+    "urgency": "Immediate",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Wakefield VA",
+    "sent": "2026-09-23T14:03:00-04:00",
+    "effective": "2026-09-23T14:03:00-04:00",
+    "onset": "2026-09-23T14:20:00-04:00",
+    "expires": "2026-09-23T20:00:00-04:00",
+    "areaDesc": "Norfolk; Chesapeake; Virginia Beach",
+    "headline": "Flash Flood Warning issued for Norfolk, Chesapeake, and Virginia Beach until 8:00 PM EDT.",
+    "description": "Heavy rain is causing flash flooding in Norfolk and Chesapeake. Water may rise 3 feet near roads and low areas.",
+    "instruction": "Move to higher ground now. Do not drive across flooded roads. Avoid VA-168 near Exit 12 until 8:00 PM EDT. Call 911 only for life-threatening emergencies.",
+    "affectedZones": [],
+    "references": [],
+    "demo_notice": "Synthetic demo fixture using the NWS CAP schema. It is not an active warning."
+  }
+}
+
