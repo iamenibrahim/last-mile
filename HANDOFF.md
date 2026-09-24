@@ -2,8 +2,8 @@
 
 **Event:** Microsoft × CCI Innovation Challenge for Virginia, Sep 21–25 2026 (virtual)
 **Track:** Disaster Assistance Navigator
-**State at handoff:** Wed Sep 23 2026, evening. **169 tests pass, 1 skipped.** Azure
-is deployed and a Foundry model is live; the app code is not yet published to Azure.
+**State at handoff:** Wed Sep 23 2026, late evening. **173 tests pass, 1 skipped.**
+Azure resources, application code, and GitHub continuous deployment are live.
 **Feature freeze:** end of Thu Sep 24. Fri Sep 25 is pitch only, no new code.
 
 Read `README.md` for the design rationale, `TODO.md` for what is left, and
@@ -38,7 +38,7 @@ python -m venv .venv && .venv/Scripts/python.exe -m pip install -r requirements-
 .venv/Scripts/python.exe -m pytest -q
 ```
 
-Expect `169 passed, 1 skipped`. The skip is `tests/grounded/test_abstention.py`'s
+Expect `173 passed, 1 skipped`. The skip is `tests/grounded/test_abstention.py`'s
 `swap_road` case: the alert it picks has no road number to corrupt. That is expected.
 
 ```bash
@@ -94,7 +94,7 @@ eval/                the fixture harness + real_alert_corpus passthrough
 copilot/             Copilot Studio caseworker agent: swagger tool + setup instructions
 infra/               student.bicep / student.json, DEPLOYED.md
 data/grounded/       82 cached alerts, 17 sources, OpenFEMA snapshots, gazetteer (7 MB)
-tests/ + tests/grounded/   169 tests
+tests/ + tests/grounded/   173 passing tests, 1 expected skip
 ```
 
 ## 6. Rules that must not be broken — and the test that guards each
@@ -121,17 +121,18 @@ Full detail and every caveat: `infra/DEPLOYED.md`.
 
 | Service | State |
 |---|---|
-| Azure Functions (`lmva3fcshw5lauukqapi`) | Deployed. **App code not published yet** — the URL 404s |
-| Foundry — `last-mile-gpt` = **Phi-4-mini-instruct** | **Live**, verified in the playground |
-| Translator (S1), Speech (S0), Content Safety (S0) | Deployed, never called yet |
-| Azure AI Search (free tier) | Deployed; the index builds on the first query |
-| Azure Maps, Application Insights, Key Vault (RS256 key), Communication Services | Deployed |
+| Azure Functions (`lmva3fcshw5lauukqapi`) | **Live** from GitHub `main`; UI and API contracts smoke-tested |
+| Foundry — `last-mile-gpt` = **Phi-4-mini-instruct** | **Live**; rewrite and entailment paths exercised |
+| Translator (S1), Speech (S0), Content Safety (S0) | **Live and exercised** |
+| Azure AI Search (free tier) | **Live**; exact verified quotes returned |
+| Azure Maps, Application Insights, Key Vault (RS256 key) | **Live and exercised** |
+| Communication Services | Resource deployed; delivery remains opt-in and no trial number is configured |
 | Cosmos DB | **Not deployed** — free tier would not provision |
 | Foundry embeddings | **Not possible** — no quota for any embedding model |
 
-**Nothing has run against real Azure endpoints yet.** There is no `.env`, and the
-code is not on the Function App, so every local run still uses local fallbacks.
-Expect provider bugs on the first keyed run; do that before adding anything else.
+The app has run against the real Azure endpoints. A gitignored local `.env` exists,
+and the four-language provider smoke results are in
+`grounded_eval/results/LIVE_MULTILINGUAL_AZURE.md`.
 
 ### Three Azure limits worth knowing before you promise anything
 
@@ -210,16 +211,12 @@ at one that does not just fails into the fallback.
 
 See `TODO.md` for the full list. The short version:
 
-1. **Publish the code to the Function App.** Deployment Center is configured for
-   GitHub CI/CD; it is waiting on the GitHub **Authorize** button, which grants Azure
-   access to the repo. Org `iamenibrahim`, repo `rubicon`, branch `main`.
-2. **First run against real Azure**, then re-measure how often each language is
-   withheld (es, ar, prs, tl). This is what turns "code exists" into "it works".
-3. **Connect the Copilot Studio agent** — `copilot/` is ready and already points at
+1. **Connect the Copilot Studio agent** — `copilot/` is ready and already points at
    the deployed host name.
-4. Foundry Evaluations dashboard; the ACS B16004 impact number (needs a free Census key).
-5. **Thu night:** update the deck, record the `LAST_MILE_OFFLINE=1` fallback video,
-   freeze.
+2. **Update the pitch deck** with the live-provider results and the honest high
+   withholding rates: Spanish 57.1%, Arabic 71.4%, Dari 57.1%, Tagalog 85.7%.
+3. Record the `LAST_MILE_OFFLINE=1` fallback video and freeze.
+4. Optional if time remains: Foundry Evaluations and the ACS B16004 impact number.
 
 ## 12. Known gaps and risks
 

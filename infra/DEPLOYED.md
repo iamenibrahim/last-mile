@@ -66,17 +66,34 @@ and others).
 **No embedding model is deployed**, because none can be. The semantic-fidelity
 check therefore keeps its honest fallback, which reports the method as "provider
 confidence (no embeddings configured; not a meaning check)". Meaning is still
-checked by the Foundry entailment judge, which now runs on Phi. Leave
-`AZURE_FOUNDRY_EMBED_MODEL` empty; the Function App currently still has it set
-to `text-embedding-3-small`, which simply fails into the fallback.
+checked by the Foundry entailment judge, which now runs on Phi.
+`AZURE_FOUNDRY_EMBED_MODEL` was removed from both the Function App and local
+`.env` on 2026-09-23, so the fallback is explicit rather than exception-driven.
 
 For the pitch: say that model choice is a deployment parameter. An agency
 subscription with OpenAI quota changes one setting; nothing in the code changes.
 
-## Still to do
+## Deployment and live verification
 
-1. Copy the Function App's app settings into `azure-settings.txt`, then run
-   `python scripts/settings_to_env.py` for a local `.env`.
-2. Publish the code to the Function App (Deployment Center -> GitHub).
-3. Point `copilot/last-mile-handoff.swagger.json` at
-   `lmva3fcshw5lauukqapi.azurewebsites.net` and upload it in Copilot Studio.
+Published from `iamenibrahim/rubicon` branch `main` by
+`.github/workflows/deploy-function-app.yml`. The publish profile is stored only
+as a GitHub Actions secret. Commit `2b170f0` is live.
+
+Verified against the deployed Function App on 2026-09-23:
+
+- `/healthz`, `/api/status`, `/api/signing-key`, `/api/packet`,
+  `/api/packet/verify`, `/api/transform`, `/grounded/`, and
+  `/grounded/api/quotes/search` return their application contracts.
+- Foundry/Phi rewriting and entailment judging executed; Azure Translator,
+  Speech, Content Safety, Maps, AI Search, and Key Vault RS256 all executed.
+- Azure AI Search returned five exact, hash-located quotes with zero dropped
+  results. Azure Maps returned an address-level match.
+- Application Insights received live Function traces; its connection string
+  matches the deployed resource.
+- Gitignored `azure-settings.txt` and `.env` were generated from the Function
+  App settings.
+- The cost-bounded four-language run is recorded in
+  `grounded_eval/results/LIVE_MULTILINGUAL_AZURE.md`.
+
+Still external/manual: upload the Copilot swagger into Copilot Studio, update
+the pitch deck, record the fallback demo, and freeze.

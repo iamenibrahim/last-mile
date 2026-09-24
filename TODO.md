@@ -13,7 +13,7 @@ Legend: ✅ done · ⏳ in progress · ⬜ not started
 - ✅ **2. Foundry model deployed: `last-mile-gpt` = Phi-4-mini-instruct.** Verified working in the playground. **This subscription has zero Azure OpenAI quota** (`0/0` everywhere), so no OpenAI model could be used; Microsoft's own Phi has quota. No embedding model can be deployed either — see [infra/DEPLOYED.md](infra/DEPLOYED.md).
 
 - ✅ **1. Deploy the Azure resources.** Done 2026-09-23 into `last-mile-student-rg`, `canadacentral`, prefix `lmva`.
-- ⏳ **3. Hand over the keys — this is now the only thing blocking a real demo.** Function App `lmva3fcshw5lauukqapi` → Settings → Environment variables → **Advanced edit**, copy all of it into `azure-settings.txt` in this folder. Add the Foundry resource's **Key 1** on its own line. Never paste keys in chat; `python scripts/settings_to_env.py` turns the file into `.env` and both are gitignored.
+- ✅ **3. Local Azure settings.** `azure-settings.txt` and `.env` were generated locally and remain gitignored. The nonexistent embedding deployment setting was removed.
 - ⬜ **4. Check Copilot Studio access** at <https://copilotstudio.microsoft.com> with your GMU account.
 - ⬜ **5. Get a free Census API key** at <https://api.census.gov/data/key_signup.html>. Only needed for item 19.
 
@@ -31,8 +31,8 @@ Legend: ✅ done · ⏳ in progress · ⬜ not started
 
 ## Together (after 2 and 3)
 
-- ⬜ **15. First run with real keys.** Fix provider bugs, then measure how often each language gets withheld (es, ar, prs, tl). This is the one that turns "code exists" into "it works".
-- ⬜ **16. Publish the code to the Function App**, via Deployment Center → GitHub. **Needs your OK to push to `iamenibrahim/rubicon`** — and if that repo is public, say so, because one file carries your email address.
+- ✅ **15. First run with real keys.** Foundry, Translator, Speech, Content Safety, Maps, AI Search, Key Vault and Application Insights were exercised. Results for es/ar/prs/tl are checked in.
+- ✅ **16. Publish the code to the Function App.** GitHub Actions continuously deploys `iamenibrahim/rubicon` `main` to `lmva3fcshw5lauukqapi`.
 - ⬜ **17. Connect the Copilot Studio agent:** upload `copilot/last-mile-handoff.swagger.json` as a REST tool, paste the instructions from `copilot/README.md`, publish to Teams.
 - ⬜ **18. Run Foundry Evaluations** on the corruption-test set; screenshot the dashboard for the deck.
 - ⬜ **19. Compute the impact number** from ACS B16004 and the alert archive.
@@ -63,16 +63,16 @@ Never cut: **2, 3, 15** — without them no Azure service is proven to work.
 
 | Service | Role | Status |
 |---|---|---|
-| Azure Functions | API host + NWS ingest timer | **Deployed**; code not published yet (item 16) |
+| Azure Functions | API host + NWS ingest timer | **Live** with GitHub continuous deployment |
 | Foundry (**Phi-4-mini-instruct**) | Plain-language rewrite, entailment judge, escalation classifier | **Deployed as `last-mile-gpt`**; verified in the playground |
 | Foundry embeddings | Semantic-fidelity check (cosine, multilingual) | **Not possible** — no quota for any embedding model. Falls back, honestly labelled; the entailment judge still checks meaning |
-| Azure AI Translator | Translation + round-trip check | **Deployed** (S1); never called yet |
-| Azure AI Speech | Spoken output of verified text | **Deployed** (S0); never called yet |
-| Azure AI Content Safety | Output guard before rendering | **Deployed** (S0); never called yet |
-| Azure AI Search | Exact-quote retrieval; Copilot tool | **Deployed** (free tier); index builds on first query |
-| Azure Maps | Map + server-side geocoding | **Deployed** |
-| Key Vault | Manifest + packet signing (RS256), public key at `/api/signing-key` | **Deployed** with the RSA key |
-| Application Insights | Request latency and failures; 0.1 GB/day cap | **Deployed** |
+| Azure AI Translator | Translation + round-trip check | **Live and exercised** (S1) |
+| Azure AI Speech | Spoken output of verified text | **Live and exercised** (S0) |
+| Azure AI Content Safety | Output guard before rendering | **Live and exercised** (S0) |
+| Azure AI Search | Exact-quote retrieval; Copilot tool | **Live**; index populated and queried |
+| Azure Maps | Map + server-side geocoding | **Live**; address-level result verified |
+| Key Vault | Manifest + packet signing (RS256), public key at `/api/signing-key` | **Live**; packet verification uses the public key |
+| Application Insights | Request latency and failures; 0.1 GB/day cap | **Live**; Function traces received |
 | Communication Services | SMS + phone calls, consent-gated | **Deployed**; needs a trial number to actually send |
 | Cosmos DB | Alerts, manifests, render cache | **Not deployed** — see above |
 | Foundry Evaluations | Corruption-test dashboard | ⬜ (item 18) |
