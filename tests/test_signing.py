@@ -31,3 +31,18 @@ def test_anyone_can_verify_an_rs256_signature_with_the_published_key():
 
     assert verify_with_public_jwk(jwk, payload, signature)
     assert not verify_with_public_jwk(jwk, payload + b" ", signature)
+
+
+def test_key_vault_signer_verifies_with_public_key_without_remote_call():
+    private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+    numbers = private_key.public_key().public_numbers()
+    signer = object.__new__(KeyVaultSigner)
+    signer._jwk = SimpleNamespace(
+        n=numbers.n.to_bytes((numbers.n.bit_length() + 7) // 8, "big"),
+        e=numbers.e.to_bytes((numbers.e.bit_length() + 7) // 8, "big"),
+    )
+    payload = b"signed disaster action packet"
+    signature = private_key.sign(payload, padding.PKCS1v15(), hashes.SHA256()).hex()
+
+    assert signer.verify(payload, signature)
+    assert not signer.verify(payload + b"!", signature)

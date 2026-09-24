@@ -1,0 +1,99 @@
+{
+  "generated_at": "2026-09-24T03:50:47Z",
+  "base_url": "https://lmva3fcshw5lauukqapi.azurewebsites.net",
+  "scope": "one deployed cached NWS alert per language",
+  "languages": [
+    {
+      "language": "es",
+      "http_status": 200,
+      "segments": 7,
+      "successful_transformations": 3,
+      "withheld_transformations": 4,
+      "withholding_rate": 0.5714,
+      "locked_entities": 11,
+      "locked_entity_failures": 0,
+      "provider_errors": {},
+      "provider_engines": [
+        "azure-ai-translator"
+      ],
+      "content_safety_modes": [
+        "azure-ai-content-safety",
+        "not-configured"
+      ],
+      "withholding_reasons": {
+        "grounding": 3,
+        "semantic_fidelity": 1
+      },
+      "latency_ms": 6838.7
+    },
+    {
+      "language": "ar",
+      "http_status": 200,
+      "segments": 7,
+      "successful_transformations": 2,
+      "withheld_transformations": 5,
+      "withholding_rate": 0.7143,
+      "locked_entities": 11,
+      "locked_entity_failures": 0,
+      "provider_errors": {},
+      "provider_engines": [
+        "azure-ai-translator"
+      ],
+      "content_safety_modes": [
+        "azure-ai-content-safety",
+        "not-configured"
+      ],
+      "withholding_reasons": {
+        "grounding": 4,
+        "semantic_fidelity": 1
+      },
+      "latency_ms": 3432.4
+    },
+    {
+      "language": "prs",
+      "http_status": 200,
+      "segments": 7,
+      "successful_transformations": 3,
+      "withheld_transformations": 4,
+      "withholding_rate": 0.5714,
+      "locked_entities": 11,
+      "locked_entity_failures": 0,
+      "provider_errors": {},
+      "provider_engines": [
+        "azure-ai-translator"
+      ],
+      "content_safety_modes": [
+        "azure-ai-content-safety",
+        "not-configured"
+      ],
+      "withholding_reasons": {
+        "grounding": 2,
+        "semantic_fidelity": 2
+      },
+      "latency_ms": 3494.6
+    },
+    {
+      "language": "tl",
+      "http_status": 200,
+      "segments": 7,
+      "successful_transformations": 1,
+      "withheld_transformations": 6,
+      "withholding_rate": 0.8571,
+      "locked_entities": 11,
+      "locked_entity_failures": 0,
+      "provider_errors": {},
+      "provider_engines": [
+        "azure-ai-translator"
+      ],
+      "content_safety_modes": [
+        "azure-ai-content-safety",
+        "not-configured"
+      ],
+      "withholding_reasons": {
+        "grounding": 3,
+        "semantic_fidelity": 3
+      },
+      "latency_ms": 3003.1
+    }
+  ]
+}

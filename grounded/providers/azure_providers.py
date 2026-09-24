@@ -315,8 +315,27 @@ class KeyVaultSigner:
         return result.signature.hex()
 
     def verify(self, payload: bytes, signature: str) -> bool:
-        from azure.keyvault.keys.crypto import SignatureAlgorithm  # type: ignore
+        """Verify locally with the public half of the Key Vault key.
 
-        digest = hashlib.sha256(payload).digest()
-        result = self._crypto.verify(SignatureAlgorithm.rs256, digest, bytes.fromhex(signature))
-        return bool(result.is_valid)
+        Verification is intentionally independent of Key Vault availability and
+        does not spend a remote crypto operation. Key Vault remains the only
+        place where signing—and therefore the private key—can occur.
+        """
+        from cryptography.exceptions import InvalidSignature
+        from cryptography.hazmat.primitives import hashes
+        from cryptography.hazmat.primitives.asymmetric import padding, rsa
+
+        public_key = rsa.RSAPublicNumbers(
+            int.from_bytes(self._jwk.e, "big"),
+            int.from_bytes(self._jwk.n, "big"),
+        ).public_key()
+        try:
+            public_key.verify(
+                bytes.fromhex(signature),
+                payload,
+                padding.PKCS1v15(),
+                hashes.SHA256(),
+            )
+            return True
+        except (InvalidSignature, ValueError):
+            return False
