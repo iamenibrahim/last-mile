@@ -164,6 +164,7 @@ resource communication 'Microsoft.Communication/communicationServices@2023-04-01
   name: '${safeName}communication'
   location: 'global'
   tags: tags
+  identity: { type: 'SystemAssigned' }
   properties: { dataLocation: 'United States' }
 }
 
@@ -268,6 +269,10 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'AZURE_MAPS_KEY', value: maps.listKeys().primaryKey }
         { name: 'AZURE_COSMOS_ENDPOINT', value: deployCosmos ? cosmos.properties.documentEndpoint : '' }
         { name: 'AZURE_COMMUNICATION_ENDPOINT', value: 'https://${communication.name}.communication.azure.com' }
+        { name: 'AZURE_CALL_COGNITIVE_ENDPOINT', value: speech.properties.endpoint }
+        { name: 'AZURE_CALL_VOICE_NAME', value: 'en-US-JennyNeural' }
+        { name: 'AZURE_CALL_SOURCE_LOCALE', value: 'en-US' }
+        { name: 'CALL_START_ENABLED', value: 'false' }
         { name: 'SMS_SEND_ENABLED', value: 'false' }
         { name: 'SMS_AUTOREPLY_ENABLED', value: 'false' }
       ]
@@ -292,6 +297,30 @@ resource keyVaultCryptoUserRole 'Microsoft.Authorization/roleAssignments@2022-04
     // Key Vault Crypto User: sign and verify with keys, no key management.
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '12338af0-0e69-4776-bea7-57ae8d297424')
     principalId: functionApp.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource communicationContributorRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(communication.id, functionApp.id, 'communication-contributor')
+  scope: communication
+  properties: {
+    // Scoped to this ACS resource. Required for SDK data-plane calls through
+    // DefaultAzureCredential without storing the ACS access key in the app.
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
+    principalId: functionApp.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource communicationSpeechUserRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(speech.id, communication.id, 'cognitive-services-user')
+  scope: speech
+  properties: {
+    // Call Automation uses the ACS managed identity to synthesize the DTMF
+    // prompts through the linked Speech resource.
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'a97b65f3-24c7-4388-baec-2e87135dc908')
+    principalId: communication.identity.principalId
     principalType: 'ServicePrincipal'
   }
 }
