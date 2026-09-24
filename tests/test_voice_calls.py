@@ -186,6 +186,21 @@ def test_key_nine_repeats_without_error_message():
     assert "not recognize" not in response.lower()
 
 
+def test_pound_key_explains_the_demo_and_returns_to_menu():
+    payload = packet()
+    response, should_hang_up = voice_module._response_for_tone("#", payload)
+
+    assert "one signed disaster plan" in response
+    assert "locked government facts" in response
+    assert "without a name or account" in response
+    assert should_hang_up is False
+
+
+def test_azure_pound_tone_maps_to_demo_option():
+    assert voice_module._tone({"dtmfResult": {"tones": ["pound"]}}) == "#"
+    assert voice_module._tone({"dtmfResult": {"tones": ["DtmfTone.POUND"]}}) == "#"
+
+
 def test_next_steps_explain_historical_limit_and_spell_recovery_code():
     payload = packet()
     response, should_hang_up = voice_module._response_for_tone("1", payload)

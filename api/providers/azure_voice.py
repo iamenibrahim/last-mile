@@ -20,6 +20,11 @@ TONE_NAMES = {
     "1": "1",
     "2": "2",
     "9": "9",
+    "pound": "#",
+    "pound_sign": "#",
+    "poundsign": "#",
+    "hash": "#",
+    "#": "#",
 }
 
 
@@ -123,6 +128,7 @@ def _menu_choices() -> str:
     return (
         "Press 1 for your next steps. "
         "Press 2 for help with missing documents. "
+        "Press pound for a short demo explanation. "
         "Press 0 for human help. "
         "Press 9 to repeat these choices."
     )
@@ -178,7 +184,14 @@ def _response_for_tone(tone: str | None, packet: dict[str, Any]) -> tuple[str, b
         )
     if tone == "9":
         return "Here are the choices again.", False
-    return "That key is not an option. Please choose 1, 2, 0, or 9.", False
+    if tone == "#":
+        return (
+            "This demo turns one signed disaster plan into matching guidance for the web, phone, text, and offline use. "
+            "Artificial intelligence may simplify the wording, but it cannot change locked government facts. "
+            "An anonymous recovery code resumes the same plan without a name or account.",
+            False,
+        )
+    return "That key is not an option. Please choose 1, 2, pound, 0, or 9.", False
 
 
 def _start_menu(

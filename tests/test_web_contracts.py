@@ -24,6 +24,10 @@ def test_citizen_ui_exposes_language_resume_accessibility_and_offline_controls()
     assert "/api/continue/" in script
     assert "mode=citizen" in script
     assert "sensitive handoff reason" not in script
+    assert 'data-start-call' in script
+    assert 'id="call-consent"' in script
+    assert "/api/calls/start" in script
+    assert "# demo" in script
 
 
 def test_service_worker_cache_version_changes_with_offline_contract():
