@@ -35,10 +35,22 @@ Application Insights received the new PII-free `http_request_completed` traces. 
 
 - Production dependency audit: no known vulnerabilities found.
 - Bandit scan: no medium/high-severity finding at medium-or-higher confidence.
-- Automated tests: 179 passed, 1 intentionally skipped.
+- Automated tests: 185 passed, 1 intentionally skipped.
 - Simulated Translator and Foundry timeouts prove deterministic fallback and expose `fallback_reason=TimeoutError`; see `docs/provider-outage-runbook.md`.
 - GitHub Actions now runs the security audit on every push/PR and probes `/healthz` and `/api/status` hourly.
 
 ## Still unproven
 
 This evidence does not establish sustained availability, agency-scale capacity, a regional disaster-recovery objective, native-speaker quality, SMS/voice delivery, or contact-center economic impact. Those require external access or human/partner data.
+
+## Prompt-coverage acceptance check
+
+After deployment of commit `cc2b066`, a live citizen-journey check confirmed:
+
+- the web recovery-code and language-access controls are present;
+- Azure Table continuity is active and the obsolete Cosmos capability claim is absent;
+- an `RBX` packet can be created and resumed;
+- an unsafe-shelter/fraud selection is classified as a sensitive human handoff;
+- the copyable handoff excludes exact device coordinates and the sensitive reason;
+- the stored continuity packet excludes the sensitive reason while retaining only a generic private-review flag;
+- the security workflow completed successfully and `/healthz` remained healthy.
