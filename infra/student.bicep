@@ -268,7 +268,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'AZURE_CONTENT_SAFETY_KEY', value: contentSafety.listKeys().key1 }
         { name: 'AZURE_MAPS_KEY', value: maps.listKeys().primaryKey }
         { name: 'AZURE_COSMOS_ENDPOINT', value: deployCosmos ? cosmos.properties.documentEndpoint : '' }
-        { name: 'AZURE_COMMUNICATION_ENDPOINT', value: 'https://${communication.name}.communication.azure.com' }
+        { name: 'AZURE_COMMUNICATION_ENDPOINT', value: 'https://${communication.properties.hostName}' }
         { name: 'AZURE_CALL_COGNITIVE_ENDPOINT', value: speech.properties.endpoint }
         { name: 'AZURE_CALL_VOICE_NAME', value: 'en-US-JennyNeural' }
         { name: 'AZURE_CALL_SOURCE_LOCALE', value: 'en-US' }
@@ -341,7 +341,7 @@ output foundryResourceName string = foundry.name
 output foundryEndpoint string = 'https://${foundry.name}.openai.azure.com'
 output cosmosFreeTier bool = deployCosmos ? cosmos.properties.enableFreeTier : false
 output keyVaultUri string = keyVault.properties.vaultUri
-output communicationEndpoint string = 'https://${communication.name}.communication.azure.com'
+output communicationEndpoint string = 'https://${communication.properties.hostName}'
 output costGuardrails array = [
   'Azure Functions Dynamic Y1 plan; scales to zero and is capped at two instances.'
   'Cosmos DB lifetime free tier with 400 RU/s shared throughput.'

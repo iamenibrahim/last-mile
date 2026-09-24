@@ -164,7 +164,7 @@ resource api 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'AZURE_SPEECH_REGION', value: location }
         { name: 'AZURE_TRANSLATOR_REGION', value: location }
         { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: contentSafety.properties.endpoint }
-        { name: 'AZURE_COMMUNICATION_ENDPOINT', value: 'https://${communication.name}.communication.azure.com' }
+        { name: 'AZURE_COMMUNICATION_ENDPOINT', value: 'https://${communication.properties.hostName}' }
         { name: 'SMS_SEND_ENABLED', value: 'false' }
         { name: 'SMS_AUTOREPLY_ENABLED', value: 'false' }
         { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: insights.properties.ConnectionString }
