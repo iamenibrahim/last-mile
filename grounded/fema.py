@@ -306,7 +306,7 @@ def ipaws_to_feature(row: dict) -> dict | None:
     Lets the existing alert pipeline replay real Helene-era warnings - the data
     the NWS API's one-week window no longer serves.
     """
-    import xml.etree.ElementTree as ET
+    from defusedxml import ElementTree as ET
 
     raw = row.get("originalMessage") or ""
     try:

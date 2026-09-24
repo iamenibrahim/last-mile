@@ -431,7 +431,7 @@ class LocalEmbedder:
         # order, which is what catches a dropped negation moving "not".
         grams = tokens + [f"{a}_{b}" for a, b in zip(tokens, tokens[1:])]
         for g in grams:
-            h = int(hashlib.md5(g.encode()).hexdigest()[:8], 16)
+            h = int(hashlib.sha256(g.encode()).hexdigest()[:8], 16)
             vec[h % self.DIM] += 1.0
         norm = math.sqrt(sum(v * v for v in vec)) or 1.0
         return [v / norm for v in vec]

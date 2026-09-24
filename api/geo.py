@@ -127,7 +127,8 @@ def geocode(address: str) -> dict:
     url = f"https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?{query}"
     request = urllib.request.Request(url, headers={"User-Agent": "LastMileNavigator/1.0"})
     try:
-        with urllib.request.urlopen(request, timeout=5) as response:
+        # The request URL is constructed from the fixed HTTPS Census endpoint above.
+        with urllib.request.urlopen(request, timeout=5) as response:  # nosec B310
             payload = json.load(response)
         matches = payload["result"]["addressMatches"]
         if not matches:

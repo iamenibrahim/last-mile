@@ -23,8 +23,8 @@ def analyze(text: str) -> dict:
         },
         method="POST",
     )
-    with urllib.request.urlopen(request, timeout=10) as response:
+    # The request uses the configured Azure Content Safety HTTPS endpoint.
+    with urllib.request.urlopen(request, timeout=10) as response:  # nosec B310
         payload = json.load(response)
     severities = {item["category"]: item["severity"] for item in payload.get("categoriesAnalysis", [])}
     return {"passed": all(value < 4 for value in severities.values()), "severities": severities}
-

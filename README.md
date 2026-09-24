@@ -16,7 +16,7 @@ The checked-in recovery demo replays the official November 18, 2024 state for Tr
 
 - Need-first screening by city, ZIP, or optional address; urgent safety is always separated from benefit navigation.
 - An information-gain intake engine: ZIP `24370` triggers a county question because the answer changes declaration applicability; irrelevant question groups are skipped.
-- Canonical Disaster Action Packets and anonymous 24-hour `RBX-xxxxx` continuity codes containing only county, disaster ID, broad needs, constraints, and current step.
+- Canonical Disaster Action Packets and anonymous 24-hour `RBX-xxxxx` continuity codes containing only county, disaster ID, broad needs, constraints, and current step. Azure Table Storage makes codes durable across Function restarts and multiple instances.
 - Web, SMS, voice, and offline channel payloads compiled from the same packet with locked facts and a shared proof ID.
 - Source-backed recommendations for shelter, food, FEMA Individual Assistance, SBA loans, disaster unemployment, document replacement, legal aid, emotional support, and Virginia 211.
 - Confidence labels, eligibility caveats, document checklists, lost-document alternatives, official application links, and “why this fits” explanations.
@@ -66,7 +66,8 @@ The cloud path uses Microsoft services where each service has a specific job:
 | Azure AI Content Safety | Output guard before rendering in cloud mode |
 | Azure Maps | Address geocoding and warning-polygon display; Census + local SVG are fallback paths |
 | Azure Functions | Timer-triggered NWS ingest |
-| Azure Cosmos DB | Alert, manifest, and safe render cache behind a store interface |
+| Azure AI Search | Search over the reviewed evidence corpus, with deterministic BM25 fallback |
+| Azure Table Storage | Minimal, expiring, multi-instance continuity-code state using the Function storage account |
 | Azure Key Vault | Production manifest signing key / asymmetric signing target |
 | Azure Static Web Apps | No-build front end, linked to the API backend |
 | Azure Functions | Consumption-based FastAPI backend, NWS ingest timer, and Event Grid SMS processing |
@@ -78,9 +79,9 @@ The Foundry provider calls the current OpenAI-compatible `/openai/v1/chat/comple
 
 ### Student-credit deployment
 
-`infra/student.bicep` is the cost-guarded hackathon deployment. It replaces the always-on App Service plan with a scale-to-zero Azure Functions Consumption plan capped at two instances, opts in to the Cosmos DB lifetime free tier at 400 RU/s, and uses F0 tiers for Translator, Speech, and Content Safety. It creates a Foundry resource but intentionally does not deploy a model; model availability must be checked first and inference is the main metered workload. Communication Services is created with SMS sending and automatic replies disabled, because an SMS-capable sender cannot be purchased with Azure trial credit.
+`infra/student.bicep` is the cost-guarded hackathon deployment. It uses a scale-to-zero Azure Functions Consumption plan capped at two instances and low-volume Azure Storage rather than a separate database. Translator, Speech, and Content Safety use the smallest available tiers. Foundry inference is the main metered workload. Communication Services is created with SMS sending and automatic replies disabled, because an SMS-capable sender cannot be purchased with Azure trial credit.
 
-Student subscriptions have a subscription-specific region allow-list. Check **Azure Policy > Assignments > Allowed resource deployment regions** and provide one of those values explicitly as the required `location` parameter. For this subscription Azure allows `canadacentral` and refuses `eastus`. An agency deployment would use `eastus`, Azure's Virginia region, to keep residents' data in state; that is a parameter change, not a code change. If free-tier Cosmos capacity is unavailable, deploy with `deployCosmos=false` and the app falls back to its local store.
+Student subscriptions have a subscription-specific region allow-list. Check **Azure Policy > Assignments > Allowed resource deployment regions** and provide one of those values explicitly as the required `location` parameter. For this subscription Azure allows `canadacentral` and refuses `eastus`. An agency deployment would use an agency-approved US region such as `eastus`; that is a deployment parameter and governance decision, not a claim made by this student pilot.
 
 The function host serves the complete FastAPI and web experience, so a separate paid web host is not required. The deployment also provisions Azure Maps and low-volume Storage. Do not add an always-ready Functions instance, dedicated App Service plan, VM, managed GPU deployment, or Cosmos throughput above 1,000 RU/s on the student subscription.
 
@@ -125,6 +126,10 @@ The inbound command format is stateless with respect to the phone number: `CONTI
 - [Architecture and threat boundaries](docs/architecture.md)
 - [Ten implemented innovations](docs/innovations.md)
 - [Evaluation method and honest results](docs/evaluation.md)
+- [Provider-outage drill](docs/provider-outage-runbook.md)
+- [Five-person usability protocol](docs/usability-study.md)
+- [Native-speaker review form](docs/language-review.md)
+- [Economic-value model](docs/economic-value.md)
 - [Demo and recording script](docs/demo-script.md)
 - `deliverables/Last-Mile-Navigator-Pitch.pptx` (generated and visually verified in this repository)
 - [Security policy](SECURITY.md)

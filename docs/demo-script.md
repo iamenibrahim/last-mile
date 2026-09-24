@@ -2,7 +2,7 @@
 
 ## 0:00 — The problem
 
-Show the raw CAP text in **Alert clarity lab**. Read two lines. Say: “The alert was sent. The last-mile failure is whether a stressed household can act on it—and whether they can trust the transformed version.”
+Show the raw CAP text in **Alert clarity lab**. Read two lines. Say: “This is not another chatbot. It is a proof-carrying protocol that turns one authoritative disaster record into web, SMS, voice, and offline instructions without letting AI change critical facts. The last-mile failure is whether a stressed household can act—and verify why.”
 
 ## 0:35 — A citizen starts with a need
 
@@ -46,4 +46,4 @@ Open **Fraud check**, load the suspicious example, and run it. Then mention the 
 - **Impact:** less hold time and fewer dead-end applications; do not quote an ACS number until the archived analysis is complete.
 - **Feasibility:** public data, deterministic safety spine, and Microsoft Foundry/Azure providers with local fallbacks.
 
-End with: “Last-Mile never originates the alert and never decides eligibility. It makes authoritative help easier to understand, verify, and act on.”
+End with: “A chatbot gives an answer. Last-Mile produces a signed, recoverable action packet whose facts, sources, transformations, refusals, and handoff survive every channel. It never originates the alert or decides eligibility; it makes authoritative help easier to understand, verify, and act on.”

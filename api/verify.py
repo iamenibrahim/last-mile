@@ -14,16 +14,34 @@ ACTION_WORDS = re.compile(
 
 
 def _meaningful_tokens(value: str) -> set[str]:
+    stop = {"the", "and", "that", "with", "from", "this", "your", "you", "for"}
+
+    def stem(token: str) -> str:
+        if len(token) > 5 and token.endswith("ing"):
+            return token[:-3]
+        if len(token) > 4 and token.endswith("ed"):
+            return token[:-2]
+        if len(token) > 4 and token.endswith("s"):
+            return token[:-1]
+        return token
+
     return {
-        token.lower()
+        stem(token.lower())
         for token in re.findall(r"[A-Za-z]{3,}", value)
-        if token.lower() not in {"the", "and", "that", "with", "from", "this", "your", "you", "for"}
+        if token.lower() not in stop
     }
 
 
 # Cosine floor for Foundry embeddings. Starting value from the grounded pipeline;
 # retune on the first keyed evaluation run.
 FOUNDRY_SIMILARITY_THRESHOLD = float(os.getenv("FOUNDRY_SIMILARITY_THRESHOLD", "0.82"))
+ROUND_TRIP_TOKEN_THRESHOLD = float(os.getenv("ROUND_TRIP_TOKEN_THRESHOLD", "0.65"))
+
+
+def _negation_count(value: str) -> int:
+    normalized = re.sub(r"\b(?:don't|do not)\b", " not ", value, flags=re.IGNORECASE)
+    normalized = re.sub(r"\b(?:can't|cannot)\b", " not ", normalized, flags=re.IGNORECASE)
+    return len(re.findall(r"\b(?:not|never|no|avoid|without)\b", normalized, re.IGNORECASE))
 
 
 def _foundry_similarity(source: str, output: str) -> float | None:
@@ -46,10 +64,16 @@ def _foundry_similarity(source: str, output: str) -> float | None:
     return dot / norms if norms else 0.0
 
 
-def semantic_fidelity(source: str, output: str, provider_confidence: float, translated: bool) -> dict:
-    source_negations = len(re.findall(r"\b(?:not|never|no|avoid|without)\b", source, re.IGNORECASE))
-    output_negations = len(re.findall(r"\b(?:not|never|no|avoid|without)\b", output, re.IGNORECASE))
-    if source_negations != output_negations and not translated:
+def semantic_fidelity(
+    source: str,
+    output: str,
+    provider_confidence: float,
+    translated: bool,
+    round_trip: bool = False,
+) -> dict:
+    source_negations = _negation_count(source)
+    output_negations = _negation_count(output)
+    if source_negations != output_negations and (not translated or round_trip):
         return {
             "passed": False,
             "score": 0.0,
@@ -64,6 +88,16 @@ def semantic_fidelity(source: str, output: str, provider_confidence: float, tran
             "score": round(similarity, 3),
             "method": "Foundry embeddings cosine similarity",
             "threshold": FOUNDRY_SIMILARITY_THRESHOLD,
+        }
+    if round_trip:
+        source_tokens = _meaningful_tokens(source)
+        output_tokens = _meaningful_tokens(output)
+        score = len(source_tokens & output_tokens) / max(1, len(source_tokens))
+        return {
+            "passed": score >= ROUND_TRIP_TOKEN_THRESHOLD,
+            "score": round(score, 3),
+            "method": "Azure Translator round-trip token recall (lexical safety proxy)",
+            "threshold": ROUND_TRIP_TOKEN_THRESHOLD,
         }
     if translated:
         score = provider_confidence
@@ -126,19 +160,24 @@ def verify_segment(
     comparison_output: str | None = None,
 ) -> dict:
     comparison = comparison_output or restored_output
-    translation_without_backcheck = target_language != "en" and comparison_output is None
+    translated = target_language != "en"
+    round_trip = translated and comparison_output is not None
     checks = {
         "entity_integrity": entity_integrity(masked_output, entities),
         "semantic_fidelity": semantic_fidelity(
-            source, comparison, provider_confidence, translated=translation_without_backcheck
+            source,
+            comparison,
+            provider_confidence,
+            translated=translated,
+            round_trip=round_trip,
         ),
         "instruction_coverage": instruction_coverage(
-            source, comparison, is_instruction, translated=translation_without_backcheck
+            source, comparison, is_instruction, translated=translated
         ),
         "grounding": grounding(
             source,
             comparison,
-            "deterministic-local" if comparison_output is not None else provider,
+            "translated-round-trip" if round_trip else provider,
         ),
     }
     return {"passed": all(item["passed"] for item in checks.values()), "checks": checks}

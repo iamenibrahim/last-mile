@@ -35,5 +35,6 @@ def synthesize(text: str, language: str) -> bytes:
         },
         method="POST",
     )
-    with urllib.request.urlopen(request, timeout=20) as response:
+    # The request uses the configured Azure Speech HTTPS endpoint.
+    with urllib.request.urlopen(request, timeout=20) as response:  # nosec B310
         return response.read()

@@ -36,7 +36,8 @@ def _request(text: str, source_language: str, target_language: str) -> tuple[str
         headers=headers,
         method="POST",
     )
-    with urllib.request.urlopen(request, timeout=12) as response:
+    # The request uses the configured Azure Translator HTTPS endpoint.
+    with urllib.request.urlopen(request, timeout=12) as response:  # nosec B310
         payload = json.load(response)
     return payload[0]["translations"][0]["text"], payload[0]
 

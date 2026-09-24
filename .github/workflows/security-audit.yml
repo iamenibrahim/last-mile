@@ -1,0 +1,25 @@
+name: Security audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install audit tools
+        run: python -m pip install pip-audit bandit
+      - name: Audit production dependencies
+        run: pip-audit -r requirements.txt
+      - name: Static security scan
+        run: bandit -r api grounded functions -x tests -q -ll -ii

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import re
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict
 
 from .config import settings
@@ -77,92 +79,120 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
         ("description", properties.get("description", ""), False),
         ("instruction", properties.get("instruction", ""), True),
     ]
-    rendered: list[dict] = []
     chain: list[dict] = []
-    manifest_segments: list[dict] = []
-    failure_used = False
-
+    prepared: list[dict] = []
     for section, value, is_instruction in source_sections:
         for index, (segment, start, end) in enumerate(split_segments(value), start=1):
             locked = lock_entities(segment, places)
-            transformed, provider_meta = _provider_transform(locked.masked, language, grade)
-            if simulate_failure and not failure_used and locked.entities:
-                transformed = transformed.replace(locked.entities[0].token, "", 1)
-                failure_used = True
-            restored = restore_entities(transformed, locked.entities)
-            comparison_output = None
-            if provider_meta.get("back_translation"):
-                comparison_output = restore_entities(provider_meta["back_translation"], locked.entities)
-            verification = verify_segment(
-                source=segment,
-                masked_output=transformed,
-                restored_output=restored,
-                entities=locked.entities,
-                provider_confidence=float(provider_meta.get("confidence", 0.96)),
-                target_language=language,
-                provider=provider_meta.get("engine", "unknown"),
-                is_instruction=is_instruction,
-                comparison_output=comparison_output,
-            )
-            if provider_meta.get("engine") == "microsoft-foundry" and settings.foundry_enabled:
-                try:
-                    from .providers.azure_foundry import judge_entailment
-
-                    foundry_grounding = judge_entailment(segment, restored)
-                    number_guard = verification["checks"]["grounding"]
-                    verification["checks"]["grounding"] = {
-                        "passed": foundry_grounding["passed"] and not number_guard.get("added_numbers"),
-                        "method": "Microsoft Foundry strict entailment judge + no-new-number guard",
-                        "reason": foundry_grounding.get("reason"),
-                        "added_numbers": number_guard.get("added_numbers", []),
-                    }
-                    verification["passed"] = all(item["passed"] for item in verification["checks"].values())
-                except Exception as error:
-                    verification["checks"]["grounding"] = {
-                        "passed": False,
-                        "method": "Microsoft Foundry entailment judge",
-                        "reason": f"Judge unavailable: {type(error).__name__}",
-                    }
-                    verification["passed"] = False
-            output_safety = {"passed": True, "mode": "not-configured"}
-            if verification["passed"] and settings.content_safety_enabled:
-                try:
-                    from .providers.azure_content_safety import analyze
-
-                    output_safety = {**analyze(restored), "mode": "azure-ai-content-safety"}
-                except Exception as error:
-                    output_safety = {
-                        "passed": False,
-                        "mode": "azure-ai-content-safety",
-                        "reason": f"Guard unavailable: {type(error).__name__}",
-                    }
-                if not output_safety["passed"]:
-                    verification["passed"] = False
-            status = "translated_verified" if verification["passed"] else "verbatim_abstained"
-            output = restored if verification["passed"] else segment
-            reason = None
-            if not verification["passed"]:
-                reason = next(
-                    (name for name, result in verification["checks"].items() if not result["passed"]),
-                    "output_safety",
-                )
-            segment_id = f"{section}-{index}"
-            rendered.append(
+            prepared.append(
                 {
-                    "id": segment_id,
+                    "id": f"{section}-{index}",
                     "section": section,
                     "source": segment,
-                    "output": output,
-                    "status": status,
-                    "reason": reason,
-                    "source_offset": {"start": start, "end": end},
-                    "entities": [asdict(item) for item in locked.entities],
-                    "verification": verification,
-                    "output_safety": output_safety,
-                    "provider": provider_meta,
+                    "start": start,
+                    "end": end,
+                    "is_instruction": is_instruction,
+                    "locked": locked,
                 }
             )
-            manifest_segments.append({"id": segment_id, "status": status, "reason": reason})
+
+    simulation_target = next(
+        (item["id"] for item in prepared if item["locked"].entities), None
+    )
+
+    def process(item: dict) -> dict:
+        segment = item["source"]
+        locked = item["locked"]
+        transformed, provider_meta = _provider_transform(locked.masked, language, grade)
+        if simulate_failure and item["id"] == simulation_target:
+            transformed = transformed.replace(locked.entities[0].token, "", 1)
+        restored = restore_entities(transformed, locked.entities)
+        comparison_output = None
+        if provider_meta.get("back_translation"):
+            comparison_output = restore_entities(
+                provider_meta["back_translation"], locked.entities
+            )
+        verification = verify_segment(
+            source=segment,
+            masked_output=transformed,
+            restored_output=restored,
+            entities=locked.entities,
+            provider_confidence=float(provider_meta.get("confidence", 0.96)),
+            target_language=language,
+            provider=provider_meta.get("engine", "unknown"),
+            is_instruction=item["is_instruction"],
+            comparison_output=comparison_output,
+        )
+        if provider_meta.get("engine") == "microsoft-foundry" and settings.foundry_enabled:
+            try:
+                from .providers.azure_foundry import judge_entailment
+
+                foundry_grounding = judge_entailment(segment, restored)
+                number_guard = verification["checks"]["grounding"]
+                verification["checks"]["grounding"] = {
+                    "passed": foundry_grounding["passed"]
+                    and not number_guard.get("added_numbers"),
+                    "method": "Microsoft Foundry strict entailment judge + no-new-number guard",
+                    "reason": foundry_grounding.get("reason"),
+                    "added_numbers": number_guard.get("added_numbers", []),
+                }
+                verification["passed"] = all(
+                    check["passed"] for check in verification["checks"].values()
+                )
+            except Exception as error:
+                verification["checks"]["grounding"] = {
+                    "passed": False,
+                    "method": "Microsoft Foundry entailment judge",
+                    "reason": f"Judge unavailable: {type(error).__name__}",
+                }
+                verification["passed"] = False
+        output_safety = {"passed": True, "mode": "not-configured"}
+        if verification["passed"] and settings.content_safety_enabled:
+            try:
+                from .providers.azure_content_safety import analyze
+
+                output_safety = {**analyze(restored), "mode": "azure-ai-content-safety"}
+            except Exception as error:
+                output_safety = {
+                    "passed": False,
+                    "mode": "azure-ai-content-safety",
+                    "reason": f"Guard unavailable: {type(error).__name__}",
+                }
+            if not output_safety["passed"]:
+                verification["passed"] = False
+        status = "translated_verified" if verification["passed"] else "verbatim_abstained"
+        output = restored if verification["passed"] else segment
+        reason = None
+        if not verification["passed"]:
+            reason = next(
+                (
+                    name
+                    for name, result in verification["checks"].items()
+                    if not result["passed"]
+                ),
+                "output_safety",
+            )
+        return {
+            "id": item["id"],
+            "section": item["section"],
+            "source": segment,
+            "output": output,
+            "status": status,
+            "reason": reason,
+            "source_offset": {"start": item["start"], "end": item["end"]},
+            "entities": [asdict(entity) for entity in locked.entities],
+            "verification": verification,
+            "output_safety": output_safety,
+            "provider": provider_meta,
+        }
+
+    max_workers = max(1, min(len(prepared), int(os.getenv("TRANSFORM_MAX_WORKERS", "4"))))
+    with ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="transform") as executor:
+        rendered = list(executor.map(process, prepared))
+    manifest_segments = [
+        {"id": item["id"], "status": item["status"], "reason": item["reason"]}
+        for item in rendered
+    ]
 
     instruction_present = bool(properties.get("instruction", "").strip())
     output_text = "\n".join(item["output"] for item in rendered)

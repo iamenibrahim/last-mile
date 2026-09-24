@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
+import time
+import uuid
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
@@ -43,6 +46,36 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def operational_telemetry(request: Request, call_next):
+    """Emit PII-free route latency into Function/App Insights traces."""
+    started = time.perf_counter()
+    request_id = uuid.uuid4().hex[:16]
+    try:
+        response = await call_next(request)
+    except Exception as error:
+        logging.exception(
+            "http_request_failed method=%s surface=%s duration_ms=%.1f request_id=%s error=%s",
+            request.method,
+            request.url.path.split("/", 2)[1] if "/" in request.url.path else "root",
+            (time.perf_counter() - started) * 1000,
+            request_id,
+            type(error).__name__,
+        )
+        raise
+    route = getattr(request.scope.get("route"), "path", None) or request.url.path
+    logging.info(
+        "http_request_completed method=%s route=%s status=%s duration_ms=%.1f request_id=%s",
+        request.method,
+        route,
+        response.status_code,
+        (time.perf_counter() - started) * 1000,
+        request_id,
+    )
+    response.headers["X-Request-ID"] = request_id
+    return response
 render_store = create_store()
 
 

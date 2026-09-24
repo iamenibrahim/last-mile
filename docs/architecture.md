@@ -3,7 +3,7 @@
 ```mermaid
 flowchart LR
   NWS[NWS CAP over TLS] --> I[Azure Function ingest]
-  GOV[FEMA / SBA / VA reviewed records] --> S[(Cosmos DB / local cache)]
+  GOV[FEMA / SBA / VA reviewed records] --> S[(Reviewed corpus + search index)]
   I --> H[Canonicalize + SHA-256]
   H --> S
   U[City, ZIP, broad needs] --> R[Deterministic matching rules]
@@ -17,6 +17,7 @@ flowchart LR
   V -->|pass| M[Manifest + Key Vault signing]
   V -->|fail| A[Verbatim source + interpreter referral]
   M --> D
+  D --> Q[(Azure Table continuity store)]
   D --> X[Web · SMS preview · Voice · Offline]
   A --> X
   R --> D
@@ -62,7 +63,8 @@ flowchart LR
 
 - Managed identity for App Service and Function App.
 - Key Vault RBAC; rotate signing keys and include key IDs in manifests.
-- Private endpoints for Cosmos DB and Key Vault where agency networking supports them.
+- Azure Table Storage for multi-instance continuity codes; no phone number, name, or exact address is stored.
+- Private endpoints for Storage and Key Vault where agency networking supports them.
 - Azure Monitor metrics without citizen request bodies.
 - Source-review workflow with versioned program records, owner, last-reviewed date, and retirement date.
 - Content Security Policy and an explicit allowlist for outbound application links.

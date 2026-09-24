@@ -7,7 +7,9 @@ client = TestClient(app)
 
 
 def test_read_endpoints_return_expected_contracts():
-    assert client.get("/healthz").json() == {"ok": True}
+    health = client.get("/healthz")
+    assert health.json() == {"ok": True}
+    assert len(health.headers["x-request-id"]) == 16
     assert client.get("/api/status").json()["status"] == "ready"
     assert "environment" in client.get("/api/config").json()
     assert client.get("/api/alerts").json()["features"]

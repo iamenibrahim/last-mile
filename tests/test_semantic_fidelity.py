@@ -36,3 +36,33 @@ def test_a_meaning_change_fails_even_with_high_provider_confidence(monkeypatch):
 def test_without_foundry_the_method_says_it_is_not_a_meaning_check():
     result = verify.semantic_fidelity("Move to higher ground.", "Suba a un lugar alto.", 0.96, translated=True)
     assert "not a meaning check" in result["method"]
+
+
+def test_round_trip_allows_harmless_synonyms_but_keeps_a_floor():
+    good = verify.semantic_fidelity(
+        "Heavy rain is causing flash flooding.",
+        "Heavy rains caused flash floods.",
+        0.9,
+        translated=True,
+        round_trip=True,
+    )
+    bad = verify.semantic_fidelity(
+        "Move to higher ground now.",
+        "You have moved to a place.",
+        0.9,
+        translated=True,
+        round_trip=True,
+    )
+    assert good["passed"] is True
+    assert bad["passed"] is False
+
+
+def test_round_trip_treats_do_not_and_dont_as_the_same_negation():
+    result = verify.semantic_fidelity(
+        "Do not drive across flooded roads.",
+        "Don't drive across flooded roads.",
+        0.9,
+        translated=True,
+        round_trip=True,
+    )
+    assert result["passed"] is True

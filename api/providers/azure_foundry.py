@@ -34,7 +34,8 @@ def _chat(messages: list[dict], temperature: float = 0.0) -> dict:
         headers=headers,
         method="POST",
     )
-    with urllib.request.urlopen(request, timeout=20) as response:
+    # The request uses the configured Microsoft Foundry HTTPS endpoint.
+    with urllib.request.urlopen(request, timeout=20) as response:  # nosec B310
         result = json.load(response)
     return json.loads(result["choices"][0]["message"]["content"])
 

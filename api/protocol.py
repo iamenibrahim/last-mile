@@ -4,6 +4,7 @@ import base64
 import hashlib
 import hmac
 import json
+import logging
 import os
 import re
 import secrets
@@ -225,7 +226,67 @@ class ContinuityStore:
         return json.loads(row[0])
 
 
-continuity_store = ContinuityStore()
+class AzureTableContinuityStore:
+    """Durable, multi-instance recovery-code storage using existing Function storage."""
+
+    def __init__(self, connection_string: str | None = None, table_client=None):
+        if table_client is not None:
+            self.table = table_client
+            return
+        from azure.data.tables import TableServiceClient  # type: ignore
+
+        value = connection_string or os.environ.get("AZURE_CONTINUITY_STORAGE_CONNECTION_STRING") \
+            or os.environ.get("AzureWebJobsStorage")
+        if not value:
+            raise RuntimeError("Azure Table Storage connection string is not configured")
+        service = TableServiceClient.from_connection_string(value)
+        self.table = service.create_table_if_not_exists("continuity")
+
+    def create_code(self) -> str:
+        alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"
+        return "RBX-" + "".join(secrets.choice(alphabet) for _ in range(5))
+
+    def save(self, packet: dict, hours: int = 24) -> None:
+        expires = datetime.now(timezone.utc) + timedelta(hours=hours)
+        self.table.upsert_entity(
+            {
+                "PartitionKey": "continuity",
+                "RowKey": packet["continuity"]["code"],
+                "packet_json": json.dumps(packet, ensure_ascii=False),
+                "expires_at": expires.isoformat(),
+            }
+        )
+
+    def load(self, code: str) -> dict | None:
+        normalized = code.strip().upper()
+        try:
+            entity = self.table.get_entity("continuity", normalized)
+        except Exception as error:
+            if type(error).__name__ in {"ResourceNotFoundError", "TableNotFoundError"}:
+                return None
+            raise
+        if datetime.fromisoformat(str(entity["expires_at"])) < datetime.now(timezone.utc):
+            try:
+                self.table.delete_entity("continuity", normalized)
+            except Exception:
+                pass
+            return None
+        return json.loads(str(entity["packet_json"]))
+
+
+def create_continuity_store():
+    if os.environ.get("APP_ENV") == "azure" and (
+        os.environ.get("AZURE_CONTINUITY_STORAGE_CONNECTION_STRING")
+        or os.environ.get("AzureWebJobsStorage")
+    ):
+        try:
+            return AzureTableContinuityStore()
+        except Exception as error:
+            logging.warning("Azure continuity store unavailable; using instance-local fallback: %s", type(error).__name__)
+    return ContinuityStore()
+
+
+continuity_store = create_continuity_store()
 
 
 def build_action_packet(profile: dict) -> dict:

@@ -30,7 +30,8 @@ def fetch_active_va_alerts() -> dict:
         "https://api.weather.gov/alerts/active?area=VA",
         headers={"User-Agent": settings.nws_user_agent, "Accept": "application/geo+json"},
     )
-    with urllib.request.urlopen(request, timeout=8) as response:
+    # The request uses the fixed HTTPS NWS endpoint declared above.
+    with urllib.request.urlopen(request, timeout=8) as response:  # nosec B310
         payload = json.load(response)
     return {
         "features": payload.get("features", []),
@@ -54,4 +55,3 @@ def alerts_with_fallback() -> dict:
         "transport": "local verified demo fixture",
         "mode": "cached",
     }
-
