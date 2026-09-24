@@ -120,10 +120,12 @@ The inbound command format is stateless with respect to the phone number: `CONTI
 - Program records are a reviewable snapshot, not a live guarantee that a disaster declaration or enrollment window is open. Users are sent to the authoritative agency to confirm and apply.
 - Real IPAWS access requires a COG agreement and is an integration path, not a claimed implementation. C2PA is future work, not shipped provenance.
 - The impact estimate intentionally remains unclaimed until a dated NWS archive and ACS B16004 run are supplied.
+- Voice Live API and Microsoft Fabric are evaluated future options, not implemented or claimed dependencies of this submission.
 
 ## Project deliverables
 
 - [Architecture and threat boundaries](docs/architecture.md)
+- [Authoritative sources and Microsoft reference map](docs/authoritative-sources.md)
 - [Ten implemented innovations](docs/innovations.md)
 - [Evaluation method and honest results](docs/evaluation.md)
 - [Live Azure operational evidence](grounded_eval/results/LIVE_OPERATIONAL_EVIDENCE.md)
