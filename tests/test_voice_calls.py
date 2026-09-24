@@ -147,7 +147,7 @@ def test_dtmf_human_help_plays_safety_prompt_then_hangs_up(monkeypatch):
         ],
     )
     assert recognized["events"][0]["action"] == "human_help_then_hangup"
-    assert "Virginia 211" in actions[0][1]
+    assert "Virginia 2 1 1" in actions[0][1]
     assert actions[0][2] == "last-mile-hangup"
 
     completed = voice_module.handle_call_events(
@@ -165,3 +165,33 @@ def test_dtmf_human_help_plays_safety_prompt_then_hangs_up(monkeypatch):
     )
     assert completed["events"][0]["action"] == "call_ended"
     assert actions[-1] == ("hangup", True)
+
+
+def test_voice_opening_is_short_and_puts_choices_before_case_details():
+    opening = voice_module._opening_text()
+
+    assert "automated disaster assistance demo" in opening
+    assert "immediate danger" in opening
+    assert "Press 1" in opening
+    assert "DR-4831-VA" not in opening
+    assert "November 18" not in opening
+    assert len(opening.split()) < 60
+
+
+def test_key_nine_repeats_without_error_message():
+    response, should_hang_up = voice_module._response_for_tone("9", packet())
+
+    assert response == "Here are the choices again."
+    assert should_hang_up is False
+    assert "not recognize" not in response.lower()
+
+
+def test_next_steps_explain_historical_limit_and_spell_recovery_code():
+    payload = packet()
+    response, should_hang_up = voice_module._response_for_tone("1", payload)
+
+    assert payload["jurisdiction"] in response
+    assert "historical disaster example" in response
+    assert "deadline" in response
+    assert ", ".join(payload["continuity"]["code"].replace("-", "")) in response
+    assert should_hang_up is False

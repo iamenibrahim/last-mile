@@ -117,12 +117,28 @@ def _external_participant(call_connection):
     raise RuntimeError("The external call participant is unavailable")
 
 
-def _menu_text(packet: dict[str, Any]) -> str:
+def _menu_choices() -> str:
+    # Short, parallel phrases are easier to retain over a noisy phone line than
+    # a long explanation followed by four choices.
     return (
-        f"{packet['channels']['voice']['script']} "
-        "Press 1 for the next steps. Press 2 for document alternatives. "
-        "Press 0 for human help. Press 9 to repeat this menu."
+        "Press 1 for your next steps. "
+        "Press 2 for help with missing documents. "
+        "Press 0 for human help. "
+        "Press 9 to repeat these choices."
     )
+
+
+def _opening_text() -> str:
+    return (
+        "Hello. This is Last Mile, an automated disaster assistance demo. "
+        "If you are in immediate danger, hang up and call 911. "
+        "Choose one option now. "
+        f"{_menu_choices()}"
+    )
+
+
+def _spoken_code(code: str) -> str:
+    return ", ".join(code.replace("-", ""))
 
 
 def _tone(event_data: dict[str, Any]) -> str | None:
@@ -140,27 +156,43 @@ def _response_for_tone(tone: str | None, packet: dict[str, Any]) -> tuple[str, b
             f"Step {index + 1}. {action['label']}"
             for index, action in enumerate(packet["actions"][:3])
         )
-        return actions, False
+        return (
+            f"This plan is for {packet['jurisdiction']}. "
+            "It uses a historical disaster example, and the application deadline in that example has passed. "
+            f"{actions} "
+            f"Your recovery code is {_spoken_code(packet['continuity']['code'])}.",
+            False,
+        )
     if tone == "2":
         return (
-            "If documents were lost, ask each agency which identity alternatives it accepts "
-            "before sending personal information.",
+            "If identification or other documents were lost, do not send sensitive information yet. "
+            "Ask the agency which alternative documents it accepts. "
+            "Press 0 if you want human help.",
             False,
         )
     if tone == "0":
         return (
-            "For a human navigator, call Virginia 211. Use 711 for relay services. "
+            "For a human navigator, call Virginia 2 1 1. Use 7 1 1 for relay services. "
             "If anyone is in immediate danger, hang up and call 911 now.",
             True,
         )
-    return "I did not recognize that selection.", False
+    if tone == "9":
+        return "Here are the choices again.", False
+    return "That key is not an option. Please choose 1, 2, 0, or 9.", False
 
 
-def _start_menu(call_connection, packet: dict[str, Any], prefix: str = "") -> None:
+def _start_menu(
+    call_connection,
+    packet: dict[str, Any],
+    prefix: str = "",
+    *,
+    opening: bool = False,
+) -> None:
     from azure.communication.callautomation import RecognizeInputType  # type: ignore
 
     target = _external_participant(call_connection)
-    prompt = f"{prefix} {_menu_text(packet)}".strip()
+    menu = _opening_text() if opening else _menu_choices()
+    prompt = f"{prefix} {menu}".strip()
     call_connection.start_recognizing_media(
         input_type=RecognizeInputType.DTMF,
         target_participant=target,
@@ -201,7 +233,7 @@ def handle_call_events(
 
         call_connection = client.get_call_connection(connection_id)
         if short_type == "CallConnected":
-            _start_menu(call_connection, packet)
+            _start_menu(call_connection, packet, opening=True)
             outcome["action"] = "menu_started"
         elif short_type == "RecognizeCompleted":
             tone = _tone(data)
@@ -218,7 +250,7 @@ def handle_call_events(
                 outcome["action"] = "menu_continued"
             outcome["selection"] = tone
         elif short_type == "RecognizeFailed":
-            _start_menu(call_connection, packet, "I did not hear a selection.")
+            _start_menu(call_connection, packet, "I did not hear a key. Let's try again.")
             outcome["action"] = "menu_retried"
         elif short_type == "PlayCompleted" and data.get("operationContext") == "last-mile-hangup":
             call_connection.hang_up(is_for_everyone=True)
