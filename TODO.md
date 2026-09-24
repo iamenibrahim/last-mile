@@ -1,79 +1,148 @@
 # TODO: Microsoft × CCI Innovation Challenge
 
-Today: Wed Sep 23, evening. **Feature freeze: end of Thu Sep 24.** Fri Sep 25 is pitch only, with no new code.
-
-Goal: the most Microsoft-native version of the project, with every service doing real work.
+**Today: Thu Sep 24. Feature freeze is tonight.** Fri Sep 25 is pitch only, no new code.
 
 Deployed environment and its caveats: [infra/DEPLOYED.md](infra/DEPLOYED.md).
+Measured evidence: [grounded_eval/results/LIVE_OPERATIONAL_EVIDENCE.md](grounded_eval/results/LIVE_OPERATIONAL_EVIDENCE.md).
 
-Legend: ✅ done · ⏳ in progress · ⬜ not started
+Legend: ✅ done · 🔒 blocked on you · ⬜ not started
 
-## You (Azure portal / browser)
+---
 
-- ✅ **2. Foundry model deployed: `last-mile-gpt` = Phi-4-mini-instruct.** Verified working in the playground. **This subscription has zero Azure OpenAI quota** (`0/0` everywhere), so no OpenAI model could be used; Microsoft's own Phi has quota. No embedding model can be deployed either — see [infra/DEPLOYED.md](infra/DEPLOYED.md).
+## Blocked on you — nothing else moves until these
 
-- ✅ **1. Deploy the Azure resources.** Done 2026-09-23 into `last-mile-student-rg`, `canadacentral`, prefix `lmva`.
-- ✅ **3. Local Azure settings.** `azure-settings.txt` and `.env` were generated locally and remain gitignored. The nonexistent embedding deployment setting was removed.
-- ⬜ **4. Check Copilot Studio access** at <https://copilotstudio.microsoft.com> with your GMU account.
-- ⬜ **5. Get a free Census API key** at <https://api.census.gov/data/key_signup.html>. Only needed for item 19.
+- 🔒 **A. Verify your phone against the trial number.** Phone numbers →
+  `1-844-919-7508` → **Trial details** → **Manage verified phone numbers** →
+  Add → `+1 703-624-0864`, US, SMS → Next → enter the passcode Microsoft texts
+  you. Three recipients maximum. I cannot do this: the Azure portal renders
+  blades in a cross-origin iframe that the browser pane cannot click into, and
+  the passcode goes to your handset.
 
-## Claude (code) — all done
+- 🔒 **B. Turn on calling.** Function App `lmva3fcshw5lauukqapi` → Settings →
+  Environment variables → App settings:
 
-- ✅ **6.** Copilot Studio agent pieces: `GET /api/handoff/{code}`, the swagger tool definition (already pointed at the deployed app), and setup instructions.
-- ✅ **7.** Moved the real-data evidence from `hackily` into the `grounded` package, served at `/grounded`: 80 real NWS alerts, hash-verified FEMA/eCFR/SBA/SAMHSA quotes, OpenFEMA deadline rules. Its 116 tests run under `tests/grounded`.
-- ✅ **8.** Phone calls through Communication Services, consent-gated and off by default.
-- ✅ **9.** Key Vault RS256 signing for manifests and packets; public key at `GET /api/signing-key`. Also fixed a real hole: a rewritten channel with a recomputed hash used to still verify.
-- ✅ **10.** Foundry embeddings behind the semantic-fidelity check.
-- ✅ **11.** Foundry escalation classifier that can only add a human handoff, never remove one.
-- ✅ **12.** Azure AI Search over the verified agency pages, exact quotes only.
-- ✅ **13.** Application Insights, capped at 0.1 GB/day.
-- ✅ **14.** Azure Maps geocoding on the server, Census as fallback.
+  | Name | Value |
+  |---|---|
+  | `CALL_START_ENABLED` | `true` |
+  | `AZURE_CALL_FROM_NUMBER` | `+18449197508` |
+  | `CALL_ALLOWED_TEST_RECIPIENTS` | `+17036240864` |
 
-## Together (after 2 and 3)
+  Everything else is already wired: the Function App's managed identity holds
+  Contributor on Communication Services, ACS holds Cognitive Services User on
+  Speech, and the endpoint, callback URL and voice settings all ship in the
+  template. These three are the whole gap.
 
-- ✅ **15. First run with real keys.** Foundry, Translator, Speech, Content Safety, Maps, AI Search, Key Vault and Application Insights were exercised. Results for es/ar/prs/tl are checked in.
-- ✅ **16. Publish the code to the Function App.** GitHub Actions continuously deploys `iamenibrahim/rubicon` `main` to `lmva3fcshw5lauukqapi`.
-- ⬜ **17. Connect the Copilot Studio agent:** upload `copilot/last-mile-handoff.swagger.json` as a REST tool, paste the instructions from `copilot/README.md`, publish to Teams.
-- ⬜ **18. Run Foundry Evaluations** on the corruption-test set; screenshot the dashboard for the deck.
-- ⬜ **19. Compute the impact number** from ACS B16004 and the alert archive.
+- 🔒 **C. Copilot Studio access.** Sign in at <https://copilotstudio.microsoft.com>
+  with your GMU account. If the tenant allows it, item 3 becomes possible.
 
-## Thursday night (freeze)
+- 🔒 **D. Free Census API key** — <https://api.census.gov/data/key_signup.html>.
+  Two minutes. Only needed for item 4.
 
-- ⬜ **20. Update the deck:** one slide per Microsoft service and its job, the real-data numbers, the Copilot agent, and the honest limits below.
-- ⬜ **21. Record the offline fallback video** with `LAST_MILE_OFFLINE=1`.
-- ⬜ **22. Freeze.**
+## Mine, the moment A and B land
+
+- ⬜ **1. Place a real automated call.** Confirm
+  `azure_communication_services_voice: true`, build a signed Smyth County
+  packet, take its `RBX-xxxxx`, POST `/api/calls/start` with consent. Capture
+  the call connection id, proof id and Application Insights trace into
+  `LIVE_OPERATIONAL_EVIDENCE.md`. This turns "voice is implemented and tested"
+  into "voice delivered to a real handset on 2026-09-24".
+
+- ⬜ **2. SMS: not happening.** A trial number has no SMS capability and the
+  Try SMS sender list is empty and disabled. Outbound texting needs a purchased
+  number, which is a spend decision. Disclose it; do not try to work around it.
+
+- ⬜ **3. Connect the Copilot Studio agent** (needs C): upload
+  `copilot/last-mile-handoff.swagger.json` as a REST tool, paste the
+  instructions from `copilot/README.md`, publish to Teams.
+
+- ⬜ **4. Compute the impact number** (needs D) from ACS B16004 and the alert
+  archive. Do not state a Virginia coverage figure until this run completes.
+
+- ⬜ **5. Foundry Evaluations** on the corruption-test set; screenshot for the
+  deck. First to cut.
+
+## Tonight
+
+- ⬜ **6. Update the deck:** one slide per Microsoft service and its job, the
+  measured numbers, and the honest limits below.
+- ⬜ **7. Record the offline fallback video** with `LAST_MILE_OFFLINE=1`.
+- ⬜ **8. Freeze.**
+
+---
+
+## Done
+
+**2026-09-24**
+
+- ✅ **English Foundry transformation: ~21s → ~5s live** (4.68 / 5.09 / 8.29s
+  cold at three grades; 0.85s repeat). Keep-alive client, eight workers,
+  bounded retry honouring `Retry-After`, and a bounded temperature-0 cache
+  whose hits the manifest records as `cached_segments`.
+- ✅ **Found and fixed a real defect behind that latency.** Asked for a JSON
+  schema, the Phi deployment invented key names *and stripped the brackets off
+  the `[[E1]]` sentinels*, failing the entity check and pushing 3 of 7 segments
+  onto the local fallback — a third of the "Foundry" demo was not Foundry. Two
+  worked examples fixed it; now 0 fallbacks.
+- ✅ **English meaning check is real.** Was lexical token overlap, which
+  punished simplification for doing its job. Now Foundry reverse entailment:
+  does the plain-language output still carry every claim the source made.
+  83.3% of segments verified, up from 4/7.
+- ✅ `prompt_sha256` hashes the prompt actually in use, not a hand-written
+  version string that had stopped tracking it.
+- ✅ Established what Communication Services actually permits, and corrected an
+  earlier wrong note that claimed no verification step existed.
+
+**Earlier**
+
+- ✅ Azure resources deployed; `last-mile-gpt` = Phi-4-mini-instruct.
+- ✅ `grounded` package served at `/grounded`: 80 real NWS alerts, hash-verified
+  FEMA/eCFR/SBA/SAMHSA quotes, OpenFEMA deadline rules.
+- ✅ Key Vault RS256 signing; public key at `GET /api/signing-key`. Fixed a real
+  hole: a rewritten channel with a recomputed hash used to still verify.
+- ✅ Foundry escalation classifier that can only add a human handoff, never
+  remove one. Azure AI Search, exact quotes only. Azure Maps geocoding.
+- ✅ Application Insights, capped at 0.1 GB/day.
+- ✅ Continuity moved to **Azure Table Storage**; an `RBX` code survived a real
+  Function App restart.
+- ✅ Multilingual withholding: es 57.1→14.3%, ar 71.4→0%, prs 57.1→14.3%,
+  tl 85.7→28.6%.
+- ✅ GitHub Actions continuously deploys `main` to `lmva3fcshw5lauukqapi`.
+- ✅ 195 tests pass, 1 skipped. Dependency audit and Bandit clean.
+
+---
 
 ## Say these out loud in the pitch, unprompted
 
-- **Region.** This runs in Canada Central because Azure refuses US regions on a student subscription. An agency deployment uses `eastus`, Azure's Virginia region, to keep residents' data in state — a parameter, not a code change. **Do not claim Virginia data residency.**
-- **Cosmos DB is not deployed.** Free-tier Cosmos would not provision in Canada Central. The app uses its SQLite store, the same one every local run uses.
-- **No OpenAI models.** Azure gives student subscriptions zero OpenAI quota, so the pipeline runs on **Microsoft's Phi-4-mini-instruct**. Model choice is a deployment parameter; an agency subscription changes one setting. This is a *better* Microsoft story, not an apology.
-- **No embedding model**, for the same quota reason. The meaning check says so in its own output rather than pretending.
-- **Not everything is free tier.** Translator, Speech and Content Safety are pay-per-character because soft-deleted accounts hold the one-free-account slot. Demo volume is a fraction of a cent.
-- **Trust anchor.** NWS alerts are not individually signed. We attest to a payload fetched over TLS plus our own signature — not an NWS signature.
-- **The corruption numbers** come from five *mechanical* corruption classes. Say "mechanical" every time.
+- **Region.** Canada Central, because Azure refuses US regions on a student
+  subscription. An agency deployment uses `eastus`, Azure's Virginia region, to
+  keep residents' data in state — a parameter, not a code change.
+  **Do not claim Virginia data residency.**
+- **No OpenAI models.** Student subscriptions get zero OpenAI quota, so the
+  pipeline runs on **Microsoft's Phi-4-mini-instruct**. Model choice is a
+  deployment parameter. This is a *better* Microsoft story, not an apology.
+- **No embedding model**, same quota reason. Translation fidelity says so in its
+  own output rather than pretending; English uses entailment instead.
+- **16.7% of English segments are withheld**, mostly because the model appends
+  advice the source never contained and the grounding judge refuses it. That is
+  the system working. Say it before a judge finds it.
+- **SMS and voice.** Implemented, consent-gated, test-covered. SMS has never
+  delivered and cannot from a trial number. Say whether voice has, honestly,
+  depending on how item 1 goes.
+- **Cosmos DB is not deployed** (would not provision in Canada Central).
+  Continuity is Azure Table Storage — not SQLite, not temp disk.
+- **Not everything is free tier.** Translator, Speech and Content Safety are
+  pay-per-character because soft-deleted accounts hold the free slots.
+- **Trust anchor.** NWS alerts are not individually signed. We attest to a
+  payload fetched over TLS plus our own signature — not an NWS signature.
+- **The corruption numbers** come from five *mechanical* corruption classes.
+  Say "mechanical" every time.
+- **Repeat demo runs are cache-served.** If you run the same alert twice on
+  stage and it returns instantly, that is the cache, and the manifest says so.
 
 ## If time runs short
 
-Cut in this order: **18** (Foundry Evaluations), **19** (impact number), **17** (Copilot agent).
+Cut in this order: **5** (Foundry Evaluations), **4** (impact number),
+**3** (Copilot agent).
 
-Never cut: **2, 3, 15** — without them no Azure service is proven to work.
-
-## Microsoft services scorecard
-
-| Service | Role | Status |
-|---|---|---|
-| Azure Functions | API host + NWS ingest timer | **Live** with GitHub continuous deployment |
-| Foundry (**Phi-4-mini-instruct**) | Plain-language rewrite, entailment judge, escalation classifier | **Deployed as `last-mile-gpt`**; verified in the playground |
-| Foundry embeddings | Semantic-fidelity check (cosine, multilingual) | **Not possible** — no quota for any embedding model. Falls back, honestly labelled; the entailment judge still checks meaning |
-| Azure AI Translator | Translation + round-trip check | **Live and exercised** (S1) |
-| Azure AI Speech | Spoken output of verified text | **Live and exercised** (S0) |
-| Azure AI Content Safety | Output guard before rendering | **Live and exercised** (S0) |
-| Azure AI Search | Exact-quote retrieval; Copilot tool | **Live**; index populated and queried |
-| Azure Maps | Map + server-side geocoding | **Live**; address-level result verified |
-| Key Vault | Manifest + packet signing (RS256), public key at `/api/signing-key` | **Live**; packet verification uses the public key |
-| Application Insights | Request latency and failures; 0.1 GB/day cap | **Live**; Function traces received |
-| Communication Services | SMS + phone calls, consent-gated | **Deployed**; needs a trial number to actually send |
-| Cosmos DB | Alerts, manifests, render cache | **Not deployed** — see above |
-| Foundry Evaluations | Corruption-test dashboard | ⬜ (item 18) |
-| Copilot Studio | Caseworker agent in Teams | Pieces ready; ⬜ connect (item 17) |
+Never cut: **A**, **B**, **1** — a real call is the single most valuable thing
+left, and it costs you about three minutes of portal clicking.
