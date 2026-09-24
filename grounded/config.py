@@ -30,7 +30,7 @@ STATE_DIR = (
 # NWS requires a descriptive User-Agent with contact info (brief section 4).
 NWS_USER_AGENT = os.environ.get(
     "NWS_USER_AGENT",
-    "last-mile-alert/0.1 (CCI Innovation Challenge prototype; tonaotoro@gmail.com)",
+    "last-mile-alert/1.0 (CCI Innovation Challenge prototype; https://github.com/iamenibrahim/rubicon)",
 )
 NWS_BASE = "https://api.weather.gov"
 CENSUS_GEOCODER = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"
