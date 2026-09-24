@@ -110,19 +110,33 @@ Checked in the portal, not inferred. The resource holds one number:
 |---|---|---|---|---|
 | +1 844-919-7508 | Microsoft | **Free Trial** | Free | Toll-free, US |
 
-A free-trial number is not enough to send anything from this resource:
+Two portal blades refuse it, and it is important not to over-read them:
 
 - **Try SMS** - the "Send message from" list is empty and disabled, and Send is
-  greyed out. There is no SMS-capable sender.
+  greyed out. A trial number carries no SMS capability, so the app cannot text
+  a resident from this resource. Outbound SMS needs a **purchased** number.
 - **Try Phone Calling** - refuses in red: *"This resource is not configured to
   make an outbound call. Please purchase a phone number or configure Direct
-  Routing first."* The "Call from" list is likewise empty and disabled.
+  Routing first."*
 
-So the blocker is not recipient verification and not app configuration. It is
-that outbound SMS and outbound voice both require a **purchased** number
-(Pay-As-You-Go) or Direct Routing. There is no verification-code step to reach
-until one of those exists. Buying a number is a spend decision and is the
-account owner's to make.
+**The Try Phone Calling refusal is about that blade, not about calling.** A
+trial number can place outbound PSTN calls through Call Automation once the
+recipient is verified, which is the path this app actually uses. Verification
+lives on the number itself, not in that blade:
+
+> Phone numbers -> select the number -> **Trial details** tab ->
+> **Manage verified phone numbers** -> Add -> enter the number and country
+> code -> choose SMS or automated voicemail -> Next -> enter the one-time
+> passcode.
+
+Trial limits: up to **three** verified recipients, 60 inbound and 60 outbound
+minutes, 5 minutes maximum per call, US billing addresses only, no emergency
+numbers. More than three recipients requires a purchased number.
+
+So the standing blocker is: **SMS needs a purchased number; voice needs a
+verified recipient.** The second is free and takes a minute - but the one-time
+passcode is sent to the recipient's handset, so only the number's owner can
+complete it.
 
 The portal also now shows a retirement notice on this resource: "Azure
 Communication Services capabilities in this resource are being retired or will
