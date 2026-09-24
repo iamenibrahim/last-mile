@@ -63,10 +63,14 @@ to the water should leave right away and go to a safer, higher place."* That is
 the simplification the pipeline needs, and Phi is multilingual (Spanish, Arabic
 and others).
 
-**No embedding model is deployed**, because none can be. The semantic-fidelity
-check therefore keeps its honest fallback, which reports the method as "provider
-confidence (no embeddings configured; not a meaning check)". Meaning is still
-checked by the Foundry entailment judge, which now runs on Phi.
+**No embedding model is deployed**, because none can be. For a translation the
+semantic-fidelity check therefore keeps its honest fallback, which reports the
+method as "provider confidence (no embeddings configured; not a meaning check)",
+with the Translator round-trip covering the cases where a back-translation
+exists. For English the check is no longer a fallback at all: it is Foundry
+reverse entailment, asking whether the simplified output still carries every
+claim the source made. Meaning is also checked in the forward direction by the
+Foundry entailment judge, which runs on Phi.
 `AZURE_FOUNDRY_EMBED_MODEL` was removed from both the Function App and local
 `.env` on 2026-09-23, so the fallback is explicit rather than exception-driven.
 

@@ -8,7 +8,27 @@ Measured against `https://lmva3fcshw5lauukqapi.azurewebsites.net` on 2026-09-24.
 - Throughput: 8.31 requests/second.
 - Latency: p50 196.3 ms; p95 2,347.4 ms; maximum 3,889.5 ms.
 - Observed first `/healthz` request after an explicit Function App restart: 3,722 ms, HTTP 200.
-- English Foundry alert transformation remains a known bottleneck: one observed seven-segment run took 20,972 ms and withheld 3 segments. This result must not be represented as resolved.
+### English Foundry transformation
+
+The earlier bottleneck (one observed seven-segment run at 20,972 ms, 3 segments withheld) has been reduced, not eliminated. Measured over six consecutive cold runs of the same seven-segment alert on 2026-09-24:
+
+| | Before | Now |
+|---|---:|---:|
+| Cold wall time, mean | ~21.0 s | **9.1 s** (range 4.7–12.1 s) |
+| Repeat run, same alert | ~21.0 s | **0.25 s** (cache) |
+| Segments verified | 4/7 | **35/42 = 83.3%** |
+| Segments served by a local fallback | 3/7 | **0** |
+
+Four changes, in order of effect:
+
+1. **Two-shot prompting.** Asked for a schema, the Phi-4-mini deployment invented its own JSON key names and stripped the brackets off the `[[E1]]` sentinels, which failed the entity check and forced a local fallback on 3 of 7 segments. Two worked examples fixed the shape and the brackets: 7/7 clean on the probe run.
+2. **Connection reuse and parallelism.** One keep-alive client for the process instead of a fresh TLS handshake per call, and every segment of a typical alert now runs at once (`TRANSFORM_MAX_WORKERS` default 4 → 8), so wall time is set by the slowest segment rather than by the queue.
+3. **Bounded retry.** 429 and 5xx are retried up to three times honouring `Retry-After`, instead of dropping straight to the local fallback.
+4. **A real English meaning check.** Without embeddings, English semantic fidelity was lexical overlap, which penalised the simplification it was asked to produce. It is now Foundry reverse entailment — does the plain-language output still carry every claim the source made. This costs one extra call per segment, which is most of the remaining latency, and it is the reason withholding fell rather than a threshold being loosened.
+
+A repeat run is served from an in-process cache of the deployment's temperature-0 responses. It is a real Foundry result without a fresh round trip, and the manifest records `cached_segments` so a fast run cannot be mistaken for a faster provider. The cache is in-process only and is empty after any restart.
+
+**Still true:** 16.7% of English segments are withheld. The dominant cause is the model appending advice the source did not contain ("stay safe", "stay alert"), which the grounding judge correctly refuses. That is the system working, not a defect, but it does mean roughly one sentence in six is shown verbatim rather than simplified. An added third example discouraging closing advice was measured and dropped: it did not improve the rate and it cost latency.
 
 ## Multilingual verification
 

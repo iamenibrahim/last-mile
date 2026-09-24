@@ -54,6 +54,23 @@ def _provider_transform(masked: str, language: str, grade: int) -> tuple[str, di
     return local.translate(masked, language)
 
 
+def _prompt_digest() -> str:
+    """Hash the prompt actually in use, so the manifest cannot claim a stale one.
+
+    This used to hash a hand-written version string, which stayed the same when
+    the prompt changed underneath it.
+    """
+    try:
+        from .providers.azure_foundry import SIMPLIFY_EXAMPLES, SYSTEM_PROMPT
+
+        material = SYSTEM_PROMPT + "".join(
+            f"{message['role']}:{message['content']}" for message in SIMPLIFY_EXAMPLES
+        )
+    except Exception:
+        material = "last-mile-transform-local-only"
+    return hashlib.sha256(material.encode("utf-8")).hexdigest()
+
+
 def _reading_grade(text: str) -> float:
     words = re.findall(r"[A-Za-z]+", text)
     sentences = max(1, len(re.findall(r"[.!?]+", text)))
@@ -136,6 +153,18 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
                     "reason": foundry_grounding.get("reason"),
                     "added_numbers": number_guard.get("added_numbers", []),
                 }
+                if language == "en":
+                    # Lexical overlap is the wrong instrument for a simplification:
+                    # replacing "refrain from utilizing" with "do not use" is the
+                    # task, and it scores badly. Entailment in the other direction
+                    # is the real question - does the plain-language output still
+                    # carry everything the source said?
+                    kept = judge_entailment(restored, segment)
+                    verification["checks"]["semantic_fidelity"] = {
+                        "passed": kept["passed"],
+                        "method": "Microsoft Foundry reverse entailment (source claims kept in output)",
+                        "reason": kept.get("reason"),
+                    }
                 verification["passed"] = all(
                     check["passed"] for check in verification["checks"].values()
                 )
@@ -186,7 +215,10 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
             "provider": provider_meta,
         }
 
-    max_workers = max(1, min(len(prepared), int(os.getenv("TRANSFORM_MAX_WORKERS", "4"))))
+    # Each segment makes two sequential provider calls (transform, then judge),
+    # so the wall time is set by the slowest segment, not by the total. Running
+    # every segment of a typical alert at once keeps that to two round trips.
+    max_workers = max(1, min(len(prepared), int(os.getenv("TRANSFORM_MAX_WORKERS", "8"))))
     with ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="transform") as executor:
         rendered = list(executor.map(process, prepared))
     manifest_segments = [
@@ -212,12 +244,22 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
     chain.extend(
         [
             {"step": "entity_lock", "version": "1.0", "entities": sum(len(item["entities"]) for item in rendered)},
-            {"step": "translate_simplify", "engine": ", ".join(providers), "target": language},
+            {
+                "step": "translate_simplify",
+                "engine": ", ".join(providers),
+                "target": language,
+                # A cached segment is a real provider result served without a
+                # fresh round trip. Recorded so a fast run is never mistaken
+                # for a faster provider.
+                "cached_segments": sum(
+                    1 for item in rendered if item["provider"].get("cached")
+                ),
+            },
             {
                 "step": "verify",
                 "checks_passed": checks_passed,
                 "checks_failed": checks_failed,
-                "prompt_sha256": hashlib.sha256(b"last-mile-transform-v1").hexdigest(),
+                "prompt_sha256": _prompt_digest(),
             },
             {
                 "step": "output_safety",
