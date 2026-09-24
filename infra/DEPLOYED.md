@@ -101,3 +101,35 @@ Verified against the deployed Function App on 2026-09-23:
 
 Still external/manual: upload the Copilot swagger into Copilot Studio, update
 the pitch deck, record the fallback demo, and freeze.
+
+## Communication Services: what the portal actually allows (2026-09-24)
+
+Checked in the portal, not inferred. The resource holds one number:
+
+| Number | Operator | Status | Cost | Type |
+|---|---|---|---|---|
+| +1 844-919-7508 | Microsoft | **Free Trial** | Free | Toll-free, US |
+
+A free-trial number is not enough to send anything from this resource:
+
+- **Try SMS** - the "Send message from" list is empty and disabled, and Send is
+  greyed out. There is no SMS-capable sender.
+- **Try Phone Calling** - refuses in red: *"This resource is not configured to
+  make an outbound call. Please purchase a phone number or configure Direct
+  Routing first."* The "Call from" list is likewise empty and disabled.
+
+So the blocker is not recipient verification and not app configuration. It is
+that outbound SMS and outbound voice both require a **purchased** number
+(Pay-As-You-Go) or Direct Routing. There is no verification-code step to reach
+until one of those exists. Buying a number is a spend decision and is the
+account owner's to make.
+
+The portal also now shows a retirement notice on this resource: "Azure
+Communication Services capabilities in this resource are being retired or will
+change" - <https://aka.ms/acs-retirement>. Read it before committing to an ACS
+delivery path in any agency deployment.
+
+**Say this plainly in the pitch.** SMS and voice are implemented, consent-gated
+and covered by tests, and they have never delivered to a real handset. The
+reason is a subscription limit, not an unfinished integration - the same code
+sends the moment a purchased number exists.
