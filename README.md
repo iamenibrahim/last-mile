@@ -126,6 +126,7 @@ The inbound command format is stateless with respect to the phone number: `CONTI
 - [Architecture and threat boundaries](docs/architecture.md)
 - [Ten implemented innovations](docs/innovations.md)
 - [Evaluation method and honest results](docs/evaluation.md)
+- [Live Azure operational evidence](grounded_eval/results/LIVE_OPERATIONAL_EVIDENCE.md)
 - [Provider-outage drill](docs/provider-outage-runbook.md)
 - [Five-person usability protocol](docs/usability-study.md)
 - [Native-speaker review form](docs/language-review.md)

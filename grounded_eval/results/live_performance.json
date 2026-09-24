@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-09-24T12:23:16Z",
+  "base_url": "https://lmva3fcshw5lauukqapi.azurewebsites.net",
+  "scope": "read-only health, provider-status, and corpus-stat endpoints",
+  "requests": 40,
+  "concurrency": 8,
+  "successes": 40,
+  "failures": 0,
+  "success_rate": 1.0,
+  "wall_ms": 4812.4,
+  "requests_per_second": 8.31,
+  "latency_ms": {
+    "p50": 196.3,
+    "p95": 2347.4,
+    "max": 3889.5
+  },
+  "errors": []
+}

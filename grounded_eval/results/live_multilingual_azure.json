@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T03:50:47Z",
+  "generated_at": "2026-09-24T12:23:23Z",
   "base_url": "https://lmva3fcshw5lauukqapi.azurewebsites.net",
   "scope": "one deployed cached NWS alert per language",
   "languages": [
@@ -7,9 +7,9 @@
       "language": "es",
       "http_status": 200,
       "segments": 7,
-      "successful_transformations": 3,
-      "withheld_transformations": 4,
-      "withholding_rate": 0.5714,
+      "successful_transformations": 6,
+      "withheld_transformations": 1,
+      "withholding_rate": 0.1429,
       "locked_entities": 11,
       "locked_entity_failures": 0,
       "provider_errors": {},
@@ -21,18 +21,17 @@
         "not-configured"
       ],
       "withholding_reasons": {
-        "grounding": 3,
         "semantic_fidelity": 1
       },
-      "latency_ms": 6838.7
+      "latency_ms": 2003.5
     },
     {
       "language": "ar",
       "http_status": 200,
       "segments": 7,
-      "successful_transformations": 2,
-      "withheld_transformations": 5,
-      "withholding_rate": 0.7143,
+      "successful_transformations": 7,
+      "withheld_transformations": 0,
+      "withholding_rate": 0.0,
       "locked_entities": 11,
       "locked_entity_failures": 0,
       "provider_errors": {},
@@ -40,22 +39,18 @@
         "azure-ai-translator"
       ],
       "content_safety_modes": [
-        "azure-ai-content-safety",
-        "not-configured"
+        "azure-ai-content-safety"
       ],
-      "withholding_reasons": {
-        "grounding": 4,
-        "semantic_fidelity": 1
-      },
-      "latency_ms": 3432.4
+      "withholding_reasons": {},
+      "latency_ms": 1581.2
     },
     {
       "language": "prs",
       "http_status": 200,
       "segments": 7,
-      "successful_transformations": 3,
-      "withheld_transformations": 4,
-      "withholding_rate": 0.5714,
+      "successful_transformations": 6,
+      "withheld_transformations": 1,
+      "withholding_rate": 0.1429,
       "locked_entities": 11,
       "locked_entity_failures": 0,
       "provider_errors": {},
@@ -67,18 +62,17 @@
         "not-configured"
       ],
       "withholding_reasons": {
-        "grounding": 2,
-        "semantic_fidelity": 2
+        "semantic_fidelity": 1
       },
-      "latency_ms": 3494.6
+      "latency_ms": 1705.3
     },
     {
       "language": "tl",
       "http_status": 200,
       "segments": 7,
-      "successful_transformations": 1,
-      "withheld_transformations": 6,
-      "withholding_rate": 0.8571,
+      "successful_transformations": 5,
+      "withheld_transformations": 2,
+      "withholding_rate": 0.2857,
       "locked_entities": 11,
       "locked_entity_failures": 0,
       "provider_errors": {},
@@ -90,10 +84,9 @@
         "not-configured"
       ],
       "withholding_reasons": {
-        "grounding": 3,
-        "semantic_fidelity": 3
+        "semantic_fidelity": 2
       },
-      "latency_ms": 3003.1
+      "latency_ms": 1729.9
     }
   ]
 }

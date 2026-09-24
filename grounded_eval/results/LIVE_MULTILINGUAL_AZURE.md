@@ -1,14 +1,14 @@
 # Live Azure multilingual evaluation
 
-Generated: 2026-09-24T03:50:47Z
+Generated: 2026-09-24T12:23:23Z
 
 > One deployed alert per language. This is a provider smoke evaluation, not a native-speaker quality study.
 
 | language | successful | withheld | withholding | locked entities | entity failures | provider errors | latency |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| es | 3/7 | 4 | 57.1% | 11 | 0 | 0 | 6838.7 ms |
-| ar | 2/7 | 5 | 71.4% | 11 | 0 | 0 | 3432.4 ms |
-| prs | 3/7 | 4 | 57.1% | 11 | 0 | 0 | 3494.6 ms |
-| tl | 1/7 | 6 | 85.7% | 11 | 0 | 0 | 3003.1 ms |
+| es | 6/7 | 1 | 14.3% | 11 | 0 | 0 | 2003.5 ms |
+| ar | 7/7 | 0 | 0.0% | 11 | 0 | 0 | 1581.2 ms |
+| prs | 6/7 | 1 | 14.3% | 11 | 0 | 0 | 1705.3 ms |
+| tl | 5/7 | 2 | 28.6% | 11 | 0 | 0 | 1729.9 ms |
 
 Provider errors count explicit cloud fallbacks reported by the response. Withholding is expected fail-closed behavior when a transformed segment cannot be verified.
