@@ -28,6 +28,18 @@ Four changes, in order of effect:
 
 A repeat run is served from an in-process cache of the deployment's temperature-0 responses. It is a real Foundry result without a fresh round trip, and the manifest records `cached_segments` so a fast run cannot be mistaken for a faster provider. The cache is in-process only and is empty after any restart.
 
+Measured against the deployed Function App the same day, using a different target reading grade each time so nothing could be cache-served:
+
+| Run | Cold | Repeat |
+|---|---:|---:|
+| grade 7 | 5.09 s | 0.85 s |
+| grade 8 | 4.68 s | 0.90 s |
+| grade 9 | 8.29 s | 3.95 s |
+
+Live is faster than local because the Function App and the Foundry resource are in the same region.
+
+**Throttling is real under sustained load.** The third live run, issued back to back with the first two, exhausted its three retries on one segment and landed on the local fallback (`HTTPStatusError`). Eight segments in flight against a 20,000 TPM deployment will throttle if runs are stacked; a single resident clicking once will not. The behaviour when it happens is the designed one — a named fallback recorded in the segment's provenance, never a silent failure or a dropped sentence.
+
 **Still true:** 16.7% of English segments are withheld. The dominant cause is the model appending advice the source did not contain ("stay safe", "stay alert"), which the grounding judge correctly refuses. That is the system working, not a defect, but it does mean roughly one sentence in six is shown verbatim rather than simplified. An added third example discouraging closing advice was measured and dropped: it did not improve the rate and it cost latency.
 
 ## Multilingual verification
