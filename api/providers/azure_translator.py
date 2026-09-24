@@ -8,6 +8,16 @@ import uuid
 from ..config import settings
 
 
+# Public UI language identifiers follow the challenge brief. Microsoft
+# Translator calls Filipino "fil", while the citizen-facing experience uses
+# the familiar Tagalog code "tl".
+TRANSLATOR_LANGUAGE_CODES = {"tl": "fil"}
+
+
+def service_language(language: str) -> str:
+    return TRANSLATOR_LANGUAGE_CODES.get(language, language)
+
+
 def _request(text: str, source_language: str, target_language: str) -> tuple[str, dict]:
     params = urllib.parse.urlencode(
         {"api-version": "3.0", "from": source_language, "to": target_language}
@@ -32,11 +42,14 @@ def _request(text: str, source_language: str, target_language: str) -> tuple[str
 
 
 def translate(masked_text: str, target_language: str) -> tuple[str, dict]:
-    translated, forward = _request(masked_text, "en", target_language)
-    back_translation, _ = _request(translated, target_language, "en")
+    service_target = service_language(target_language)
+    translated, forward = _request(masked_text, "en", service_target)
+    back_translation, _ = _request(translated, service_target, "en")
     return translated, {
         "engine": "azure-ai-translator",
         "confidence": 0.9,
+        "requested_language": target_language,
+        "service_language": service_target,
         "detected_language": forward.get("detectedLanguage", {}).get("language", "en"),
         "back_translation": back_translation,
         "semantic_method": "Azure AI Translator round-trip agreement",

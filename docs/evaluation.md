@@ -17,6 +17,17 @@ Regenerate the real-corpus numbers with:
 .\.venv\Scripts\python -m eval.report
 ```
 
+Run the low-cost deployed-provider check for Spanish, Arabic, Dari, and Tagalog with:
+
+```powershell
+.\.venv\Scripts\python scripts\live_multilingual_eval.py
+```
+
+It writes aggregate results to `grounded_eval/results/live_multilingual_azure.json`
+and `grounded_eval/results/LIVE_MULTILINGUAL_AZURE.md`. One alert is transformed
+per language to limit student-credit use; the result is a live-provider smoke
+evaluation, not a native-speaker quality study.
+
 ## Real-alert headline (local engines, 80 alerts)
 
 - 1,972 entities locked, 0 integrity failures.
@@ -58,4 +69,3 @@ Use a fixed 12-month window and preserve the raw inputs:
 6. Publish numerator, denominator, date window, geography method, and limitations with the headline.
 
 `eval/impact.py` exits instead of inventing a number when the required source files are absent.
-

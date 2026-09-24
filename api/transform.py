@@ -14,9 +14,9 @@ from .verify import verify_segment
 LANGUAGES = {
     "en": "English",
     "es": "Spanish",
-    "vi": "Vietnamese",
-    "ko": "Korean",
-    "fa": "Dari / Persian",
+    "ar": "Arabic",
+    "prs": "Dari",
+    "tl": "Tagalog",
 }
 
 

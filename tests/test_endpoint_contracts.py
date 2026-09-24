@@ -14,6 +14,13 @@ def test_read_endpoints_return_expected_contracts():
     assert "status" in client.get("/api/evaluation").json() or "generated_at" in client.get(
         "/api/evaluation"
     ).json()
+    assert client.get("/api/status").json()["languages"] == {
+        "en": "English",
+        "es": "Spanish",
+        "ar": "Arabic",
+        "prs": "Dari",
+        "tl": "Tagalog",
+    }
 
 
 def test_packet_intake_continue_and_verify_contracts():

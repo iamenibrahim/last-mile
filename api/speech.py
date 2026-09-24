@@ -9,9 +9,9 @@ from .config import settings
 VOICES = {
     "en": "en-US-JennyNeural",
     "es": "es-US-PalomaNeural",
-    "vi": "vi-VN-HoaiMyNeural",
-    "ko": "ko-KR-SunHiNeural",
-    "fa": "fa-IR-DilaraNeural",
+    "ar": "ar-EG-SalmaNeural",
+    "prs": "fa-IR-DilaraNeural",
+    "tl": "fil-PH-BlessicaNeural",
 }
 
 
@@ -37,4 +37,3 @@ def synthesize(text: str, language: str) -> bytes:
     )
     with urllib.request.urlopen(request, timeout=20) as response:
         return response.read()
-
