@@ -9,6 +9,7 @@ const state = {
   alert: null,
   providers: {},
 };
+const OFFLINE_PACKET_KEY = "last-mile-signed-packet-v1";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -79,6 +80,7 @@ function channelText(packet, channel) {
 function renderProtocol(protocol) {
   const target = $("#protocol-panel");
   if (!protocol || protocol.status !== "complete") {
+    state.packet = null;
     target.innerHTML = "";
     return;
   }
@@ -105,6 +107,48 @@ function renderProtocol(protocol) {
         <aside class="continuity-card"><small>ANONYMOUS CROSS-CHANNEL CONTINUITY</small><div class="continuity-code">${escapeHtml(packet.continuity.code)}</div><p>Use <strong>${escapeHtml(packet.continuity.resume_command)}</strong> on a surviving channel. Expires in 24 hours. No name, street address, SSN, or documents.</p><button type="button" data-copy-code>Copy recovery command</button><button type="button" data-verify-packet style="margin-top:7px">Verify packet + channels</button><div class="sms-send"><label for="sms-number">Send this verified packet by SMS</label><input id="sms-number" type="tel" inputmode="tel" autocomplete="tel" placeholder="+17035550123" maxlength="16" /><label class="sms-consent"><input id="sms-consent" type="checkbox" /> I consent to one transactional message. Message and data rates may apply.</label><button type="button" data-send-sms>Send verified SMS</button><small>${state.providers.azure_communication_services_sms ? "Azure SMS is ready." : "Azure SMS is currently in preview mode."} Never use this for 911.</small></div><div class="sms-send call-send"><label for="call-number">Receive this verified plan by automated call</label><input id="call-number" type="tel" inputmode="tel" autocomplete="tel" placeholder="+17035550123" maxlength="16" /><label class="sms-consent"><input id="call-consent" type="checkbox" /> I consent to one automated informational call. Carrier rates may apply.</label><button type="button" data-start-call>Call with Microsoft neural voice</button><small>${state.providers.azure_communication_services_voice ? "Azure voice calling is ready." : "Azure voice calling is disabled until a trial number is configured."} Press 0 for human-help instructions. This cannot contact 911.</small></div></aside>
       </div>
     </section>`;
+}
+
+function readSavedPacket() {
+  try {
+    const raw = window.localStorage.getItem(OFFLINE_PACKET_KEY);
+    if (!raw) return null;
+    const packet = JSON.parse(raw);
+    const created = Date.parse(packet.created_at || "");
+    const lifetime = Number(packet.continuity?.expires_in_hours || 24) * 60 * 60 * 1000;
+    if (!Number.isFinite(created) || Date.now() > created + lifetime) {
+      window.localStorage.removeItem(OFFLINE_PACKET_KEY);
+      return null;
+    }
+    return packet;
+  } catch (_) {
+    return null;
+  }
+}
+
+function refreshSavedPlanCard() {
+  const card = $("#saved-plan-card");
+  if (card) card.hidden = !readSavedPacket();
+}
+
+function showPacketOnly(packet, sourceLabel) {
+  state.navigation = null;
+  state.packet = packet;
+  const section = $("#results");
+  section.hidden = false;
+  $("#results-summary").textContent = `${sourceLabel}. This signed packet contains broad needs and next steps, not an eligibility decision.`;
+  $("#urgent-panel").innerHTML = "";
+  renderProtocol({ status: "complete", packet });
+  $("#alert-context").innerHTML = `<div class="alert-mark">✓</div><div><small>RECOVERED ACTION PACKET</small><h3>${escapeHtml(packet.jurisdiction)}</h3><p>${escapeHtml(packet.snapshot?.notice || "Confirm current status with the official agency.")}</p></div>`;
+  const sources = Object.fromEntries((packet.sources || []).map((source) => [source.id, source]));
+  $("#recommendation-list").innerHTML = (packet.actions || []).map((action) => {
+    const source = sources[action.source_id] || {};
+    return `<article class="recommendation-card"><div class="recommendation-main"><div class="program-icon">${action.priority || "→"}</div><div class="program-body"><h3>Next step</h3><p>${escapeHtml(action.label)}</p>${source.url ? `<p class="source-line">Source: <a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(source.title || source.agency || "Official source")}</a></p>` : ""}</div></div></article>`;
+  }).join("");
+  $("#privacy-receipt").innerHTML = `<span class="receipt-status">✓ MINIMAL RECOVERY STATE</span><h3>Your privacy receipt</h3><p>This recovered packet contains ${escapeHtml((packet.continuity?.contains || []).join(", "))}. It excludes ${escapeHtml((packet.continuity?.excludes || []).join(", "))}.</p>`;
+  const escalation = packet.escalation || {};
+  $("#handoff-card").innerHTML = `<p class="overline">HUMAN HANDOFF</p><h3>${escalation.required ? "A person should review this." : "Want a person?"}</h3><p>${escapeHtml(escalation.read_this || "Share the recovery code with a live navigator.")}</p><div class="handoff-reference">${escapeHtml(packet.continuity.code)}</div><p>${escapeHtml(escalation.contact || "Virginia 211")}</p><a href="tel:211">Call Virginia 211</a><a href="https://egateway.fema.gov/ESF6/DRCLocator" target="_blank" rel="noopener" style="margin-top:7px">Find an open FEMA recovery center</a>`;
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function fallbackMapSvg(geometry, location) {
@@ -150,6 +194,7 @@ async function renderAlertMap(alertContext, location) {
 
 function renderResults(result) {
   state.navigation = result;
+  state.packet = null;
   const section = $("#results");
   section.hidden = false;
   $("#results-summary").textContent = `${result.recommendations.length} source-backed options for ${result.location}. Final eligibility is always decided by the agency.`;
@@ -198,12 +243,12 @@ function renderResults(result) {
   const handoff = result.handoff;
   const packetEscalation = result.protocol?.status === "complete" ? result.protocol.packet.escalation : null;
   $("#handoff-card").innerHTML = `
-    <p class="overline">HUMAN HANDOFF</p><h3>${handoff.recommended ? "A person may help." : "Want a person anyway?"}</h3>
+    <p class="overline">HUMAN HANDOFF · ${escapeHtml((handoff.level || "optional").replace("_", " "))}</p><h3>${handoff.recommended ? "A person may help." : "Want a person anyway?"}</h3>
     <p>${handoff.reasons.length ? escapeHtml(handoff.reasons.join(" ")) : "You can take this short, non-sensitive summary to a 211 navigator."}</p>
     <div class="handoff-reference">${escapeHtml(handoff.reference)}</div>
     ${packetEscalation ? `<p><strong>Read this to the representative:</strong><br />${escapeHtml(packetEscalation.read_this)}</p>` : ""}
     <ul>${handoff.contacts.map((contact) => `<li><strong>${escapeHtml(contact.value)}</strong> — ${escapeHtml(contact.when)}</li>`).join("")}</ul>
-    <a href="tel:211">Call Virginia 211</a>`;
+    <a href="tel:211">Call Virginia 211</a><a href="https://egateway.fema.gov/ESF6/DRCLocator" target="_blank" rel="noopener" style="margin-top:7px">Find an open FEMA recovery center</a>`;
 
   section.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -247,6 +292,7 @@ function handoffText() {
     `Urgency: ${handoff.summary.urgency}`,
     `Needs: ${handoff.summary.needs.join(", ") || "not specified"}`,
     `Context: ${handoff.summary.circumstances.join(", ") || "not specified"}`,
+    `Private human review: ${handoff.summary.private_review_requested ? "requested; reason intentionally omitted" : "not requested"}`,
     `Programs to ask about: ${handoff.summary.top_programs.join(", ") || "general review"}`,
     "No SSN, bank information, or documents are included.",
   ].join("\n");
@@ -389,6 +435,10 @@ function adaptContextQuestions() {
     lost_work: ["job", "money"],
     underinsured: ["home_repair", "housing", "money"],
     no_device: ["shelter", "housing", "food", "documents", "transportation"],
+    appeal_or_denied: ["housing", "home_repair", "money", "legal", "documents"],
+    fraud_concern: ["money", "housing", "home_repair", "legal", "documents"],
+    unsafe_shelter: ["shelter", "housing"],
+    complex_case: ["shelter", "housing", "home_repair", "food", "money", "medical", "transportation", "job", "documents", "legal", "pets", "emotional", "funeral"],
   };
   const needs = state.needs;
   $$("#context-grid label").forEach((label) => {
@@ -492,7 +542,38 @@ function init() {
     button.textContent = card.classList.contains("open") ? "Hide details −" : "What you’ll need +";
   });
   $("#print-plan").addEventListener("click", () => window.print());
+  $("#save-offline-plan").addEventListener("click", () => {
+    if (!state.packet) return showToast("Create or resume a signed plan first.");
+    try {
+      window.localStorage.setItem(OFFLINE_PACKET_KEY, JSON.stringify(state.packet));
+      refreshSavedPlanCard();
+      showToast("Signed minimal plan saved on this device. Remove it before leaving a shared device.");
+    } catch (_) {
+      showToast("This browser would not allow offline storage. Print or save the plan instead.");
+    }
+  });
   $("#copy-handoff").addEventListener("click", async () => { await navigator.clipboard.writeText(handoffText()); showToast("Handoff summary copied—no sensitive data included."); });
+  $("#resume-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const code = $("#resume-code").value.trim().toUpperCase();
+    if (!/^RBX-[A-Z0-9]{5,12}$/.test(code)) return showToast("Enter a recovery code like RBX-ABCDE.");
+    try {
+      const response = await api(`/api/continue/${encodeURIComponent(code)}`);
+      const result = await response.json();
+      showPacketOnly(result.packet, "Recovered from the anonymous 24-hour continuity service");
+    } catch (error) {
+      showToast(`Could not resume: ${error.message}`);
+    }
+  });
+  $("#open-saved-plan").addEventListener("click", () => {
+    const packet = readSavedPacket();
+    if (packet) showPacketOnly(packet, "Opened from this device's explicit offline copy");
+  });
+  $("#remove-saved-plan").addEventListener("click", () => {
+    window.localStorage.removeItem(OFFLINE_PACKET_KEY);
+    refreshSavedPlanCard();
+    showToast("Offline plan removed from this device.");
+  });
   $("#protocol-panel").addEventListener("click", async (event) => {
     const channelButton = event.target.closest("[data-packet-channel]");
     if (channelButton && state.packet) {
@@ -574,6 +655,14 @@ function init() {
       : "You can review disaster assistance at https://www.disasterassistance.gov/ and apply only through the official site.";
   }));
   $("#text-size").addEventListener("click", () => document.body.classList.toggle("large-text"));
+  $("#high-contrast").addEventListener("click", () => {
+    const enabled = document.body.classList.toggle("high-contrast");
+    $("#high-contrast").setAttribute("aria-pressed", String(enabled));
+  });
+  $("#language-button").addEventListener("click", () => $("#language-modal").showModal());
+  $$('[data-assist-lang]').forEach((button) => button.addEventListener("click", () => {
+    window.location.href = `/grounded/?lang=${encodeURIComponent(button.dataset.assistLang)}&mode=citizen`;
+  }));
   $("#low-data").addEventListener("click", () => setLowData(!document.body.classList.contains("low-data")));
   $("#use-location").addEventListener("click", () => {
     if (!navigator.geolocation) return showToast("Location is not available on this device.");
@@ -593,6 +682,7 @@ function init() {
   window.addEventListener("offline", updateConnectivity);
   if (navigator.connection) navigator.connection.addEventListener("change", updateConnectivity);
   updateConnectivity();
+  refreshSavedPlanCard();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("/assets/sw.js").catch(() => {});
 }
 

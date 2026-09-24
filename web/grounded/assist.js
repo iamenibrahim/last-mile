@@ -32,6 +32,14 @@ const WITHHELD = 'Original English shown - translation withheld because it could
 /* ------------------------------------------------------------------ setup */
 
 async function init() {
+  const pageParameters = new URLSearchParams(window.location.search);
+  if (pageParameters.get('mode') === 'citizen') {
+    $('clock').value = '';
+    $('clock').hidden = true;
+    $('corrupt').value = '';
+    $('corrupt').hidden = true;
+    if ($('corrupt').previousElementSibling) $('corrupt').previousElementSibling.hidden = true;
+  }
   try {
     const h = await api('api/health');
     const live = h.providers.translator.startsWith('azure');
@@ -40,6 +48,12 @@ async function init() {
     b.textContent = live ? 'AZURE LIVE' : 'LOCAL FALLBACK ENGINES';
     $('lang').innerHTML = '<option value="en">English</option>' + Object.entries(h.languages)
       .map(([k, v]) => `<option value="${esc(k)}">${esc(v.name)}</option>`).join('');
+    const requestedLanguage = pageParameters.get('lang');
+    if ([...$('lang').options].some((option) => option.value === requestedLanguage)) {
+      $('lang').value = requestedLanguage;
+      document.documentElement.lang = requestedLanguage === 'prs' ? 'fa' : requestedLanguage;
+      document.documentElement.dir = ['ar', 'prs'].includes(requestedLanguage) ? 'rtl' : 'ltr';
+    }
   } catch (e) { $('engine-badge').textContent = 'API unreachable'; }
 
   const n = await api('api/assist/needs');

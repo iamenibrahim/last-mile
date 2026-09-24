@@ -146,7 +146,7 @@ def status() -> dict:
             "azure_ai_speech": settings.speech_enabled,
             "azure_ai_content_safety": settings.content_safety_enabled,
             "azure_maps": bool(settings.azure_maps_key),
-            "cosmos_db": bool(settings.cosmos_endpoint),
+            "azure_table_continuity": type(continuity_store).__name__ == "AzureTableContinuityStore",
             "azure_communication_services_sms": settings.sms_enabled,
             "azure_communication_services_voice": settings.call_enabled,
             "azure_key_vault_signing": signing.describe()["publicly_verifiable"],
@@ -192,7 +192,7 @@ def navigation(request: NavigateRequest) -> dict:
             {
                 "stored": True,
                 "retention": "24 hours",
-                "stored_fields": ["county", "disaster ID", "broad needs", "constraints", "current step"],
+                "stored_fields": ["county", "disaster ID", "broad needs", "non-sensitive constraints", "generic escalation flag", "current step"],
                 "message": (
                     "The full screening response is not logged. To make the anonymous recovery code work, "
                     "a minimal action packet is retained for 24 hours."

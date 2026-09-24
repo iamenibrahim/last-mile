@@ -10,7 +10,10 @@ def test_read_endpoints_return_expected_contracts():
     health = client.get("/healthz")
     assert health.json() == {"ok": True}
     assert len(health.headers["x-request-id"]) == 16
-    assert client.get("/api/status").json()["status"] == "ready"
+    status = client.get("/api/status").json()
+    assert status["status"] == "ready"
+    assert "azure_table_continuity" in status["providers"]
+    assert "cosmos_db" not in status["providers"]
     assert "environment" in client.get("/api/config").json()
     assert client.get("/api/alerts").json()["features"]
     assert "status" in client.get("/api/evaluation").json() or "generated_at" in client.get(
@@ -56,6 +59,25 @@ def test_packet_intake_continue_and_verify_contracts():
     ]
     assert all(action["source_url"].startswith("https://") for action in handoff["actions"])
     assert client.get("/api/handoff/RBX-NOPE0").status_code == 404
+
+
+def test_sensitive_handoff_reason_is_not_retained_in_continuity_packet():
+    response = client.post(
+        "/api/packet",
+        json={
+            "location": "24370",
+            "jurisdiction": "Smyth County",
+            "needs": ["housing"],
+            "circumstances": ["unsafe_shelter", "no_id"],
+            "context_reviewed": True,
+        },
+    )
+    packet = response.json()["packet"]
+    assert packet["escalation"]["required"] is True
+    assert packet["escalation"]["topic"] == "Private human review requested"
+    assert "unsafe_shelter" not in packet["constraints"]
+    assert "no_id" in packet["constraints"]
+    assert "sensitive handoff reason" in packet["continuity"]["excludes"]
 
 
 def test_fraud_and_speech_contracts():

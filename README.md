@@ -16,18 +16,19 @@ The checked-in recovery demo replays the official November 18, 2024 state for Tr
 
 - Need-first screening by city, ZIP, or optional address; urgent safety is always separated from benefit navigation.
 - An information-gain intake engine: ZIP `24370` triggers a county question because the answer changes declaration applicability; irrelevant question groups are skipped.
-- Canonical Disaster Action Packets and anonymous 24-hour `RBX-xxxxx` continuity codes containing only county, disaster ID, broad needs, constraints, and current step. Azure Table Storage makes codes durable across Function restarts and multiple instances.
+- Canonical Disaster Action Packets and anonymous 24-hour `RBX-xxxxx` continuity codes containing only county, disaster ID, broad needs, non-sensitive constraints, a generic escalation flag, and current step. Sensitive handoff reasons are deliberately excluded. Azure Table Storage makes codes durable across Function restarts and multiple instances.
 - Web, SMS, voice, and offline channel payloads compiled from the same packet with locked facts and a shared proof ID.
 - Source-backed recommendations for shelter, food, FEMA Individual Assistance, SBA loans, disaster unemployment, document replacement, legal aid, emotional support, and Virginia 211.
 - Confidence labels, eligibility caveats, document checklists, lost-document alternatives, official application links, and “why this fits” explanations.
 - A one-time privacy receipt. The API does not persist citizen answers and never asks for SSNs, bank data, immigration status, or document uploads.
-- A human handoff packet with a non-sensitive reference and summary for 211, 711, or emergency services.
+- Explicit urgent, sensitive, ambiguous, and high-impact routing with a non-sensitive human handoff summary for 211, 711, emergency services, or disaster-fraud reporting.
 - NWS CAP ingest with a real live endpoint and an explicitly labeled synthetic demo fallback.
 - Geometry-derived inside / nearby / outside status. Language models do not decide geography.
 - Entity locking for numbers, measurements, times, dates, roads, places, phones, URLs, and other critical spans.
 - Four checks per alert segment: entity integrity, semantic fidelity, instruction coverage, and grounding. Failed segments show exact source English and an interpreter referral.
 - HMAC-signed local manifests and a verification endpoint. Azure Key Vault is the production signing target.
-- Azure AI Speech integration plus on-device speech fallback, PWA shell caching, print/save, text sizing, and responsive layout.
+- Azure AI Speech integration plus on-device speech fallback, PWA shell caching, explicit signed-plan offline save/remove, web recovery-code resume, print/save, text sizing, high contrast, and responsive layout.
+- A working language entry point into verified Spanish, Arabic, Dari, and Tagalog/Filipino assistance; unsafe translated segments are withheld and interpreter paths remain visible.
 - A fraud red-flag check that never calls a message “safe.”
 - A corruption-injection evaluation harness with honest, scoped reports.
 
@@ -126,6 +127,7 @@ The inbound command format is stateless with respect to the phone number: `CONTI
 
 - [Architecture and threat boundaries](docs/architecture.md)
 - [Authoritative sources and Microsoft reference map](docs/authoritative-sources.md)
+- [Challenge-prompt coverage and remaining boundaries](docs/prompt-coverage.md)
 - [Ten implemented innovations](docs/innovations.md)
 - [Evaluation method and honest results](docs/evaluation.md)
 - [Live Azure operational evidence](grounded_eval/results/LIVE_OPERATIONAL_EVIDENCE.md)

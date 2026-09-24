@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
@@ -96,6 +97,19 @@ _DEMO_LOCATIONS = {
 
 
 def geocode(address: str) -> dict:
+    coordinate_match = re.fullmatch(
+        r"\s*(-?\d{1,2}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*",
+        address,
+    )
+    if coordinate_match:
+        latitude, longitude = map(float, coordinate_match.groups())
+        if -90 <= latitude <= 90 and -180 <= longitude <= 180:
+            return {
+                "point": Point(longitude, latitude),
+                "matched_address": "Device coordinates used for this one-time check",
+                "provider": "browser-geolocation",
+                "precision": "coordinates-not-retained",
+            }
     normalized = address.lower()
     for token, point in _DEMO_LOCATIONS.items():
         if token in normalized:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import secrets
 from datetime import datetime, timezone
 from pathlib import Path
@@ -22,6 +23,14 @@ def _confidence(score: int, missing: list[str]) -> dict:
     if score >= 4:
         return {"label": "Possible match", "value": 0.68}
     return {"label": "Worth checking", "value": 0.48}
+
+
+def _handoff_location(location: str) -> str:
+    if re.fullmatch(r"\s*-?\d{1,2}(?:\.\d+)?\s*,\s*-?\d{1,3}(?:\.\d+)?\s*", location):
+        return "Device location used; exact coordinates excluded"
+    if re.search(r"\d", location) and not re.fullmatch(r"\s*\d{5}\s*", location):
+        return "Virginia location; exact address excluded"
+    return location
 
 
 def _explain(program: dict, matched_needs: list[str]) -> tuple[str, str]:
@@ -72,24 +81,55 @@ def navigate(profile: dict) -> dict:
     results.sort(key=lambda item: (-item["score"], item["name"]))
     life_safety = urgency == "danger_now"
     escalation_reasons: list[str] = []
+    escalation_level = "none"
     if life_safety:
         escalation_reasons.append("You indicated immediate danger.")
+        escalation_level = "urgent"
+    if "unsafe_shelter" in circumstances:
+        escalation_reasons.append("You indicated that your current shelter or living situation may not be safe.")
+        escalation_level = "sensitive" if escalation_level != "urgent" else escalation_level
+    if "fraud_concern" in circumstances:
+        escalation_reasons.append("A person should review a suspected disaster scam or identity-theft concern.")
+        escalation_level = "sensitive" if escalation_level not in {"urgent", "sensitive"} else escalation_level
     if "no_id" in circumstances:
         escalation_reasons.append("You may need document alternatives or identity-recovery help.")
     if "accessibility" in circumstances or "limited_english" in circumstances:
         escalation_reasons.append("A representative may help arrange language or accessibility support.")
+    if "appeal_or_denied" in circumstances:
+        escalation_reasons.append("A denial, appeal, or deadline can have high-impact consequences and should be reviewed by a person.")
+        if escalation_level == "none":
+            escalation_level = "high_impact"
+    if needs.intersection({"medical", "funeral", "legal"}) and escalation_level == "none":
+        escalation_reasons.append("This request may involve medical, bereavement, or legal consequences.")
+        escalation_level = "high_impact"
+    if "complex_case" in circumstances:
+        escalation_reasons.append("Your situation does not fit the standard screening choices.")
+        if escalation_level == "none":
+            escalation_level = "ambiguous"
     if any(item["confidence"]["value"] < 0.6 for item in results[:3]):
         escalation_reasons.append("At least one high-priority match needs more information.")
+        if escalation_level == "none":
+            escalation_level = "ambiguous"
+    if escalation_reasons and escalation_level == "none":
+        escalation_level = "support"
 
+    sensitive_handoff_flags = {
+        "unsafe_shelter",
+        "fraud_concern",
+        "appeal_or_denied",
+        "complex_case",
+    }
     reference = f"LM-{secrets.token_hex(3).upper()}"
     handoff = {
         "recommended": bool(escalation_reasons),
+        "level": escalation_level,
         "reasons": escalation_reasons,
         "reference": reference,
         "summary": {
-            "location_shared": location,
+            "location_shared": _handoff_location(location),
             "needs": sorted(needs),
-            "circumstances": sorted(circumstances),
+            "circumstances": sorted(circumstances - sensitive_handoff_flags),
+            "private_review_requested": bool(circumstances & sensitive_handoff_flags),
             "urgency": urgency,
             "top_programs": [item["name"] for item in results[:3]],
         },
@@ -97,7 +137,12 @@ def navigate(profile: dict) -> dict:
             {"label": "Emergency", "value": "911", "when": "Immediate danger or life-threatening emergency"},
             {"label": "Virginia 211", "value": "Dial 211", "when": "Local services, shelter, food, or a live navigator"},
             {"label": "Relay", "value": "Dial 711", "when": "Telecommunications relay support"},
-        ],
+        ]
+        + (
+            [{"label": "National Center for Disaster Fraud", "value": "866-720-5721", "when": "Suspected disaster-related fraud"}]
+            if "fraud_concern" in circumstances
+            else []
+        ),
     }
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -107,7 +152,14 @@ def navigate(profile: dict) -> dict:
         "privacy": {
             "stored": False,
             "used": ["location you entered", "selected needs", "selected circumstances", "urgency"],
-            "not_requested": ["Social Security number", "income amount", "bank information", "document uploads"],
+            "not_requested": [
+                "Social Security number",
+                "income amount",
+                "immigration status",
+                "bank information",
+                "FEMA registration number",
+                "document uploads",
+            ],
             "message": "Your answers were used for this response and were not written to the application database.",
         },
         "empty_notice": None

@@ -35,7 +35,8 @@
       <div class="header-actions">
         <button class="icon-button low-data-button" id="low-data" aria-pressed="false">Low data</button>
         <button class="icon-button" id="text-size" aria-label="Increase text size">A<span>+</span></button>
-        <button class="language-button" id="language-button" aria-haspopup="listbox">
+        <button class="icon-button" id="high-contrast" aria-pressed="false" aria-label="Toggle high contrast">Contrast</button>
+        <button class="language-button" id="language-button" aria-haspopup="dialog">
           <span aria-hidden="true">◎</span> English <span aria-hidden="true">⌄</span>
         </button>
       </div>
@@ -65,6 +66,23 @@
             <p class="demo-disclaimer">Foundry transforms the packet. It never originates the facts.</p>
           </aside>
         </div>
+
+        <section class="resume-shell" aria-labelledby="resume-title">
+          <div>
+            <p class="overline">CONTINUE WITHOUT STARTING OVER</p>
+            <h2 id="resume-title">Have an anonymous recovery code?</h2>
+            <p>Enter only the <strong>RBX</strong> code. It expires after 24 hours and is not tied to your phone number or name.</p>
+          </div>
+          <form id="resume-form" class="resume-form">
+            <label for="resume-code">Recovery code</label>
+            <div><input id="resume-code" inputmode="text" autocomplete="off" placeholder="RBX-ABCDE" maxlength="16" pattern="RBX-[A-Za-z0-9]{5,12}" /><button type="submit">Resume plan</button></div>
+          </form>
+          <div id="saved-plan-card" class="saved-plan-card" hidden>
+            <strong>Signed plan saved on this device</strong>
+            <span>Available without a connection. Remove it before leaving a shared device.</span>
+            <div><button type="button" id="open-saved-plan">Open saved plan</button><button type="button" id="remove-saved-plan">Remove</button></div>
+          </div>
+        </section>
 
         <section class="navigator-shell" aria-labelledby="navigator-title">
           <div class="step-rail" aria-label="Navigator progress">
@@ -112,6 +130,7 @@
                 <button type="button" class="need-chip" data-need="housing"><span>▤</span>Temporary housing</button>
                 <button type="button" class="need-chip" data-need="home_repair"><span>⌂</span>Home repairs</button>
                 <button type="button" class="need-chip" data-need="medical"><span>✚</span>Medical needs</button>
+                <button type="button" class="need-chip" data-need="funeral"><span>◇</span>Funeral costs</button>
                 <button type="button" class="need-chip" data-need="transportation"><span>⇢</span>Transportation</button>
                 <button type="button" class="need-chip" data-need="job"><span>▣</span>Lost work</button>
                 <button type="button" class="need-chip" data-need="documents"><span>▧</span>Lost documents</button>
@@ -136,6 +155,10 @@
                 <label><input type="checkbox" value="lost_work" /> <span><strong>The disaster stopped my work</strong><small>Employment options</small></span></label>
                 <label><input type="checkbox" value="underinsured" /> <span><strong>Insurance may not cover it</strong><small>Unmet disaster loss</small></span></label>
                 <label><input type="checkbox" value="no_device" /> <span><strong>My device or internet is unreliable</strong><small>Create an offline plan</small></span></label>
+                <label><input type="checkbox" value="appeal_or_denied" /> <span><strong>I was denied or need to appeal</strong><small>High-impact human review</small></span></label>
+                <label><input type="checkbox" value="fraud_concern" /> <span><strong>I am worried about fraud</strong><small>Verified reporting path</small></span></label>
+                <label><input type="checkbox" value="unsafe_shelter" /> <span><strong>I do not feel safe where I am staying</strong><small>Sensitive human handoff</small></span></label>
+                <label><input type="checkbox" value="complex_case" /> <span><strong>My situation does not fit these choices</strong><small>Ambiguous case review</small></span></label>
               </div>
               <div class="consent-line"><span aria-hidden="true">▣</span><p><strong>Minimal continuity record</strong><br />The full screening is not logged. A packet with county, broad needs, constraints, and step is retained for 24 hours so the recovery code works.</p></div>
               <div class="form-footer"><button class="text-button" type="button" data-back="2">← Back</button><button class="primary-button accent" type="submit"><span>Find my next steps</span><b>→</b></button></div>
@@ -146,7 +169,7 @@
         <section id="results" class="results-section" hidden aria-live="polite">
           <div class="results-header">
             <div><p class="overline">YOUR ACTION PLAN</p><h2>Here’s what to do next</h2><p id="results-summary"></p></div>
-            <div class="results-actions"><button id="print-plan" class="outline-button">▣ Print / save</button><button id="copy-handoff" class="outline-button">□ Copy handoff</button></div>
+            <div class="results-actions"><button id="print-plan" class="outline-button">▣ Print / save</button><button id="save-offline-plan" class="outline-button">↓ Save offline</button><button id="copy-handoff" class="outline-button">□ Copy handoff</button></div>
           </div>
           <div id="urgent-panel"></div>
           <div id="protocol-panel"></div>
@@ -251,7 +274,21 @@
       <button class="dialog-close" aria-label="Close">×</button>
       <p class="overline">DATA MINIMIZATION</p><h2>We ask for less on purpose.</h2>
       <p>Your location and broad situation are enough to screen for programs. The navigator does not request names, Social Security numbers, immigration status, bank details, or document uploads.</p>
-      <ul><li>The full screening is not logged.</li><li>A minimal packet is retained for 24 hours only so the anonymous recovery code can resume it.</li><li>Your printable plan stays on your device.</li><li>Official agencies may ask for more only when you choose to apply.</li></ul>
+      <ul><li>The full screening is not logged.</li><li>A minimal packet is retained for 24 hours only so the anonymous recovery code can resume it.</li><li>Offline device storage is opt-in and can be removed from the results screen.</li><li>Do not save a plan on a shared device.</li><li>Official agencies may ask for more only when you choose to apply.</li></ul>
+    </dialog>
+
+    <dialog id="language-modal">
+      <button class="dialog-close" aria-label="Close">×</button>
+      <p class="overline">VERIFIED LANGUAGE ACCESS</p><h2>Choose a language</h2>
+      <p>The evidence experience translates source-backed guidance with Azure Translator, checks it against the English source, and withholds any segment that cannot be verified. Interface labels may remain in English until native-speaker review is complete.</p>
+      <div class="language-options">
+        <button type="button" data-assist-lang="en">English</button>
+        <button type="button" data-assist-lang="es">Español</button>
+        <button type="button" data-assist-lang="ar" lang="ar" dir="rtl">العربية</button>
+        <button type="button" data-assist-lang="prs" lang="fa" dir="rtl">دری</button>
+        <button type="button" data-assist-lang="tl">Tagalog</button>
+      </div>
+      <p><strong>Need an interpreter?</strong> Dial 211. For telecommunications relay support, dial 711.</p>
     </dialog>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>

@@ -308,6 +308,16 @@ def build_action_packet(profile: dict) -> dict:
     declared = jurisdiction in disaster["individual_assistance_counties"]
     needs = _normalize_needs(profile.get("needs", []))
     circumstances = sorted(set(profile.get("circumstances", [])))
+    sensitive_handoff_flags = {
+        "unsafe_shelter",
+        "fraud_concern",
+        "appeal_or_denied",
+        "complex_case",
+    }
+    private_handoff_requested = bool(sensitive_handoff_flags.intersection(circumstances))
+    stored_constraints = [
+        item for item in circumstances if item not in sensitive_handoff_flags
+    ]
     source_hashes = [{**source, "sha256": _hash(source)} for source in disaster["sources"]]
     deadline = disaster["deadlines"][0]
     actions = []
@@ -368,7 +378,7 @@ def build_action_packet(profile: dict) -> dict:
             "source_id": "fema-dr-4831",
         },
         "needs": needs,
-        "constraints": circumstances,
+        "constraints": stored_constraints,
         "deadlines": [
             {
                 "id": deadline["id"],
@@ -381,10 +391,19 @@ def build_action_packet(profile: dict) -> dict:
         ],
         "actions": actions,
         "escalation": {
-            "required": "no_id" in circumstances or not declared,
-            "topic": "Proceeding without identification" if "no_id" in circumstances else "Confirming current options",
+            "required": private_handoff_requested or "no_id" in circumstances or not declared,
+            "topic": (
+                "Private human review requested"
+                if private_handoff_requested
+                else "Proceeding without identification"
+                if "no_id" in circumstances
+                else "Confirming current options"
+            ),
             "contact": "FEMA Helpline 800-621-3362 or Virginia 211",
-            "read_this": f"I am in {jurisdiction}. I am reviewing DR-4831-VA historical guidance and need current help for: {', '.join(needs)}.",
+            "read_this": (
+                f"I am in {jurisdiction}. I am reviewing DR-4831-VA historical guidance and need current help for: {', '.join(needs)}. "
+                + ("I asked for a private human review; I will explain the reason directly." if private_handoff_requested else "")
+            ).strip(),
         },
         "question_audit": question_audit(profile),
         "sources": source_hashes,
@@ -396,8 +415,8 @@ def build_action_packet(profile: dict) -> dict:
         ],
         "continuity": {
             "code": code,
-            "contains": ["county", "disaster id", "broad needs", "constraints", "current step"],
-            "excludes": ["name", "street address", "SSN", "bank data", "uploaded documents"],
+            "contains": ["county", "disaster id", "broad needs", "non-sensitive constraints", "generic escalation flag", "current step"],
+            "excludes": ["name", "street address", "SSN", "bank data", "uploaded documents", "sensitive handoff reason"],
             "expires_in_hours": 24,
             "resume_command": f"CONTINUE {code}",
         },

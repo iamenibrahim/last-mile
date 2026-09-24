@@ -1,4 +1,4 @@
-const CACHE = "last-mile-v1";
+const CACHE = "last-mile-v2";
 const ASSETS = ["/", "/assets/styles.css", "/assets/app.js", "/assets/icon.svg"];
 
 self.addEventListener("install", (event) => {
@@ -23,4 +23,3 @@ self.addEventListener("fetch", (event) => {
       .catch(() => caches.match(event.request).then((cached) => cached || caches.match("/")))
   );
 });
-
