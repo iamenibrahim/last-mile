@@ -346,14 +346,19 @@ Acceptance criteria:
 
 ### P0.5 Source freshness behavior
 
-- [ ] Test current, old, expired, missing-date, invalid-date, and future-date cases.
-- [ ] Decide and document how future `last_verified` dates are handled.
-- [ ] Ensure stale recommendations remain visible only with a prominent caveat or
+- [x] Test current, old, expired, missing-date, invalid-date, and future-date cases.
+- [x] Decide and document how future `last_verified` dates are handled.
+- [x] Ensure stale recommendations remain visible only with a prominent caveat or
   are routed to human verification according to risk.
-- [ ] Ensure a stale record cannot retain a `Strong match` label.
-- [ ] Ensure the API exposes the reason and review interval.
-- [ ] Ensure the UI has readable current/stale labels in normal, high-contrast,
+- [x] Ensure a stale record cannot retain a `Strong match` label.
+- [x] Ensure the API exposes the reason and review interval.
+- [x] Ensure the UI has readable current/stale labels in normal, high-contrast,
   large-text, and low-data modes.
+
+Future-date policy: a `last_verified` date after the injected UTC calendar date is
+treated as stale with `future_last_verified`; it cannot establish freshness and
+routes matched recommendations to source review. It is never silently clamped to
+the current date.
 
 Acceptance criteria:
 
@@ -868,6 +873,10 @@ Add rows; do not replace prior evidence.
 | 2026-09-25 02:48 | Program schema deployment | `9af8601` | PASS | GitHub Actions run `36104289466`; Azure Functions deployment completed in 1m35s |
 | 2026-09-25 02:48 | Program schema live readiness | `9af8601` | PASS | All required readiness checks passed; 10/10 program records current, 5 navigation recommendations carried evidence/freshness, signed snapshot verified locally and on server |
 | 2026-09-25 02:48 | Production telemetry | `9af8601` | PASS | No `http_request_failed` traces since deployment; Application Insights ingestion lag remains a limitation |
+| 2026-09-25 03:47 | Freshness local gates | `cfe7b0b` | PASS | 257 passed, 1 expected fixture skip; injected-date current/old/expired/missing/invalid/future cases and stale escalation passed |
+| 2026-09-25 03:47 | Freshness deployment | `cfe7b0b` | PASS | GitHub Actions run `36109240184`; Azure Functions deployment completed in 1m24s |
+| 2026-09-25 03:47 | Freshness live readiness | `cfe7b0b` | PASS | All required readiness checks passed; 10 records exposed reason codes/as-of/review interval and all were current; stale warning/accessibility CSS tokens deployed |
+| 2026-09-25 03:47 | Production telemetry | `cfe7b0b` | PASS | Zero `http_request_failed` traces since deployment; ingestion-delay limitation applies |
 
 ---
 
@@ -972,6 +981,40 @@ Append concise entries in this format:
   remains unverified. Existing user-authored dirty files remain untouched.
 - Next task: P0.5 source freshness behavior, beginning with injected-date edge
   cases and a deterministic policy for future review dates.
+
+---
+
+### 2026-09-25 03:47 ET — Deterministic freshness policy and visible stale routing
+
+- Starting state: main/origin/main at 7cdb9a9 with deployment green; all original
+  dirty and untracked files preserved and excluded from staging.
+- Changes: freshness now distinguishes missing, invalid, future, overdue, and
+  expired records with stable reason codes, an injected UTC date, review due date,
+  age, and a prominent caveat. Future review dates fail stale. Any matched stale
+  source loses `Strong match` confidence and routes to source review. The citizen
+  UI adds explicit warning text and readable normal, high-contrast, large-text,
+  and low-data styles without relying on color alone.
+- Local verification: 257 passed and one expected `swap_road` fixture skip;
+  JavaScript syntax, Python compilation, diff whitespace, and 4/4 scenario replay
+  passed. Tests inject 2026-09-30 rather than reading the wall clock.
+- Deployment: GitHub Actions run 36109240184 succeeded for cfe7b0b in 1m24s;
+  Node 20 action deprecation and future Ubuntu image migration remain warnings,
+  not deployment errors.
+- Live verification: bounded readiness passed every required check. The freshness
+  route returned HTTP 200 with operational headers, 10 records, zero stale records,
+  and reason-code/as-of/review-interval fields. Deployed JavaScript and CSS contain
+  the stale warning and all four accessibility-mode selectors.
+- Telemetry: zero `http_request_failed` traces since 07:45Z; query absence remains
+  subject to Application Insights ingestion delay.
+- Files committed: api/reliability.py, api/navigator.py, web/app.js,
+  web/styles.css, tests/test_reliability.py, tests/test_reliability_endpoints.py,
+  tests/test_web_contracts.py.
+- Commit: cfe7b0b (`feat: fail stale source records safely`).
+- Remaining limitation: production data is current, so stale rendering is proven
+  with deterministic fixtures and deployed-token inspection rather than by
+  corrupting the production catalog. Human accessibility review remains unverified.
+- Next task: P0.6 source conflict behavior with exact synthetic claim fixtures,
+  escalation, visible warnings, and packet-signature coverage.
 
 ## 21. Final handoff template
 
