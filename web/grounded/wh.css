@@ -431,6 +431,8 @@ ol.steps li.abstained::before { left: 16px; top: 16px; color: var(--gold); }
 .seg .why { font-size: 12.5px; color: var(--gold); margin-top: 7px; letter-spacing: .2px; }
 
 svg.map { width: 100%; height: auto; display: block; background: var(--blue-1); border: 1px solid var(--rule); }
+/* the map labels follow the page font token, so low-data swaps them too */
+svg.map text { font-family: var(--sans); }
 .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--faint); margin-top: 11px; }
 .legend i { display: inline-block; width: 11px; height: 11px; margin-right: 7px; vertical-align: -1px; }
 
@@ -494,4 +496,170 @@ audio { width: 100%; margin-top: 12px; }
   .channel b { min-width: 0; }
   .wh-topper .topper-form { flex-direction: column; gap: 10px; }
   .wh-topper .topper-form button { border-radius: 999px; }
+}
+
+/* ===========================================================================
+ * 16. DEPTH LAYER
+ *
+ * Patterns borrowed from the wider family of federal sites, not just
+ * whitehouse.gov:
+ *   ed.gov   - the USWDS "how you know" disclosure banner, alert callouts,
+ *              accordions for dense secondary content
+ *   cia.gov  - monospaced uppercase eyebrows over a gold hairline
+ *   fbi.gov  - a band of large figures with captions under them
+ *   nsa.gov  - flat grey utility strips between content blocks
+ * ======================================================================== */
+
+/* skip link - every federal site has one, and it is the cheapest a11y win */
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--navy); color: #fff; padding: 12px 20px;
+  font: 500 12px/1 var(--sans); text-transform: uppercase; letter-spacing: 1.8px;
+}
+.skip:focus { left: 0; color: #fff; }
+
+/* ---------------------------------------------- 16a. disclosure banner */
+/* The USWDS banner says "an official website of the United States
+   government". This one says the opposite, in the same furniture, because
+   the honest version of that sentence is the one that matters here. */
+.gov-banner { background: var(--gray-bg); border-bottom: 1px solid var(--rule); }
+.gov-banner .bar {
+  max-width: var(--page); margin: 0 auto; padding: 7px var(--gutter);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  font-size: 12px; color: var(--muted);
+}
+.gov-banner .flagish {
+  width: 15px; height: 11px; flex: none;
+  background: linear-gradient(var(--red) 33%, #fff 33% 66%, var(--navy) 66%);
+}
+.gov-banner button {
+  background: none; border: 0; padding: 2px 0; color: var(--navy); cursor: pointer;
+  font: 400 12px/1.4 var(--sans); letter-spacing: .2px; text-transform: none;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.gov-banner button:hover { background: none; color: var(--red); }
+.gov-banner button::after { content: " \25BE"; }
+.gov-banner button[aria-expanded="true"]::after { content: " \25B4"; }
+.gov-banner .panel {
+  max-width: var(--page); margin: 0 auto; padding: 4px var(--gutter) 22px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px;
+}
+.gov-banner .panel h4 {
+  font-family: var(--sans); font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.6px; font-weight: 500; margin: 0 0 6px; color: var(--ink);
+}
+.gov-banner .panel p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+
+/* ------------------------------------------------- 16b. mono eyebrows */
+/* cia.gov sets its small labels in a mono face. Here it doubles as a signal:
+   monospaced text is always machine-derived - counts, hashes, citations. */
+.eyebrow {
+  font: 400 11px/1.2 var(--mono); text-transform: uppercase; letter-spacing: 1.6px;
+  color: var(--faint); display: block; padding-bottom: 8px; margin-bottom: 14px;
+  border-bottom: 2px solid var(--gold);
+}
+.eyebrow.on-navy { color: rgba(255, 255, 255, .65); border-bottom-color: var(--cream-3); }
+
+/* ------------------------------------------------- 16c. figures band */
+/* fbi.gov runs a row of large numerals with a caption beneath each. */
+.figures {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+  margin: 0 0 8px;
+}
+.figure { background: var(--cream-2); padding: 26px 24px; }
+.figure-n {
+  font-family: var(--serif); font-size: 46px; line-height: 1; letter-spacing: .5px;
+  color: var(--navy);
+}
+.figure-l {
+  font: 500 11px/1.35 var(--sans); text-transform: uppercase; letter-spacing: 1.6px;
+  color: var(--ink); margin-top: 12px;
+}
+.figure-note { font: 400 12px/1.5 var(--mono); color: var(--faint); margin-top: 7px; }
+
+/* ------------------------------------------------ 16d. alert callouts */
+/* The USWDS alert component: a heavy left rule, a tinted field, a bold lead. */
+.notice { border-left: 6px solid var(--navy); background: var(--blue-1); padding: 18px 22px; margin-bottom: 20px; }
+.notice > strong {
+  display: block; font: 500 11px/1.2 var(--sans); text-transform: uppercase;
+  letter-spacing: 1.8px; margin-bottom: 7px;
+}
+.notice p { margin: 0 0 8px; }
+.notice p:last-child { margin-bottom: 0; }
+.notice.info    { border-left-color: var(--navy);  background: var(--blue-1); }
+.notice.warn    { border-left-color: var(--gold);  background: var(--gold-wash); }
+.notice.danger  { border-left-color: var(--red);   background: var(--red-wash); }
+.notice.success { border-left-color: var(--green); background: var(--green-wash); }
+
+/* ---------------------------------------------------- 16e. accordion */
+/* ed.gov folds its dense secondary material away behind these. */
+.accordion { border: 1px solid var(--rule); margin-top: 18px; }
+.accordion + .accordion { border-top: 0; margin-top: 0; }
+.accordion-head {
+  width: 100%; text-align: left; background: var(--gray-bg); color: var(--ink);
+  border: 0; border-radius: 0; padding: 16px 20px; cursor: pointer;
+  font: 500 12px/1.3 var(--sans); text-transform: uppercase; letter-spacing: 1.6px;
+  display: flex; justify-content: space-between; align-items: center; gap: 14px;
+}
+.accordion-head:hover { background: var(--cream-3); color: var(--ink); }
+.accordion-head::after { content: "\002B"; font-size: 17px; line-height: 1; color: var(--red); }
+.accordion-head[aria-expanded="true"]::after { content: "\2212"; }
+.accordion-body { padding: 20px; border-top: 1px solid var(--rule); }
+.accordion-body > :first-child { margin-top: 0; }
+.accordion-body > :last-child { margin-bottom: 0; }
+
+/* -------------------------------------------- 16f. utility meta strip */
+/* The "page last reviewed" line every federal site carries at the foot of
+   its content, plus the live transfer weight. */
+.meta-strip {
+  border-top: 1px solid var(--rule); margin-top: 8px; padding-top: 18px;
+  display: flex; gap: 10px 26px; flex-wrap: wrap;
+  font: 400 11.5px/1.5 var(--mono); color: var(--faint);
+  text-transform: uppercase; letter-spacing: 1.2px;
+}
+
+/* ------------------------------------------------- 16g. low-data mode */
+/* Removes weight, never function. Redefining the font tokens means the
+   @font-face rules are never matched, so the woff2 files are never
+   requested - that is the 108 KB. */
+[data-lowdata] {
+  --serif: "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  --cream: #fff; --cream-2: #fff; --cream-3: #eee;
+  --blue-1: #eef1f5; --gold-wash: #fbf5e6; --red-wash: #f7e9e6; --green-wash: #eaf1ec;
+}
+[data-lowdata] .wh-ticker { display: none; }
+[data-lowdata] .wh-topper { padding-top: 30px; }
+[data-lowdata] .wh-topper h1 { font-size: clamp(32px, 5vw, 44px); }
+[data-lowdata] .wh-topper .pad { height: 26px; }
+[data-lowdata] .wh-topper .deck { font-size: 14.5px; }
+[data-lowdata] .emblem .mark { display: none; }
+[data-lowdata] section { padding: 26px 0; }
+[data-lowdata] section > h2 { font-size: 24px; margin-bottom: 14px; }
+[data-lowdata] .figure { padding: 16px 18px; }
+[data-lowdata] .figure-n { font-size: 30px; }
+[data-lowdata] .wh-tabs a { padding: 13px 18px; }
+[data-lowdata] .wh-foot { padding-top: 34px; }
+[data-lowdata] .prog h4, [data-lowdata] .handoff h3,
+[data-lowdata] .status .big, [data-lowdata] .position .big { font-size: 20px; }
+[data-lowdata] .alert-card .ev { font-size: 18px; }
+[data-lowdata] * { transition: none !important; animation: none !important; }
+
+/* the toggle itself, in the masthead utility row */
+.lowdata-btn {
+  background: none; border: 1px solid var(--rule-2); color: var(--ink);
+  border-radius: 0; padding: 7px 11px; font-size: 10px; letter-spacing: 1.4px;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.lowdata-btn:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+.lowdata-btn .state { color: var(--faint); }
+.lowdata-btn:hover .state { color: #fff; }
+.lowdata-btn[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+.lowdata-btn[aria-pressed="true"] .state { color: var(--cream-3); }
+
+@media (max-width: 860px) {
+  .lowdata-btn .lbl { display: none; }
+  .figure-n { font-size: 34px; }
+  .gov-banner .bar { font-size: 11.5px; }
 }

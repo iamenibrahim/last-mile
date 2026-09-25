@@ -7,8 +7,49 @@
 <!-- No build step, no CDN, no framework. Works with no network beyond this server.
      Presentation lives in wh.css; fonts are self-hosted under web/fonts. -->
 <link rel="stylesheet" href="wh.css">
+<!-- Set the data mode before first paint, so a low-data session never starts
+     the web-font download it is trying to avoid. -->
+<script>
+  (function () {
+    try {
+      var q = new URLSearchParams(location.search).get('lowdata');
+      var saved = localStorage.getItem('lm-lowdata');
+      var on = q !== null ? (q !== '0' && q !== 'false') : saved === '1';
+      if (on) document.documentElement.setAttribute('data-lowdata', '');
+    } catch (e) { /* private mode: full-fat is the safe default */ }
+  })();
+</script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<!-- 0. disclosure banner --------------------------------------------------- -->
+<div class="gov-banner">
+  <div class="bar">
+    <span class="flagish" aria-hidden="true"></span>
+    <span>This is <strong>not</strong> a government website.</span>
+    <button type="button" id="banner-toggle" aria-expanded="false" aria-controls="banner-panel">Here is what it is</button>
+  </div>
+  <div class="panel" id="banner-panel" hidden>
+    <div>
+      <h4>Where the words come from</h4>
+      <p>Every sentence about a program is quoted from a cached FEMA, eCFR, SBA or
+         SAMHSA page, and carries a link and a character range back to it. This
+         site writes no program facts of its own.</p>
+    </div>
+    <div>
+      <h4>What it will not do</h4>
+      <p>It does not decide whether you qualify, and it cannot. Only the agency
+         running the program can do that. When the answer is unclear it says so
+         and points you at a person.</p>
+    </div>
+    <div>
+      <h4>What it keeps</h4>
+      <p>Your county and the situations you ticked, for the length of the request.
+         Not your name, address, or anything you type in the free-text box.</p>
+    </div>
+  </div>
+</div>
 
 <!-- 1. announcement ticker ------------------------------------------------ -->
 <div class="wh-ticker" aria-hidden="true">
@@ -45,6 +86,10 @@
   </a>
 
   <div class="right">
+    <button type="button" class="lowdata-btn" id="lowdata-toggle" aria-pressed="false"
+            title="Drops the web fonts, the animation and the spoken audio. Every control and every citation stays.">
+      <span class="lbl">Low data</span><span class="state">Off</span>
+    </button>
     <span class="badge" id="engine-badge">Checking engines&hellip;</span>
   </div>
 </header>
@@ -56,8 +101,10 @@
     <li><a href="alert.html">Alert Transformer</a></li>
     <li><a href="#where-sec">Your County</a></li>
     <li><a href="#what-sec">What Happened</a></li>
-    <li><a href="#out-sec">Your Options</a></li>
-    <li><a href="#prov-sec">Provenance</a></li>
+    <!-- These two point at sections that do not exist until a search runs, so
+         chrome.js keeps them out of the way until they do. -->
+    <li data-needs="out-sec" hidden><a href="#out-sec">Your Options</a></li>
+    <li data-needs="prov-sec" hidden><a href="#prov-sec">Provenance</a></li>
   </ul>
 </nav>
 </div>
@@ -88,12 +135,22 @@
   <ul>
     <li><a class="on" href="#where-sec">Where you live</a></li>
     <li><a href="#what-sec">What happened</a></li>
-    <li><a href="#out-sec">Your options</a></li>
-    <li><a href="#prov-sec">Where it came from</a></li>
+    <li data-needs="out-sec" hidden><a href="#out-sec">Your options</a></li>
+    <li data-needs="prov-sec" hidden><a href="#prov-sec">Where it came from</a></li>
   </ul>
 </div>
 
-<main>
+<main id="main">
+  <section id="scale-sec">
+    <span class="eyebrow">Declaration DR-4831-VA &middot; OpenFEMA</span>
+    <div class="figures" id="figures" data-kind="navigator" hidden></div>
+    <p class="hint">
+      Registration counts are FEMA-published totals for the declaration, not
+      predictions. They are here to show the size of the thing this tool is a
+      last mile of.
+    </p>
+  </section>
+
   <section id="where-sec">
     <h2><span class="step-no">Step 01</span>Where do you live?</h2>
     <div class="row">
@@ -144,6 +201,11 @@
     <h2><span class="step-no">Step 04</span>Where every sentence came from</h2>
     <div id="prov"></div>
   </section>
+
+  <div class="meta-strip">
+    <span>Source data cached &middot; no live calls</span>
+    <span id="page-weight"></span>
+  </div>
 </main>
 
 <!-- 6. footer ------------------------------------------------------------- -->
@@ -154,8 +216,7 @@
       <ul>
         <li><a href="./">Assistance navigator</a></li>
         <li><a href="alert.html">Alert transformer</a></li>
-        <li><a href="#prov-sec">Provenance and verification</a></li>
-        <li><a href="api/health">Engine status</a></li>
+        <li data-needs="prov-sec" hidden><a href="#prov-sec">Provenance and verification</a></li>
       </ul>
     </div>
     <div>
@@ -193,6 +254,7 @@
   </div>
 </footer>
 
+<script src="chrome.js"></script>
 <script src="assist.js"></script>
 </body>
 </html>

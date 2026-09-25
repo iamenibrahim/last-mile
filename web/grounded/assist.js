@@ -74,7 +74,9 @@ async function go() {
   $('out').innerHTML = '<div class="loading">Checking FEMA declarations and verifying every sentence&hellip;</div>';
   const body = {
     location: $('loc').value, needs: selectedNeeds(), text: $('text').value || null,
-    danger_now: $('danger').checked, lang: $('lang').value, with_audio: true,
+    danger_now: $('danger').checked, lang: $('lang').value,
+    // Synthesised speech is the one heavy payload here, so low data declines it.
+    with_audio: !(window.lmLowData && window.lmLowData()),
     pick_fips: STATE.pick, as_of: $('clock').value || null,
   };
   if ($('corrupt').value) body.corrupt = $('corrupt').value;
@@ -97,7 +99,7 @@ function paint(r) {
     html += `<div class="danger-strip">ADVERSARIAL TEST INPUT &mdash; "${esc(r.corruption.cls)}" injected into
       segment ${esc(r.corruption.segment_id)} (${esc(r.corruption.note)}). Watch what the verifier does with it.</div>`;
   }
-  if (r.privacy && r.privacy.notice) html += `<div class="privacy">${esc(r.privacy.notice)}</div>`;
+  if (r.privacy && r.privacy.notice) html += `<div class="notice info"><strong>Privacy</strong>${esc(r.privacy.notice)}</div>`;
 
   // Human first, when it matters. Above the answer, above everything.
   const e = r.escalation || {};
@@ -260,7 +262,12 @@ function paintProvenance(r) {
       <button class="ghost" id="tamper-btn">Tamper with it, then verify</button>
     </div>
     <div id="verify-out" style="margin-top:12px"></div>
-    <div class="hint" style="margin-top:10px">${m.limitations.map(esc).join('<br>')}</div>`;
+    <div class="accordion">
+      <button class="accordion-head" type="button" aria-expanded="false">What a valid manifest does and does not prove</button>
+      <div class="accordion-body" hidden>
+        <ul style="margin:0;padding-left:20px">${m.limitations.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>
+      </div>
+    </div>`;
   $('verify-btn').onclick = () => verify(m, r.segments);
   $('tamper-btn').onclick = () => {
     // Change one word inside a cited FEMA quote on the page, keep the manifest:

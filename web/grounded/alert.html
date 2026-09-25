@@ -13,8 +13,47 @@
   Presentation lives in wh.css; fonts are self-hosted under web/fonts.
 -->
 <link rel="stylesheet" href="wh.css">
+<script>
+  (function () {
+    try {
+      var q = new URLSearchParams(location.search).get('lowdata');
+      var saved = localStorage.getItem('lm-lowdata');
+      var on = q !== null ? (q !== '0' && q !== 'false') : saved === '1';
+      if (on) document.documentElement.setAttribute('data-lowdata', '');
+    } catch (e) { /* private mode: full-fat is the safe default */ }
+  })();
+</script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<!-- 0. disclosure banner --------------------------------------------------- -->
+<div class="gov-banner">
+  <div class="bar">
+    <span class="flagish" aria-hidden="true"></span>
+    <span>This is <strong>not</strong> a government website and it does not issue alerts.</span>
+    <button type="button" id="banner-toggle" aria-expanded="false" aria-controls="banner-panel">Here is what it is</button>
+  </div>
+  <div class="panel" id="banner-panel" hidden>
+    <div>
+      <h4>Where the alert comes from</h4>
+      <p>Every alert here was issued by the National Weather Service and cached.
+         This tool restates one; it never originates one. The original text is
+         shown beside every sentence it produces.</p>
+    </div>
+    <div>
+      <h4>When it stays silent</h4>
+      <p>If a rewritten sentence cannot be verified against the source, it is
+         withheld and the original English is shown instead. An abstention is
+         the correct answer when the alternative is a confident guess.</p>
+    </div>
+    <div>
+      <h4>If the two disagree</h4>
+      <p>The original wins. Act on the National Weather Service text, and call
+         911 if you are in danger now.</p>
+    </div>
+  </div>
+</div>
 
 <!-- 1. announcement ticker ------------------------------------------------ -->
 <div class="wh-ticker" aria-hidden="true">
@@ -51,6 +90,10 @@
   </a>
 
   <div class="right">
+    <button type="button" class="lowdata-btn" id="lowdata-toggle" aria-pressed="false"
+            title="Drops the web fonts, the animation and the spoken audio. Every control and every citation stays.">
+      <span class="lbl">Low data</span><span class="state">Off</span>
+    </button>
     <span class="badge" id="engine-badge">Checking engines&hellip;</span>
     <span class="badge" id="corpus-badge">&mdash;</span>
   </div>
@@ -61,9 +104,9 @@
   <ul>
     <li><a href="./">Navigator</a></li>
     <li><a href="alert.html" aria-current="page">Alert Transformer</a></li>
-    <li><a href="#alerts-sec">Alerts</a></li>
-    <li><a href="#render-sec">Transformed</a></li>
-    <li><a href="#prov-sec">Provenance</a></li>
+    <li data-needs="alerts-sec" hidden><a href="#alerts-sec">Alerts</a></li>
+    <li data-needs="render-sec" hidden><a href="#render-sec">Transformed</a></li>
+    <li data-needs="prov-sec" hidden><a href="#prov-sec">Provenance</a></li>
   </ul>
 </nav>
 </div>
@@ -92,14 +135,23 @@
 <!-- 5. section tabs ------------------------------------------------------- -->
 <div class="wh-tabs">
   <ul>
-    <li><a class="on" href="#locate-out">Your address</a></li>
-    <li><a href="#alerts-sec">Alerts covering you</a></li>
-    <li><a href="#render-sec">The transformation</a></li>
-    <li><a href="#prov-sec">Provenance</a></li>
+    <li><a class="on" href="#locate-sec">Your address</a></li>
+    <li data-needs="alerts-sec" hidden><a href="#alerts-sec">Alerts covering you</a></li>
+    <li data-needs="render-sec" hidden><a href="#render-sec">The transformation</a></li>
+    <li data-needs="prov-sec" hidden><a href="#prov-sec">Provenance</a></li>
   </ul>
 </div>
 
-<main>
+<main id="main">
+  <section id="corpus-sec">
+    <span class="eyebrow">Cached corpus &middot; api/corpus/stats</span>
+    <div class="figures" id="figures" data-kind="alert" hidden></div>
+    <p class="hint">
+      These are real alerts pulled from the National Weather Service and stored
+      on disk. The demo replays them; it never calls a live alerting system.
+    </p>
+  </section>
+
   <!-- 1. address -->
   <section id="locate-sec">
     <h2><span class="step-no">Step 01</span>Your address</h2>
@@ -149,6 +201,11 @@
     <h2><span class="step-no">Step 04</span>Provenance</h2>
     <div id="prov-out"></div>
   </section>
+
+  <div class="meta-strip">
+    <span>Alerts cached from NWS &middot; replayed, not re-issued</span>
+    <span id="page-weight"></span>
+  </div>
 </main>
 
 <!-- 6. footer ------------------------------------------------------------- -->
@@ -159,8 +216,7 @@
       <ul>
         <li><a href="./">Assistance navigator</a></li>
         <li><a href="alert.html">Alert transformer</a></li>
-        <li><a href="#prov-sec">Provenance and verification</a></li>
-        <li><a href="api/health">Engine status</a></li>
+        <li data-needs="prov-sec" hidden><a href="#prov-sec">Provenance and verification</a></li>
       </ul>
     </div>
     <div>
@@ -197,6 +253,7 @@
   </div>
 </footer>
 
+<script src="chrome.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
