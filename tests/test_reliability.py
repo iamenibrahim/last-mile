@@ -4,10 +4,11 @@ import json
 from datetime import date
 from pathlib import Path
 
+import pytest
 from starlette.requests import Request
 
 from api.main import _surge_for
-from api.navigator import navigate
+from api.navigator import load_programs, navigate
 from api.protocol import build_action_packet, verify_action_packet
 from api.reliability import (
     SurgeController,
@@ -18,6 +19,7 @@ from api.reliability import (
     diff_packet,
     evaluate_chaos,
     offline_snapshot,
+    validate_program_records,
 )
 from api.scenarios import replay_scenarios
 
@@ -35,11 +37,81 @@ PROFILE = {
 
 def test_every_program_stores_freshness_source_and_disaster_metadata():
     programs = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
-    for program in programs:
-        assert "last_verified" in program
-        assert "expiration_date" in program
-        assert program["source_url"]
-        assert program["disaster_id"]
+    assert validate_program_records(programs) == {
+        "valid": True,
+        "record_count": len(programs),
+        "errors": [],
+    }
+
+
+def test_program_schema_accepts_null_expiration_and_reviewed_emergency_link():
+    programs = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
+    emergency = next(program for program in programs if program["id"] == "emergency-911")
+    assert emergency["expiration_date"] is None
+    assert emergency["apply_url"] == "tel:911"
+    assert validate_program_records([emergency])["valid"] is True
+
+
+def test_program_schema_reports_precise_review_metadata_error():
+    programs = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
+    malformed = dict(programs[0])
+    malformed.pop("last_verified")
+    malformed["expiration_date"] = "September 30"
+    report = validate_program_records([malformed])
+    assert report["valid"] is False
+    assert {
+        (error["field"], error["code"])
+        for error in report["errors"]
+    } == {("last_verified", "required"), ("expiration_date", "invalid_iso_date")}
+
+
+def test_program_loader_fails_closed_when_review_metadata_is_omitted(tmp_path, monkeypatch):
+    programs = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
+    programs[0].pop("expiration_date")
+    catalog = tmp_path / "programs.json"
+    catalog.write_text(json.dumps(programs), encoding="utf-8")
+    monkeypatch.setattr("api.navigator.PROGRAMS_PATH", catalog)
+    with pytest.raises(ValueError, match=r"record 0 field expiration_date: expiration_date is required"):
+        load_programs()
+
+
+def test_program_schema_rejects_duplicate_ids_and_unreviewed_destinations():
+    programs = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
+    first = dict(programs[0])
+    duplicate = dict(first)
+    duplicate["source_url"] = "https://example.com/program"
+    duplicate["apply_url"] = "tel:5551234"
+    report = validate_program_records([first, duplicate])
+    assert report["valid"] is False
+    assert {(error["field"], error["code"]) for error in report["errors"]} == {
+        ("id", "duplicate"),
+        ("source_url", "unreviewed_domain"),
+        ("apply_url", "unreviewed_tel_link"),
+    }
+
+
+def test_program_schema_rejects_non_https_and_invalid_review_interval():
+    programs = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
+    malformed = dict(programs[1])
+    malformed["apply_url"] = "http://211virginia.org/"
+    malformed["review_interval_days"] = 0
+    report = validate_program_records([malformed])
+    assert {(error["field"], error["code"]) for error in report["errors"]} == {
+        ("apply_url", "invalid_url"),
+        ("review_interval_days", "invalid_value"),
+    }
+
+
+def test_recommendation_exposes_validated_freshness_metadata():
+    recommendation = navigate({**PROFILE, "surge_mode": True})["recommendations"][0]
+    assert {
+        "status",
+        "stale",
+        "last_verified",
+        "expiration_date",
+        "review_interval_days",
+        "reasons",
+    } <= recommendation["source_freshness"].keys()
 
 
 def test_freshness_checker_flags_old_and_expired_records():

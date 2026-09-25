@@ -20,7 +20,7 @@ from .fraud import scan_message
 from .geo import classify_position, geocode
 from .ingest import alerts_with_fallback, load_cached_alert
 from .manifest import validate_manifest
-from .navigator import navigate
+from .navigator import load_programs, navigate
 from .providers.azure_sms import handle_event_grid_events, send_verified_packet
 from .providers.azure_voice import handle_call_events, start_verified_call
 from .protocol import (
@@ -312,7 +312,7 @@ def offline_verify(request: OfflineVerifyRequest) -> dict:
 
 @app.get("/api/programs/freshness")
 def program_freshness() -> dict:
-    records = json.loads((DATA / "programs.json").read_text(encoding="utf-8"))
+    records = load_programs()
     assessed = [{"id": record["id"], **assess_freshness(record)} for record in records]
     return {
         "records": assessed,
@@ -323,7 +323,7 @@ def program_freshness() -> dict:
 
 @app.get("/api/source-conflicts")
 def source_conflicts() -> dict:
-    records = json.loads((DATA / "programs.json").read_text(encoding="utf-8"))
+    records = load_programs()
     return detect_source_conflicts(records)
 
 

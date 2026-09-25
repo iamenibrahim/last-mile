@@ -8,9 +8,42 @@ from datetime import date, datetime, timezone
 from threading import Lock
 from time import monotonic
 from typing import Any
+from urllib.parse import urlsplit
 
 
 DEFAULT_REVIEW_INTERVAL_DAYS = 90
+PROGRAM_REQUIRED_FIELDS = (
+    "id",
+    "name",
+    "agency",
+    "needs",
+    "eligibility",
+    "apply_url",
+    "source_url",
+    "source_excerpt",
+    "last_verified",
+    "expiration_date",
+    "disaster_id",
+    "review_interval_days",
+)
+REVIEWED_PROGRAM_DOMAINS = frozenset(
+    {
+        "211virginia.org",
+        "commonhelp.virginia.gov",
+        "www.disasterassistance.gov",
+        "www.dol.gov",
+        "www.fema.gov",
+        "www.fns.usda.gov",
+        "www.lsc.gov",
+        "www.ready.gov",
+        "www.samhsa.gov",
+        "www.sba.gov",
+        "www.usa.gov",
+        "www.vaemergency.gov",
+        "www.vec.virginia.gov",
+    }
+)
+REVIEWED_TEL_LINKS = frozenset({"tel:911"})
 ACCESSIBILITY_PREFERENCES = {
     "screen_reader": "Use semantic headings, concise labels, and no visual-only instructions.",
     "large_text": "Prefer large text and short blocks in the web view.",
@@ -18,6 +51,181 @@ ACCESSIBILITY_PREFERENCES = {
     "voice_preferred": "Lead with the verified voice script and spoken recovery code.",
     "relay_service": "Include 711 telecommunications relay instructions.",
 }
+
+
+def _program_error(
+    index: int,
+    program_id: Any,
+    field: str,
+    code: str,
+    message: str,
+) -> dict[str, Any]:
+    return {
+        "record_index": index,
+        "program_id": program_id if isinstance(program_id, str) else None,
+        "field": field,
+        "code": code,
+        "message": message,
+    }
+
+
+def validate_program_records(records: Any) -> dict[str, Any]:
+    """Validate the reviewed program catalog with precise, field-level errors."""
+
+    errors: list[dict[str, Any]] = []
+    if not isinstance(records, list):
+        errors.append(_program_error(-1, None, "$", "invalid_type", "program catalog must be a JSON array"))
+        return {"valid": False, "record_count": 0, "errors": errors}
+
+    seen_ids: dict[str, int] = {}
+    required_strings = {
+        "id",
+        "name",
+        "agency",
+        "eligibility",
+        "apply_url",
+        "source_url",
+        "source_excerpt",
+        "last_verified",
+        "disaster_id",
+    }
+    for index, record in enumerate(records):
+        if not isinstance(record, dict):
+            errors.append(
+                _program_error(index, None, "$", "invalid_type", "program record must be a JSON object")
+            )
+            continue
+        program_id = record.get("id")
+        for field in PROGRAM_REQUIRED_FIELDS:
+            if field not in record:
+                errors.append(
+                    _program_error(index, program_id, field, "required", f"{field} is required")
+                )
+        for field in required_strings:
+            if field in record and (not isinstance(record[field], str) or not record[field].strip()):
+                errors.append(
+                    _program_error(
+                        index,
+                        program_id,
+                        field,
+                        "invalid_type",
+                        f"{field} must be a non-empty string",
+                    )
+                )
+
+        if isinstance(program_id, str) and program_id:
+            if program_id in seen_ids:
+                errors.append(
+                    _program_error(
+                        index,
+                        program_id,
+                        "id",
+                        "duplicate",
+                        f"id duplicates record {seen_ids[program_id]}",
+                    )
+                )
+            else:
+                seen_ids[program_id] = index
+
+        needs = record.get("needs")
+        if "needs" in record and (
+            not isinstance(needs, list)
+            or not needs
+            or any(not isinstance(item, str) or not item.strip() for item in needs)
+        ):
+            errors.append(
+                _program_error(
+                    index,
+                    program_id,
+                    "needs",
+                    "invalid_type",
+                    "needs must be a non-empty array of non-empty strings",
+                )
+            )
+
+        for field in ("last_verified", "expiration_date"):
+            value = record.get(field)
+            if field == "expiration_date" and field in record and value is None:
+                continue
+            if field not in record or not isinstance(value, str) or not value:
+                continue
+            try:
+                date.fromisoformat(value)
+            except ValueError:
+                errors.append(
+                    _program_error(
+                        index,
+                        program_id,
+                        field,
+                        "invalid_iso_date",
+                        f"{field} must be an ISO date in YYYY-MM-DD format",
+                    )
+                )
+
+        interval = record.get("review_interval_days")
+        if "review_interval_days" in record and (
+            isinstance(interval, bool) or not isinstance(interval, int) or interval < 1
+        ):
+            errors.append(
+                _program_error(
+                    index,
+                    program_id,
+                    "review_interval_days",
+                    "invalid_value",
+                    "review_interval_days must be a positive integer",
+                )
+            )
+
+        for field in ("apply_url", "source_url"):
+            value = record.get(field)
+            if not isinstance(value, str) or not value:
+                continue
+            parsed = urlsplit(value)
+            if field == "apply_url" and parsed.scheme == "tel":
+                if value not in REVIEWED_TEL_LINKS:
+                    errors.append(
+                        _program_error(
+                            index,
+                            program_id,
+                            field,
+                            "unreviewed_tel_link",
+                            f"{field} tel link is not in the reviewed emergency-link allowlist",
+                        )
+                    )
+                continue
+            if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
+                errors.append(
+                    _program_error(
+                        index,
+                        program_id,
+                        field,
+                        "invalid_url",
+                        f"{field} must be an HTTPS URL without embedded credentials",
+                    )
+                )
+            elif parsed.hostname.lower() not in REVIEWED_PROGRAM_DOMAINS:
+                errors.append(
+                    _program_error(
+                        index,
+                        program_id,
+                        field,
+                        "unreviewed_domain",
+                        f"{field} domain is not in the reviewed allowlist",
+                    )
+                )
+
+    return {"valid": not errors, "record_count": len(records), "errors": errors}
+
+
+def assert_valid_program_records(records: Any) -> list[dict[str, Any]]:
+    report = validate_program_records(records)
+    if report["valid"]:
+        return records
+    summary = "; ".join(
+        f"record {error['record_index']} field {error['field']}: {error['message']}"
+        for error in report["errors"][:5]
+    )
+    raise ValueError(f"Invalid reviewed program catalog: {summary}")
 
 
 def _date(value: str | None) -> date | None:

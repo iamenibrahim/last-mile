@@ -8,6 +8,7 @@ from pathlib import Path
 
 from .config import settings
 from .reliability import (
+    assert_valid_program_records,
     assess_freshness,
     compile_accessibility,
     detect_source_conflicts,
@@ -20,8 +21,9 @@ ROOT = Path(__file__).resolve().parents[1]
 PROGRAMS_PATH = ROOT / "data" / "programs.json"
 
 
-def _load_programs() -> list[dict]:
-    return json.loads(PROGRAMS_PATH.read_text(encoding="utf-8"))
+def load_programs() -> list[dict]:
+    records = json.loads(PROGRAMS_PATH.read_text(encoding="utf-8"))
+    return assert_valid_program_records(records)
 
 
 def _confidence(score: int, missing: list[str]) -> dict:
@@ -59,7 +61,7 @@ def navigate(profile: dict) -> dict:
     location = (profile.get("location") or "Virginia").strip()
     surge_mode = bool(profile.get("surge_mode"))
     accessibility = compile_accessibility(profile.get("accessibility_preferences"))
-    programs = _load_programs()
+    programs = load_programs()
     conflict_report = detect_source_conflicts(programs)
     results: list[dict] = []
 
