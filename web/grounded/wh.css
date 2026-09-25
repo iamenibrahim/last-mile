@@ -92,6 +92,12 @@
 
 * { box-sizing: border-box; }
 
+/* The UA rule for this is [hidden] { display: none } at specificity 0,1,0, so
+   any class rule that sets display beats it and the element stays on screen
+   while its .hidden property reads true. Several components here set display,
+   so the attribute is made to win outright. */
+[hidden] { display: none !important; }
+
 html { -webkit-text-size-adjust: 100%; }
 
 body {
