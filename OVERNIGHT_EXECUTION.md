@@ -326,18 +326,18 @@ Acceptance criteria:
 
 ### P0.4 Program-record schema validation
 
-- [ ] Define required fields for every program record:
+- [x] Define required fields for every program record:
   `id`, `name`, `agency`, `needs`, `eligibility`, `apply_url`, `source_url`,
   `source_excerpt`, `last_verified`, `expiration_date`, `disaster_id`, and
   `review_interval_days`.
-- [ ] Validate uniqueness of program IDs.
-- [ ] Validate `last_verified` and non-null expiration values as ISO dates.
-- [ ] Treat `expiration_date: null` as explicitly non-expiring, not missing.
-- [ ] Validate HTTPS for external apply/source URLs, while allowing deliberate
+- [x] Validate uniqueness of program IDs.
+- [x] Validate `last_verified` and non-null expiration values as ISO dates.
+- [x] Treat `expiration_date: null` as explicitly non-expiring, not missing.
+- [x] Validate HTTPS for external apply/source URLs, while allowing deliberate
   `tel:` emergency links.
-- [ ] Validate source and apply domains against a reviewed allowlist.
-- [ ] Validate that freshness metadata is included in recommendation output.
-- [ ] Fail tests when a new record omits review metadata.
+- [x] Validate source and apply domains against a reviewed allowlist.
+- [x] Validate that freshness metadata is included in recommendation output.
+- [x] Fail tests when a new record omits review metadata.
 
 Acceptance criteria:
 
@@ -864,6 +864,10 @@ Add rows; do not replace prior evidence.
 | 2026-09-25 00:33 | Reliability live smoke | `e62eda8` | PASS | 10/10; freshness, conflicts, chaos, replay, evidence, diff, snapshot, surge, SNAP route, UI |
 | 2026-09-25 00:34 | Surge transformation | `e62eda8` | PASS | Seven safe segments; `provider_mode=surge-deterministic` |
 | 2026-09-25 00:34 | Production telemetry | `e62eda8` | PASS | No `http_request_failed` traces after final deployment |
+| 2026-09-25 02:48 | Program schema local gates | `9af8601` | PASS | 248 passed, 1 expected fixture skip; JavaScript/Python syntax, whitespace, and 4/4 replay passed |
+| 2026-09-25 02:48 | Program schema deployment | `9af8601` | PASS | GitHub Actions run `36104289466`; Azure Functions deployment completed in 1m35s |
+| 2026-09-25 02:48 | Program schema live readiness | `9af8601` | PASS | All required readiness checks passed; 10/10 program records current, 5 navigation recommendations carried evidence/freshness, signed snapshot verified locally and on server |
+| 2026-09-25 02:48 | Production telemetry | `9af8601` | PASS | No `http_request_failed` traces since deployment; Application Insights ingestion lag remains a limitation |
 
 ---
 
@@ -934,6 +938,40 @@ Append concise entries in this format:
   storage expiry implementation is covered by separate continuity tests. Human
   evidence remains unverified. New navigation/chaos live probes await next run.
 - Next task: deploy and verify malformed snapshot response, then P0.4 schema.
+
+---
+
+### 2026-09-25 02:48 ET — Reviewed program schema enforcement
+
+- Starting state: main/origin/main at bb424b4; all original dirty and untracked
+  files preserved and excluded from staging.
+- Changes: added a deterministic program-record validator with required fields,
+  unique IDs, strict ISO dates, explicit nullable expiration, positive review
+  intervals, HTTPS/credential checks, an exact reviewed-domain allowlist, and an
+  exact `tel:911` emergency allowlist. Navigation, freshness, and conflict routes
+  now load only a validated catalog and fail closed on malformed review metadata.
+- Local verification: 248 passed and one expected `swap_road` fixture skip;
+  JavaScript syntax, Python compilation, diff whitespace, and 4/4 scenario replay
+  passed. Malformed fixtures return precise field/code diagnostics.
+- Security: `pip-audit -r requirements.txt` found no known vulnerabilities.
+  Bandit reported zero high findings, two pre-existing medium findings (B608 on
+  integer-bounded Cosmos TOP syntax and B314 on parsing locally generated JUnit)
+  and 19 pre-existing low findings; this batch introduced none.
+- Deployment: GitHub Actions run 36104289466 succeeded for 9af8601 in 1m35s.
+- Live verification: bounded readiness passed health, status, operational headers,
+  freshness, source conflicts, deterministic navigation evidence, chaos fallbacks,
+  packet generation, RS256 verification, resume, handoff, unchanged source diff,
+  signed snapshot verification, surge transformation, and UI tokens. No call, SMS,
+  or paid generative operation was performed.
+- Telemetry: no `http_request_failed` traces since 06:45Z; query absence remains
+  subject to Application Insights ingestion delay.
+- Files committed: api/main.py, api/navigator.py, api/reliability.py,
+  tests/test_reliability.py.
+- Commit: 9af8601 (`feat: validate reviewed program records`).
+- Remaining limitation: runtime has no commit-attestation endpoint; human evidence
+  remains unverified. Existing user-authored dirty files remain untouched.
+- Next task: P0.5 source freshness behavior, beginning with injected-date edge
+  cases and a deterministic policy for future review dates.
 
 ## 21. Final handoff template
 
