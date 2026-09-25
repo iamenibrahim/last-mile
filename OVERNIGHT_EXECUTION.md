@@ -426,11 +426,11 @@ Acceptance criteria:
 
 ### P1.3 Property-style and mutation tests
 
-- [ ] Generate mutations of locked values across web, SMS, voice, and offline.
-- [ ] Mutate one field at a time and verify detection.
-- [ ] Verify harmless formatting changes do not produce false contradictions.
-- [ ] Verify recomputing a channel hash does not bypass the packet signature.
-- [ ] Keep the mutation count bounded so the full suite remains fast.
+- [x] Generate mutations of locked values across web, SMS, voice, and offline.
+- [x] Mutate one field at a time and verify detection.
+- [x] Verify harmless formatting changes do not produce false contradictions.
+- [x] Verify recomputing a channel hash does not bypass the packet signature.
+- [x] Keep the mutation count bounded so the full suite remains fast.
 
 Acceptance criteria:
 
@@ -889,6 +889,10 @@ Add rows; do not replace prior evidence.
 | 2026-09-25 09:26 | Contradiction deployment | `787b967` | PASS | GitHub Actions run `36140662666`; Azure Functions deployment completed in 1m25s; security workflow `36140662769` passed |
 | 2026-09-25 09:26 | Contradiction live readiness | `787b967` | PASS | All required readiness checks passed; live packet used `packet-contradictions-v2`, all four channels carried the fact contract, and a wrong-county channel mutation was rejected |
 | 2026-09-25 09:26 | Production telemetry | `787b967` | PASS | Zero `http_request_failed` traces since 12:58Z; Application Insights ingestion lag remains a limitation |
+| 2026-09-25 10:03 | Mutation local gates | `35b3a2d` | PASS | 286 passed, 1 expected fixture skip; 16 harmful mutations detected, 16 harmless formatting variants accepted, and four rehashed mutations rejected; JavaScript/Python syntax, whitespace, and 4/4 replay passed |
+| 2026-09-25 10:03 | Mutation deployment | `35b3a2d` | PASS | GitHub Actions run `36144663255` completed in 1m32s; security workflow `36144663420` passed |
+| 2026-09-25 10:03 | Mutation live readiness | `35b3a2d` | PASS | Every required bounded-readiness check passed against production; packet generation, RS256 verification, resume, handoff, source diff, signed snapshot, surge path, and UI tokens remained green |
+| 2026-09-25 10:03 | Production telemetry | `35b3a2d` | PASS | Zero `http_request_failed` traces since 13:59Z; Application Insights ingestion lag remains a limitation |
 
 ---
 
@@ -1139,6 +1143,39 @@ Append concise entries in this format:
   no production source or stored packet was corrupted, and human channel review
   remains unverified.
 - Next task: P1.3 bounded property-style mutations across all four channels.
+
+---
+
+### 2026-09-25 10:03 ET — Bounded cross-channel mutation matrix
+
+- Starting state: main/origin/main at c50eec3 with deployment and security
+  workflows green; all original and newly observed unrelated dirty/untracked files
+  were preserved and excluded from staging.
+- Changes: added a deterministic mutation matrix covering jurisdiction, disaster
+  ID, deadline, and contact phone independently across web, SMS, voice, and offline
+  output. The same bounded matrix exercises harmless case, whitespace, and phone
+  formatting variants. A separate four-channel matrix recomputes the channel hash
+  after tampering to prove that hash validity cannot replace packet-signature or
+  field-consistency validation.
+- Local verification: 286 passed and one expected `swap_road` fixture skip;
+  JavaScript syntax, Python compilation, diff whitespace, and 4/4 scenario replay
+  passed. The matrix is fixed at 16 harmful cases, 16 harmless cases, and four
+  rehash cases so it remains reproducible and fast.
+- Deployment: GitHub Actions run 36144663255 succeeded for 35b3a2d in 1m32s;
+  security workflow 36144663420 passed. The batch adds tests only, but the normal
+  push workflow redeployed the unchanged runtime package successfully.
+- Live verification: bounded readiness passed every required check, including
+  health, status, evidence, freshness, conflicts, packet generation, RS256
+  verification, resume, handoff, source diff, signed snapshot, surge behavior, and
+  deployed UI tokens. No call, SMS, or paid generative operation was performed.
+- Telemetry: zero `http_request_failed` traces since 13:59Z; query absence remains
+  subject to Application Insights ingestion delay.
+- Files committed: tests/test_packet_mutations.py.
+- Commit: 35b3a2d (`test: add bounded packet mutation matrix`).
+- Remaining limitation: mutations are deterministic synthetic cases, not a claim
+  of exhaustive fuzzing or human channel validation.
+- Next task: P1.4 production-style offline RS256 fixture and standalone verifier
+  evidence.
 
 ## 21. Final handoff template
 
