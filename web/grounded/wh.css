@@ -1,0 +1,497 @@
+/* ---------------------------------------------------------------------------
+ * wh.css - shared presentation layer for Last-Mile Assist / Alert.
+ *
+ * The visual language here follows the current whitehouse.gov design system:
+ * Instrument Serif display type over Instrument Sans body copy, a navy/cream/
+ * brick palette, square corners with hairline rules instead of cards, and
+ * uppercase letter-spaced labels standing in for the site proprietary NORD.
+ *
+ * Fonts are self-hosted (web/fonts). Nothing here needs the network, which is
+ * the whole point of this app - it has to render in a county that has lost
+ * both power and connectivity.
+ * ------------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------- fonts */
+@font-face {
+  font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("fonts/InstrumentSerif-normal-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+                 U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("fonts/InstrumentSerif-normal-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+                 U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+                 U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url("fonts/InstrumentSerif-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+                 U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Instrument Sans"; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url("fonts/InstrumentSans-normal-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+                 U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Instrument Sans"; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url("fonts/InstrumentSans-normal-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+                 U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+                 U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ------------------------------------------------------------------ tokens */
+:root {
+  /* palette lifted from whitehouse.gov */
+  --navy:      #0d132d;   /* topper, tab bar, footer                          */
+  --navy-lift: #141f4d;   /* active tab, hover fill on navy                   */
+  --ink:       #151a30;   /* headings, nav, emblem                            */
+  --body:      #293340;   /* running text                                     */
+  --muted:     #4a4a55;
+  --faint:     #87836f;   /* the warm grey the site uses for captions          */
+  --cream:     #fbf6e9;
+  --cream-2:   #fffefa;
+  --cream-3:   #f0e5c9;
+  --red:       #8b1a1a;   /* brick - seals, rules, warnings                    */
+  --red-2:     #bf0a30;   /* brighter flag red - primary call to action        */
+  --red-wash:  #f2ddd8;
+  --gold:      #8b6914;
+  --gold-wash: #fbf3df;
+  --blue-1:    #e4eaf1;
+  --blue-2:    #d9dee8;
+  --gray-bg:   #f3f3f3;
+  --green:     #1f5130;   /* nothing green on whitehouse.gov; this is the      */
+  --green-wash:#eaf1ec;   /* quietest thing that can still read as "open"      */
+
+  --rule:      rgba(21, 26, 48, .14);
+  --rule-2:    rgba(21, 26, 48, .28);
+  --rule-inv:  rgba(255, 255, 255, .22);
+
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --sans:  "Instrument Sans", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+  --mono:  ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --page:   1264px;   /* outer chrome                                         */
+  --wide:   1080px;   /* topper + two-column content                          */
+  --read:    782px;   /* single reading column, same as the news index         */
+  --gutter:   36px;
+
+  /* Aliases for the handful of colours app.js and assist.js set inline. They
+     kept the names from the old dark theme; only the values move. */
+  --ok: var(--green); --bad: var(--red); --warn: var(--gold);
+  --abstain: var(--gold); --ink-dim: var(--muted);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0; background: #fff; color: var(--body);
+  font: 400 17px/1.6 var(--sans); letter-spacing: .2px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
+    text-decoration-thickness: 1px; text-decoration-color: var(--rule-2); }
+a:hover { text-decoration-color: var(--red); color: var(--red); }
+
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; color: var(--ink); }
+
+::selection { background: var(--cream-3); color: var(--ink); }
+
+/* The site puts NORD on labels, nav, eyebrows and buttons. Instrument Sans at
+   small size with heavy tracking reads as the same register. */
+.label,
+.wh-nav a, .wh-tabs a, .wh-head .util, .badge, .kind, .pane-title, .seg .lab,
+button, .chip, .avail, .wh-foot h3, .step-no {
+  font-family: var(--sans); text-transform: uppercase;
+  letter-spacing: 1.8px; font-weight: 500; font-size: 12px; line-height: 1.18;
+}
+
+/* -------------------------------------------------------------- 1. ticker */
+.wh-ticker {
+  background: #fff; border-bottom: 1px solid var(--rule);
+  overflow: hidden; white-space: nowrap; padding: 7px 0;
+}
+.wh-ticker .track { display: inline-block; will-change: transform; animation: wh-marquee 42s linear infinite; }
+.wh-ticker span {
+  font: 500 10.5px/1.2 var(--sans); text-transform: uppercase; letter-spacing: 1.6px;
+  color: var(--ink); padding: 0 6px;
+}
+.wh-ticker .sep { color: var(--red); }
+@keyframes wh-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .wh-ticker .track { animation: none; }
+  .wh-ticker { text-align: center; }
+}
+
+/* -------------------------------------------------------------- 2. header */
+/* Masthead and nav travel together, the way they do on the reference site.
+   Sticking them separately makes the nav slide under the taller masthead. */
+.wh-sticky { position: sticky; top: 0; z-index: 30; background: #fff; }
+
+.wh-head {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  gap: 16px; padding: 10px var(--gutter); max-width: var(--page); margin: 0 auto;
+}
+.wh-head .util {
+  color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 9px;
+  background: none; border: 0; padding: 10px 0; cursor: pointer; border-radius: 0;
+}
+.wh-head .util:hover { color: var(--red); background: none; }
+.wh-head .right { justify-self: end; display: flex; align-items: center; gap: 14px; }
+
+/* the centred lockup, echoing the seal-over-wordmark arrangement */
+.emblem { justify-self: center; text-align: center; text-decoration: none; display: block; padding: 2px 0; }
+.emblem .mark { display: block; height: 22px; margin: 0 auto 5px; }
+.emblem .name {
+  display: block; font-family: var(--serif); font-size: 19px; line-height: 1;
+  letter-spacing: .6px; color: var(--ink);
+}
+.emblem .sub {
+  display: block; font: 500 8.5px/1 var(--sans); text-transform: uppercase;
+  letter-spacing: 2.6px; color: var(--faint); margin-top: 5px;
+}
+.emblem:hover .name { color: var(--red); }
+
+/* ------------------------------------------------------------- 3. nav row */
+.wh-nav {
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  background: #fff;
+}
+.wh-nav ul {
+  display: flex; justify-content: center; flex-wrap: nowrap; overflow-x: auto;
+  list-style: none; margin: 0 auto; padding: 0 var(--gutter); max-width: var(--page);
+  scrollbar-width: none;
+}
+.wh-nav ul::-webkit-scrollbar { display: none; }
+.wh-nav a {
+  display: block; padding: 11px 16px; color: var(--ink); text-decoration: none; white-space: nowrap;
+}
+.wh-nav a:hover { color: var(--red); }
+.wh-nav a[aria-current="page"] { color: var(--red); }
+
+/* -------------------------------------------------------------- 4. topper */
+.wh-topper { background: var(--navy); color: #fff; padding: 64px var(--gutter) 0; text-align: center; }
+.wh-topper .inner { max-width: var(--wide); margin: 0 auto; }
+.wh-topper h1 {
+  color: #fff; font-size: clamp(46px, 7.2vw, 77px); line-height: 1.08;
+  letter-spacing: 1.2px; margin: 0;
+}
+.wh-topper .deck {
+  max-width: 620px; margin: 18px auto 0; color: rgba(255, 255, 255, .78);
+  font-size: 15.5px; line-height: 1.62;
+}
+.wh-topper .topper-form { max-width: 620px; margin: 30px auto 0; display: flex; }
+.wh-topper .topper-form input[type=text] {
+  flex: 1; background: var(--blue-1); border: 0; color: var(--ink);
+  padding: 17px 18px; font: 400 16px/1 var(--sans); letter-spacing: .4px; min-width: 0;
+}
+.wh-topper .topper-form input[type=text]::placeholder { color: #6b7385; }
+.wh-topper .topper-form input[type=text]:focus { outline: 2px solid #fff; outline-offset: 2px; }
+.wh-topper .topper-note {
+  margin: 14px auto 0; max-width: 620px; color: rgba(255, 255, 255, .6);
+  font-size: 13px; letter-spacing: .2px;
+}
+.wh-topper .pad { height: 52px; }
+
+/* ------------------------------------------------------------- 5. tab bar */
+.wh-tabs { background: var(--navy); }
+.wh-tabs ul {
+  display: flex; justify-content: center; overflow-x: auto; list-style: none;
+  margin: 0 auto; padding: 0 var(--gutter); max-width: var(--page); scrollbar-width: none;
+}
+.wh-tabs ul::-webkit-scrollbar { display: none; }
+.wh-tabs a {
+  display: block; padding: 21px 28px; color: #fff; text-decoration: none; white-space: nowrap;
+}
+.wh-tabs a:hover { background: var(--navy-lift); color: #fff; }
+.wh-tabs a.on { background: var(--navy-lift); }
+
+/* ------------------------------------------------------------ 6. sections */
+main { max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter) 72px; }
+main.narrow { max-width: calc(var(--read) + var(--gutter) * 2); }
+
+section { padding: 44px 0; border-bottom: 1px solid var(--rule); }
+/* the masthead and nav are sticky, so anchor targets have to clear them */
+section, [id] { scroll-margin-top: 122px; }
+section:last-of-type { border-bottom: 0; }
+section > h2 { font-size: 34px; line-height: 1.18; letter-spacing: .56px; margin: 0 0 22px; }
+section > h2 .step-no {
+  display: block; color: var(--red); margin-bottom: 11px; font-size: 12px; letter-spacing: 2.4px;
+}
+
+.lede { font-size: 19px; line-height: 1.6; color: var(--body); max-width: var(--read); }
+.reading { max-width: var(--read); }
+
+/* --------------------------------------------------------------- 7. forms */
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.spacer { flex: 1; }
+
+input[type=text], select, textarea {
+  background: #fff; border: 1px solid var(--rule-2); color: var(--ink);
+  padding: 13px 14px; border-radius: 0; font: 400 15.5px/1.35 var(--sans); letter-spacing: .2px;
+}
+input[type=text] { flex: 1; min-width: 240px; }
+textarea { width: 100%; min-height: 96px; resize: vertical; line-height: 1.55; }
+select { padding-right: 34px; appearance: none; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+                    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position: calc(100% - 17px) 55%, calc(100% - 12px) 55%;
+  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; }
+input[type=text]:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--navy); outline-offset: 1px; border-color: var(--navy);
+}
+::placeholder { color: #8a91a0; }
+
+input[type=checkbox] { width: 17px; height: 17px; accent-color: var(--red); margin: 1px 0 0; flex: none; }
+
+label.need {
+  display: flex; gap: 11px; align-items: flex-start; padding: 13px 15px;
+  border: 1px solid var(--rule); background: #fff; cursor: pointer;
+  font-size: 15.5px; line-height: 1.45; transition: border-color .12s, background .12s;
+}
+label.need:hover { border-color: var(--ink); background: var(--cream-2); }
+label.need:has(input:checked) { border-color: var(--navy); background: var(--cream); }
+.needs { display: grid; grid-template-columns: repeat(auto-fill, minmax(288px, 1fr)); gap: 10px; }
+
+/* ------------------------------------------------------------- 8. buttons */
+button {
+  background: var(--red-2); color: #fff; border: 1px solid var(--red-2);
+  padding: 14px 30px; border-radius: 999px; cursor: pointer;
+  font-size: 12px; letter-spacing: 1.8px; transition: background .14s, color .14s;
+}
+button:hover { background: #a00828; border-color: #a00828; }
+button:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+button:disabled { opacity: .45; cursor: default; }
+button.ghost { background: transparent; border: 1px solid var(--rule-2); color: var(--ink); padding: 12px 22px; }
+button.ghost:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+/* the secondary line inside a button ("80%% of this ZIP") rides with its label */
+button .muted { color: inherit; opacity: .6; margin-left: 9px; }
+button.ghost:hover .muted { color: #fff; }
+
+/* the submit hanging off the topper search field is square, not a pill */
+.wh-topper .topper-form button {
+  border-radius: 0; background: var(--red); border-color: var(--red); padding: 14px 26px;
+}
+.wh-topper .topper-form button:hover { background: #a92020; border-color: #a92020; }
+
+/* ---------------------------------------------------- 9. text accessories */
+.hint  { color: var(--faint); font-size: 13.5px; line-height: 1.55; margin-top: 10px; max-width: var(--read); }
+.muted { color: var(--faint); }
+.err   { color: var(--red); font-size: 15px; border-left: 3px solid var(--red); padding: 4px 0 4px 14px; }
+.loading { color: var(--faint); font-size: 14px; letter-spacing: .3px; }
+.kv { font: 400 13px/1.7 var(--sans); color: var(--muted); letter-spacing: .2px; }
+.kv b { color: var(--ink); font-weight: 600; }
+
+.badge {
+  display: inline-block; padding: 6px 12px; border: 1px solid var(--rule-2);
+  color: var(--muted); white-space: nowrap; font-size: 10.5px; letter-spacing: 1.5px;
+}
+.badge.live  { color: var(--green); border-color: var(--green); background: var(--green-wash); }
+.badge.local { color: var(--gold);  border-color: var(--gold);  background: var(--gold-wash); }
+
+.kind { color: var(--faint); margin: 18px 0 6px; font-size: 11px; letter-spacing: 1.6px; }
+
+/* -------------------------------------------------- 10. handoff to humans */
+.handoff { border-left: 4px solid var(--red); background: var(--red-wash); padding: 24px 28px; margin-bottom: 26px; }
+.handoff.sensitive { border-left-color: var(--gold); background: var(--gold-wash); }
+.handoff.soft { border-left-color: var(--rule-2); background: var(--gray-bg); }
+.handoff h3 { margin: 0 0 10px; font-size: 27px; line-height: 1.2; letter-spacing: .56px; }
+.channel { display: flex; gap: 16px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--rule); }
+.channel b { min-width: 168px; font-weight: 600; font-size: 15px; }
+
+/* ------------------------------------------------------------- 11. status */
+.status { border: 1px solid var(--rule); border-top: 3px solid var(--navy); background: var(--cream-2);
+          padding: 22px 26px; margin-bottom: 26px; }
+.status.open { border-top-color: var(--green); background: var(--green-wash); }
+.status.late { border-top-color: var(--gold);  background: var(--gold-wash); }
+.status .big { font-family: var(--serif); font-size: 25px; line-height: 1.24; letter-spacing: .4px; color: var(--ink); }
+
+.chip, .avail {
+  display: inline-block; padding: 5px 10px; margin-right: 7px; font-size: 10.5px; letter-spacing: 1.4px;
+  border: 1px solid currentColor;
+}
+.chip.open, .avail.likely, .avail.always { color: var(--green); background: var(--green-wash); }
+.chip.late, .avail.late, .avail.check    { color: var(--gold);  background: var(--gold-wash); }
+.chip.closed, .chip.none,
+.avail.closed, .avail.unavailable        { color: var(--red);   background: var(--red-wash); }
+.avail { margin: 0 0 0 10px; vertical-align: 3px; }
+
+/* ------------------------------------------------------------ 12. program */
+.prog { border-top: 1px solid var(--rule-2); padding: 26px 0 4px; }
+.prog:first-child { border-top: 0; padding-top: 0; }
+.prog h4 { margin: 0 0 6px; font-size: 27px; line-height: 1.22; letter-spacing: .56px; }
+
+.claim { padding: 2px 0 2px 16px; border-left: 2px solid var(--blue-2); margin: 8px 0; }
+.claim.abstained { border-left-color: var(--gold); background: var(--gold-wash); padding: 10px 14px; }
+.cite { font: 400 13px/1.55 var(--sans); color: var(--faint); margin-top: 6px; letter-spacing: .1px; }
+.cite a, .cite b { color: var(--muted); }
+.cite b { font-weight: 600; }
+details.exact summary { cursor: pointer; font: 400 12.5px/1.5 var(--sans); color: var(--faint); margin-top: 4px; }
+details.exact blockquote {
+  margin: 8px 0 0; padding: 10px 16px; border-left: 2px solid var(--cream-3);
+  color: var(--muted); font-size: 14.5px; font-style: italic;
+}
+.withheld { font-size: 12.5px; color: var(--gold); margin-top: 6px; letter-spacing: .2px; }
+
+.fraud { border: 1px solid var(--rule); border-top: 3px solid var(--red); background: var(--cream-2); padding: 22px 26px; }
+.fraud ul { padding-left: 20px; margin: 0; }
+.fraud li { margin-bottom: 9px; }
+
+.danger-q {
+  margin-top: 18px; padding: 16px 18px; border-left: 4px solid var(--red); background: var(--red-wash);
+  display: flex; gap: 12px; align-items: center; font-weight: 600; font-size: 15.5px;
+}
+.danger-strip {
+  background: var(--navy); color: #fff; padding: 13px 18px; margin-bottom: 20px;
+  font: 500 12px/1.6 var(--sans); text-transform: uppercase; letter-spacing: 1.4px;
+}
+.privacy { background: var(--blue-1); padding: 14px 18px; font-size: 14.5px; margin-bottom: 20px;
+           border-left: 3px solid var(--navy); }
+.suggest button { background: transparent; border: 1px dashed var(--rule-2); color: var(--muted); }
+.suggest button:hover { background: var(--cream); border-style: solid; color: var(--ink); }
+
+/* --------------------------------------------------------- 13. alert page */
+.alert-card {
+  border: 0; border-top: 1px solid var(--rule); padding: 18px 20px 18px 0; cursor: pointer;
+  background: #fff; transition: background .12s, padding .12s;
+}
+.alert-card:last-child { border-bottom: 1px solid var(--rule); }
+.alert-card:hover { background: var(--cream); padding-left: 16px; }
+.alert-card.sel { background: var(--cream); border-left: 4px solid var(--red); padding-left: 16px; }
+.alert-card .ev { font-family: var(--serif); font-size: 23px; line-height: 1.25; letter-spacing: .4px; color: var(--ink); }
+.alert-card .meta { color: var(--faint); font-size: 13.5px; margin-top: 5px; }
+.pill {
+  display: inline-block; padding: 4px 9px; margin-left: 10px; vertical-align: 3px;
+  font: 500 10px/1.2 var(--sans); text-transform: uppercase; letter-spacing: 1.3px;
+  border: 1px solid currentColor;
+}
+.pill.inside { color: var(--red); background: var(--red-wash); }
+.pill.near   { color: var(--gold); background: var(--gold-wash); }
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+@media (max-width: 1000px) { .split { grid-template-columns: 1fr; gap: 32px; } }
+.pane-title {
+  color: var(--faint); margin-bottom: 14px; padding-bottom: 10px; font-size: 11px; letter-spacing: 1.6px;
+  border-bottom: 1px solid var(--rule); display: flex; gap: 10px; align-items: center;
+}
+pre.raw, pre.json {
+  background: var(--navy); color: #cdd5e4; border: 0; padding: 20px; margin: 0;
+  font: 12.5px/1.6 var(--mono); white-space: pre-wrap; word-break: break-word; overflow: auto;
+}
+pre.raw { max-height: 460px; }
+pre.json { max-height: 320px; font-size: 11.5px; word-break: break-all; }
+
+.position { border: 1px solid var(--rule); border-top: 3px solid var(--navy); background: var(--cream-2);
+            padding: 22px 26px; margin-bottom: 22px; }
+.position.inside { border-top-color: var(--red);  background: var(--red-wash); }
+.position.near   { border-top-color: var(--gold); background: var(--gold-wash); }
+.position .big { font-family: var(--serif); font-size: 27px; line-height: 1.22; letter-spacing: .5px; color: var(--ink); }
+.position .sub { color: var(--muted); font-size: 14.5px; margin-top: 7px; }
+
+.fk { display: flex; gap: 12px; align-items: center; font: 500 12px/1 var(--sans);
+      text-transform: uppercase; letter-spacing: 1.4px; }
+.fk .from { color: var(--red); } .fk .to { color: var(--green); } .fk .arrow { color: var(--faint); }
+
+ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; }
+ol.steps li {
+  counter-increment: s; position: relative; padding: 4px 0 20px 52px;
+  border-bottom: 1px solid var(--rule); margin-bottom: 18px;
+}
+ol.steps li:last-child { border-bottom: 0; margin-bottom: 0; }
+ol.steps li::before {
+  content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 2px;
+  font: 500 12px/1.2 var(--sans); letter-spacing: 1.4px; color: var(--red);
+}
+ol.steps li.abstained { background: var(--gold-wash); padding: 14px 16px 14px 52px; border-bottom: 0; }
+ol.steps li.abstained::before { left: 16px; top: 16px; color: var(--gold); }
+
+.abstain-note {
+  margin-top: 12px; padding: 13px 16px; background: var(--gold-wash);
+  border-left: 3px solid var(--gold); font-size: 14px; color: var(--muted);
+}
+.abstain-note strong { display: block; margin-bottom: 4px; color: var(--gold);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.4px; }
+.abstain-note .interp { color: var(--faint); margin-top: 7px; display: block; }
+
+.seg { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.seg:last-child { border-bottom: 0; }
+.seg .lab { color: var(--faint); display: block; margin-bottom: 6px; font-size: 10.5px; letter-spacing: 1.5px; }
+.seg.abstained { background: var(--gold-wash); padding: 14px 16px; border-bottom: 0; margin: 6px 0; }
+.seg .why { font-size: 12.5px; color: var(--gold); margin-top: 7px; letter-spacing: .2px; }
+
+svg.map { width: 100%; height: auto; display: block; background: var(--blue-1); border: 1px solid var(--rule); }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--faint); margin-top: 11px; }
+.legend i { display: inline-block; width: 11px; height: 11px; margin-right: 7px; vertical-align: -1px; }
+
+table.checks { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+table.checks td { padding: 12px 10px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.checks td.s { width: 62px; font: 500 11px/1.4 var(--sans); text-transform: uppercase; letter-spacing: 1.4px; }
+table.checks td.n { width: 210px; font-size: 13.5px; color: var(--faint); }
+.s.ok { color: var(--green); } .s.bad { color: var(--red); }
+/* the PAGE VERIFIED / DOES NOT VERIFY stamp above the checks table */
+.verdict { font: 500 15px/1.2 var(--sans); text-transform: uppercase; letter-spacing: 2.4px;
+           margin-bottom: 16px; padding-bottom: 14px; border-bottom: 2px solid currentColor;
+           display: inline-block; }
+
+.limits { margin-top: 22px; padding: 20px 24px; background: var(--cream); border-left: 3px solid var(--gold); }
+.limits h3 { margin: 0 0 10px; font-family: var(--sans); font-size: 11px; text-transform: uppercase;
+             letter-spacing: 1.8px; font-weight: 500; color: var(--gold); }
+.limits ul { margin: 0; padding-left: 20px; }
+.limits li { font-size: 14px; color: var(--muted); margin-bottom: 7px; }
+
+audio { width: 100%; margin-top: 12px; }
+[dir=rtl] { text-align: right; }
+
+/* ------------------------------------------------------------- 14. footer */
+.wh-foot { background: var(--navy); color: #fff; padding: 62px var(--gutter) 40px; }
+.wh-foot .inner {
+  max-width: var(--page); margin: 0 auto;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 44px;
+}
+.wh-foot h3 { color: #fff; margin: 0 0 18px; font-size: 13px; letter-spacing: 2.8px; font-weight: 500; }
+.wh-foot ul { list-style: none; margin: 0; padding: 0; }
+.wh-foot a { display: inline-block; color: #fff; font-size: 13px; line-height: 1.6; padding: 6px 0;
+             text-decoration: none; opacity: .82; }
+.wh-foot a:hover { opacity: 1; color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+.wh-foot p { font-size: 13px; line-height: 1.7; color: rgba(255, 255, 255, .7); margin: 0 0 12px; }
+.wh-foot .rule { border: 0; border-top: 1px solid var(--rule-inv); margin: 44px 0 22px; }
+.wh-foot .colophon {
+  max-width: var(--page); margin: 0 auto; display: flex; gap: 20px; flex-wrap: wrap;
+  justify-content: space-between; font-size: 11px; text-transform: uppercase; letter-spacing: 1.6px;
+  color: rgba(255, 255, 255, .55);
+}
+
+/* --------------------------------------------------------- 15. responsive */
+@media (max-width: 860px) {
+  :root { --gutter: 20px; }
+  body { font-size: 16px; }
+  /* Keep the sticky unit short: it is competing with the content for a phone
+     screen, so the lockup subtitle and the secondary badge stand down. */
+  .wh-head { grid-template-columns: auto 1fr auto; gap: 10px; padding: 7px var(--gutter); }
+  .wh-head .util span { display: none; }
+  .wh-head .right .badge + .badge { display: none; }
+  .emblem .mark { height: 18px; margin-bottom: 4px; }
+  .emblem .name { font-size: 16px; }
+  .emblem .sub { display: none; }
+  .badge { padding: 5px 9px; font-size: 9.5px; letter-spacing: 1.2px; }
+  section, [id] { scroll-margin-top: 106px; }
+  .wh-nav ul, .wh-tabs ul { justify-content: flex-start; }
+  .wh-tabs a { padding: 16px 18px; }
+  .wh-topper { padding-top: 46px; }
+  section > h2 { font-size: 28px; }
+  .channel { flex-direction: column; gap: 4px; }
+  .channel b { min-width: 0; }
+  .wh-topper .topper-form { flex-direction: column; gap: 10px; }
+  .wh-topper .topper-form button { border-radius: 999px; }
+}

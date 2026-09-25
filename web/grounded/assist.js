@@ -193,7 +193,7 @@ function paint(r) {
   // FEMA's own fraud warnings.
   const fraud = byRole('fraud');
   if (fraud.length) {
-    html += `<div class="fraud" dir="${dir}"><div class="kind" style="margin-top:0;color:#ff9d95" dir="ltr">
+    html += `<div class="fraud" dir="${dir}"><div class="kind" style="margin-top:0;color:var(--red)" dir="ltr">
       Protect yourself from disaster fraud &mdash; FEMA's own warnings</div>
       <ul style="margin:6px 0 0;padding-left:18px">${fraud.map((s) => `<li>${claimInner(s)}</li>`).join('')}</ul></div>`;
   }
@@ -279,7 +279,7 @@ async function verify(manifest, segments, note) {
   try { v = await post('api/verify', { manifest, rendered_segments: segments }); }
   catch (e) { $('verify-out').innerHTML = `<div class="err">${esc(e.message)}</div>`; return; }
   $('verify-out').innerHTML = `${note ? `<div class="danger-strip">${esc(note)}</div>` : ''}
-    <div style="font:700 14px/1 var(--mono);margin-bottom:10px;color:${v.valid ? 'var(--ok)' : 'var(--bad)'}">
+    <div class="verdict" style="color:${v.valid ? 'var(--ok)' : 'var(--bad)'}">
       ${v.valid ? 'PAGE VERIFIED' : 'PAGE DOES NOT VERIFY'}</div>
     <table class="checks">${v.checks.map((c) => `<tr><td class="s ${c.passed ? 'ok' : 'bad'}">${c.passed ? 'PASS' : 'FAIL'}</td>
       <td class="n">${esc(c.name)}</td><td>${esc(c.detail)}</td></tr>`).join('')}</table>`;
@@ -288,6 +288,9 @@ async function verify(manifest, segments, note) {
 /* ------------------------------------------------------------------- wire */
 
 $('go').onclick = () => { STATE.pick = null; go(); };
+// The location field sits in the topper, so its submit button has to reach the
+// same handler as the one at the bottom of step 2.
+$('hero-go').onclick = () => { STATE.pick = null; go(); };
 $('loc').addEventListener('keydown', (e) => { if (e.key === 'Enter') { STATE.pick = null; go(); } });
 ['lang', 'clock', 'corrupt'].forEach((id) => $(id).onchange = () => { if (STATE.last) go(); });
 init();
