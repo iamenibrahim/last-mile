@@ -79,11 +79,93 @@
   </a>
 
   <a class="emblem" href="alert.html">
-    <svg class="mark" viewBox="0 0 64 22" fill="none" aria-hidden="true">
-      <path d="M32 2 41 9v11H23V9z" fill="#151a30"/>
-      <path d="M26 20v-6h4v6M34 20v-6h4v6" fill="#fff"/>
-      <path d="M18 20h28M14 20h2M48 20h2" stroke="#151a30" stroke-width="1.4"/>
-      <path d="M0 11h13M51 11h13" stroke="#8b1a1a" stroke-width="1"/>
+    <svg class="mark" viewBox="0 0 64 64" role="img" aria-label="Last Mile seal">
+          <title>Last Mile</title>
+          <!-- Traced down from the full seal. At masthead size the eagle plumage,
+               the landscape and the ring lettering all collapse into noise, so
+               this keeps only what still reads at 40px: the double ring, the
+               flanking stars, the laurel, the shield and the spread wings. -->
+          <defs>
+            <clipPath id="seal-shield">
+              <path d="M26.6 27.8h10.8v7.4c0 3.2-2.2 5.6-5.4 6.9-3.2-1.3-5.4-3.7-5.4-6.9z"/>
+            </clipPath>
+            <g id="seal-star">
+              <path d="M0-2.3.7-.7 2.4-.6 1.1.5l.4 1.7L0 1.3l-1.5.9.4-1.7-1.3-1.1 1.7-.1z"/>
+            </g>
+          </defs>
+
+          <!-- ring -->
+          <circle cx="32" cy="32" r="31.4" fill="#12203c"/>
+          <circle cx="32" cy="32" r="30" fill="none" stroke="#c9a227" stroke-width=".8"/>
+          <circle cx="32" cy="32" r="25.4" fill="none" stroke="#c9a227" stroke-width=".8"/>
+          <circle cx="32" cy="32" r="24.6" fill="#faf5e9"/>
+
+          <!-- the three stars that sit between the words on the full seal -->
+          <g fill="#d8b64a">
+            <use href="#seal-star" x="4.2" y="32"/>
+            <use href="#seal-star" x="59.8" y="32"/>
+            <use href="#seal-star" x="32" y="60.2"/>
+          </g>
+
+          <!-- laurel, one sprig each side -->
+          <g stroke="#c9a227" stroke-width=".9" fill="none" stroke-linecap="round">
+            <path d="M11.6 24.5c-1.2 5.2-.5 10.6 2 15.2"/>
+            <path d="M11.3 27.2c-1.4-.7-2.6-.6-3.6.3m4 3.4c-1.5-.5-2.7-.2-3.6.8m4.2 3.2c-1.5-.3-2.7.1-3.4 1.2m4.4 2.7c-1.5-.1-2.6.5-3.2 1.7"/>
+            <path d="M11.9 26.1c1.3-1 1.9-2.2 1.8-3.5m-1.5 7.4c1.4-.8 2.1-1.9 2.2-3.2m-1.4 7.5c1.4-.6 2.3-1.6 2.5-2.9m-1.1 7.5c1.4-.4 2.4-1.3 2.7-2.6"/>
+            <path d="M52.4 24.5c1.2 5.2.5 10.6-2 15.2"/>
+            <path d="M52.7 27.2c1.4-.7 2.6-.6 3.6.3m-4 3.4c1.5-.5 2.7-.2 3.6.8m-4.2 3.2c1.5-.3 2.7.1 3.4 1.2m-4.4 2.7c1.5-.1 2.6.5 3.2 1.7"/>
+            <path d="M52.1 26.1c-1.3-1-1.9-2.2-1.8-3.5m1.5 7.4c-1.4-.8-2.1-1.9-2.2-3.2m1.4 7.5c-1.4-.6-2.3-1.6-2.5-2.9m1.1 7.5c-1.4-.4-2.4-1.3-2.7-2.6"/>
+          </g>
+
+          <!-- arc of stars over the eagle -->
+          <g fill="#c9a227">
+            <use href="#seal-star" x="22.8" y="16.4" transform="scale(.62) translate(14 10)"/>
+            <use href="#seal-star" x="32" y="13.8" transform="scale(.62) translate(19.6 8.4)"/>
+            <use href="#seal-star" x="41.2" y="16.4" transform="scale(.62) translate(25.2 10)"/>
+          </g>
+
+          <!-- wings -->
+          <g fill="#5a4630">
+            <path d="M28.4 28.6c-3.6-3.4-8.6-6-14.2-7.1.8 4.6 2.5 8.4 5 11.4 2 2.4 4.6 4 7.4 4.7l1.2-3.1 1.1 1.6z"/>
+            <path d="M35.6 28.6c3.6-3.4 8.6-6 14.2-7.1-.8 4.6-2.5 8.4-5 11.4-2 2.4-4.6 4-7.4 4.7l-1.2-3.1-1.1 1.6z"/>
+          </g>
+
+          <!-- tail -->
+          <path d="M27.4 40.2h9.2l-1.8 7.4h-5.6z" fill="#e8e3d6"/>
+          <g stroke="#b9b2a0" stroke-width=".5">
+            <path d="M30.2 40.6l-.6 6.4M32 40.6v6.6M33.8 40.6l.6 6.4"/>
+          </g>
+
+          <!-- head and beak -->
+          <path d="M32 18.6c2.2 0 4 1.8 4 4.1 0 2-1.1 3.6-2.7 4.2h-2.6c-1.6-.6-2.7-2.2-2.7-4.2 0-2.3 1.8-4.1 4-4.1z" fill="#fbfaf6"/>
+          <path d="M36.4 22.6l3.1 1.5-3.1 1.4z" fill="#d8a52a"/>
+          <circle cx="33.6" cy="22.4" r=".75" fill="#12203c"/>
+
+          <!-- shield -->
+          <path d="M26.6 27.8h10.8v7.4c0 3.2-2.2 5.6-5.4 6.9-3.2-1.3-5.4-3.7-5.4-6.9z" fill="#faf5e9"/>
+          <g clip-path="url(#seal-shield)">
+            <path d="M26.6 27.8h10.8v3.4H26.6z" fill="#12203c"/>
+            <g fill="#8b1a1a">
+              <path d="M27.6 31.2h1.2v11h-1.2zM30 31.2h1.2v11H30zM32.4 31.2h1.2v11h-1.2zM34.8 31.2h1.2v11h-1.2z"/>
+            </g>
+          </g>
+          <path d="M26.6 27.8h10.8v7.4c0 3.2-2.2 5.6-5.4 6.9-3.2-1.3-5.4-3.7-5.4-6.9z"
+                fill="none" stroke="#12203c" stroke-width=".8"/>
+          <g fill="#d8b64a">
+            <use href="#seal-star" x="29" y="29.5" transform="scale(.55) translate(23.7 24.1)"/>
+            <use href="#seal-star" x="32" y="29.5" transform="scale(.55) translate(26.2 24.1)"/>
+            <use href="#seal-star" x="35" y="29.5" transform="scale(.55) translate(28.6 24.1)"/>
+          </g>
+
+          <!-- olive branch and arrows, the way the eagle holds them -->
+          <g stroke="#3f5c32" stroke-width=".9" fill="none" stroke-linecap="round">
+            <path d="M24.6 37.4c-2.6.6-4.8 2-6.5 4.2"/>
+            <path d="M22.6 37.8c-.5-1-1.3-1.5-2.4-1.6m.6 3.2c-.8-.8-1.7-1-2.7-.7m1.1 2.9c-.9-.5-1.8-.4-2.7.2"/>
+          </g>
+          <g stroke="#c9a227" stroke-width=".9" stroke-linecap="round">
+            <path d="M39.4 37.4l6.8 3.3M39.6 38.6l6.4 2.6M40 39.8l6 2.1"/>
+            <path d="M45.4 39.6l1.8 1.4-2.1.8M45.2 40.9l1.7 1.3-2 .8"/>
+          </g>
     </svg>
     <span class="name">Last-Mile Alert</span>
     <span class="sub">Emergency Alert Transformer</span>
