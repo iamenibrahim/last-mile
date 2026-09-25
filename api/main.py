@@ -68,7 +68,8 @@ async def operational_telemetry(request: Request, call_next):
     """Emit PII-free route latency into Function/App Insights traces."""
     started = time.perf_counter()
     request_id = uuid.uuid4().hex[:16]
-    request.state.surge = surge_controller.observe()
+    surge = surge_controller.observe()
+    request.scope["last_mile_surge"] = surge
     try:
         response = await call_next(request)
     except Exception as error:
@@ -91,9 +92,19 @@ async def operational_telemetry(request: Request, call_next):
         request_id,
     )
     response.headers["X-Request-ID"] = request_id
-    response.headers["X-Last-Mile-Mode"] = request.state.surge["mode"]
+    response.headers["X-Last-Mile-Mode"] = surge["mode"]
     return response
 render_store = create_store()
+
+
+def _surge_for(request: Request) -> dict[str, Any]:
+    """Read middleware state when the host preserves it; safely recompute otherwise.
+
+    Azure Functions' ASGI adapter may construct a fresh Starlette Request for the
+    endpoint, so request.state cannot be used as the only carrier.
+    """
+
+    return request.scope.get("last_mile_surge") or surge_controller.observe()
 
 
 class NavigateRequest(BaseModel):
@@ -209,8 +220,9 @@ def alerts() -> dict:
 
 @app.post("/api/navigate")
 def navigation(request: NavigateRequest, http_request: Request) -> dict:
+    surge = _surge_for(http_request)
     profile = request.model_dump()
-    profile["surge_mode"] = profile["surge_mode"] or http_request.state.surge["active"]
+    profile["surge_mode"] = profile["surge_mode"] or surge["active"]
     result = navigate(profile)
     alert = load_cached_alert()
     location = geocode(request.location)
@@ -221,7 +233,7 @@ def navigation(request: NavigateRequest, http_request: Request) -> dict:
         "position": classify_position(point, alert.get("geometry")),
     }
     result["protocol"] = build_action_packet(profile)
-    result["surge"] = http_request.state.surge
+    result["surge"] = surge
     if result["protocol"].get("status") == "complete":
         result["privacy"].update(
             {
@@ -322,7 +334,7 @@ def scenario_replay() -> dict:
 
 @app.get("/api/surge/status")
 def surge_status(request: Request) -> dict:
-    return request.state.surge
+    return _surge_for(request)
 
 
 @app.get("/api/handoff/{code}")
@@ -439,7 +451,7 @@ def transform(request: TransformRequest, http_request: Request) -> dict:
         request.language,
         request.grade,
         request.simulate_failure,
-        deterministic_only=request.surge_mode or http_request.state.surge["active"],
+        deterministic_only=request.surge_mode or _surge_for(http_request)["active"],
     )
     try:
         render_store.save_render(result)

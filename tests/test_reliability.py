@@ -4,6 +4,9 @@ import json
 from datetime import date
 from pathlib import Path
 
+from starlette.requests import Request
+
+from api.main import _surge_for
 from api.navigator import navigate
 from api.protocol import build_action_packet, verify_action_packet
 from api.reliability import (
@@ -133,6 +136,13 @@ def test_surge_controller_switches_to_graceful_degradation():
     result = controller.observe()
     assert result["mode"] == "surge"
     assert "deterministic matching retained" in result["degradation"]
+
+
+def test_surge_context_survives_hosts_that_do_not_copy_request_state():
+    request = Request({"type": "http", "method": "GET", "path": "/", "headers": []})
+    result = _surge_for(request)
+    assert result["mode"] in {"normal", "surge"}
+    assert "active" in result
 
 
 def test_web_exposes_freshness_evidence_chaos_and_signed_snapshot_controls():
