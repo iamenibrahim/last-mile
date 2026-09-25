@@ -60,3 +60,16 @@ def test_source_conflict_replaces_normal_confidence_with_visible_warning():
     assert 'program.source_conflict?.detected ? "Verify with official source"' in script
     assert ".confidence-pill.conflict" in styles
     assert ".recommendation-card.has-source-conflict" in styles
+
+
+def test_evidence_text_is_escaped_and_reviewed_links_are_hardened():
+    script = (ROOT / "web" / "app.js").read_text(encoding="utf-8")
+    for expression in (
+        "escapeHtml(program.evidence?.rule)",
+        "escapeHtml(program.evidence?.source_excerpt)",
+        'escapeHtml(program.evidence?.last_reviewed || "Not recorded")',
+        "escapeHtml(program.evidence?.caveat)",
+    ):
+        assert expression in script
+    assert 'href="${escapeHtml(program.source_url)}" target="_blank" rel="noopener"' in script
+    assert 'href="${escapeHtml(program.source_conflict?.detected ? program.source_url : program.apply_url)}" target="_blank" rel="noopener"' in script

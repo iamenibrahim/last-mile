@@ -12,6 +12,8 @@ from urllib.parse import urlsplit
 
 
 DEFAULT_REVIEW_INTERVAL_DAYS = 90
+EVIDENCE_SCHEMA_VERSION = "recommendation-evidence-v1"
+MAX_SOURCE_EXCERPT_CHARS = 480
 PROGRAM_REQUIRED_FIELDS = (
     "id",
     "name",
@@ -327,19 +329,43 @@ def evidence_trace(
         triggered.append(
             f"circumstance intersects program.circumstances: {', '.join(matched_circumstances)}"
         )
+    rule = " AND/OR ".join(triggered) or "urgent program + time-sensitive request"
+    source_excerpt = " ".join(str(program.get("source_excerpt") or "").split())
+    excerpt_truncated = len(source_excerpt) > MAX_SOURCE_EXCERPT_CHARS
+    if excerpt_truncated:
+        source_excerpt = source_excerpt[: MAX_SOURCE_EXCERPT_CHARS - 1].rstrip() + "…"
+    source_record = {
+        "program_id": program.get("id"),
+        "source_label": program.get("source_label") or program.get("agency"),
+        "source_url": program.get("source_url"),
+        "disaster_id": program.get("disaster_id"),
+    }
+    caveat = program.get("evidence_caveat") or (
+        "Screening match only; the authoritative agency decides eligibility and current availability."
+    )
+    required = {
+        "rule": rule,
+        "source_record.program_id": source_record["program_id"],
+        "source_record.source_label": source_record["source_label"],
+        "source_record.source_url": source_record["source_url"],
+        "source_record.disaster_id": source_record["disaster_id"],
+        "source_excerpt": source_excerpt,
+        "last_reviewed": program.get("last_verified"),
+        "confidence.label": confidence.get("label") if isinstance(confidence, dict) else None,
+        "caveat": caveat,
+    }
+    missing = [field for field, value in required.items() if value is None or str(value).strip() == ""]
+    if missing:
+        raise ValueError(f"Recommendation evidence is incomplete: {', '.join(missing)}")
     return {
-        "rule": " AND/OR ".join(triggered) or "urgent program + time-sensitive request",
-        "source_record": {
-            "program_id": program.get("id"),
-            "source_label": program.get("source_label"),
-            "source_url": program.get("source_url"),
-            "disaster_id": program.get("disaster_id"),
-        },
-        "source_excerpt": program.get("source_excerpt") or program.get("summary"),
+        "schema_version": EVIDENCE_SCHEMA_VERSION,
+        "rule": rule,
+        "source_record": source_record,
+        "source_excerpt": source_excerpt,
+        "source_excerpt_truncated": excerpt_truncated,
         "last_reviewed": program.get("last_verified"),
         "confidence": confidence,
-        "caveat": program.get("evidence_caveat")
-        or "Screening match only; the authoritative agency decides eligibility and current availability.",
+        "caveat": caveat,
     }
 
 

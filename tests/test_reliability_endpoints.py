@@ -65,6 +65,20 @@ def test_chaos_unknown_modes_are_ignored():
     assert body["outcomes"][0]["fallback"] == "deterministic rules + reviewed copy"
 
 
+def test_navigation_evidence_contract_is_versioned_and_complete():
+    response = TestClient(app).post("/api/navigate", json=PROFILE)
+    assert response.status_code == 200
+    recommendations = response.json()["recommendations"]
+    assert recommendations
+    for recommendation in recommendations:
+        evidence = recommendation["evidence"]
+        assert evidence["schema_version"] == "recommendation-evidence-v1"
+        assert evidence["rule"] and evidence["source_excerpt"] and evidence["last_reviewed"]
+        assert evidence["source_record"]["program_id"] == recommendation["id"]
+        assert evidence["source_record"]["source_url"] == recommendation["source_url"]
+        assert evidence["confidence"]["label"] and evidence["caveat"]
+
+
 def test_saved_packet_diff_snapshot_and_preferences():
     client = TestClient(app)
     response = client.post("/api/packet", json={**PROFILE, "accessibility_preferences": ["relay_service", "unknown"]})

@@ -12,6 +12,7 @@ from api.main import _surge_for
 from api.navigator import load_programs, navigate
 from api.protocol import build_action_packet, verify_action_packet
 from api.reliability import (
+    MAX_SOURCE_EXCERPT_CHARS,
     SurgeController,
     assess_freshness,
     compile_accessibility,
@@ -19,6 +20,7 @@ from api.reliability import (
     detect_source_conflicts,
     diff_packet,
     evaluate_chaos,
+    evidence_trace,
     offline_snapshot,
     validate_program_records,
 )
@@ -198,9 +200,55 @@ def test_recommendation_contains_complete_evidence_trace_and_graph():
     result = navigate({**PROFILE, "surge_mode": True})
     recommendation = result["recommendations"][0]
     assert set(recommendation["evidence"]) == {
-        "rule", "source_record", "source_excerpt", "last_reviewed", "confidence", "caveat"
+        "schema_version",
+        "rule",
+        "source_record",
+        "source_excerpt",
+        "source_excerpt_truncated",
+        "last_reviewed",
+        "confidence",
+        "caveat",
     }
+    assert recommendation["evidence"]["schema_version"] == "recommendation-evidence-v1"
     assert len(recommendation["provenance"]["nodes"]) == 5
+
+
+def test_every_recommendation_has_a_complete_trace_to_a_reviewed_catalog_record():
+    programs = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
+    catalog = {program["id"]: program for program in programs}
+    recommendations = navigate({**PROFILE, "surge_mode": True})["recommendations"]
+    assert recommendations
+    for recommendation in recommendations:
+        evidence = recommendation["evidence"]
+        source = evidence["source_record"]
+        assert evidence["rule"].strip()
+        assert 0 < len(evidence["source_excerpt"]) <= MAX_SOURCE_EXCERPT_CHARS
+        assert evidence["last_reviewed"]
+        assert evidence["confidence"]["label"]
+        assert evidence["caveat"].strip()
+        assert source["program_id"] in catalog
+        assert source["source_url"] == catalog[source["program_id"]]["source_url"]
+
+
+def test_evidence_trace_bounds_excerpt_and_fails_closed_when_required_data_is_missing():
+    program = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))[0]
+    long_program = {**program, "source_excerpt": "verified " * 100}
+    trace = evidence_trace(long_program, ["shelter"], [], {"label": "Possible match", "value": 0.68})
+    assert len(trace["source_excerpt"]) <= MAX_SOURCE_EXCERPT_CHARS
+    assert trace["source_excerpt_truncated"] is True
+    with pytest.raises(ValueError, match="source_excerpt"):
+        evidence_trace({**program, "source_excerpt": ""}, [], [], {"label": "Possible match", "value": 0.68})
+
+
+def test_foundry_explanation_cannot_replace_deterministic_rule_or_source_excerpt(monkeypatch):
+    marker = "MODEL TEXT THAT IS NOT SOURCE EVIDENCE"
+    monkeypatch.setattr("api.navigator._explain", lambda *args, **kwargs: (marker, "test model"))
+    recommendation = navigate(PROFILE)["recommendations"][0]
+    catalog = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
+    source = next(program for program in catalog if program["id"] == recommendation["id"])
+    assert recommendation["why"] == marker
+    assert marker not in recommendation["evidence"]["rule"]
+    assert recommendation["evidence"]["source_excerpt"] == source["source_excerpt"]
 
 
 def test_field_level_contradiction_detector_withholds_bad_channel():
