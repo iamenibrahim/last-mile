@@ -659,7 +659,7 @@ audio { width: 100%; margin-top: 12px; }
 .lowdata-btn[aria-pressed="true"] .state { color: var(--cream-3); }
 
 @media (max-width: 860px) {
-  .lowdata-btn .lbl { display: none; }
+  .lowdata-btn .state { display: none; }
   .figure-n { font-size: 34px; }
   .gov-banner .bar { font-size: 11.5px; }
 }
