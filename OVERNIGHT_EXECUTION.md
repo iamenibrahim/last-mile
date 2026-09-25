@@ -406,18 +406,18 @@ Acceptance criteria:
 
 ### P1.2 Contradiction detector expansion
 
-- [ ] Cover wrong jurisdiction.
-- [ ] Cover wrong disaster ID.
-- [ ] Cover wrong deadline.
-- [ ] Cover wrong phone number.
-- [ ] Cover an action whose `source_id` is absent.
-- [ ] Cover an eligibility explanation that asserts a condition absent from the
+- [x] Cover wrong jurisdiction.
+- [x] Cover wrong disaster ID.
+- [x] Cover wrong deadline.
+- [x] Cover wrong phone number.
+- [x] Cover an action whose `source_id` is absent.
+- [x] Cover an eligibility explanation that asserts a condition absent from the
   structured record.
-- [ ] Cover negation changes such as `may qualify` → `will qualify`.
-- [ ] Cover historical/current status inversion.
-- [ ] Cover channel-only omission and channel-only insertion.
-- [ ] Ensure detected contradictions invalidate packet verification.
-- [ ] Ensure failures return a bounded diagnostic without exposing internal data.
+- [x] Cover negation changes such as `may qualify` → `will qualify`.
+- [x] Cover historical/current status inversion.
+- [x] Cover channel-only omission and channel-only insertion.
+- [x] Ensure detected contradictions invalidate packet verification.
+- [x] Ensure failures return a bounded diagnostic without exposing internal data.
 
 Acceptance criteria:
 
@@ -885,6 +885,10 @@ Add rows; do not replace prior evidence.
 | 2026-09-25 05:48 | Evidence deployment | `4e4be59` | PASS | GitHub Actions run `36120163123`; Azure Functions deployment completed in 1m25s |
 | 2026-09-25 05:48 | Evidence live readiness | `4e4be59` | PASS | All required readiness checks passed; five recommendations used `recommendation-evidence-v1`, required fields matched reviewed records, maximum live excerpt was 99 characters, operational headers and deployed escaping/`noopener` contracts passed |
 | 2026-09-25 05:48 | Production telemetry | `4e4be59` | PASS | Zero `http_request_failed` traces since 09:45Z; Application Insights ingestion lag remains a limitation |
+| 2026-09-25 09:26 | Contradiction local gates | `787b967` | PASS | 283 passed, 1 expected fixture skip; JavaScript/Python syntax, whitespace, and 4/4 replay passed; dependency audit found no known vulnerabilities and Bandit had no medium/high findings |
+| 2026-09-25 09:26 | Contradiction deployment | `787b967` | PASS | GitHub Actions run `36140662666`; Azure Functions deployment completed in 1m25s; security workflow `36140662769` passed |
+| 2026-09-25 09:26 | Contradiction live readiness | `787b967` | PASS | All required readiness checks passed; live packet used `packet-contradictions-v2`, all four channels carried the fact contract, and a wrong-county channel mutation was rejected |
+| 2026-09-25 09:26 | Production telemetry | `787b967` | PASS | Zero `http_request_failed` traces since 12:58Z; Application Insights ingestion lag remains a limitation |
 
 ---
 
@@ -1096,6 +1100,45 @@ Append concise entries in this format:
   and deployed-token inspection, not a human browser or accessibility review.
 - Next task: P1.2 contradiction detector expansion, beginning with a complete
   inventory of locked structured fields and current channel coverage.
+
+---
+
+### 2026-09-25 09:26 ET — Cross-channel contradiction enforcement
+
+- Starting state: main/origin/main at 35d3d1c with deployment and scheduled
+  availability probe green; all original dirty and untracked files were preserved
+  and excluded from staging.
+- Changes: introduced the versioned `packet-contradictions-v2` contract and now
+  compare rendered output, not verification-only lock metadata, across web, SMS,
+  voice, and offline channels. The detector checks jurisdiction, disaster ID,
+  deadline, reviewed contact phone, historical/closed status, the agency-decision
+  eligibility boundary, missing or unknown action source IDs, unsupported
+  eligibility assertions and conditions, unexpected inserted values, and missing
+  or extra channels. Diagnostics contain only channel, field, and reason, cap at 64
+  findings, and never echo supplied values.
+- Local verification: 283 passed and one expected `swap_road` fixture skip;
+  JavaScript syntax, Python compilation, diff whitespace, and 4/4 scenario replay
+  passed. Tests prove that correct lock metadata cannot mask wrong rendered facts,
+  and that a rehashed and freshly signed contradictory packet still fails overall
+  verification.
+- Security: `pip-audit -r requirements.txt` found no known vulnerabilities and
+  Bandit reported no medium/high findings in `api/`.
+- Deployment: GitHub Actions run 36140662666 succeeded for 787b967 in 1m25s;
+  security run 36140662769 also passed. Node 20 action deprecation and future
+  Ubuntu image migration remain maintenance warnings, not deployment failures.
+- Live verification: bounded readiness passed every required check. A live RS256
+  packet exposed `packet-contradictions-v2`, passed the full four-channel contract,
+  and a wrong-county mutation was rejected by both field consistency and overall
+  packet verification. No call, SMS, or paid generative operation was performed.
+- Telemetry: zero `http_request_failed` traces since 12:58Z; query absence remains
+  subject to Application Insights ingestion delay.
+- Files committed: api/protocol.py, api/reliability.py,
+  tests/test_reliability.py.
+- Commit: 787b967 (`feat: strengthen packet contradiction checks`).
+- Remaining limitation: exact synthetic mutations prove deterministic enforcement;
+  no production source or stored packet was corrupted, and human channel review
+  remains unverified.
+- Next task: P1.3 bounded property-style mutations across all four channels.
 
 ## 21. Final handoff template
 
