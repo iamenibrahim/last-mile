@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from collections import defaultdict, deque
 from copy import deepcopy
 from datetime import date, datetime, timedelta, timezone
@@ -14,6 +15,9 @@ from urllib.parse import urlsplit
 DEFAULT_REVIEW_INTERVAL_DAYS = 90
 EVIDENCE_SCHEMA_VERSION = "recommendation-evidence-v1"
 MAX_SOURCE_EXCERPT_CHARS = 480
+CONTRADICTION_SCHEMA_VERSION = "packet-contradictions-v2"
+MAX_CONTRADICTIONS = 64
+EXPECTED_PACKET_CHANNELS = frozenset({"web", "sms", "voice", "offline"})
 PROGRAM_REQUIRED_FIELDS = (
     "id",
     "name",
@@ -434,43 +438,139 @@ def detect_source_conflicts(records: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def detect_packet_contradictions(packet: dict[str, Any]) -> dict[str, Any]:
-    """Check structured facts against every rendered channel, beyond entity locking."""
+def _channel_text(channel: Any) -> str:
+    """Return rendered channel strings, excluding verification-only lock metadata."""
 
-    disaster_id = str(packet.get("disaster", {}).get("id") or "")
-    jurisdiction = str(packet.get("jurisdiction") or "")
-    deadline = str((packet.get("deadlines") or [{}])[0].get("value") or "")
-    expected = {
-        "disaster.id": disaster_id,
-        "jurisdiction": jurisdiction,
-        "deadline.value": deadline,
+    values: list[str] = []
+
+    def visit(value: Any, key: str = "") -> None:
+        if key == "locked_facts":
+            return
+        if isinstance(value, dict):
+            for child_key, child in value.items():
+                visit(child, str(child_key))
+        elif isinstance(value, list):
+            for child in value:
+                visit(child, key)
+        elif isinstance(value, str):
+            values.append(value)
+
+    visit(channel)
+    return " ".join(values)
+
+
+def _normalized_text(value: Any) -> str:
+    return " ".join(str(value or "").casefold().split())
+
+
+def _phone_digits(value: str) -> set[str]:
+    candidates = re.findall(r"(?<!\d)(?:\+?1[ .-]?)?(?:\(\d{3}\)|\d{3})[ .-]?\d{3}[ .-]?\d{4}(?!\d)", value)
+    return {"".join(character for character in candidate if character.isdigit())[-10:] for candidate in candidates}
+
+
+def detect_packet_contradictions(packet: dict[str, Any]) -> dict[str, Any]:
+    """Compare structured facts with rendered channels; never repair or choose values."""
+
+    disaster_id = str(packet.get("disaster", {}).get("id") or "").strip()
+    jurisdiction = str(packet.get("jurisdiction") or "").strip()
+    deadlines = packet.get("deadlines") or []
+    deadline = deadlines[0] if deadlines and isinstance(deadlines[0], dict) else {}
+    deadline_value = str(deadline.get("value") or "").strip()
+    deadline_display = str(deadline.get("display") or "").strip()
+    eligibility_notice = str(packet.get("eligibility", {}).get("notice") or "").strip()
+    expected_phones = _phone_digits(str(packet.get("escalation", {}).get("contact") or ""))
+    source_ids = {
+        str(source.get("id")) for source in packet.get("sources", [])
+        if isinstance(source, dict) and source.get("id")
     }
-    contradictions: list[dict[str, Any]] = []
-    for channel_name, channel in packet.get("channels", {}).items():
-        blob = json.dumps(channel, ensure_ascii=False)
-        locked = {str(value) for value in channel.get("locked_facts", [])}
-        for field, value in expected.items():
-            if value and value not in blob and value not in locked:
-                contradictions.append(
-                    {"channel": channel_name, "field": field, "expected": value, "reason": "missing"}
+    contradictions: list[dict[str, str]] = []
+    total = 0
+
+    def add(channel: str, field: str, reason: str) -> None:
+        nonlocal total
+        total += 1
+        if len(contradictions) < MAX_CONTRADICTIONS:
+            contradictions.append({"channel": channel, "field": field, "reason": reason})
+
+    channels = packet.get("channels", {})
+    if not isinstance(channels, dict):
+        raise ValueError("Packet channels must be an object")
+    for missing_channel in sorted(EXPECTED_PACKET_CHANNELS - set(channels)):
+        add(missing_channel, "channel", "missing")
+    for unexpected_channel in sorted(set(channels) - EXPECTED_PACKET_CHANNELS):
+        add(str(unexpected_channel), "channel", "unexpected")
+    for channel_name, channel in channels.items():
+        if not isinstance(channel, dict):
+            add(str(channel_name), "channel", "invalid_type")
+            continue
+        rendered = _channel_text(channel)
+        normalized = _normalized_text(rendered)
+        for field, value in (
+            ("disaster.id", disaster_id),
+            ("jurisdiction", jurisdiction),
+            ("eligibility.notice", eligibility_notice),
+        ):
+            if value and _normalized_text(value) not in normalized:
+                add(str(channel_name), field, "missing_from_rendered_output")
+        if deadline_value or deadline_display:
+            variants = {_normalized_text(deadline_value), _normalized_text(deadline_display)} - {""}
+            if not any(value in normalized for value in variants):
+                add(str(channel_name), "deadline.value", "missing_from_rendered_output")
+            deadline_mentions = {
+                _normalized_text(value)
+                for value in re.findall(
+                    r"\bdeadline(?: in (?:the )?snapshot)?\s*(?:was|is|:)\s*"
+                    r"([A-Z][a-z]+ \d{1,2}, \d{4}|\d{4}-\d{2}-\d{2})",
+                    rendered,
+                    flags=re.IGNORECASE,
                 )
+            }
+            if deadline_mentions - variants:
+                add(str(channel_name), "deadline.value", "unexpected_value")
+        if "historical" not in normalized:
+            add(str(channel_name), "snapshot.historical", "historical_context_missing")
+        if "passed" not in normalized and "closed" not in normalized:
+            add(str(channel_name), "deadline.current_status", "closed_status_missing")
+        rendered_phones = _phone_digits(rendered)
+        if expected_phones and not expected_phones.issubset(rendered_phones):
+            add(str(channel_name), "escalation.contact_phone", "missing_from_rendered_output")
+        if rendered_phones - expected_phones:
+            add(str(channel_name), "escalation.contact_phone", "unexpected_value")
+
+        rendered_disasters = set(re.findall(r"\bDR-\d{4,}-[A-Z]{2}\b", rendered, flags=re.IGNORECASE))
+        if disaster_id and any(item.casefold() != disaster_id.casefold() for item in rendered_disasters):
+            add(str(channel_name), "disaster.id", "unexpected_value")
+        rendered_counties = set(re.findall(r"\b[A-Z][A-Za-z.'-]*(?: [A-Z][A-Za-z.'-]*)* County\b", rendered))
+        if jurisdiction and any(item.casefold() != jurisdiction.casefold() for item in rendered_counties):
+            add(str(channel_name), "jurisdiction", "unexpected_value")
+        if re.search(r"\b(?:will|definitely|guaranteed to) (?:qualify|be eligible)\b", normalized):
+            add(str(channel_name), "eligibility.claim", "unsupported_entitlement_assertion")
+        if re.search(
+            r"\b(?:you|applicants?|households?) (?:must|need to|are required to|must not|cannot)\b"
+            r"|\b(?:homeowners?|renters?|citizens?) only\b",
+            normalized,
+        ):
+            add(str(channel_name), "eligibility.condition", "unsupported_eligibility_condition")
+        if re.search(r"\b(?:currently|now) open\b|\bapplication (?:window )?is open\b|\bdeadline (?:has not|hasn't) passed\b", normalized):
+            add(str(channel_name), "disaster.status", "historical_current_inversion")
+
     for action in packet.get("actions", []):
-        if action.get("source_id") and action["source_id"] not in {
-            source.get("id") for source in packet.get("sources", [])
-        }:
-            contradictions.append(
-                {
-                    "channel": "packet",
-                    "field": "action.source_id",
-                    "expected": action["source_id"],
-                    "reason": "unknown_source",
-                }
-            )
+        if not isinstance(action, dict):
+            add("packet", "action", "invalid_type")
+            continue
+        source_id = str(action.get("source_id") or "").strip()
+        if not source_id:
+            add("packet", "action.source_id", "missing")
+        elif source_id not in source_ids:
+            add("packet", "action.source_id", "unknown_source")
     return {
-        "passed": not contradictions,
-        "contradiction_detected": bool(contradictions),
+        "schema_version": CONTRADICTION_SCHEMA_VERSION,
+        "passed": total == 0,
+        "contradiction_detected": total > 0,
+        "contradiction_count": total,
         "contradictions": contradictions,
-        "action": "withhold_and_route_to_human" if contradictions else "render",
+        "diagnostics_truncated": total > len(contradictions),
+        "action": "withhold_and_route_to_human" if total else "render",
     }
 
 

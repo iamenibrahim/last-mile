@@ -262,6 +262,135 @@ def test_field_level_contradiction_detector_withholds_bad_channel():
     assert report["action"] == "withhold_and_route_to_human"
 
 
+@pytest.mark.parametrize(
+    "old,new,field",
+    [
+        ("Smyth County", "Washington County", "jurisdiction"),
+        ("DR-4831-VA", "DR-9999-VA", "disaster.id"),
+        ("December 2, 2024", "December 20, 2024", "deadline.value"),
+        ("800-621-3362", "800-555-0100", "escalation.contact_phone"),
+    ],
+)
+def test_contradiction_detector_rejects_wrong_locked_value_even_when_lock_metadata_remains(old, new, field):
+    packet = build_action_packet(PROFILE)["packet"]
+    packet["channels"]["voice"]["script"] = packet["channels"]["voice"]["script"].replace(old, new)
+    report = detect_packet_contradictions(packet)
+    assert report["schema_version"] == "packet-contradictions-v2"
+    assert any(item["channel"] == "voice" and item["field"] == field for item in report["contradictions"])
+
+
+def test_every_compiled_channel_carries_the_structured_field_contract():
+    packet = build_action_packet(PROFILE)["packet"]
+    assert detect_packet_contradictions(packet)["passed"] is True
+    for channel_name, channel in packet["channels"].items():
+        rendered = json.dumps({key: value for key, value in channel.items() if key != "locked_facts"})
+        assert "Smyth County" in rendered, channel_name
+        assert "DR-4831-VA" in rendered, channel_name
+        assert "December 2, 2024" in rendered, channel_name
+        assert "800-621-3362" in rendered, channel_name
+        assert packet["eligibility"]["notice"] in rendered, channel_name
+        assert "historical" in rendered.casefold(), channel_name
+        assert "passed" in rendered.casefold() or "closed" in rendered.casefold(), channel_name
+
+
+def test_missing_or_unknown_action_source_is_rejected():
+    missing = build_action_packet(PROFILE)["packet"]
+    missing["actions"][0].pop("source_id")
+    missing_report = detect_packet_contradictions(missing)
+    assert {item["reason"] for item in missing_report["contradictions"] if item["field"] == "action.source_id"} == {"missing"}
+
+    unknown = build_action_packet(PROFILE)["packet"]
+    unknown["actions"][0]["source_id"] = "unreviewed-source"
+    unknown_report = detect_packet_contradictions(unknown)
+    assert {item["reason"] for item in unknown_report["contradictions"] if item["field"] == "action.source_id"} == {"unknown_source"}
+
+
+def test_unsupported_eligibility_assertion_and_negation_change_are_rejected():
+    packet = build_action_packet(PROFILE)["packet"]
+    packet["channels"]["web"]["eligibility"] = "You will qualify for assistance."
+    report = detect_packet_contradictions(packet)
+    assert any(
+        item["channel"] == "web"
+        and item["field"] == "eligibility.claim"
+        and item["reason"] == "unsupported_entitlement_assertion"
+        for item in report["contradictions"]
+    )
+
+
+def test_eligibility_condition_absent_from_structured_packet_is_rejected():
+    packet = build_action_packet(PROFILE)["packet"]
+    packet["channels"]["web"]["eligibility"] += " Applicants must be homeowners."
+    report = detect_packet_contradictions(packet)
+    assert any(
+        item["channel"] == "web"
+        and item["field"] == "eligibility.condition"
+        and item["reason"] == "unsupported_eligibility_condition"
+        for item in report["contradictions"]
+    )
+
+
+def test_historical_current_status_inversion_is_rejected():
+    packet = build_action_packet(PROFILE)["packet"]
+    packet["channels"]["voice"]["script"] = packet["channels"]["voice"]["script"].replace(
+        "Historical demonstration.", "The application is open."
+    )
+    report = detect_packet_contradictions(packet)
+    assert any(
+        item["channel"] == "voice"
+        and item["field"] == "disaster.status"
+        and item["reason"] == "historical_current_inversion"
+        for item in report["contradictions"]
+    )
+
+
+def test_channel_only_omission_and_insertion_are_rejected():
+    packet = build_action_packet(PROFILE)["packet"]
+    packet["channels"]["web"]["deadline"] = "The application deadline has passed."
+    packet["channels"]["offline"]["text"] += "\nAlso see disaster DR-9999-VA."
+    report = detect_packet_contradictions(packet)
+    findings = {(item["channel"], item["field"], item["reason"]) for item in report["contradictions"]}
+    assert ("web", "deadline.value", "missing_from_rendered_output") in findings
+    assert ("offline", "disaster.id", "unexpected_value") in findings
+
+
+def test_extra_deadline_is_rejected_even_when_the_correct_deadline_remains():
+    packet = build_action_packet(PROFILE)["packet"]
+    packet["channels"]["offline"]["text"] += "\nThe application deadline was December 20, 2024."
+    report = detect_packet_contradictions(packet)
+    assert {
+        "channel": "offline",
+        "field": "deadline.value",
+        "reason": "unexpected_value",
+    } in report["contradictions"]
+
+
+def test_contradictions_invalidate_a_rehashed_and_resigned_packet():
+    from api import signing
+    from api.protocol import _hash, _packet_message
+
+    packet = build_action_packet(PROFILE)["packet"]
+    packet["channels"]["voice"]["script"] = packet["channels"]["voice"]["script"].replace(
+        "Smyth County", "Washington County"
+    )
+    packet["proof"]["channels_sha256"] = _hash(packet["channels"])
+    packet["proof"].update(signing.sign(_packet_message(packet)))
+    verified = verify_action_packet(packet)
+    assert verified["signature_valid"] is True
+    assert verified["channels_valid"] is True
+    assert verified["field_consistency"]["contradiction_detected"] is True
+    assert verified["valid"] is False
+
+
+def test_contradiction_diagnostics_are_bounded_and_do_not_echo_values():
+    packet = build_action_packet(PROFILE)["packet"]
+    packet["channels"] = {f"channel-{index}": {} for index in range(100)}
+    report = detect_packet_contradictions(packet)
+    assert report["contradiction_count"] > len(report["contradictions"])
+    assert len(report["contradictions"]) == 64
+    assert report["diagnostics_truncated"] is True
+    assert all(set(item) == {"channel", "field", "reason"} for item in report["contradictions"])
+
+
 def test_chaos_dashboard_declares_safe_fallback_for_every_mode():
     modes = ["foundry_down", "translator_down", "maps_down", "stale_source", "bad_translation", "no_network"]
     result = evaluate_chaos(modes)

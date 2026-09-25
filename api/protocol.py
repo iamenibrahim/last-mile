@@ -148,18 +148,22 @@ def _compile_channels(packet: dict) -> dict:
     steps = [action["label"] for action in packet["actions"]]
     code = packet["continuity"]["code"]
     proof_id = packet["proof"]["proof_id"]
+    contact = packet["escalation"]["contact"]
+    eligibility_notice = packet["eligibility"]["notice"]
     locked_facts = [disaster["id"], packet["deadlines"][0]["value"], jurisdiction]
     sms = (
-        f"HISTORICAL DEMO — {jurisdiction}: {disaster['id']} Individual Assistance was open in the "
-        f"{packet['snapshot']['as_of_label']} snapshot; deadline was {deadline} (passed). "
+        f"HISTORICAL DEMO — {jurisdiction}: {disaster['id']} deadline was {deadline} (passed). "
+        f"Current help: {contact}. {eligibility_notice} "
         f"Reply 1 steps, 2 documents, or 0 human. CONTINUE {code}. Proof {proof_id}."
     )
     voice_steps = " ".join(f"Step {index + 1}. {step}" for index, step in enumerate(steps))
     return {
         "web": {
-            "headline": f"Historical recovery replay for {jurisdiction}",
+            "headline": f"Historical recovery replay for {jurisdiction} · {disaster['id']}",
             "status": f"Individual Assistance was open as of {packet['snapshot']['as_of_label']}.",
             "deadline": f"The application deadline was {deadline} and has passed.",
+            "current_help": contact,
+            "eligibility": eligibility_notice,
             "steps": steps,
             "proof_id": proof_id,
             "locked_facts": locked_facts,
@@ -175,7 +179,8 @@ def _compile_channels(packet: dict) -> dict:
             "script": (
                 f"Historical demonstration. {jurisdiction} was included in disaster {disaster['id']} "
                 f"Individual Assistance as of {packet['snapshot']['as_of_label']}. The deadline was {deadline} and has passed. "
-                f"{voice_steps} To continue with a person, use recovery code {code}."
+                f"{voice_steps} Current help: {contact}. {eligibility_notice} "
+                f"To continue with a person, use recovery code {code}."
             ),
             "transport": "Azure AI Speech when configured; device speech fallback",
             "locked_facts": locked_facts,
@@ -187,6 +192,8 @@ def _compile_channels(packet: dict) -> dict:
                     f"{jurisdiction} · {disaster['name']} · {disaster['id']}",
                     f"Snapshot: {packet['snapshot']['as_of_label']}",
                     f"Deadline in snapshot: {deadline} (now passed)",
+                    f"Current help: {contact}",
+                    eligibility_notice,
                     *[f"{index + 1}. {step}" for index, step in enumerate(steps)],
                     f"Continue: {code} · Proof: {proof_id}",
                 ]
@@ -387,6 +394,10 @@ def build_action_packet(profile: dict) -> dict:
         "constraints": stored_constraints,
         "already_tried": sorted(set(profile.get("already_tried", []))),
         "accessibility": compile_accessibility(profile.get("accessibility_preferences")),
+        "eligibility": {
+            "decision_authority": "agency",
+            "notice": "This packet does not decide eligibility; the agency decides.",
+        },
         "deadlines": [
             {
                 "id": deadline["id"],
