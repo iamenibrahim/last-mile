@@ -39,7 +39,11 @@ def test_freshness_conflict_replay_and_surge_contracts():
     body = response.json()
     assert body["records"]
     assert body["stale_count"] == sum(row["stale"] for row in body["records"])
-    assert all({"id", "reasons", "review_interval_days", "last_verified"} <= row.keys() for row in body["records"])
+    assert all(
+        {"id", "reasons", "reason_codes", "review_interval_days", "last_verified", "as_of"}
+        <= row.keys()
+        for row in body["records"]
+    )
     conflicts = client.get("/api/source-conflicts")
     assert conflicts.status_code == 200
     assert conflicts.json() == {"conflict_detected": False, "conflicts": [], "action": "continue"}

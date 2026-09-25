@@ -4,7 +4,7 @@ import json
 import os
 from collections import defaultdict, deque
 from copy import deepcopy
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from threading import Lock
 from time import monotonic
 from typing import Any
@@ -229,11 +229,11 @@ def assert_valid_program_records(records: Any) -> list[dict[str, Any]]:
 
 
 def _date(value: str | None) -> date | None:
-    if not value:
+    if not isinstance(value, str) or not value:
         return None
     try:
-        return date.fromisoformat(value[:10])
-    except (TypeError, ValueError):
+        return date.fromisoformat(value)
+    except ValueError:
         return None
 
 
@@ -241,23 +241,63 @@ def assess_freshness(record: dict[str, Any], *, today: date | None = None) -> di
     """Return a deterministic freshness decision for a reviewed source record."""
 
     now = today or datetime.now(timezone.utc).date()
-    reviewed = _date(record.get("last_verified"))
-    expires = _date(record.get("expiration_date"))
-    interval = int(record.get("review_interval_days") or DEFAULT_REVIEW_INTERVAL_DAYS)
+    reviewed_raw = record.get("last_verified")
+    expiration_present = "expiration_date" in record
+    expiration_raw = record.get("expiration_date")
+    reviewed = _date(reviewed_raw)
+    expires = _date(expiration_raw)
+    interval_raw = record.get("review_interval_days")
+    interval_valid = (
+        not isinstance(interval_raw, bool)
+        and isinstance(interval_raw, int)
+        and interval_raw > 0
+    )
+    interval = interval_raw if interval_valid else DEFAULT_REVIEW_INTERVAL_DAYS
     reasons: list[str] = []
-    if reviewed is None:
-        reasons.append("last_verified is missing or invalid")
+    reason_codes: list[str] = []
+    if reviewed_raw in (None, ""):
+        reason_codes.append("missing_last_verified")
+        reasons.append("last_verified is missing")
+    elif reviewed is None:
+        reason_codes.append("invalid_last_verified")
+        reasons.append("last_verified must be an ISO date in YYYY-MM-DD format")
+    elif reviewed > now:
+        reason_codes.append("future_last_verified")
+        reasons.append("last_verified is in the future; source review cannot be verified")
     elif (now - reviewed).days > interval:
+        reason_codes.append("review_overdue")
         reasons.append(f"source review is older than {interval} days")
-    if expires and expires < now:
+    if not expiration_present:
+        reason_codes.append("missing_expiration_date")
+        reasons.append("expiration_date is missing; use null for a non-expiring record")
+    elif expiration_raw is not None and expires is None:
+        reason_codes.append("invalid_expiration_date")
+        reasons.append("expiration_date must be an ISO date in YYYY-MM-DD format or null")
+    elif expires and expires < now:
+        reason_codes.append("expired")
         reasons.append(f"record expired on {expires.isoformat()}")
+    if not interval_valid:
+        reason_codes.append("invalid_review_interval")
+        reasons.append(
+            f"review_interval_days is invalid; defaulted to {DEFAULT_REVIEW_INTERVAL_DAYS} days"
+        )
+    stale = bool(reasons)
     return {
-        "status": "stale" if reasons else "current",
-        "stale": bool(reasons),
+        "status": "stale" if stale else "current",
+        "stale": stale,
+        "as_of": now.isoformat(),
         "last_verified": reviewed.isoformat() if reviewed else None,
         "expiration_date": expires.isoformat() if expires else None,
         "review_interval_days": interval,
+        "review_due_date": (reviewed + timedelta(days=interval)).isoformat() if reviewed else None,
+        "days_since_review": (now - reviewed).days if reviewed else None,
+        "reason_codes": reason_codes,
         "reasons": reasons,
+        "caveat": (
+            "Confirm time-sensitive details with the linked agency or a human navigator before relying on this recommendation."
+            if stale
+            else None
+        ),
     }
 
 

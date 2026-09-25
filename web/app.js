@@ -218,13 +218,14 @@ function renderResults(result) {
   if (!result.accessibility?.low_bandwidth) renderAlertMap(result.alert_context, result.location_match);
 
   $("#recommendation-list").innerHTML = result.recommendations.map((program, index) => `
-    <article class="recommendation-card" data-program-id="${escapeHtml(program.id)}">
+    <article class="recommendation-card ${program.source_freshness?.stale ? "has-stale-source" : ""}" data-program-id="${escapeHtml(program.id)}">
       <div class="recommendation-main">
         <div class="program-icon">${escapeHtml(programIcon(program.category))}</div>
         <div class="program-body">
           <div class="program-topline"><span class="category-pill">${index < 3 ? `Priority ${index + 1}` : escapeHtml(program.category)}</span><span class="confidence-pill ${program.source_freshness?.stale ? "stale" : ""}">${escapeHtml(program.confidence.label)}</span><span class="freshness-pill ${program.source_freshness?.stale ? "stale" : ""}">${program.source_freshness?.stale ? "SOURCE REVIEW NEEDED" : "SOURCE CURRENT"}</span></div>
           <h3>${escapeHtml(program.name)}</h3>
           <p>${escapeHtml(program.why)}</p>
+          ${program.source_freshness?.stale ? `<div class="freshness-warning" role="note" aria-label="Source freshness warning"><strong>Source review required before relying on time-sensitive details.</strong><span>${escapeHtml((program.source_freshness.reasons || []).join(" "))} ${escapeHtml(program.source_freshness.caveat || "Confirm with the linked agency or a human navigator.")}</span></div>` : ""}
           <p class="source-line">Source: <a href="${escapeHtml(program.source_url)}" target="_blank" rel="noopener">${escapeHtml(program.source_label)}</a> · ${escapeHtml(program.source_updated)}</p>
         </div>
         <div class="program-actions"><a href="${escapeHtml(program.apply_url)}" target="_blank" rel="noopener">${escapeHtml(program.apply_label)}</a><button type="button" data-details>What you’ll need +</button></div>

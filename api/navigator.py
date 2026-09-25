@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 import secrets
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from .config import settings
@@ -54,7 +54,7 @@ def _explain(program: dict, matched_needs: list[str], *, deterministic_only: boo
         return fallback, "rules + reviewed source copy (Foundry fallback)"
 
 
-def navigate(profile: dict) -> dict:
+def navigate(profile: dict, *, today: date | None = None) -> dict:
     needs = set(profile.get("needs", []))
     circumstances = set(profile.get("circumstances", []))
     urgency = profile.get("urgency", "safe_now")
@@ -77,7 +77,7 @@ def navigate(profile: dict) -> dict:
         if score <= 0:
             continue
         missing = [field for field in program.get("questions", []) if not profile.get(field)]
-        freshness = assess_freshness(program)
+        freshness = assess_freshness(program, today=today)
         confidence = _confidence(score, missing)
         if freshness["stale"]:
             confidence = {"label": "Needs source review", "value": min(confidence["value"], 0.35)}
@@ -135,6 +135,12 @@ def navigate(profile: dict) -> dict:
         escalation_reasons.append("At least one high-priority match needs more information.")
         if escalation_level == "none":
             escalation_level = "ambiguous"
+    if any(item["source_freshness"]["stale"] for item in results):
+        escalation_reasons.append(
+            "At least one matched source needs review; confirm time-sensitive details with the linked agency or a human navigator."
+        )
+        if escalation_level == "none":
+            escalation_level = "source_review"
     if conflict_report["conflict_detected"]:
         escalation_reasons.append("Authoritative sources conflict; no source was silently preferred.")
         escalation_level = "source_conflict" if escalation_level == "none" else escalation_level

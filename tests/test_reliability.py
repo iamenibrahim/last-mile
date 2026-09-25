@@ -123,6 +123,76 @@ def test_freshness_checker_flags_old_and_expired_records():
     assert len(report["reasons"]) == 2
 
 
+@pytest.mark.parametrize(
+    "record,expected_stale,expected_code",
+    [
+        (
+            {"last_verified": "2026-09-01", "expiration_date": None, "review_interval_days": 30},
+            False,
+            None,
+        ),
+        (
+            {"last_verified": "2026-08-01", "expiration_date": None, "review_interval_days": 30},
+            True,
+            "review_overdue",
+        ),
+        (
+            {"last_verified": "2026-09-01", "expiration_date": "2026-09-20", "review_interval_days": 30},
+            True,
+            "expired",
+        ),
+        (
+            {"expiration_date": None, "review_interval_days": 30},
+            True,
+            "missing_last_verified",
+        ),
+        (
+            {"last_verified": "09/01/2026", "expiration_date": None, "review_interval_days": 30},
+            True,
+            "invalid_last_verified",
+        ),
+        (
+            {"last_verified": "2026-10-01", "expiration_date": None, "review_interval_days": 30},
+            True,
+            "future_last_verified",
+        ),
+    ],
+)
+def test_freshness_cases_use_an_injected_date(record, expected_stale, expected_code):
+    report = assess_freshness(record, today=date(2026, 9, 30))
+    assert report["stale"] is expected_stale
+    assert report["status"] == ("stale" if expected_stale else "current")
+    assert report["as_of"] == "2026-09-30"
+    if expected_code:
+        assert expected_code in report["reason_codes"]
+        assert report["caveat"]
+    else:
+        assert report["reason_codes"] == []
+        assert report["caveat"] is None
+
+
+def test_missing_or_invalid_expiration_is_stale_but_null_is_non_expiring():
+    base = {"last_verified": "2026-09-01", "review_interval_days": 30}
+    assert assess_freshness({**base, "expiration_date": None}, today=date(2026, 9, 30))["stale"] is False
+    missing = assess_freshness(base, today=date(2026, 9, 30))
+    invalid = assess_freshness({**base, "expiration_date": "never"}, today=date(2026, 9, 30))
+    assert missing["reason_codes"] == ["missing_expiration_date"]
+    assert invalid["reason_codes"] == ["invalid_expiration_date"]
+
+
+def test_future_review_date_is_stale_and_routes_recommendations_to_review(monkeypatch):
+    programs = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
+    for program in programs:
+        program["last_verified"] = "2026-10-01"
+    monkeypatch.setattr("api.navigator.load_programs", lambda: programs)
+    result = navigate({**PROFILE, "surge_mode": True}, today=date(2026, 9, 30))
+    assert result["recommendations"]
+    assert all(item["confidence"]["label"] == "Needs source review" for item in result["recommendations"])
+    assert all(item["confidence"]["label"] != "Strong match" for item in result["recommendations"])
+    assert result["handoff"]["recommended"] is True
+    assert any("matched source needs review" in reason for reason in result["handoff"]["reasons"])
+
+
 def test_recommendation_contains_complete_evidence_trace_and_graph():
     result = navigate({**PROFILE, "surge_mode": True})
     recommendation = result["recommendations"][0]

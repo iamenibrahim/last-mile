@@ -33,3 +33,18 @@ def test_citizen_ui_exposes_language_resume_accessibility_and_offline_controls()
 def test_service_worker_cache_version_changes_with_offline_contract():
     worker = (ROOT / "web" / "sw.js").read_text(encoding="utf-8")
     assert 'const CACHE = "last-mile-v2"' in worker
+
+
+def test_freshness_labels_remain_explicit_across_accessibility_modes():
+    script = (ROOT / "web" / "app.js").read_text(encoding="utf-8")
+    styles = (ROOT / "web" / "styles.css").read_text(encoding="utf-8")
+    assert "SOURCE REVIEW NEEDED" in script
+    assert "Source review required before relying on time-sensitive details." in script
+    assert 'class="freshness-warning" role="note"' in script
+    for selector in (
+        "body.large-text .freshness-pill",
+        "body.high-contrast .freshness-pill",
+        "body.high-contrast .freshness-pill.stale",
+        "body.low-data .freshness-warning",
+    ):
+        assert selector in styles
