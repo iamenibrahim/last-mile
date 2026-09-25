@@ -170,6 +170,10 @@ nav { align-self: stretch; display: flex; align-items: stretch; gap: 18px; }
 .urgent-banner p, .urgent-banner h3 { margin: 0; }
 .urgent-banner p { font-size: 12px; opacity: .85; }
 .urgent-banner a { background: white; color: #8b2e28; border-radius: 8px; text-decoration: none; padding: 10px 18px; font-weight: 800; }
+.conflict-banner { padding: 18px 22px; border: 3px solid #8a321f; border-radius: 14px; background: #fff0b8; color: #4f1d13; margin-bottom: 22px; }
+.conflict-banner h3, .conflict-banner p { margin: 0; }
+.conflict-banner h3 { font-size: 18px; }
+.conflict-banner p { margin-top: 4px; font-size: 12px; }
 .protocol-packet { background: #0c3533; color: white; border-radius: 19px; margin-bottom: 22px; overflow: hidden; box-shadow: var(--shadow); }
 .packet-head { display: grid; grid-template-columns: 1fr auto; gap: 20px; padding: 24px 26px; border-bottom: 1px solid rgba(255,255,255,.12); }
 .packet-head h3 { font-family: var(--serif); font-size: 27px; margin: 0; }
@@ -220,15 +224,21 @@ nav { align-self: stretch; display: flex; align-items: stretch; gap: 18px; }
 .category-pill, .confidence-pill { font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; border-radius: 20px; padding: 4px 7px; background: #eef1ec; }
 .confidence-pill { color: #35704d; background: #e5f3df; }
 .confidence-pill.stale { color: #8b3b27; background: #ffe6db; }
+.confidence-pill.conflict { color: #fff; background: #8a321f; }
 .freshness-pill { color: #285d3d; border: 1px solid #82a981; background: #f3f9ef; font-size: 10px; font-weight: 800; letter-spacing: .06em; border-radius: 20px; padding: 3px 7px; }
 .freshness-pill.stale { color: #7c2d1f; border-color: #c8795d; background: #fff0e9; }
 .recommendation-card.has-stale-source { border: 2px solid #c8795d; }
+.recommendation-card.has-source-conflict { border: 3px solid #8a321f; }
 .freshness-warning { display: grid; gap: 3px; margin: 10px 0; border-left: 5px solid #a8462f; border-radius: 8px; padding: 10px 12px; background: #fff0e9; color: #65291d; font-size: 11px; }
 .freshness-warning strong, .freshness-warning span { display: block; }
+.source-conflict-warning { display: grid; gap: 3px; margin: 10px 0; border: 3px solid #8a321f; border-radius: 8px; padding: 10px 12px; background: #fff0b8; color: #4f1d13; font-size: 11px; }
+.source-conflict-warning strong, .source-conflict-warning span { display: block; }
 body.large-text .freshness-pill, body.large-text .freshness-warning { font-size: 12px; }
 body.high-contrast .freshness-pill { color: #001b1a; background: #fff; border: 2px solid #001b1a; }
 body.high-contrast .freshness-pill.stale, body.high-contrast .freshness-warning { color: #000; background: #fff4a3; border-color: #000; }
+body.high-contrast .conflict-banner, body.high-contrast .confidence-pill.conflict, body.high-contrast .source-conflict-warning { color: #000; background: #fff4a3; border-color: #000; }
 body.low-data .freshness-warning { background: transparent; border: 2px solid currentColor; }
+body.low-data .conflict-banner, body.low-data .source-conflict-warning { background: transparent; }
 .program-body h3 { font-family: var(--serif); font-size: 21px; margin: 0; }
 .program-body > p { font-size: 12px; color: #536966; margin: 7px 0; }
 .source-line { font-size: 9px !important; color: #778985 !important; }

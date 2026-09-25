@@ -44,6 +44,19 @@ REVIEWED_PROGRAM_DOMAINS = frozenset(
     }
 )
 REVIEWED_TEL_LINKS = frozenset({"tel:911"})
+COMPARABLE_CLAIM_FIELDS = {
+    "deadline": "application_deadline",
+    "application_deadline": "application_deadline",
+    "phone": "contact_phone",
+    "phone_number": "contact_phone",
+    "contact_phone": "contact_phone",
+    "eligibility": "eligibility_condition",
+    "eligibility_condition": "eligibility_condition",
+    "eligibility_conditions": "eligibility_condition",
+    "status": "program_status",
+    "program_status": "program_status",
+    "program_open_status": "program_status",
+}
 ACCESSIBILITY_PREFERENCES = {
     "screen_reader": "Use semantic headings, concise labels, and no visual-only instructions.",
     "large_text": "Prefer large text and short blocks in the web view.",
@@ -350,23 +363,42 @@ def provenance_graph(program: dict[str, Any], trace: dict[str, Any]) -> dict[str
 
 
 def detect_source_conflicts(records: list[dict[str, Any]]) -> dict[str, Any]:
-    """Compare normalized authoritative claims and never silently pick a winner."""
+    """Compare only explicitly safe claim fields and never choose a winner."""
 
     values: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in records:
         for claim in record.get("authoritative_claims", []):
-            key = str(claim.get("field") or "").strip()
-            if key and claim.get("value") is not None:
+            raw_field = str(claim.get("field") or "").strip().lower()
+            key = COMPARABLE_CLAIM_FIELDS.get(raw_field)
+            raw_value = claim.get("value")
+            if key and raw_value is not None and str(raw_value).strip():
+                value = str(raw_value).strip()
+                if key == "contact_phone":
+                    normalized = "".join(character for character in value if character.isdigit())
+                elif key == "application_deadline":
+                    parsed = _date(value)
+                    normalized = parsed.isoformat() if parsed else value
+                else:
+                    normalized = " ".join(value.split()).casefold()
                 values[key].append(
                     {
-                        "value": str(claim["value"]),
+                        "value": value,
+                        "normalized_value": normalized,
                         "source_id": record.get("id"),
                         "source_url": record.get("source_url") or record.get("url"),
                     }
                 )
     conflicts = []
-    for field, claims in values.items():
-        distinct = {item["value"] for item in claims}
+    for field in sorted(values):
+        claims = sorted(
+            values[field],
+            key=lambda item: (
+                str(item.get("source_id") or ""),
+                str(item.get("source_url") or ""),
+                item["value"],
+            ),
+        )
+        distinct = {item["normalized_value"] for item in claims}
         if len(distinct) > 1:
             conflicts.append({"field": field, "claims": claims})
     return {

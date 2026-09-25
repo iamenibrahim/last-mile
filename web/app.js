@@ -203,8 +203,11 @@ function renderResults(result) {
   section.hidden = false;
   $("#results-summary").textContent = `${result.recommendations.length} source-backed options for ${result.location}. Final eligibility is always decided by the agency.`;
 
-  $("#urgent-panel").innerHTML = result.handoff.summary.urgency === "danger_now" ? `
+  const urgentNotice = result.handoff.summary.urgency === "danger_now" ? `
     <div class="urgent-banner"><div><h3>Immediate danger comes first.</h3><p>Do not wait for this plan or collect documents.</p></div><a href="tel:911">Call 911</a></div>` : "";
+  const conflictNotice = result.source_conflicts?.conflict_detected ? `
+    <div class="conflict-banner" role="alert"><div><h3>Official sources disagree.</h3><p>No value was selected automatically. Ask the linked agency or a human navigator to verify ${escapeHtml((result.source_conflicts.conflicts || []).map((item) => item.field).join(", ") || "the conflicting details")}.</p></div></div>` : "";
+  $("#urgent-panel").innerHTML = urgentNotice + conflictNotice;
 
   renderProtocol(result.protocol);
 
@@ -218,17 +221,18 @@ function renderResults(result) {
   if (!result.accessibility?.low_bandwidth) renderAlertMap(result.alert_context, result.location_match);
 
   $("#recommendation-list").innerHTML = result.recommendations.map((program, index) => `
-    <article class="recommendation-card ${program.source_freshness?.stale ? "has-stale-source" : ""}" data-program-id="${escapeHtml(program.id)}">
+    <article class="recommendation-card ${program.source_freshness?.stale ? "has-stale-source" : ""} ${program.source_conflict?.detected ? "has-source-conflict" : ""}" data-program-id="${escapeHtml(program.id)}">
       <div class="recommendation-main">
         <div class="program-icon">${escapeHtml(programIcon(program.category))}</div>
         <div class="program-body">
-          <div class="program-topline"><span class="category-pill">${index < 3 ? `Priority ${index + 1}` : escapeHtml(program.category)}</span><span class="confidence-pill ${program.source_freshness?.stale ? "stale" : ""}">${escapeHtml(program.confidence.label)}</span><span class="freshness-pill ${program.source_freshness?.stale ? "stale" : ""}">${program.source_freshness?.stale ? "SOURCE REVIEW NEEDED" : "SOURCE CURRENT"}</span></div>
+          <div class="program-topline"><span class="category-pill">${index < 3 ? `Priority ${index + 1}` : escapeHtml(program.category)}</span><span class="confidence-pill ${program.source_conflict?.detected ? "conflict" : program.source_freshness?.stale ? "stale" : ""}">${escapeHtml(program.confidence.label)}</span><span class="freshness-pill ${program.source_freshness?.stale ? "stale" : ""}">${program.source_freshness?.stale ? "SOURCE REVIEW NEEDED" : "SOURCE CURRENT"}</span></div>
           <h3>${escapeHtml(program.name)}</h3>
           <p>${escapeHtml(program.why)}</p>
           ${program.source_freshness?.stale ? `<div class="freshness-warning" role="note" aria-label="Source freshness warning"><strong>Source review required before relying on time-sensitive details.</strong><span>${escapeHtml((program.source_freshness.reasons || []).join(" "))} ${escapeHtml(program.source_freshness.caveat || "Confirm with the linked agency or a human navigator.")}</span></div>` : ""}
+          ${program.source_conflict?.detected ? `<div class="source-conflict-warning" role="alert"><strong>Conflict detected — verify before acting.</strong><span>The reviewed sources disagree about ${escapeHtml((program.source_conflict.conflicts || []).map((item) => item.field).join(", "))}. No source was silently preferred.</span></div>` : ""}
           <p class="source-line">Source: <a href="${escapeHtml(program.source_url)}" target="_blank" rel="noopener">${escapeHtml(program.source_label)}</a> · ${escapeHtml(program.source_updated)}</p>
         </div>
-        <div class="program-actions"><a href="${escapeHtml(program.apply_url)}" target="_blank" rel="noopener">${escapeHtml(program.apply_label)}</a><button type="button" data-details>What you’ll need +</button></div>
+        <div class="program-actions"><a href="${escapeHtml(program.source_conflict?.detected ? program.source_url : program.apply_url)}" target="_blank" rel="noopener">${escapeHtml(program.source_conflict?.detected ? "Verify with official source" : program.apply_label)}</a><button type="button" data-details>What you’ll need +</button></div>
       </div>
       <div class="program-details">
         <div><h4>Who may qualify</h4><p>${escapeHtml(program.eligibility)}</p><p><strong>Important:</strong> ${escapeHtml(program.eligibility_notice)}</p></div>

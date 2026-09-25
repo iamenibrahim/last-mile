@@ -63,6 +63,12 @@ def navigate(profile: dict, *, today: date | None = None) -> dict:
     accessibility = compile_accessibility(profile.get("accessibility_preferences"))
     programs = load_programs()
     conflict_report = detect_source_conflicts(programs)
+    conflicts_by_source: dict[str, list[dict]] = {}
+    for conflict in conflict_report["conflicts"]:
+        for claim in conflict["claims"]:
+            source_id = claim.get("source_id")
+            if source_id:
+                conflicts_by_source.setdefault(source_id, []).append(conflict)
     results: list[dict] = []
 
     for program in programs:
@@ -81,6 +87,9 @@ def navigate(profile: dict, *, today: date | None = None) -> dict:
         confidence = _confidence(score, missing)
         if freshness["stale"]:
             confidence = {"label": "Needs source review", "value": min(confidence["value"], 0.35)}
+        program_conflicts = conflicts_by_source.get(program.get("id"), [])
+        if program_conflicts:
+            confidence = {"label": "Source conflict — verify", "value": min(confidence["value"], 0.2)}
         explanation, explanation_provider = _explain(
             program,
             matched_needs,
@@ -97,6 +106,11 @@ def navigate(profile: dict, *, today: date | None = None) -> dict:
             "why": explanation,
             "explanation_provider": explanation_provider,
             "source_freshness": freshness,
+            "source_conflict": {
+                "detected": bool(program_conflicts),
+                "conflicts": program_conflicts,
+                "action": "route_to_human_verification" if program_conflicts else "continue",
+            },
             "evidence": trace,
             "provenance": provenance_graph(program, trace),
             "eligibility_notice": "This is a screening result, not an eligibility decision. The agency makes the final decision.",
@@ -141,9 +155,10 @@ def navigate(profile: dict, *, today: date | None = None) -> dict:
         )
         if escalation_level == "none":
             escalation_level = "source_review"
-    if conflict_report["conflict_detected"]:
+    if any(item["source_conflict"]["detected"] for item in results):
         escalation_reasons.append("Authoritative sources conflict; no source was silently preferred.")
-        escalation_level = "source_conflict" if escalation_level == "none" else escalation_level
+        if escalation_level not in {"urgent", "sensitive"}:
+            escalation_level = "source_conflict"
     if escalation_reasons and escalation_level == "none":
         escalation_level = "support"
 

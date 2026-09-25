@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from datetime import date
 from pathlib import Path
 
@@ -251,6 +252,85 @@ def test_source_conflicts_never_silently_choose_a_claim():
     )
     assert report["conflict_detected"]
     assert report["action"] == "route_to_human_verification"
+
+
+@pytest.mark.parametrize(
+    "field,left,right,canonical_field",
+    [
+        ("deadline", "2026-10-01", "2026-10-02", "application_deadline"),
+        ("phone", "800-555-0100", "800-555-0199", "contact_phone"),
+        ("eligibility", "Must be a renter", "Homeowners only", "eligibility_condition"),
+        ("status", "open", "closed", "program_status"),
+    ],
+)
+def test_conflict_fixtures_preserve_both_exact_values_and_sources(field, left, right, canonical_field):
+    report = detect_source_conflicts(
+        [
+            {"id": "source-a", "source_url": "https://www.fema.gov/a", "authoritative_claims": [{"field": field, "value": left}]},
+            {"id": "source-b", "source_url": "https://www.fema.gov/b", "authoritative_claims": [{"field": field, "value": right}]},
+        ]
+    )
+    assert report["conflict_detected"] is True
+    conflict = report["conflicts"][0]
+    assert conflict["field"] == canonical_field
+    assert {claim["value"] for claim in conflict["claims"]} == {left, right}
+    assert {claim["source_id"] for claim in conflict["claims"]} == {"source-a", "source-b"}
+
+
+def test_identical_normalized_claims_are_not_conflicts_and_unsupported_prose_is_ignored():
+    records = [
+        {
+            "id": "source-a",
+            "authoritative_claims": [
+                {"field": "phone", "value": "(800) 555-0100"},
+                {"field": "free_text_summary", "value": "Applications are generally available"},
+            ],
+        },
+        {
+            "id": "source-b",
+            "authoritative_claims": [
+                {"field": "contact_phone", "value": "800-555-0100"},
+                {"field": "free_text_summary", "value": "Applications may be available"},
+            ],
+        },
+    ]
+    assert detect_source_conflicts(records) == {
+        "conflict_detected": False,
+        "conflicts": [],
+        "action": "continue",
+    }
+
+
+def test_conflicted_recommendations_lose_normal_confidence_and_route_to_human(monkeypatch):
+    programs = json.loads((ROOT / "data" / "programs.json").read_text(encoding="utf-8"))
+    for program, value in zip(programs[:2], ("open", "closed")):
+        program["authoritative_claims"] = [{"field": "program_status", "value": value}]
+        program["needs"] = ["housing"]
+    monkeypatch.setattr("api.navigator.load_programs", lambda: programs[:2])
+    result = navigate({**PROFILE, "surge_mode": True}, today=date(2026, 9, 25))
+    assert result["source_conflicts"]["conflict_detected"] is True
+    assert all(item["source_conflict"]["detected"] for item in result["recommendations"])
+    assert all(item["confidence"]["label"] == "Source conflict — verify" for item in result["recommendations"])
+    assert result["handoff"]["recommended"] is True
+    assert result["handoff"]["level"] == "source_conflict"
+
+
+def test_packet_signature_covers_source_conflict_result(monkeypatch):
+    from api import protocol
+
+    disaster = deepcopy(protocol._load_disaster())
+    conflicting_source = deepcopy(disaster["sources"][1])
+    conflicting_source["id"] = "fema-deadline-conflict"
+    conflicting_source["authoritative_claims"][0]["value"] = "2024-12-03"
+    disaster["sources"].append(conflicting_source)
+    monkeypatch.setattr(protocol, "_load_disaster", lambda disaster_id="DR-4831-VA": disaster)
+    packet = build_action_packet(PROFILE)["packet"]
+    verified = verify_action_packet(packet)
+    assert packet["source_conflicts"]["conflict_detected"] is True
+    assert verified["signature_valid"] is True
+    assert verified["valid"] is False
+    packet["source_conflicts"]["action"] = "continue"
+    assert verify_action_packet(packet)["signature_valid"] is False
 
 
 def test_packet_diff_reports_changed_deadline_and_source_hashes():

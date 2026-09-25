@@ -48,3 +48,15 @@ def test_freshness_labels_remain_explicit_across_accessibility_modes():
         "body.low-data .freshness-warning",
     ):
         assert selector in styles
+
+
+def test_source_conflict_replaces_normal_confidence_with_visible_warning():
+    script = (ROOT / "web" / "app.js").read_text(encoding="utf-8")
+    styles = (ROOT / "web" / "styles.css").read_text(encoding="utf-8")
+    assert "Official sources disagree." in script
+    assert "Conflict detected — verify before acting." in script
+    assert 'class="source-conflict-warning" role="alert"' in script
+    assert 'program.source_conflict?.detected ? "conflict"' in script
+    assert 'program.source_conflict?.detected ? "Verify with official source"' in script
+    assert ".confidence-pill.conflict" in styles
+    assert ".recommendation-card.has-source-conflict" in styles
