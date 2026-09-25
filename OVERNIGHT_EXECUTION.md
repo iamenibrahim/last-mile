@@ -390,15 +390,15 @@ Acceptance criteria:
 
 ### P1.1 Recommendation evidence completeness
 
-- [ ] Assert every rendered recommendation contains a non-empty rule.
-- [ ] Assert every recommendation references an existing reviewed source record.
-- [ ] Assert every source excerpt is non-empty and bounded in length.
-- [ ] Assert every recommendation includes a review date and confidence caveat.
-- [ ] Ensure evidence text is escaped before HTML rendering.
-- [ ] Ensure direct links use `noopener` and the reviewed destination.
-- [ ] Add a test proving Foundry explanation text cannot replace the deterministic
+- [x] Assert every rendered recommendation contains a non-empty rule.
+- [x] Assert every recommendation references an existing reviewed source record.
+- [x] Assert every source excerpt is non-empty and bounded in length.
+- [x] Assert every recommendation includes a review date and confidence caveat.
+- [x] Ensure evidence text is escaped before HTML rendering.
+- [x] Ensure direct links use `noopener` and the reviewed destination.
+- [x] Add a test proving Foundry explanation text cannot replace the deterministic
   matching rule or source excerpt.
-- [ ] Add an API contract version for evidence trace fields if needed.
+- [x] Add an API contract version for evidence trace fields if needed.
 
 Acceptance criteria:
 
@@ -881,6 +881,10 @@ Add rows; do not replace prior evidence.
 | 2026-09-25 04:50 | Conflict deployment | `e73f285` | PASS | GitHub Actions run `36114824773`; Azure Functions deployment completed in 1m36s |
 | 2026-09-25 04:50 | Conflict live readiness | `e73f285` | PASS | All required readiness checks passed; production conflict endpoint returned 200/zero conflicts, five recommendations exposed conflict metadata, six warning/style tokens deployed |
 | 2026-09-25 04:50 | Production telemetry | `e73f285` | PASS | Zero `http_request_failed` traces since deployment; ingestion-delay limitation applies |
+| 2026-09-25 05:48 | Evidence local gates | `4e4be59` | PASS | 270 passed, 1 expected fixture skip; JavaScript/Python syntax, whitespace, and 4/4 replay passed |
+| 2026-09-25 05:48 | Evidence deployment | `4e4be59` | PASS | GitHub Actions run `36120163123`; Azure Functions deployment completed in 1m25s |
+| 2026-09-25 05:48 | Evidence live readiness | `4e4be59` | PASS | All required readiness checks passed; five recommendations used `recommendation-evidence-v1`, required fields matched reviewed records, maximum live excerpt was 99 characters, operational headers and deployed escaping/`noopener` contracts passed |
+| 2026-09-25 05:48 | Production telemetry | `4e4be59` | PASS | Zero `http_request_failed` traces since 09:45Z; Application Insights ingestion lag remains a limitation |
 
 ---
 
@@ -1057,6 +1061,41 @@ Append concise entries in this format:
   so visible conflict behavior is proven by deterministic synthetic fixtures and
   deployed-token inspection rather than by altering reviewed production records.
 - Next task: P1.1 recommendation evidence completeness and render-safety coverage.
+
+---
+
+### 2026-09-25 05:48 ET — Auditable recommendation evidence contract
+
+- Starting state: main/origin/main at 114ce77 with deployment green; all original
+  dirty and untracked files were preserved and excluded from staging.
+- Changes: recommendation evidence now has the explicit
+  `recommendation-evidence-v1` contract, a deterministic rule, reviewed source ID,
+  label, URL, and disaster ID, whitespace-normalized excerpts bounded to 480
+  characters, truncation disclosure, review date, confidence, and caveat. Evidence
+  generation fails closed when any required field is missing.
+- Local verification: 270 passed and one expected `swap_road` fixture skip;
+  JavaScript syntax, Python compilation, diff whitespace, and 4/4 scenario replay
+  passed. Tests cover every emitted recommendation, bounding and fail-closed
+  behavior, endpoint contracts, render escaping, reviewed links, and model-output
+  isolation from deterministic evidence.
+- Deployment: GitHub Actions run 36120163123 succeeded for 4e4be59 in 1m25s;
+  Node 20 action deprecation and future Ubuntu image migration remain warnings,
+  not deployment errors.
+- Live verification: bounded readiness passed every required check. A separate
+  navigation contract probe returned HTTP 200 with operational headers and five
+  recommendations; every trace used `recommendation-evidence-v1`, matched its
+  recommendation's reviewed source ID and URL, contained all required fields, and
+  had an excerpt no longer than 99 characters. Deployed JavaScript retained escaped
+  rule, excerpt, review-date, and caveat rendering plus `noopener` links.
+- Telemetry: zero `http_request_failed` traces since 09:45Z; query absence remains
+  subject to Application Insights ingestion delay.
+- Files committed: api/reliability.py, tests/test_reliability.py,
+  tests/test_reliability_endpoints.py, tests/test_web_contracts.py.
+- Commit: 4e4be59 (`feat: enforce auditable recommendation evidence`).
+- Remaining limitation: UI safety was verified with automated source-contract tests
+  and deployed-token inspection, not a human browser or accessibility review.
+- Next task: P1.2 contradiction detector expansion, beginning with a complete
+  inventory of locked structured fields and current channel coverage.
 
 ## 21. Final handoff template
 
