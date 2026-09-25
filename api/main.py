@@ -302,7 +302,12 @@ def offline_verify(request: OfflineVerifyRequest) -> dict:
     packet = request.snapshot.get("packet")
     if not isinstance(packet, dict):
         raise HTTPException(status_code=400, detail="Offline snapshot does not contain a packet")
-    return verify_action_packet(packet)
+    try:
+        return verify_action_packet(packet)
+    except (AttributeError, IndexError, KeyError, TypeError, ValueError):
+        # Untrusted JSON may have valid outer shape but malformed nested fields.
+        # Keep diagnostics bounded and do not echo supplied data or exceptions.
+        raise HTTPException(status_code=400, detail="Offline snapshot packet is malformed") from None
 
 
 @app.get("/api/programs/freshness")
