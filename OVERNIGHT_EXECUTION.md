@@ -367,17 +367,17 @@ Acceptance criteria:
 
 ### P0.6 Source conflict behavior
 
-- [ ] Add conflict fixtures for deadlines, phone numbers, eligibility conditions,
+- [x] Add conflict fixtures for deadlines, phone numbers, eligibility conditions,
   and program-open/program-closed status.
-- [ ] Normalize only fields that are safe to compare; never use fuzzy similarity
+- [x] Normalize only fields that are safe to compare; never use fuzzy similarity
   to decide which authoritative claim wins.
-- [ ] Ensure identical values from two sources are not treated as a conflict.
-- [ ] Ensure conflicting values set `conflict_detected: true`.
-- [ ] Ensure conflict output includes both sources and both values.
-- [ ] Ensure a conflicted recommendation routes to human verification.
-- [ ] Ensure the UI displays a visible conflict warning rather than a normal
+- [x] Ensure identical values from two sources are not treated as a conflict.
+- [x] Ensure conflicting values set `conflict_detected: true`.
+- [x] Ensure conflict output includes both sources and both values.
+- [x] Ensure a conflicted recommendation routes to human verification.
+- [x] Ensure the UI displays a visible conflict warning rather than a normal
   confidence badge.
-- [ ] Ensure packet signing covers the conflict result.
+- [x] Ensure packet signing covers the conflict result.
 
 Acceptance criteria:
 
@@ -877,6 +877,10 @@ Add rows; do not replace prior evidence.
 | 2026-09-25 03:47 | Freshness deployment | `cfe7b0b` | PASS | GitHub Actions run `36109240184`; Azure Functions deployment completed in 1m24s |
 | 2026-09-25 03:47 | Freshness live readiness | `cfe7b0b` | PASS | All required readiness checks passed; 10 records exposed reason codes/as-of/review interval and all were current; stale warning/accessibility CSS tokens deployed |
 | 2026-09-25 03:47 | Production telemetry | `cfe7b0b` | PASS | Zero `http_request_failed` traces since deployment; ingestion-delay limitation applies |
+| 2026-09-25 04:50 | Conflict local gates | `e73f285` | PASS | 265 passed, 1 expected fixture skip; four conflict classes, exact-value/source preservation, human routing, and signed-packet mutation passed |
+| 2026-09-25 04:50 | Conflict deployment | `e73f285` | PASS | GitHub Actions run `36114824773`; Azure Functions deployment completed in 1m36s |
+| 2026-09-25 04:50 | Conflict live readiness | `e73f285` | PASS | All required readiness checks passed; production conflict endpoint returned 200/zero conflicts, five recommendations exposed conflict metadata, six warning/style tokens deployed |
+| 2026-09-25 04:50 | Production telemetry | `e73f285` | PASS | Zero `http_request_failed` traces since deployment; ingestion-delay limitation applies |
 
 ---
 
@@ -1015,6 +1019,44 @@ Append concise entries in this format:
   corrupting the production catalog. Human accessibility review remains unverified.
 - Next task: P0.6 source conflict behavior with exact synthetic claim fixtures,
   escalation, visible warnings, and packet-signature coverage.
+
+---
+
+### 2026-09-25 04:50 ET — Exact source-conflict detection and escalation
+
+- Starting state: main/origin/main at 4ff2193 with deployment green; all original
+  dirty and untracked files preserved and excluded from staging.
+- Changes: authoritative claims now compare only an explicit allowlist of deadline,
+  phone, eligibility, and program-status fields. Aliases, whitespace/case, strict
+  ISO dates, and phone punctuation are normalized deterministically; unsupported
+  prose is ignored and no fuzzy winner is chosen. Conflict output preserves both
+  raw values, normalized values, source IDs, and source URLs. Affected
+  recommendations replace normal confidence with `Source conflict — verify`,
+  route to human review, display explicit alerts, and link to the official source
+  for verification instead of the application action.
+- Local verification: 265 passed and one expected `swap_road` fixture skip;
+  JavaScript syntax, Python compilation, diff whitespace, and 4/4 scenario replay
+  passed. Synthetic deadline, phone, eligibility, and open/closed fixtures passed.
+  A conflict-bearing packet retained a valid original signature but failed overall
+  verification, and mutating the signed conflict result invalidated the signature.
+- Security: targeted Bandit scan of changed Python modules returned no findings;
+  `pip-audit -r requirements.txt` found no known vulnerabilities.
+- Deployment: GitHub Actions run 36114824773 succeeded for e73f285 in 1m36s;
+  Node 20 action deprecation and future Ubuntu image migration remain warnings,
+  not deployment errors.
+- Live verification: bounded readiness passed every required check. The conflict
+  endpoint returned HTTP 200 with operational headers and zero production
+  conflicts. Five recommendations exposed conflict metadata, and deployed
+  JavaScript/CSS contained six conflict-warning and accessibility tokens.
+- Telemetry: zero `http_request_failed` traces since 08:47Z; query absence remains
+  subject to Application Insights ingestion delay.
+- Files committed: api/reliability.py, api/navigator.py, web/app.js,
+  web/styles.css, tests/test_reliability.py, tests/test_web_contracts.py.
+- Commit: e73f285 (`feat: escalate authoritative source conflicts`).
+- Remaining limitation: production data intentionally contains no disagreement,
+  so visible conflict behavior is proven by deterministic synthetic fixtures and
+  deployed-token inspection rather than by altering reviewed production records.
+- Next task: P1.1 recommendation evidence completeness and render-safety coverage.
 
 ## 21. Final handoff template
 
