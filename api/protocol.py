@@ -15,6 +15,12 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from . import signing
+from .reliability import (
+    assess_freshness,
+    compile_accessibility,
+    detect_packet_contradictions,
+    detect_source_conflicts,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -379,6 +385,8 @@ def build_action_packet(profile: dict) -> dict:
         },
         "needs": needs,
         "constraints": stored_constraints,
+        "already_tried": sorted(set(profile.get("already_tried", []))),
+        "accessibility": compile_accessibility(profile.get("accessibility_preferences")),
         "deadlines": [
             {
                 "id": deadline["id"],
@@ -407,6 +415,10 @@ def build_action_packet(profile: dict) -> dict:
         },
         "question_audit": question_audit(profile),
         "sources": source_hashes,
+        "source_freshness": {
+            source["id"]: assess_freshness(source) for source in source_hashes
+        },
+        "source_conflicts": detect_source_conflicts(source_hashes),
         "safety_constraints": [
             "Foundry may transform packet fields but may not originate facts.",
             "Locked deadlines and government identifiers must remain byte-for-byte unchanged.",
@@ -415,7 +427,7 @@ def build_action_packet(profile: dict) -> dict:
         ],
         "continuity": {
             "code": code,
-            "contains": ["county", "disaster id", "broad needs", "non-sensitive constraints", "generic escalation flag", "current step"],
+            "contains": ["county", "disaster id", "broad needs", "non-sensitive constraints", "already-tried steps", "accessibility preferences", "generic escalation flag", "current step"],
             "excludes": ["name", "street address", "SSN", "bank data", "uploaded documents", "sensitive handoff reason"],
             "expires_in_hours": 24,
             "resume_command": f"CONTINUE {code}",
@@ -429,6 +441,27 @@ def build_action_packet(profile: dict) -> dict:
         "transformation_policy": "channel-compiler-v1",
     }
     packet["channels"] = _compile_channels(packet)
+    packet["verification"] = {
+        "contradictions": detect_packet_contradictions(packet),
+        "source_conflicts": packet["source_conflicts"],
+    }
+    packet["provenance"] = {
+        "nodes": [
+            {"id": "government_source", "label": "FEMA reviewed sources"},
+            {"id": "reviewed_record", "label": disaster["id"]},
+            {"id": "matching_rule", "label": "county + need rules"},
+            {"id": "packet", "label": packet["packet_id"]},
+            {"id": "channels", "label": "web · SMS · voice · offline"},
+            {"id": "verification", "label": "signature + field checks"},
+        ],
+        "edges": [
+            ["government_source", "reviewed_record"],
+            ["reviewed_record", "matching_rule"],
+            ["matching_rule", "packet"],
+            ["packet", "channels"],
+            ["channels", "verification"],
+        ],
+    }
     packet["proof"]["channels_sha256"] = _hash(packet["channels"])
     packet["proof"].update(signing.sign(_packet_message(packet)))
     continuity_store.save(packet)
@@ -443,14 +476,33 @@ def verify_action_packet(packet: dict) -> dict:
     channels_valid = hmac.compare_digest(
         packet.get("proof", {}).get("channels_sha256", ""), _hash(packet.get("channels", {}))
     )
+    contradictions = detect_packet_contradictions(packet)
+    source_conflicts = detect_source_conflicts(packet.get("sources", []))
     return {
-        "valid": signature_valid and locked_present and channels_valid,
+        "valid": signature_valid and locked_present and channels_valid and contradictions["passed"] and not source_conflicts["conflict_detected"],
         "signature_valid": signature_valid,
         "algorithm": packet.get("proof", {}).get("algorithm"),
         "channels_valid": channels_valid,
         "locked_facts_present_across_compiled_state": locked_present,
+        "field_consistency": contradictions,
+        "source_conflicts": source_conflicts,
         "proof_id": packet.get("proof", {}).get("proof_id"),
     }
+
+
+def current_source_state(packet: dict) -> dict:
+    """Project a saved packet onto the latest checked-in reviewed source state."""
+
+    disaster_id = packet.get("disaster", {}).get("id", "DR-4831-VA")
+    disaster = _load_disaster(disaster_id)
+    current = deepcopy(packet)
+    current["disaster"]["status"] = disaster["current_status"]
+    current["snapshot"]["as_of"] = disaster["snapshot_as_of"]
+    current["deadlines"][0]["value"] = disaster["deadlines"][0]["value"]
+    current["proof"]["source_hashes"] = {
+        source["id"]: _hash(source) for source in disaster["sources"]
+    }
+    return current
 
 
 def compile_alert_packet(alert: dict, segments: list[dict], manifest: dict) -> dict:

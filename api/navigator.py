@@ -7,6 +7,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .config import settings
+from .reliability import (
+    assess_freshness,
+    compile_accessibility,
+    detect_source_conflicts,
+    evidence_trace,
+    provenance_graph,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,9 +40,9 @@ def _handoff_location(location: str) -> str:
     return location
 
 
-def _explain(program: dict, matched_needs: list[str]) -> tuple[str, str]:
+def _explain(program: dict, matched_needs: list[str], *, deterministic_only: bool = False) -> tuple[str, str]:
     fallback = program["why_template"].format(needs=", ".join(matched_needs) or "your situation")
-    if not settings.foundry_enabled:
+    if deterministic_only or not settings.foundry_enabled:
         return fallback, "rules + reviewed source copy"
     try:
         from .providers.azure_foundry import explain_program
@@ -50,9 +57,13 @@ def navigate(profile: dict) -> dict:
     circumstances = set(profile.get("circumstances", []))
     urgency = profile.get("urgency", "safe_now")
     location = (profile.get("location") or "Virginia").strip()
+    surge_mode = bool(profile.get("surge_mode"))
+    accessibility = compile_accessibility(profile.get("accessibility_preferences"))
+    programs = _load_programs()
+    conflict_report = detect_source_conflicts(programs)
     results: list[dict] = []
 
-    for program in _load_programs():
+    for program in programs:
         matched_needs = sorted(needs & set(program.get("needs", [])))
         matched_circumstances = sorted(circumstances & set(program.get("circumstances", [])))
         urgent_match = bool(program.get("urgent") and urgency in {"danger_now", "tonight"})
@@ -64,16 +75,28 @@ def navigate(profile: dict) -> dict:
         if score <= 0:
             continue
         missing = [field for field in program.get("questions", []) if not profile.get(field)]
-        explanation, explanation_provider = _explain(program, matched_needs)
+        freshness = assess_freshness(program)
+        confidence = _confidence(score, missing)
+        if freshness["stale"]:
+            confidence = {"label": "Needs source review", "value": min(confidence["value"], 0.35)}
+        explanation, explanation_provider = _explain(
+            program,
+            matched_needs,
+            deterministic_only=surge_mode or accessibility["low_bandwidth"],
+        )
+        trace = evidence_trace(program, matched_needs, matched_circumstances, confidence)
         result = {
             **program,
             "score": score,
-            "confidence": _confidence(score, missing),
+            "confidence": confidence,
             "matched_needs": matched_needs,
             "matched_circumstances": matched_circumstances,
             "missing_information": missing,
             "why": explanation,
             "explanation_provider": explanation_provider,
+            "source_freshness": freshness,
+            "evidence": trace,
+            "provenance": provenance_graph(program, trace),
             "eligibility_notice": "This is a screening result, not an eligibility decision. The agency makes the final decision.",
         }
         results.append(result)
@@ -110,6 +133,9 @@ def navigate(profile: dict) -> dict:
         escalation_reasons.append("At least one high-priority match needs more information.")
         if escalation_level == "none":
             escalation_level = "ambiguous"
+    if conflict_report["conflict_detected"]:
+        escalation_reasons.append("Authoritative sources conflict; no source was silently preferred.")
+        escalation_level = "source_conflict" if escalation_level == "none" else escalation_level
     if escalation_reasons and escalation_level == "none":
         escalation_level = "support"
 
@@ -132,6 +158,12 @@ def navigate(profile: dict) -> dict:
             "private_review_requested": bool(circumstances & sensitive_handoff_flags),
             "urgency": urgency,
             "top_programs": [item["name"] for item in results[:3]],
+            "relevant_programs": [item["id"] for item in results[:3]],
+            "already_tried": sorted(set(profile.get("already_tried", []))),
+            "unresolved_ambiguity": sorted(
+                {field for item in results[:3] for field in item.get("missing_information", [])}
+            ),
+            "accessibility_preferences": accessibility["preferences"],
         },
         "contacts": [
             {"label": "Emergency", "value": "911", "when": "Immediate danger or life-threatening emergency"},
@@ -149,9 +181,11 @@ def navigate(profile: dict) -> dict:
         "location": location,
         "recommendations": results[:8],
         "handoff": handoff,
+        "source_conflicts": conflict_report,
+        "accessibility": accessibility,
         "privacy": {
             "stored": False,
-            "used": ["location you entered", "selected needs", "selected circumstances", "urgency"],
+            "used": ["location you entered", "selected needs", "selected circumstances", "urgency", "optional access preferences", "optional already-tried steps"],
             "not_requested": [
                 "Social Security number",
                 "income amount",
@@ -166,4 +200,9 @@ def navigate(profile: dict) -> dict:
         if results
         else "No confident program match was found. Virginia 211 can help a person review your situation.",
         "engine": "deterministic eligibility rules; Foundry explains but never decides",
+        "operating_mode": {
+            "mode": "surge" if surge_mode else "normal",
+            "core_matching": "deterministic",
+            "ai_explanation": "disabled" if surge_mode else "optional",
+        },
     }

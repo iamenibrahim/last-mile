@@ -23,7 +23,22 @@ from .manifest import validate_manifest
 from .navigator import navigate
 from .providers.azure_sms import handle_event_grid_events, send_verified_packet
 from .providers.azure_voice import handle_call_events, start_verified_call
-from .protocol import build_action_packet, continuity_store, next_question, verify_action_packet
+from .protocol import (
+    build_action_packet,
+    continuity_store,
+    current_source_state,
+    next_question,
+    verify_action_packet,
+)
+from .reliability import (
+    assess_freshness,
+    detect_source_conflicts,
+    diff_packet,
+    evaluate_chaos,
+    offline_snapshot,
+    surge_controller,
+)
+from .scenarios import replay_scenarios
 from .speech import synthesize
 from .store import create_store
 from .transform import LANGUAGES, transform_alert
@@ -53,6 +68,7 @@ async def operational_telemetry(request: Request, call_next):
     """Emit PII-free route latency into Function/App Insights traces."""
     started = time.perf_counter()
     request_id = uuid.uuid4().hex[:16]
+    request.state.surge = surge_controller.observe()
     try:
         response = await call_next(request)
     except Exception as error:
@@ -75,6 +91,7 @@ async def operational_telemetry(request: Request, call_next):
         request_id,
     )
     response.headers["X-Request-ID"] = request_id
+    response.headers["X-Last-Mile-Mode"] = request.state.surge["mode"]
     return response
 render_store = create_store()
 
@@ -88,6 +105,9 @@ class NavigateRequest(BaseModel):
     housing: str | None = None
     jurisdiction: str | None = None
     context_reviewed: bool | None = None
+    accessibility_preferences: list[str] = Field(default_factory=list, max_length=10)
+    already_tried: list[str] = Field(default_factory=list, max_length=20)
+    surge_mode: bool = False
 
 
 class TransformRequest(BaseModel):
@@ -95,6 +115,7 @@ class TransformRequest(BaseModel):
     grade: int = Field(default=6, ge=4, le=10)
     simulate_failure: bool = False
     alert: dict[str, Any] | None = None
+    surge_mode: bool = False
 
 
 class VerifyRequest(BaseModel):
@@ -117,6 +138,9 @@ class PacketRequest(BaseModel):
     needs: list[str] = Field(default_factory=list, max_length=20)
     circumstances: list[str] = Field(default_factory=list, max_length=20)
     context_reviewed: bool | None = None
+    accessibility_preferences: list[str] = Field(default_factory=list, max_length=10)
+    already_tried: list[str] = Field(default_factory=list, max_length=20)
+    surge_mode: bool = False
 
 
 class PacketVerifyRequest(BaseModel):
@@ -133,6 +157,14 @@ class CallStartRequest(BaseModel):
     continuity_code: str = Field(pattern=r"^RBX-[A-Z0-9]{5,12}$")
     phone_number: str = Field(min_length=8, max_length=16)
     consent: bool = False
+
+
+class ChaosRequest(BaseModel):
+    modes: list[str] = Field(default_factory=list, max_length=10)
+
+
+class OfflineVerifyRequest(BaseModel):
+    snapshot: dict[str, Any]
 
 
 @app.get("/api/status")
@@ -176,8 +208,10 @@ def alerts() -> dict:
 
 
 @app.post("/api/navigate")
-def navigation(request: NavigateRequest) -> dict:
-    result = navigate(request.model_dump())
+def navigation(request: NavigateRequest, http_request: Request) -> dict:
+    profile = request.model_dump()
+    profile["surge_mode"] = profile["surge_mode"] or http_request.state.surge["active"]
+    result = navigate(profile)
     alert = load_cached_alert()
     location = geocode(request.location)
     point = location.pop("point")
@@ -186,13 +220,14 @@ def navigation(request: NavigateRequest) -> dict:
         "alert": alert,
         "position": classify_position(point, alert.get("geometry")),
     }
-    result["protocol"] = build_action_packet(request.model_dump())
+    result["protocol"] = build_action_packet(profile)
+    result["surge"] = http_request.state.surge
     if result["protocol"].get("status") == "complete":
         result["privacy"].update(
             {
                 "stored": True,
                 "retention": "24 hours",
-                "stored_fields": ["county", "disaster ID", "broad needs", "non-sensitive constraints", "generic escalation flag", "current step"],
+                "stored_fields": ["county", "disaster ID", "broad needs", "non-sensitive constraints", "already-tried steps", "accessibility preferences", "generic escalation flag", "current step"],
                 "message": (
                     "The full screening response is not logged. To make the anonymous recovery code work, "
                     "a minimal action packet is retained for 24 hours."
@@ -222,7 +257,72 @@ def continue_packet(code: str) -> dict:
     packet = continuity_store.load(code)
     if not packet:
         raise HTTPException(status_code=404, detail="Recovery code not found or expired")
-    return {"status": "complete", "packet": packet, "resumed": True}
+    return {
+        "status": "complete",
+        "packet": packet,
+        "resumed": True,
+        "source_diff": diff_packet(packet, current_source_state(packet)),
+    }
+
+
+@app.get("/api/packet/diff/{code}")
+def packet_diff(code: str) -> dict:
+    packet = continuity_store.load(code)
+    if not packet:
+        raise HTTPException(status_code=404, detail="Recovery code not found or expired")
+    return diff_packet(packet, current_source_state(packet))
+
+
+@app.get("/api/packet/offline/{code}")
+def packet_offline(code: str) -> JSONResponse:
+    packet = continuity_store.load(code)
+    if not packet:
+        raise HTTPException(status_code=404, detail="Recovery code not found or expired")
+    payload = offline_snapshot(packet, verify_action_packet(packet), signing.describe())
+    return JSONResponse(
+        payload,
+        headers={"Content-Disposition": f'attachment; filename="{code}-signed-snapshot.json"'},
+    )
+
+
+@app.post("/api/offline/verify")
+def offline_verify(request: OfflineVerifyRequest) -> dict:
+    packet = request.snapshot.get("packet")
+    if not isinstance(packet, dict):
+        raise HTTPException(status_code=400, detail="Offline snapshot does not contain a packet")
+    return verify_action_packet(packet)
+
+
+@app.get("/api/programs/freshness")
+def program_freshness() -> dict:
+    records = json.loads((DATA / "programs.json").read_text(encoding="utf-8"))
+    assessed = [{"id": record["id"], **assess_freshness(record)} for record in records]
+    return {
+        "records": assessed,
+        "stale_count": sum(item["stale"] for item in assessed),
+        "all_current": all(not item["stale"] for item in assessed),
+    }
+
+
+@app.get("/api/source-conflicts")
+def source_conflicts() -> dict:
+    records = json.loads((DATA / "programs.json").read_text(encoding="utf-8"))
+    return detect_source_conflicts(records)
+
+
+@app.post("/api/chaos/evaluate")
+def chaos_evaluate(request: ChaosRequest) -> dict:
+    return evaluate_chaos(request.modes)
+
+
+@app.get("/api/scenarios/replay")
+def scenario_replay() -> dict:
+    return replay_scenarios()
+
+
+@app.get("/api/surge/status")
+def surge_status(request: Request) -> dict:
+    return request.state.surge
 
 
 @app.get("/api/handoff/{code}")
@@ -251,6 +351,15 @@ def caseworker_handoff(code: str) -> dict:
         "escalation_topic": escalation.get("topic"),
         "contact": escalation.get("contact"),
         "caller_summary": escalation.get("read_this"),
+        "handoff": {
+            "location": packet.get("jurisdiction"),
+            "needs": packet.get("needs", []),
+            "already_tried": packet.get("already_tried", []),
+            "relevant_programs": [action.get("action_id") for action in packet.get("actions", [])],
+            "unresolved_ambiguity": [escalation.get("topic")] if escalation.get("required") else [],
+            "urgency": "human_review" if escalation.get("required") else "standard",
+            "sensitive_details_included": False,
+        },
         "deadlines": [
             {
                 "display": deadline.get("display"),
@@ -321,11 +430,17 @@ def call_events(
 
 
 @app.post("/api/transform")
-def transform(request: TransformRequest) -> dict:
+def transform(request: TransformRequest, http_request: Request) -> dict:
     if request.language not in LANGUAGES:
         raise HTTPException(status_code=400, detail="Unsupported demo language")
     alert = request.alert or load_cached_alert()
-    result = transform_alert(alert, request.language, request.grade, request.simulate_failure)
+    result = transform_alert(
+        alert,
+        request.language,
+        request.grade,
+        request.simulate_failure,
+        deterministic_only=request.surge_mode or http_request.state.surge["active"],
+    )
     try:
         render_store.save_render(result)
     except Exception:

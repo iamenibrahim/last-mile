@@ -18,6 +18,11 @@
     "source_label": "Virginia Department of Emergency Management — 911 guidance",
     "source_url": "https://www.vaemergency.gov/",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 90,
+    "source_excerpt": "Call 911 for an immediate threat to life or safety.",
     "why_template": "You selected {needs}. Immediate safety comes before applications or paperwork."
   },
   {
@@ -39,6 +44,11 @@
     "source_label": "211 Virginia",
     "source_url": "https://211virginia.org/",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 30,
+    "source_excerpt": "211 Virginia connects people with community services through a live specialist.",
     "why_template": "A live navigator can help with {needs} and check what is open near you."
   },
   {
@@ -60,6 +70,11 @@
     "source_label": "FEMA — Individual Assistance",
     "source_url": "https://www.fema.gov/assistance/individual",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 30,
+    "source_excerpt": "FEMA Individual Assistance may support eligible disaster-related housing and other serious needs.",
     "why_template": "You selected {needs}. FEMA may help only when this event and location have an Individual Assistance declaration."
   },
   {
@@ -77,10 +92,15 @@
     "documents": ["Identity information", "Household members", "Disaster-related income and expenses", "Address in the affected area"],
     "document_alternatives": "Ask the local department which identity alternatives it accepts if documents were lost.",
     "apply_label": "Check Virginia D-SNAP updates",
-    "apply_url": "https://www.dss.virginia.gov/benefit/snap.cgi",
+    "apply_url": "https://commonhelp.virginia.gov/",
     "source_label": "USDA Food and Nutrition Service — D-SNAP",
     "source_url": "https://www.fns.usda.gov/disaster/disaster-supplemental-nutrition-assistance-program-d-snap",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 30,
+    "source_excerpt": "D-SNAP is available only after a state requests and receives federal approval for an affected area.",
     "why_template": "You selected {needs}. D-SNAP may help if Virginia activates it for your area."
   },
   {
@@ -102,6 +122,11 @@
     "source_label": "U.S. Small Business Administration — Disaster Assistance",
     "source_url": "https://www.sba.gov/funding-programs/disaster-assistance",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 30,
+    "source_excerpt": "SBA disaster assistance may provide loans for eligible uninsured disaster losses.",
     "why_template": "You selected {needs}. An SBA loan may cover eligible uninsured physical losses, but it must be repaid."
   },
   {
@@ -123,6 +148,11 @@
     "source_label": "U.S. Department of Labor — Disaster Unemployment Assistance",
     "source_url": "https://www.dol.gov/agencies/eta/unemployment-insurance/disaster",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 30,
+    "source_excerpt": "Disaster Unemployment Assistance may be authorized after a major disaster directly interrupts work.",
     "why_template": "You selected {needs}. DUA may fit if the disaster directly stopped your work and the program is activated."
   },
   {
@@ -144,6 +174,11 @@
     "source_label": "USA.gov — Replace lost or stolen ID cards",
     "source_url": "https://www.usa.gov/replace-vital-documents",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 90,
+    "source_excerpt": "USA.gov routes people to the issuing agency for replacement identity and vital documents.",
     "why_template": "You indicated missing documents. This official guide shows the correct issuing agency without asking you to upload anything here."
   },
   {
@@ -165,6 +200,11 @@
     "source_label": "SAMHSA — Disaster Distress Helpline",
     "source_url": "https://www.samhsa.gov/find-help/helplines/disaster-distress-helpline",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 90,
+    "source_excerpt": "The Disaster Distress Helpline offers disaster-related crisis counseling and support.",
     "why_template": "You selected {needs}. This service supports disaster-related distress without an eligibility application."
   },
   {
@@ -186,6 +226,11 @@
     "source_label": "Legal Services Corporation — Find Legal Aid",
     "source_url": "https://www.lsc.gov/about-lsc/what-legal-aid/i-need-legal-help",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 90,
+    "source_excerpt": "Legal Services Corporation helps people locate civil legal aid providers.",
     "why_template": "You selected {needs}. A civil legal aid organization may help with disaster-related disputes or deadlines."
   },
   {
@@ -207,7 +252,11 @@
     "source_label": "Ready.gov — Sheltering",
     "source_url": "https://www.ready.gov/shelter",
     "source_updated": "Accessed September 2026",
+    "last_verified": "2026-09-24",
+    "expiration_date": null,
+    "disaster_id": "GENERAL",
+    "review_interval_days": 30,
+    "source_excerpt": "Shelter locations and intake conditions can change; confirm them with local officials or 211.",
     "why_template": "You selected {needs}. Shelter availability is time-sensitive, so confirm the location with local officials or 211 before traveling."
   }
 ]
-

@@ -31,6 +31,10 @@
         "url": "https://www.fema.gov/disaster/4831",
         "title": "Virginia Tropical Storm Helene disaster declaration",
         "retrieved": "2026-09-23",
+        "last_verified": "2026-09-24",
+        "expiration_date": null,
+        "disaster_id": "DR-4831-VA",
+        "review_interval_days": 30,
         "supports": ["disaster_id", "incident_period", "designated_areas"]
       },
       {
@@ -40,9 +44,13 @@
         "url": "https://www.fema.gov/multimedia-library",
         "title": "Deadline to Apply for FEMA Assistance in VA is in 2 Weeks — Dec. 2",
         "retrieved": "2026-09-23",
+        "last_verified": "2026-09-24",
+        "expiration_date": "2024-12-02",
+        "disaster_id": "DR-4831-VA",
+        "review_interval_days": 30,
+        "authoritative_claims": [{"field": "application_deadline", "value": "2024-12-02"}],
         "supports": ["application_deadline"]
       }
     ]
   }
 ]
-

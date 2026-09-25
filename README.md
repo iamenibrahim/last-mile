@@ -31,6 +31,11 @@ The checked-in recovery demo replays the official November 18, 2024 state for Tr
 - A working language entry point into verified Spanish, Arabic, Dari, and Tagalog/Filipino assistance; unsafe translated segments are withheld and interpreter paths remain visible.
 - A fraud red-flag check that never calls a message “safe.”
 - A corruption-injection evaluation harness with honest, scoped reports.
+- Per-program source freshness metadata (`last_verified`, review interval, disaster ID, and expiration date) with visible stale-record flags.
+- Recommendation-level evidence traces showing the triggering rule, reviewed source record and excerpt, review date, confidence caveat, and an end-to-end provenance graph.
+- Packet-wide field contradiction checks and authoritative-source conflict detection that withhold or escalate instead of silently choosing a value.
+- A safe chaos dashboard for Foundry, Translator, Maps, stale-source, bad-translation, and offline simulations, with the activated fallback shown for each failure.
+- JSON scenario replay, accessibility preference compilation, packet-to-current-source diffing, downloadable signed offline snapshots, and deterministic surge mode.
 
 The ten differentiating ideas are documented in [docs/innovations.md](docs/innovations.md); every one has a corresponding UI or API implementation.
 
@@ -51,6 +56,8 @@ Run the test and evaluation suites:
 ```powershell
 .\.venv\Scripts\python -m pytest -q
 .\.venv\Scripts\python -m eval.report
+.\.venv\Scripts\python scripts\replay_scenarios.py
+.\.venv\Scripts\python scripts\verify_offline_snapshot.py RBX-ABCDE-signed-snapshot.json
 ```
 
 The report is written to `data/evaluation_report.json`. Do not quote its numbers without its scope: it evaluates the deterministic fallback against the checked-in demo fixture, not production model quality.
@@ -95,6 +102,14 @@ The function host serves the complete FastAPI and web experience, so a separate 
 | `POST /api/packet` | Build and sign a canonical Disaster Action Packet |
 | `POST /api/packet/verify` | Verify packet signature, channel hash, and locked facts |
 | `GET /api/continue/{code}` | Resume minimal anonymous state across channels |
+| `GET /api/packet/diff/{code}` | Compare a saved packet with the latest reviewed source state |
+| `GET /api/packet/offline/{code}` | Download a packet, sources, signature, and verification receipt as one JSON snapshot |
+| `POST /api/offline/verify` | Verify a downloaded snapshot without rebuilding guidance |
+| `GET /api/programs/freshness` | Audit review and expiration status for every program record |
+| `GET /api/source-conflicts` | Detect conflicting normalized claims across authoritative sources |
+| `POST /api/chaos/evaluate` | Simulate dependency failures and return the deterministic fallback path |
+| `GET /api/scenarios/replay` | Replay checked-in full-pipeline scenarios with pass/fail checks |
+| `GET /api/surge/status` | Report normal or surge mode and active degradation policy |
 | `POST /api/sms/send` | Send a verified packet through Azure Communication Services after explicit consent |
 | `POST /api/sms/events` | Receive Event Grid validation, delivery reports, and privacy-preserving recovery commands |
 | `GET /api/alerts` | Live Virginia NWS alerts with labeled fixture fallback |

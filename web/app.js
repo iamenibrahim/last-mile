@@ -88,6 +88,7 @@ function renderProtocol(protocol) {
   const audit = packet.question_audit;
   state.packet = packet;
   state.packetChannel = "web";
+  const graph = packet.provenance || { nodes: [], edges: [] };
   target.innerHTML = `
     <section class="protocol-packet">
       <div class="historical-ribbon">HISTORICAL REPLAY · THE 2024 APPLICATION DEADLINE HAS PASSED · CONFIRM CURRENT HELP</div>
@@ -103,6 +104,7 @@ function renderProtocol(protocol) {
           <div class="question-audit"><div><b>${audit.potential_question_groups}</b><span>possible groups</span></div><div><b>${audit.asked}</b><span>asked</span></div><div><b>${audit.skipped}</b><span>skipped</span></div></div>
           <div class="channel-tabs" role="tablist">${["web", "sms", "voice", "offline"].map((channel) => `<button type="button" role="tab" data-packet-channel="${channel}" class="${channel === "web" ? "active" : ""}">${channel.toUpperCase()}</button>`).join("")}</div>
           <div class="channel-preview" id="channel-preview">${escapeHtml(channelText(packet, "web"))}</div>
+          <details class="provenance-graph"><summary>Trace this packet end to end</summary><div class="provenance-flow">${graph.nodes.map((node, index) => `<span>${escapeHtml(node.label)}</span>${index < graph.nodes.length - 1 ? "<b>→</b>" : ""}`).join("")}</div><p>Government source → reviewed record → matching rule → packet → transformed output → verification</p></details>
         </div>
         <aside class="continuity-card"><small>ANONYMOUS CROSS-CHANNEL CONTINUITY</small><div class="continuity-code">${escapeHtml(packet.continuity.code)}</div><p>Use <strong>${escapeHtml(packet.continuity.resume_command)}</strong> on a surviving channel. Expires in 24 hours. No name, street address, SSN, or documents.</p><button type="button" data-copy-code>Copy recovery command</button><button type="button" data-verify-packet style="margin-top:7px">Verify packet + channels</button><div class="sms-send"><label for="sms-number">Send this verified packet by SMS</label><input id="sms-number" type="tel" inputmode="tel" autocomplete="tel" placeholder="+17035550123" maxlength="16" /><label class="sms-consent"><input id="sms-consent" type="checkbox" /> I consent to one transactional message. Message and data rates may apply.</label><button type="button" data-send-sms>Send verified SMS</button><small>${state.providers.azure_communication_services_sms ? "Azure SMS is ready." : "Azure SMS is currently in preview mode."} Never use this for 911.</small></div><div class="sms-send call-send"><label for="call-number">Receive this verified plan by automated call</label><input id="call-number" type="tel" inputmode="tel" autocomplete="tel" placeholder="+17035550123" maxlength="16" /><label class="sms-consent"><input id="call-consent" type="checkbox" /> I consent to one automated informational call. Carrier rates may apply.</label><button type="button" data-start-call>Call with Microsoft neural voice</button><small>${state.providers.azure_communication_services_voice ? "Azure voice calling is ready." : "Azure voice calling is disabled until a trial number is configured."} Keys: 1 steps · 2 missing documents · # demo · 9 repeat · 0 human. This cannot contact 911.</small></div></aside>
       </div>
@@ -195,6 +197,8 @@ async function renderAlertMap(alertContext, location) {
 function renderResults(result) {
   state.navigation = result;
   state.packet = null;
+  if (result.accessibility?.preferences?.includes("large_text")) document.body.classList.add("large-text");
+  if (result.accessibility?.low_bandwidth) setLowData(true, "Low-bandwidth preference applied");
   const section = $("#results");
   section.hidden = false;
   $("#results-summary").textContent = `${result.recommendations.length} source-backed options for ${result.location}. Final eligibility is always decided by the agency.`;
@@ -211,14 +215,14 @@ function renderResults(result) {
     <div><small>DEMO CAP FIXTURE · NOT A LIVE WARNING</small><h3>${escapeHtml(alert.event)}</h3><p>${escapeHtml(alert.headline)}</p></div>
     <div class="alert-position"><strong>${escapeHtml(position.status)}</strong><small>${escapeHtml(position.explanation)}</small></div>
     <div id="map-card" class="mini-map"></div>`;
-  renderAlertMap(result.alert_context, result.location_match);
+  if (!result.accessibility?.low_bandwidth) renderAlertMap(result.alert_context, result.location_match);
 
   $("#recommendation-list").innerHTML = result.recommendations.map((program, index) => `
     <article class="recommendation-card" data-program-id="${escapeHtml(program.id)}">
       <div class="recommendation-main">
         <div class="program-icon">${escapeHtml(programIcon(program.category))}</div>
         <div class="program-body">
-          <div class="program-topline"><span class="category-pill">${index < 3 ? `Priority ${index + 1}` : escapeHtml(program.category)}</span><span class="confidence-pill">${escapeHtml(program.confidence.label)}</span></div>
+          <div class="program-topline"><span class="category-pill">${index < 3 ? `Priority ${index + 1}` : escapeHtml(program.category)}</span><span class="confidence-pill ${program.source_freshness?.stale ? "stale" : ""}">${escapeHtml(program.confidence.label)}</span><span class="freshness-pill ${program.source_freshness?.stale ? "stale" : ""}">${program.source_freshness?.stale ? "SOURCE REVIEW NEEDED" : "SOURCE CURRENT"}</span></div>
           <h3>${escapeHtml(program.name)}</h3>
           <p>${escapeHtml(program.why)}</p>
           <p class="source-line">Source: <a href="${escapeHtml(program.source_url)}" target="_blank" rel="noopener">${escapeHtml(program.source_label)}</a> · ${escapeHtml(program.source_updated)}</p>
@@ -228,6 +232,7 @@ function renderResults(result) {
       <div class="program-details">
         <div><h4>Who may qualify</h4><p>${escapeHtml(program.eligibility)}</p><p><strong>Important:</strong> ${escapeHtml(program.eligibility_notice)}</p></div>
         <div><h4>Information to gather</h4>${program.documents.length ? `<ul>${program.documents.map((doc) => `<li>${escapeHtml(doc)}</li>`).join("")}</ul>` : "<p>No documents needed for the first contact.</p>"}</div>
+        <details class="evidence-trace"><summary>Why this recommendation appeared</summary><dl><dt>Rule</dt><dd>${escapeHtml(program.evidence?.rule)}</dd><dt>Source excerpt</dt><dd>${escapeHtml(program.evidence?.source_excerpt)}</dd><dt>Last reviewed</dt><dd>${escapeHtml(program.evidence?.last_reviewed || "Not recorded")}</dd><dt>Confidence caveat</dt><dd>${escapeHtml(program.evidence?.caveat)}</dd></dl><div class="provenance-flow">${(program.provenance?.nodes || []).map((node, graphIndex, nodes) => `<span>${escapeHtml(node.label)}</span>${graphIndex < nodes.length - 1 ? "<b>→</b>" : ""}`).join("")}</div></details>
         <p class="alternative-note"><strong>If documents are gone:</strong> ${escapeHtml(program.document_alternatives)}</p>
       </div>
     </article>`).join("") || `<div class="recommendation-card"><div class="recommendation-main"><div class="program-body"><h3>No confident match yet</h3><p>${escapeHtml(result.empty_notice)}</p></div></div></div>`;
@@ -260,6 +265,8 @@ async function submitNavigator(event) {
   button.disabled = true;
   button.innerHTML = "Matching official programs…";
   const circumstances = $$("#context-grid input:checked").map((input) => input.value);
+  const accessibilityPreferences = $$("#preference-profile input:checked").map((input) => input.value);
+  const alreadyTried = $$("#already-tried-profile input:checked").map((input) => input.value);
   const housing = circumstances.includes("renter") ? "renter" : circumstances.includes("homeowner") ? "homeowner" : null;
   try {
     const response = await api("/api/navigate", {
@@ -272,6 +279,8 @@ async function submitNavigator(event) {
         circumstances,
         housing,
         context_reviewed: true,
+        accessibility_preferences: accessibilityPreferences,
+        already_tried: alreadyTried,
       }),
     });
     renderResults(await response.json());
@@ -294,6 +303,9 @@ function handoffText() {
     `Context: ${handoff.summary.circumstances.join(", ") || "not specified"}`,
     `Private human review: ${handoff.summary.private_review_requested ? "requested; reason intentionally omitted" : "not requested"}`,
     `Programs to ask about: ${handoff.summary.top_programs.join(", ") || "general review"}`,
+    `Already tried: ${handoff.summary.already_tried?.join(", ") || "none recorded"}`,
+    `Unresolved ambiguity: ${handoff.summary.unresolved_ambiguity?.join(", ") || "none recorded"}`,
+    `Access preferences: ${handoff.summary.accessibility_preferences?.join(", ") || "none"}`,
     "No SSN, bank information, or documents are included.",
   ].join("\n");
 }
@@ -503,6 +515,8 @@ const innovations = [
   ["Fraud shield", "Checks pressure, unusual payments, sensitive-data requests, and known official domains."],
   ["Offline pocket plan", "Caches the app shell and creates a printable plan for unreliable connectivity or a shared device."],
   ["Grounded voice access", "Reads only verified text aloud through Azure AI Speech, with an on-device fallback."],
+  ["Freshness and conflict gates", "Flags stale records and routes contradictory authoritative claims to human verification."],
+  ["Scenario replay and surge mode", "Replays deterministic cases and preserves core matching when optional cloud services are unavailable."],
 ];
 
 function init() {
@@ -552,6 +566,21 @@ function init() {
       showToast("This browser would not allow offline storage. Print or save the plan instead.");
     }
   });
+  $("#download-snapshot").addEventListener("click", async () => {
+    if (!state.packet) return showToast("Create or resume a signed plan first.");
+    try {
+      const response = await api(`/api/packet/offline/${encodeURIComponent(state.packet.continuity.code)}`);
+      const blob = await response.blob();
+      const anchor = document.createElement("a");
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = `${state.packet.continuity.code}-signed-snapshot.json`;
+      anchor.click();
+      URL.revokeObjectURL(anchor.href);
+      showToast("Signed packet and reviewed sources downloaded for offline verification.");
+    } catch (error) {
+      showToast(`Could not export snapshot: ${error.message}`);
+    }
+  });
   $("#copy-handoff").addEventListener("click", async () => { await navigator.clipboard.writeText(handoffText()); showToast("Handoff summary copied—no sensitive data included."); });
   $("#resume-form").addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -561,6 +590,7 @@ function init() {
       const response = await api(`/api/continue/${encodeURIComponent(code)}`);
       const result = await response.json();
       showPacketOnly(result.packet, "Recovered from the anonymous 24-hour continuity service");
+      showToast(result.source_diff?.changed ? "Recovered. Reviewed sources changed—open the packet details." : "Recovered. No reviewed source changes detected.");
     } catch (error) {
       showToast(`Could not resume: ${error.message}`);
     }
@@ -633,6 +663,18 @@ function init() {
     }
   });
   $("#run-transform").addEventListener("click", runTransform);
+  $("#run-chaos").addEventListener("click", async () => {
+    const modes = $$("#chaos-controls input:checked").map((input) => input.value);
+    try {
+      const response = await api("/api/chaos/evaluate", { method: "POST", body: JSON.stringify({ modes }) });
+      const result = await response.json();
+      $("#chaos-results").innerHTML = result.outcomes.length
+        ? result.outcomes.map((item) => `<div><strong>${escapeHtml(item.component)}</strong><span>fails</span><b>→</b><em>${escapeHtml(item.fallback)}</em><small>SAFE FALLBACK</small></div>`).join("")
+        : "No failures selected. Normal provider path remains active.";
+    } catch (error) {
+      $("#chaos-results").textContent = `Simulation unavailable: ${error.message}`;
+    }
+  });
   $("#verify-manifest").addEventListener("click", verifyManifest);
   $("#play-audio").addEventListener("click", playAudio);
   $("#alert-channel-strip").addEventListener("click", (event) => {

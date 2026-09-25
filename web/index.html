@@ -160,6 +160,21 @@
                 <label><input type="checkbox" value="unsafe_shelter" /> <span><strong>I do not feel safe where I am staying</strong><small>Sensitive human handoff</small></span></label>
                 <label><input type="checkbox" value="complex_case" /> <span><strong>My situation does not fit these choices</strong><small>Ambiguous case review</small></span></label>
               </div>
+              <fieldset class="preference-profile" id="preference-profile">
+                <legend>Optional access preferences — no diagnosis or sensitive details</legend>
+                <label><input type="checkbox" value="screen_reader" /> Screen reader</label>
+                <label><input type="checkbox" value="large_text" /> Large text</label>
+                <label><input type="checkbox" value="low_bandwidth" /> Low bandwidth</label>
+                <label><input type="checkbox" value="voice_preferred" /> Voice preferred</label>
+                <label><input type="checkbox" value="relay_service" /> Relay service</label>
+              </fieldset>
+              <fieldset class="preference-profile" id="already-tried-profile">
+                <legend>Optional steps already tried</legend>
+                <label><input type="checkbox" value="contacted_fema" /> Contacted FEMA</label>
+                <label><input type="checkbox" value="contacted_211" /> Contacted 211</label>
+                <label><input type="checkbox" value="contacted_insurer" /> Contacted insurer</label>
+                <label><input type="checkbox" value="gathered_documents" /> Gathered available documents</label>
+              </fieldset>
               <div class="consent-line"><span aria-hidden="true">▣</span><p><strong>Minimal continuity record</strong><br />The full screening is not logged. A packet with county, broad needs, constraints, and step is retained for 24 hours so the recovery code works.</p></div>
               <div class="form-footer"><button class="text-button" type="button" data-back="2">← Back</button><button class="primary-button accent" type="submit"><span>Find my next steps</span><b>→</b></button></div>
             </div>
@@ -169,7 +184,7 @@
         <section id="results" class="results-section" hidden aria-live="polite">
           <div class="results-header">
             <div><p class="overline">YOUR ACTION PLAN</p><h2>Here’s what to do next</h2><p id="results-summary"></p></div>
-            <div class="results-actions"><button id="print-plan" class="outline-button">▣ Print / save</button><button id="save-offline-plan" class="outline-button">↓ Save offline</button><button id="copy-handoff" class="outline-button">□ Copy handoff</button></div>
+            <div class="results-actions"><button id="print-plan" class="outline-button">▣ Print / save</button><button id="save-offline-plan" class="outline-button">↓ Save offline</button><button id="download-snapshot" class="outline-button">↓ Signed JSON</button><button id="copy-handoff" class="outline-button">□ Copy handoff</button></div>
           </div>
           <div id="urgent-panel"></div>
           <div id="protocol-panel"></div>
@@ -249,10 +264,23 @@
       <section class="view" id="view-about" aria-labelledby="about-title">
         <div class="page-heading">
           <p class="overline">BUILT FOR THE LAST MILE</p>
-          <h1 id="about-title">Ten practical innovations.<br /><em>One safer path to help.</em></h1>
+          <h1 id="about-title">Resilient by design.<br /><em>Visible under failure.</em></h1>
           <p>The system combines deterministic eligibility rules with Microsoft Foundry for grounded explanations. AI clarifies; it never makes the final eligibility decision or invents emergency actions.</p>
         </div>
         <div class="innovation-grid" id="innovation-grid"></div>
+        <section class="chaos-dashboard" aria-labelledby="chaos-title">
+          <div><p class="overline">FAILURE-MODE LAB</p><h2 id="chaos-title">Break dependencies without breaking guidance.</h2><p>These controls simulate provider and data failures. They do not disable real services or change stored data.</p></div>
+          <div class="chaos-controls" id="chaos-controls">
+            <label><input type="checkbox" value="foundry_down" /> Foundry down</label>
+            <label><input type="checkbox" value="translator_down" /> Translator down</label>
+            <label><input type="checkbox" value="maps_down" /> Maps down</label>
+            <label><input type="checkbox" value="stale_source" /> Stale source</label>
+            <label><input type="checkbox" value="bad_translation" /> Bad translation</label>
+            <label><input type="checkbox" value="no_network" /> No network</label>
+            <button type="button" id="run-chaos" class="primary-button">Run simulation</button>
+          </div>
+          <div id="chaos-results" class="chaos-results">Select failures to see the deterministic fallback path.</div>
+        </section>
         <section class="architecture-section">
           <div><p class="overline">MICROSOFT-FIRST ARCHITECTURE</p><h2>Cloud intelligence with a graceful offline spine.</h2></div>
           <div class="architecture-flow" aria-label="System architecture">

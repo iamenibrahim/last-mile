@@ -32,7 +32,11 @@ def split_segments(value: str) -> list[tuple[str, int, int]]:
     return segments or ([(value, 0, len(value))] if value else [])
 
 
-def _provider_transform(masked: str, language: str, grade: int) -> tuple[str, dict]:
+def _provider_transform(masked: str, language: str, grade: int, *, deterministic_only: bool = False) -> tuple[str, dict]:
+    if deterministic_only:
+        text, meta = local.translate(masked, language)
+        meta["surge_mode"] = True
+        return text, meta
     if language == "en" and settings.foundry_enabled:
         try:
             from .providers.azure_foundry import simplify
@@ -88,7 +92,13 @@ def _reading_grade(text: str) -> float:
     return round(max(0.0, 0.39 * (len(words) / sentences) + 11.8 * (total_syllables / len(words)) - 15.59), 1)
 
 
-def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_failure: bool = False) -> dict:
+def transform_alert(
+    alert: dict,
+    language: str = "es",
+    grade: int = 6,
+    simulate_failure: bool = False,
+    deterministic_only: bool = False,
+) -> dict:
     properties = alert.get("properties", {})
     places = [part.strip() for part in properties.get("areaDesc", "").split(";")]
     source_sections = [
@@ -120,7 +130,9 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
     def process(item: dict) -> dict:
         segment = item["source"]
         locked = item["locked"]
-        transformed, provider_meta = _provider_transform(locked.masked, language, grade)
+        transformed, provider_meta = _provider_transform(
+            locked.masked, language, grade, deterministic_only=deterministic_only
+        )
         if simulate_failure and item["id"] == simulation_target:
             transformed = transformed.replace(locked.entities[0].token, "", 1)
         restored = restore_entities(transformed, locked.entities)
@@ -284,5 +296,5 @@ def transform_alert(alert: dict, language: str = "es", grade: int = 6, simulate_
         "segments": rendered,
         "manifest": manifest,
         "protocol_packet": protocol_packet,
-        "provider_mode": "microsoft-foundry" if settings.foundry_enabled else "resilient-local-demo",
+        "provider_mode": "surge-deterministic" if deterministic_only else "microsoft-foundry" if settings.foundry_enabled else "resilient-local-demo",
     }

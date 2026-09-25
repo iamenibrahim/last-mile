@@ -210,3 +210,21 @@ def test_next_steps_explain_historical_limit_and_spell_recovery_code():
     assert "deadline" in response
     assert ", ".join(payload["continuity"]["code"].replace("-", "")) in response
     assert should_hang_up is False
+
+
+def test_missing_documents_key_protects_sensitive_information_and_returns_to_menu():
+    response, should_hang_up = voice_module._response_for_tone("2", packet())
+
+    assert "do not send sensitive information" in response
+    assert "alternative documents" in response
+    assert "Press 0" in response
+    assert should_hang_up is False
+
+
+def test_unknown_key_reprompts_with_only_supported_choices():
+    response, should_hang_up = voice_module._response_for_tone("7", packet())
+
+    assert "not an option" in response
+    for choice in ("1", "2", "pound", "0", "9"):
+        assert choice in response
+    assert should_hang_up is False

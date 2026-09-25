@@ -1,0 +1,59 @@
+[
+  {
+    "id": "lost-id-housing",
+    "description": "Displaced resident needs housing and lost identification.",
+    "profile": {
+      "location": "24370",
+      "jurisdiction": "Smyth County",
+      "urgency": "safe_now",
+      "needs": ["housing", "documents"],
+      "circumstances": ["displaced", "no_id"],
+      "context_reviewed": true
+    },
+    "expected_programs": ["fema-individual-assistance", "id-replacement"],
+    "expected_escalation": "support"
+  },
+  {
+    "id": "danger-now",
+    "description": "Immediate danger must escalate before benefit navigation.",
+    "profile": {
+      "location": "24370",
+      "jurisdiction": "Smyth County",
+      "urgency": "danger_now",
+      "needs": ["medical"],
+      "circumstances": [],
+      "context_reviewed": true
+    },
+    "expected_programs": ["emergency-911"],
+    "expected_escalation": "urgent"
+  },
+  {
+    "id": "food-low-bandwidth",
+    "description": "Food assistance remains deterministic in low-bandwidth mode.",
+    "profile": {
+      "location": "24370",
+      "jurisdiction": "Smyth County",
+      "urgency": "tonight",
+      "needs": ["food"],
+      "circumstances": ["no_device"],
+      "accessibility_preferences": ["low_bandwidth"],
+      "context_reviewed": true
+    },
+    "expected_programs": ["disaster-snap", "virginia-211"],
+    "expected_escalation": "none"
+  },
+  {
+    "id": "appeal-human-review",
+    "description": "A denied or appealed case routes to high-impact human review.",
+    "profile": {
+      "location": "24370",
+      "jurisdiction": "Smyth County",
+      "urgency": "safe_now",
+      "needs": ["legal"],
+      "circumstances": ["appeal_or_denied"],
+      "context_reviewed": true
+    },
+    "expected_programs": ["disaster-legal-services"],
+    "expected_escalation": "high_impact"
+  }
+]

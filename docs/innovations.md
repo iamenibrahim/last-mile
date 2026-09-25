@@ -11,6 +11,23 @@
 9. **Disaster Fraud Shield.** The app detects unusual payment requests, pressure language, sensitive-data requests, and non-allowlisted links, while never declaring a message safe.
 10. **Verified language, voice, and offline access.** The language entry point routes to verified Spanish, Arabic, Dari, and Tagalog/Filipino output. Only post-verification text reaches Azure AI Speech or device speech; the exact packet also compiles to an explicitly saved, removable offline view.
 
+## Reliability extensions
+
+The technical hardening layer adds twelve concrete mechanisms around the same packet rather than creating a second architecture:
+
+1. Program records carry review, expiration, disaster, and source metadata; `/api/programs/freshness` evaluates it deterministically.
+2. Every recommendation returns its matching rule, source record and excerpt, review date, confidence caveat, and provenance nodes.
+3. Packet verification checks structured fields against every rendered channel and withholds contradictory output.
+4. The UI failure-mode lab simulates six outages or corruptions and names the fallback that activates.
+5. Packet and recommendation views expose the source-to-verification provenance graph.
+6. Checked-in JSON scenarios replay routing, escalation, locked facts, language safety, and fallback behavior.
+7. Non-sensitive access preferences compile into web, voice, relay, and low-bandwidth directives.
+8. Human handoff JSON and copy include location, needs, already-tried steps, relevant programs, unresolved ambiguity, and urgency.
+9. Normalized source claims are compared; conflicts route to human verification without picking a winner.
+10. Recovery-code resume compares the saved packet to the latest reviewed source state and reports exact changes.
+11. A downloadable JSON snapshot bundles packet, sources, proof, export-time verification, and the production public JWK for network-free verification.
+12. A request-window surge signal preserves deterministic matching while skipping optional model and map work and preferring cached transformations.
+
 ## Rubric fit
 
 - **Performance:** mechanism tests, corruption classes, visible refusal, channel hash verification, p50/p95 timing, and full-flow API tests.
