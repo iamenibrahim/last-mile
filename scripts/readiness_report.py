@@ -214,12 +214,20 @@ def collect(*, live: bool = False, base_url: str = BASE_URL) -> dict:
                 def snapshot():
                     body = request("GET", "/api/packet/offline/" + packet["continuity"]["code"])
                     server = request("POST", "/api/offline/verify", {"snapshot": body})
+                    signing_key = request("GET", "/api/signing-key")
                     path = Path(temporary) / "snapshot.json"
+                    trusted_key_path = Path(temporary) / "trusted-public-jwk.json"
                     path.write_text(json.dumps(body), encoding="utf-8")
-                    result = command([sys.executable, "scripts/verify_offline_snapshot.py", str(path)], local=True)
+                    trusted_key_path.write_text(json.dumps(signing_key.get("public_jwk")), encoding="utf-8")
+                    result = command([sys.executable, "scripts/verify_offline_snapshot.py", str(path),
+                                      "--trusted-jwk", str(trusted_key_path)], local=True)
                     verified = json.loads(result.stdout)
-                    return server.get("valid") is True and result.returncode == 0 and verified.get("valid") is True, {
-                        "server_verified": server.get("valid"), "public_key_local_verified": verified.get("valid")}
+                    return (server.get("valid") is True and result.returncode == 0
+                            and verified.get("valid") is True
+                            and verified.get("trust_anchor") == "trusted_jwk_file"), {
+                        "server_verified": server.get("valid"),
+                        "public_key_local_verified": verified.get("valid"),
+                        "trust_anchor": verified.get("trust_anchor")}
 
                 check("signed_snapshot", "deployed_and_local", snapshot)
 

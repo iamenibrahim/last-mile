@@ -57,8 +57,16 @@ Run the test and evaluation suites:
 .\.venv\Scripts\python -m pytest -q
 .\.venv\Scripts\python -m eval.report
 .\.venv\Scripts\python scripts\replay_scenarios.py
-.\.venv\Scripts\python scripts\verify_offline_snapshot.py RBX-ABCDE-signed-snapshot.json
+.\.venv\Scripts\python scripts\verify_offline_snapshot.py RBX-ABCDE-signed-snapshot.json --trusted-jwk trusted-production-public-jwk.json
 ```
+
+The offline verifier requires a public JWK saved independently from the reviewed
+`/api/signing-key` HTTPS endpoint or another trusted channel. A key embedded only
+inside the snapshot is not an authenticity anchor because an attacker could replace
+both the packet and that key. Production RS256 snapshots can therefore be checked
+without network access once the trusted public JWK is saved. Local HMAC development
+snapshots have no publishable public key and cannot be independently verified; the
+shared HMAC secret must never be exported.
 
 The report is written to `data/evaluation_report.json`. Do not quote its numbers without its scope: it evaluates the deterministic fallback against the checked-in demo fixture, not production model quality.
 

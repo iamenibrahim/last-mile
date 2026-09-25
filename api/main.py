@@ -303,7 +303,15 @@ def offline_verify(request: OfflineVerifyRequest) -> dict:
     if not isinstance(packet, dict):
         raise HTTPException(status_code=400, detail="Offline snapshot does not contain a packet")
     try:
-        return verify_action_packet(packet)
+        verification = verify_action_packet(packet)
+        sources_match_packet = request.snapshot.get("sources") == packet.get("sources")
+        snapshot_format_valid = request.snapshot.get("format") == "last-mile-offline-snapshot-v1"
+        return {
+            **verification,
+            "snapshot_format_valid": snapshot_format_valid,
+            "sources_match_packet": sources_match_packet,
+            "valid": verification["valid"] and snapshot_format_valid and sources_match_packet,
+        }
     except (AttributeError, IndexError, KeyError, TypeError, ValueError):
         # Untrusted JSON may have valid outer shape but malformed nested fields.
         # Keep diagnostics bounded and do not echo supplied data or exceptions.

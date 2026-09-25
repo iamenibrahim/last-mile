@@ -98,6 +98,10 @@ def test_saved_packet_diff_snapshot_and_preferences():
     damaged = deepcopy(snapshot)
     damaged["packet"]["jurisdiction"] = "Wrong County"
     assert client.post("/api/offline/verify", json={"snapshot": damaged}).json()["valid"] is False
+    damaged = deepcopy(snapshot)
+    damaged["sources"] = [{"id": "unsigned-source"}]
+    result = client.post("/api/offline/verify", json={"snapshot": damaged}).json()
+    assert result["valid"] is False and result["sources_match_packet"] is False
 
 
 @pytest.mark.parametrize("path", ["/api/continue/", "/api/packet/diff/", "/api/packet/offline/", "/api/handoff/"])
