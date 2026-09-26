@@ -1,5 +1,11 @@
 # TODO: Microsoft × CCI Innovation Challenge
 
+**Status correction, September 25:** this checklist is historical. Phone
+verification and a real voice call were completed September 24; continuity uses
+Azure Table Storage. Current technical results and remaining work are in
+[`FINAL_TECHNICAL_CHECK.md`](grounded_eval/results/FINAL_TECHNICAL_CHECK.md).
+Do not repeat the old phone-setup steps solely because they appear below.
+
 **Today: Thu Sep 24. Feature freeze is tonight.** Fri Sep 25 is pitch only, no new code.
 
 Deployed environment and its caveats: [infra/DEPLOYED.md](infra/DEPLOYED.md).

@@ -730,7 +730,7 @@ function init() {
   if (navigator.connection) navigator.connection.addEventListener("change", updateConnectivity);
   updateConnectivity();
   refreshSavedPlanCard();
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("/assets/sw.js").catch(() => {});
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
 }
 
 document.addEventListener("DOMContentLoaded", init);

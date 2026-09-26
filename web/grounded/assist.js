@@ -9,15 +9,23 @@
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g,
   (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const api = (path, opts) => fetch(path, opts).then(async (r) => {
-  const body = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(body.detail || `${r.status} ${r.statusText}`);
-  return body;
-});
+const api = async (path, opts = {}) => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 90000);
+  try {
+    const r = await fetch(path, { ...opts, signal: controller.signal });
+    const body = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(body.detail || `${r.status} ${r.statusText}`);
+    return body;
+  } catch (error) {
+    if (controller.signal.aborted) throw new Error('The service is taking too long. Please try again, or use the official help numbers below.');
+    throw error;
+  } finally { clearTimeout(timer); }
+};
 const post = (path, body) => api(path, { method: 'POST', headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(body) });
 
-let STATE = { pick: null, last: null };
+let STATE = { pick: null, last: null, request: 0 };
 
 const KIND_LABEL = {
   what: 'What it is', who: 'Who can get it', documents: 'What to have ready',
@@ -69,6 +77,7 @@ function selectedNeeds() {
 /* ------------------------------------------------------------------ request */
 
 async function go() {
+  const request = ++STATE.request;
   $('out-sec').hidden = false;
   $('prov-sec').hidden = true;
   $('out').innerHTML = '<div class="loading">Checking FEMA declarations and verifying every sentence&hellip;</div>';
@@ -82,7 +91,11 @@ async function go() {
   if ($('corrupt').value) body.corrupt = $('corrupt').value;
   let r;
   try { r = await post('api/assist', body); }
-  catch (e) { $('out').innerHTML = `<div class="err">${esc(e.message)}</div>`; return; }
+  catch (e) {
+    if (request === STATE.request) $('out').innerHTML = `<div class="err" role="alert">${esc(e.message)}</div>`;
+    return;
+  }
+  if (request !== STATE.request) return;
   STATE.last = r;
   paint(r);
 }

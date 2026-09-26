@@ -1,5 +1,10 @@
 # Deployed environment
 
+Latest technical verification (2026-09-25 ET): see
+[`FINAL_TECHNICAL_CHECK.md`](../grounded_eval/results/FINAL_TECHNICAL_CHECK.md).
+The current repository is `iamenibrahim/last-mile`; its `e12364a` deployment
+and security workflows succeeded. Historical provisioning details follow.
+
 Deployed 2026-09-23 from `infra/student.json` into the Azure for Students
 subscription `9845da8a-0783-4120-8a24-daaddf53312e`.
 
@@ -31,9 +36,9 @@ S0 and is billed per token.
 
 **Cosmos DB skipped.** Free-tier Cosmos would not provision in `canadacentral`
 (`ResourceDeploymentFailure`, terminal state `Failed`) on two attempts. With
-`deployCosmos=false` the app's `AZURE_COSMOS_ENDPOINT` is empty and
-`api/store.py` uses its SQLite store, which is what every local run already
-uses. A failed account named `lmva3fcshw5lauukqcosmos` may still be in the
+`deployCosmos=false` the app's `AZURE_COSMOS_ENDPOINT` is empty. Anonymous
+recovery-code continuity uses Azure Table Storage in the deployed environment;
+the local development/render store may use SQLite. A failed account named `lmva3fcshw5lauukqcosmos` may still be in the
 resource group; it holds no data and can be deleted.
 
 **Region `canadacentral`.** Azure refuses `eastus` on this student
@@ -79,9 +84,11 @@ subscription with OpenAI quota changes one setting; nothing in the code changes.
 
 ## Deployment and live verification
 
-Published from `iamenibrahim/rubicon` branch `main` by
+Published from `iamenibrahim/last-mile` branch `main` by
 `.github/workflows/deploy-function-app.yml`. The publish profile is stored only
-as a GitHub Actions secret. Commit `2b170f0` is live.
+as a GitHub Actions secret. The successful deployment workflow for `e12364a` is
+[run 36204455943](https://github.com/iamenibrahim/last-mile/actions/runs/36204455943).
+This is workflow evidence, not a runtime commit attestation.
 
 Verified against the deployed Function App on 2026-09-23:
 
@@ -133,10 +140,10 @@ Trial limits: up to **three** verified recipients, 60 inbound and 60 outbound
 minutes, 5 minutes maximum per call, US billing addresses only, no emergency
 numbers. More than three recipients requires a purchased number.
 
-So the standing blocker is: **SMS needs a purchased number; voice needs a
-verified recipient.** The second is free and takes a minute - but the one-time
-passcode is sent to the recipient's handset, so only the number's owner can
-complete it.
+**Updated voice status:** a verified test recipient received a call and heard
+audio on September 24, as recorded in `HANDOFF.md`. The September 25 status
+check still reports voice enabled. A repeat handset/DTMF walkthrough remains
+human evidence to collect. **SMS still needs a purchased, approved sender.**
 
 The portal also now shows a retirement notice on this resource: "Azure
 Communication Services capabilities in this resource are being retired or will

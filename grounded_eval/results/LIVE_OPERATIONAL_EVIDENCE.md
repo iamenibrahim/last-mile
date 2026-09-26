@@ -1,5 +1,8 @@
 # Live Azure operational evidence
 
+For the September 25 technical pass, current test count, and remaining deployment
+limits, see [FINAL_TECHNICAL_CHECK.md](FINAL_TECHNICAL_CHECK.md).
+
 Measured against `https://lmva3fcshw5lauukqapi.azurewebsites.net` on 2026-09-24. These are bounded engineering checks, not a production availability certification.
 
 ## Performance and cold start
@@ -67,13 +70,14 @@ Application Insights received the new PII-free `http_request_completed` traces. 
 
 - Production dependency audit: no known vulnerabilities found.
 - Bandit scan: no medium/high-severity finding at medium-or-higher confidence.
-- Automated tests: 185 passed, 1 intentionally skipped.
+- Historical automated tests at this measurement: 185 passed, 1 intentionally skipped.
+  The September 25 technical branch passes 297 tests with the same expected skip.
 - Simulated Translator and Foundry timeouts prove deterministic fallback and expose `fallback_reason=TimeoutError`; see `docs/provider-outage-runbook.md`.
 - GitHub Actions now runs the security audit on every push/PR and probes `/healthz` and `/api/status` hourly.
 
 ## Still unproven
 
-This evidence does not establish sustained availability, agency-scale capacity, a regional disaster-recovery objective, native-speaker quality, SMS/voice delivery, or contact-center economic impact. Those require external access or human/partner data.
+This evidence does not establish sustained availability, agency-scale capacity, a regional disaster-recovery objective, native-speaker quality, SMS delivery, or contact-center economic impact. Those require external access or human/partner data. Voice delivery was subsequently confirmed by a recipient on September 24 (see HANDOFF.md); the current DTMF flow still needs a repeat handset walkthrough.
 
 ## Prompt-coverage acceptance check
 

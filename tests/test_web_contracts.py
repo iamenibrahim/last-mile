@@ -32,7 +32,9 @@ def test_citizen_ui_exposes_language_resume_accessibility_and_offline_controls()
 
 def test_service_worker_cache_version_changes_with_offline_contract():
     worker = (ROOT / "web" / "sw.js").read_text(encoding="utf-8")
-    assert 'const CACHE = "last-mile-v2"' in worker
+    assert 'const CACHE = "last-mile-v3"' in worker
+    script = (ROOT / "web" / "app.js").read_text(encoding="utf-8")
+    assert 'serviceWorker.register("/sw.js")' in script
 
 
 def test_freshness_labels_remain_explicit_across_accessibility_modes():

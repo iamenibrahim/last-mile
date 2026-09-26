@@ -1,5 +1,11 @@
 # Handoff — Last-Mile Disaster Navigator
 
+**September 25 technical update:** the current repository is
+`iamenibrahim/last-mile`. See
+[`FINAL_TECHNICAL_CHECK.md`](grounded_eval/results/FINAL_TECHNICAL_CHECK.md)
+for the 297-test result, live application checks, fixes, and deployment limits.
+The older checkpoint and readiness estimates below are historical.
+
 **Event:** Microsoft × CCI Innovation Challenge for Virginia, Sep 21–25 2026
 
 **Challenge:** Disaster Assistance Navigator

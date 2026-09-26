@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-26T00:32:26.590225+00:00",
+  "checks": [
+    {
+      "name": "source",
+      "scope": "local",
+      "required": true,
+      "status": "passed",
+      "evidence": {
+        "commit": "e12364a8a8891dc2af79499cc13faf7961d72a75",
+        "dirty": true,
+        "changed_path_count": 23,
+        "tested_tree": "working tree including uncommitted changes"
+      }
+    },
+    {
+      "name": "source_records",
+      "scope": "local",
+      "required": true,
+      "status": "passed",
+      "evidence": {
+        "total": 10,
+        "stale": 0,
+        "current": 10,
+        "conflicts": 0
+      }
+    },
+    {
+      "name": "python_tests",
+      "scope": "local",
+      "required": true,
+      "status": "passed",
+      "evidence": {
+        "total": 298,
+        "passed": 297,
+        "failed": 0,
+        "skipped": 1,
+        "expected_skips": 1,
+        "unexpected_skips": 0,
+        "expected_skip_reason": "this alert has no segment eligible for swap_road"
+      }
+    },
+    {
+      "name": "javascript_syntax",
+      "scope": "local",
+      "required": true,
+      "status": "passed",
+      "evidence": {
+        "files": 5,
+        "failed": []
+      }
+    },
+    {
+      "name": "python_syntax",
+      "scope": "local",
+      "required": true,
+      "status": "passed",
+      "evidence": {}
+    },
+    {
+      "name": "diff_whitespace",
+      "scope": "local",
+      "required": true,
+      "status": "passed",
+      "evidence": {}
+    },
+    {
+      "name": "scenario_replay",
+      "scope": "simulated_local",
+      "required": true,
+      "status": "passed",
+      "evidence": {
+        "scenario_count": 4,
+        "passed": 4,
+        "failed": 0
+      }
+    }
+  ],
+  "human_evidence": {
+    "verified": false,
+    "limitations": [
+      "handset audibility",
+      "native-speaker review",
+      "accessibility certification",
+      "agency approval",
+      "contact-center impact"
+    ]
+  },
+  "scope": "Bounded readiness evidence; no calls, SMS, or paid generative transformations",
+  "result": "passed",
+  "required_failures": 0
+}
