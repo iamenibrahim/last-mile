@@ -74,7 +74,9 @@ async function go() {
   $('out').innerHTML = '<div class="loading">Checking FEMA declarations and verifying every sentence&hellip;</div>';
   const body = {
     location: $('loc').value, needs: selectedNeeds(), text: $('text').value || null,
-    danger_now: $('danger').checked, lang: $('lang').value, with_audio: true,
+    danger_now: $('danger').checked, lang: $('lang').value,
+    // Synthesised speech is the one heavy payload here, so low data declines it.
+    with_audio: !(window.lmLowData && window.lmLowData()),
     pick_fips: STATE.pick, as_of: $('clock').value || null,
   };
   if ($('corrupt').value) body.corrupt = $('corrupt').value;
@@ -97,7 +99,7 @@ function paint(r) {
     html += `<div class="danger-strip">ADVERSARIAL TEST INPUT &mdash; "${esc(r.corruption.cls)}" injected into
       segment ${esc(r.corruption.segment_id)} (${esc(r.corruption.note)}). Watch what the verifier does with it.</div>`;
   }
-  if (r.privacy && r.privacy.notice) html += `<div class="privacy">${esc(r.privacy.notice)}</div>`;
+  if (r.privacy && r.privacy.notice) html += `<div class="notice info"><strong>Privacy</strong>${esc(r.privacy.notice)}</div>`;
 
   // Human first, when it matters. Above the answer, above everything.
   const e = r.escalation || {};
@@ -193,7 +195,7 @@ function paint(r) {
   // FEMA's own fraud warnings.
   const fraud = byRole('fraud');
   if (fraud.length) {
-    html += `<div class="fraud" dir="${dir}"><div class="kind" style="margin-top:0;color:#ff9d95" dir="ltr">
+    html += `<div class="fraud" dir="${dir}"><div class="kind" style="margin-top:0;color:var(--red)" dir="ltr">
       Protect yourself from disaster fraud &mdash; FEMA's own warnings</div>
       <ul style="margin:6px 0 0;padding-left:18px">${fraud.map((s) => `<li>${claimInner(s)}</li>`).join('')}</ul></div>`;
   }
@@ -260,7 +262,12 @@ function paintProvenance(r) {
       <button class="ghost" id="tamper-btn">Tamper with it, then verify</button>
     </div>
     <div id="verify-out" style="margin-top:12px"></div>
-    <div class="hint" style="margin-top:10px">${m.limitations.map(esc).join('<br>')}</div>`;
+    <div class="accordion">
+      <button class="accordion-head" type="button" aria-expanded="false">What a valid manifest does and does not prove</button>
+      <div class="accordion-body" hidden>
+        <ul style="margin:0;padding-left:20px">${m.limitations.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>
+      </div>
+    </div>`;
   $('verify-btn').onclick = () => verify(m, r.segments);
   $('tamper-btn').onclick = () => {
     // Change one word inside a cited FEMA quote on the page, keep the manifest:
@@ -279,7 +286,7 @@ async function verify(manifest, segments, note) {
   try { v = await post('api/verify', { manifest, rendered_segments: segments }); }
   catch (e) { $('verify-out').innerHTML = `<div class="err">${esc(e.message)}</div>`; return; }
   $('verify-out').innerHTML = `${note ? `<div class="danger-strip">${esc(note)}</div>` : ''}
-    <div style="font:700 14px/1 var(--mono);margin-bottom:10px;color:${v.valid ? 'var(--ok)' : 'var(--bad)'}">
+    <div class="verdict" style="color:${v.valid ? 'var(--ok)' : 'var(--bad)'}">
       ${v.valid ? 'PAGE VERIFIED' : 'PAGE DOES NOT VERIFY'}</div>
     <table class="checks">${v.checks.map((c) => `<tr><td class="s ${c.passed ? 'ok' : 'bad'}">${c.passed ? 'PASS' : 'FAIL'}</td>
       <td class="n">${esc(c.name)}</td><td>${esc(c.detail)}</td></tr>`).join('')}</table>`;
@@ -288,6 +295,9 @@ async function verify(manifest, segments, note) {
 /* ------------------------------------------------------------------- wire */
 
 $('go').onclick = () => { STATE.pick = null; go(); };
+// The location field sits in the topper, so its submit button has to reach the
+// same handler as the one at the bottom of step 2.
+$('hero-go').onclick = () => { STATE.pick = null; go(); };
 $('loc').addEventListener('keydown', (e) => { if (e.key === 'Enter') { STATE.pick = null; go(); } });
 ['lang', 'clock', 'corrupt'].forEach((id) => $(id).onchange = () => { if (STATE.last) go(); });
 init();

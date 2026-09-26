@@ -38,7 +38,7 @@ async function loadHealth() {
         `<option value="${esc(code)}">${esc(meta.name)}</option>`).join('');
 
     if (!live) {
-      $('addr-hint').innerHTML += `<br><span style="color:var(--warn)">
+      $('addr-hint').innerHTML += `<br><span style="color:#e6c77a">
         Local fallback engines are active: translation is glossary substitution, not
         machine translation, and simplification is rule-based. Output is labelled as
         such throughout. Set the Azure keys for production behaviour.</span>`;
@@ -76,7 +76,7 @@ async function findAlerts() {
     <div class="kv" style="margin-top:10px">
       matched <b>${esc(g.matched_address)}</b><br>
       ${g.lat.toFixed(5)}, ${g.lon.toFixed(5)} &middot; via ${esc(g.source)}
-      ${res.geocode_caveat ? `<br><span style="color:var(--warn)">${esc(res.geocode_caveat)}</span>` : ''}
+      ${res.geocode_caveat ? `<br><span style="color:#e6c77a">${esc(res.geocode_caveat)}</span>` : ''}
     </div>`;
 
   STATE.alerts = [...res.inside, ...res.near_edge];
@@ -133,7 +133,8 @@ async function doRender() {
     address: STATE.address,
     lang: $('lang').value,
     target_grade: parseFloat($('grade').value),
-    with_audio: true,
+    // Synthesised speech is the one heavy payload here, so low data declines it.
+    with_audio: !(window.lmLowData && window.lmLowData()),
   };
   const corrupt = $('corrupt').value;
   if (corrupt) body.corrupt = corrupt;
@@ -368,16 +369,16 @@ function drawMap(hh) {
 
   const paths = rings.map((r) =>
     `<path d="${r.map((p, i) => `${i ? 'L' : 'M'}${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`).join('')}Z"
-       fill="#f85149" fill-opacity="0.16" stroke="#f85149" stroke-width="1.6"/>`).join('');
+       fill="#8b1a1a" fill-opacity="0.14" stroke="#8b1a1a" stroke-width="1.6"/>`).join('');
 
   const px = X(g.lon), py = Y(g.lat);
   const edge = rel.nearest_edge
     ? `<line x1="${px.toFixed(1)}" y1="${py.toFixed(1)}"
              x2="${X(rel.nearest_edge[0]).toFixed(1)}" y2="${Y(rel.nearest_edge[1]).toFixed(1)}"
-             stroke="#58a6ff" stroke-width="1.2" stroke-dasharray="4 3"/>
+             stroke="#0d132d" stroke-width="1.2" stroke-dasharray="4 3"/>
        <text x="${((px + X(rel.nearest_edge[0])) / 2).toFixed(1)}"
              y="${((py + Y(rel.nearest_edge[1])) / 2 - 6).toFixed(1)}"
-             fill="#58a6ff" font-size="11" font-family="monospace" text-anchor="middle">
+             fill="#0d132d" font-size="11" letter-spacing="0.6" text-anchor="middle">
          ${rel.distance_km} km</text>` : '';
 
   // Scale bar: 10 km in projected units.
@@ -385,25 +386,25 @@ function drawMap(hh) {
   const barPx = (10 / kmPerDegLon) * kx * scale;
   const bar = barPx > 20 && barPx < W * 0.6 ? `
     <g transform="translate(14,${H - 20})">
-      <line x1="0" y1="0" x2="${barPx.toFixed(1)}" y2="0" stroke="#6e7681" stroke-width="2"/>
-      <text x="${(barPx / 2).toFixed(1)}" y="-6" fill="#6e7681" font-size="10"
-            font-family="monospace" text-anchor="middle">10 km</text>
+      <line x1="0" y1="0" x2="${barPx.toFixed(1)}" y2="0" stroke="#87836f" stroke-width="2"/>
+      <text x="${(barPx / 2).toFixed(1)}" y="-6" fill="#87836f" font-size="10"
+            letter-spacing="0.6" text-anchor="middle">10 km</text>
     </g>` : '';
 
   return `
     <svg class="map" viewBox="0 0 ${W} ${H}" style="margin-top:12px" role="img"
          aria-label="Warning polygon with the household position marked">
-      <rect width="${W}" height="${H}" fill="#010409"/>
+      <rect width="${W}" height="${H}" fill="#e4eaf1"/>
       ${paths}${edge}${bar}
-      <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="7" fill="#58a6ff"
-              stroke="#0d1117" stroke-width="2"/>
+      <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="7" fill="#0d132d"
+              stroke="#ffffff" stroke-width="2"/>
       <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="13" fill="none"
-              stroke="#58a6ff" stroke-opacity="0.45" stroke-width="1"/>
+              stroke="#0d132d" stroke-opacity="0.4" stroke-width="1"/>
     </svg>
     <div class="legend">
-      <span><i style="background:#f85149;opacity:.5"></i>warning polygon</span>
-      <span><i style="background:#58a6ff"></i>your address</span>
-      <span><i style="background:#58a6ff;opacity:.5"></i>distance to nearest edge</span>
+      <span><i style="background:#8b1a1a;opacity:.45"></i>warning polygon</span>
+      <span><i style="background:#0d132d"></i>your address</span>
+      <span><i style="background:#0d132d;opacity:.45"></i>distance to nearest edge</span>
       <span class="muted">drawn from the alert's own geometry &middot; no tile server</span>
     </div>`;
 }
@@ -435,11 +436,13 @@ function paintProvenance(r) {
       <div>
         <div class="pane-title">Transform chain</div>
         <pre class="json">${esc(JSON.stringify(m.transform_chain, null, 2))}</pre>
-        <div class="limits">
-          <h3>What a valid manifest does and does not prove</h3>
-          <ul style="margin:0;padding-left:18px">
-            ${m.limitations.map((l) => `<li>${esc(l)}</li>`).join('')}
-          </ul>
+        <div class="accordion">
+          <button class="accordion-head" type="button" aria-expanded="false">What a valid manifest does and does not prove</button>
+          <div class="accordion-body" hidden>
+            <ul style="margin:0;padding-left:20px">
+              ${m.limitations.map((l) => `<li>${esc(l)}</li>`).join('')}
+            </ul>
+          </div>
         </div>
       </div>
     </div>`;
@@ -478,7 +481,7 @@ async function runVerify(manifest, segments, note) {
   }
   $('verify-out').innerHTML = `
     ${note ? `<div class="danger-strip">${esc(note)}</div>` : ''}
-    <div style="font:700 14px/1 var(--mono);margin-bottom:10px;color:${v.valid ? 'var(--ok)' : 'var(--bad)'}">
+    <div class="verdict" style="color:${v.valid ? 'var(--ok)' : 'var(--bad)'}">
       ${v.valid ? 'MANIFEST VALID' : 'MANIFEST INVALID'}
     </div>
     <table class="checks">
