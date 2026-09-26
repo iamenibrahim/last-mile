@@ -14,7 +14,7 @@ const api = async (path, opts = {}) => {
   const timer = setTimeout(() => controller.abort(), 90000);
   try {
     const r = await fetch(path, { ...opts, signal: controller.signal });
-    const body = await r.json().catch(() => ({}));
+    const body = await r.json();
     if (!r.ok) throw new Error(body.detail || `${r.status} ${r.statusText}`);
     return body;
   } catch (error) {
