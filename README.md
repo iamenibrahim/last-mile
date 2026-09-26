@@ -1,47 +1,60 @@
 # Last-Mile Disaster Navigator
 
-**Short description:** A privacy-first Virginia disaster-assistance navigator built around the **Last-Mile Protocol**: one authoritative, proof-carrying Disaster Action Packet is compiled into safe guidance for web, SMS, voice, and offline use. It asks only questions that can change the plan, preserves continuity with an anonymous recovery code, explains source-backed program matches, and escalates urgent or ambiguous cases to a prepared human handoff.
+Last-Mile helps people find disaster assistance without making them navigate a maze of agencies. A user shares a ZIP code, their immediate needs, and a small amount of optional context. The app returns a short action plan with relevant programs, documents to gather, official application links, and a clear path to human help.
 
-**Challenge:** Microsoft × CCI Innovation Challenge for Virginia — help people discover relevant disaster services by location, circumstances, and immediate need while reducing contact-center load and safely escalating sensitive, urgent, ambiguous, or high-impact cases.
+**Live demo:** [lmva3fcshw5lauukqapi.azurewebsites.net/grounded](https://lmva3fcshw5lauukqapi.azurewebsites.net/grounded/)
 
-> **Safety boundary:** This system never originates an alert and never decides benefit eligibility. Recommendations come from deterministic rules over reviewed source records. Microsoft Foundry explains those matches in plain language and evaluates transformations; it is not the eligibility engine.
+This project was built for the Microsoft × CCI Innovation Challenge for Virginia.
 
-## Central innovation: the Last-Mile Protocol
+> Last-Mile does not create emergency alerts or decide whether someone qualifies for benefits. It matches reviewed source records with deterministic rules. AI is used to explain and translate those results, and the app withholds a transformation when it cannot verify it.
 
-The app does not maintain four separate channel experiences. It creates one canonical Disaster Action Packet containing jurisdiction, disaster identifiers, applicability, needs, deadlines, actions, sources, safety constraints, escalation rules, and proof. A deterministic compiler derives the web, SMS, voice, and offline representations from that same packet. Microsoft Foundry may transform packet fields, but it cannot originate facts or alter locked dates and identifiers.
+## Try the demo
 
-The checked-in recovery demo replays the official October 21, 2024 state for Tropical Storm Helene (`DR-4831-VA`) in Smyth County. It shows the December 2, 2024 deadline as 42 days away in that historical replay and must not be used as current application advice.
+Use ZIP code `24370` and choose Smyth County. The demo replays the official October 21, 2024 state for Tropical Storm Helene (`DR-4831-VA`). At that point, the December 2 deadline was 42 days away. This is a historical replay for demonstration, not current application advice.
 
-## What is implemented
+The main flow shows:
 
-- Need-first screening by city, ZIP, or optional address; urgent safety is always separated from benefit navigation.
-- An information-gain intake engine: ZIP `24370` triggers a county question because the answer changes declaration applicability; irrelevant question groups are skipped.
-- Canonical Disaster Action Packets and anonymous 24-hour `RBX-xxxxx` continuity codes containing only county, disaster ID, broad needs, non-sensitive constraints, a generic escalation flag, and current step. Sensitive handoff reasons are deliberately excluded. Azure Table Storage makes codes durable across Function restarts and multiple instances.
-- Web, SMS, voice, and offline channel payloads compiled from the same packet with locked facts and a shared proof ID.
-- Source-backed recommendations for shelter, food, FEMA Individual Assistance, SBA loans, disaster unemployment, document replacement, legal aid, emotional support, and Virginia 211.
-- Confidence labels, eligibility caveats, document checklists, lost-document alternatives, official application links, and “why this fits” explanations.
-- A one-time privacy receipt. The API does not persist citizen answers and never asks for SSNs, bank data, immigration status, or document uploads.
-- Explicit urgent, sensitive, ambiguous, and high-impact routing with a non-sensitive human handoff summary for 211, 711, emergency services, or disaster-fraud reporting.
-- NWS CAP ingest with a real live endpoint and an explicitly labeled synthetic demo fallback.
-- Geometry-derived inside / nearby / outside status. Language models do not decide geography.
-- Entity locking for numbers, measurements, times, dates, roads, places, phones, URLs, and other critical spans.
-- Four checks per alert segment: entity integrity, semantic fidelity, instruction coverage, and grounding. Failed segments show exact source English and an interpreter referral.
-- HMAC-signed local manifests and a verification endpoint. Azure Key Vault is the production signing target.
-- Azure AI Speech integration plus on-device speech fallback, PWA shell caching, explicit signed-plan offline save/remove, web recovery-code resume, print/save, text sizing, high contrast, and responsive layout.
-- A working language entry point into verified Spanish, Arabic, Dari, and Tagalog/Filipino assistance; unsafe translated segments are withheld and interpreter paths remain visible.
-- A fraud red-flag check that never calls a message “safe.”
-- A corruption-injection evaluation harness with honest, scoped reports.
-- Per-program source freshness metadata (`last_verified`, review interval, disaster ID, and expiration date) with visible stale-record flags.
-- Recommendation-level evidence traces showing the triggering rule, reviewed source record and excerpt, review date, confidence caveat, and an end-to-end provenance graph.
-- Packet-wide field contradiction checks and authoritative-source conflict detection that withhold or escalate instead of silently choosing a value.
-- A safe chaos dashboard for Foundry, Translator, Maps, stale-source, bad-translation, and offline simulations, with the activated fallback shown for each failure.
-- JSON scenario replay, accessibility preference compilation, packet-to-current-source diffing, downloadable signed offline snapshots, and deterministic surge mode.
+- county disambiguation when a ZIP crosses county lines;
+- a short, need-based action plan;
+- source evidence for each recommendation;
+- documents to gather and official places to apply;
+- anonymous recovery codes for continuing later;
+- human-help options for urgent or uncertain situations;
+- web, SMS, voice, print, and offline versions of the same plan.
 
-The ten differentiating ideas are documented in [docs/innovations.md](docs/innovations.md); every one has a corresponding UI or API implementation.
+## How it works
+
+Last-Mile builds one **Disaster Action Packet** from the user's answers and reviewed program data. That packet contains the facts, recommendations, deadlines, sources, safety limits, and proof needed to produce each channel.
+
+```text
+User answers
+    ↓
+Need-first intake and deterministic matching
+    ↓
+Reviewed government and nonprofit sources
+    ↓
+Signed Disaster Action Packet
+    ↓
+Web · SMS · Voice · Print · Offline
+```
+
+This keeps the guidance consistent across channels. Microsoft Foundry can turn reviewed material into plain language, but it cannot invent programs, change dates, or make eligibility decisions. Critical details such as phone numbers, URLs, locations, measurements, and identifiers are locked before transformation and checked afterward.
+
+If a source is stale, two official sources conflict, or a generated explanation fails verification, the app stops and shows the reviewed source text or a human-help route.
+
+## Privacy and safety
+
+- No Social Security numbers, bank information, immigration status, or document uploads.
+- Citizen answers are not stored by the API.
+- Recovery codes contain only broad, non-sensitive state and expire after 24 hours.
+- Urgent safety needs are separated from benefit navigation.
+- Recommendations include citations, caveats, and visible review dates.
+- Saved offline packets can be cryptographically verified.
+- The synthetic alert fixture is always labeled as test data.
 
 ## Run locally
 
-Python 3.11+ is recommended.
+Python 3.11 or newer is recommended.
 
 ```powershell
 py -m venv .venv
@@ -49,159 +62,54 @@ py -m venv .venv
 .\.venv\Scripts\python -m uvicorn api.main:app --reload
 ```
 
-Open <http://127.0.0.1:8000>. No Azure credentials are required for the fallback demo.
+Open [http://127.0.0.1:8000/grounded/](http://127.0.0.1:8000/grounded/). The demo works without Azure credentials by using checked-in reviewed data and deterministic fallbacks.
 
-Run the test and evaluation suites:
+Run the tests with:
 
 ```powershell
 .\.venv\Scripts\python -m pytest -q
-.\.venv\Scripts\python -m eval.report
-.\.venv\Scripts\python scripts\replay_scenarios.py
-.\.venv\Scripts\python scripts\verify_offline_snapshot.py RBX-ABCDE-signed-snapshot.json --trusted-jwk trusted-production-public-jwk.json
 ```
 
-The offline verifier requires a public JWK saved independently from the reviewed
-`/api/signing-key` HTTPS endpoint or another trusted channel. A key embedded only
-inside the snapshot is not an authenticity anchor because an attacker could replace
-both the packet and that key. Production RS256 snapshots can therefore be checked
-without network access once the trusted public JWK is saved. Local HMAC development
-snapshots have no publishable public key and cannot be independently verified; the
-shared HMAC secret must never be exported.
+## Azure services
 
-The report is written to `data/evaluation_report.json`. Do not quote its numbers without its scope: it evaluates the deterministic fallback against the checked-in demo fixture, not production model quality.
+The deployed version uses Azure Functions for the FastAPI app and scheduled NWS ingest. Azure Table Storage keeps short-lived recovery codes available across instances. Microsoft Foundry, Translator, Speech, Content Safety, Maps, AI Search, Key Vault, and Communication Services each sit behind a provider boundary with a safe fallback or fail-closed behavior.
 
-## Microsoft Foundry and Azure
+Copy `.env.example` to `.env` to configure only the services you want to use. Do not commit secrets. The student deployment template is in `infra/student.bicep` and is designed for a small, scale-to-zero Azure deployment.
 
-The cloud path uses Microsoft services where each service has a specific job:
-
-| Service | Load-bearing role |
-|---|---|
-| Microsoft Foundry Models | Plain-language transformation, grounded program explanations, strict entailment judge, evaluation dataset target |
-| Azure AI Translator | Translation plus round-trip semantic check |
-| Azure AI Speech | Neural spoken output of verified segments only |
-| Azure AI Content Safety | Output guard before rendering in cloud mode |
-| Azure Maps | Address geocoding and warning-polygon display; Census + local SVG are fallback paths |
-| Azure Functions | Timer-triggered NWS ingest |
-| Azure AI Search | Search over the reviewed evidence corpus, with deterministic BM25 fallback |
-| Azure Table Storage | Minimal, expiring, multi-instance continuity-code state using the Function storage account |
-| Azure Key Vault | Production manifest signing key / asymmetric signing target |
-| Azure Static Web Apps | No-build front end, linked to the API backend |
-| Azure Functions | Consumption-based FastAPI backend, NWS ingest timer, and Event Grid SMS processing |
-| Azure Communication Services | Consent-gated delivery of the already-verified SMS channel, plus Event Grid delivery reports and inbound recovery commands |
-
-Copy `.env.example` to `.env`, supply only the services you have, and keep secrets in Key Vault in deployed environments. Every cloud call is isolated behind a provider and has a cached or deterministic fallback.
-
-The Foundry provider calls the current OpenAI-compatible `/openai/v1/chat/completions` endpoint, uses JSON-only outputs, preserves sentinels structurally, and runs a separate entailment judgment. See [Microsoft Foundry’s REST reference](https://learn.microsoft.com/en-us/azure/foundry/openai/latest), [Azure AI Translator’s REST reference](https://learn.microsoft.com/en-us/rest/api/translator/translator/translate?view=rest-translator-v3.0), [Azure AI Content Safety](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/quickstart-text), and [Azure AI Speech](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-text-to-speech).
-
-### Student-credit deployment
-
-`infra/student.bicep` is the cost-guarded hackathon deployment. It uses a scale-to-zero Azure Functions Consumption plan capped at two instances and low-volume Azure Storage rather than a separate database. Translator, Speech, and Content Safety use the smallest available tiers. Foundry inference is the main metered workload. Communication Services is created with SMS sending and automatic replies disabled, because an SMS-capable sender cannot be purchased with Azure trial credit.
-
-Student subscriptions have a subscription-specific region allow-list. Check **Azure Policy > Assignments > Allowed resource deployment regions** and provide one of those values explicitly as the required `location` parameter. For this subscription Azure allows `canadacentral` and refuses `eastus`. An agency deployment would use an agency-approved US region such as `eastus`; that is a deployment parameter and governance decision, not a claim made by this student pilot.
-
-The function host serves the complete FastAPI and web experience, so a separate paid web host is not required. The deployment also provisions Azure Maps and low-volume Storage. Do not add an always-ready Functions instance, dedicated App Service plan, VM, managed GPU deployment, or Cosmos throughput above 1,000 RU/s on the student subscription.
-
-## API
+Interactive API documentation is available at `/docs`. The most useful routes are:
 
 | Route | Purpose |
 |---|---|
-| `POST /api/navigate` | Stateless service matching and handoff plan |
-| `POST /api/intake/next` | Return only the next question that can change guidance |
-| `POST /api/packet` | Build and sign a canonical Disaster Action Packet |
-| `POST /api/packet/verify` | Verify packet signature, channel hash, and locked facts |
-| `GET /api/continue/{code}` | Resume minimal anonymous state across channels |
-| `GET /api/packet/diff/{code}` | Compare a saved packet with the latest reviewed source state |
-| `GET /api/packet/offline/{code}` | Download a packet, sources, signature, and verification receipt as one JSON snapshot |
-| `POST /api/offline/verify` | Verify a downloaded snapshot without rebuilding guidance |
-| `GET /api/programs/freshness` | Audit review and expiration status for every program record |
-| `GET /api/source-conflicts` | Detect conflicting normalized claims across authoritative sources |
-| `POST /api/chaos/evaluate` | Simulate dependency failures and return the deterministic fallback path |
-| `GET /api/scenarios/replay` | Replay checked-in full-pipeline scenarios with pass/fail checks |
-| `GET /api/surge/status` | Report normal or surge mode and active degradation policy |
-| `POST /api/sms/send` | Send a verified packet through Azure Communication Services after explicit consent |
-| `POST /api/sms/events` | Receive Event Grid validation, delivery reports, and privacy-preserving recovery commands |
-| `GET /api/alerts` | Live Virginia NWS alerts with labeled fixture fallback |
-| `POST /api/transform` | Lock, transform, verify, abstain, and manifest an alert |
-| `POST /api/verify` | Validate manifest signature and rendered-content hash |
-| `POST /api/speech` | Synthesize verified text with Azure AI Speech |
-| `POST /api/fraud-check` | Check common red flags and official-domain allowlist |
-| `GET /api/status` | Provider readiness without exposing secrets |
-| `GET /api/evaluation` | Latest checked-in evaluation report |
+| `POST /api/navigate` | Match needs to reviewed assistance programs |
+| `POST /api/intake/next` | Ask the next question that could change the plan |
+| `POST /api/packet` | Build and sign a Disaster Action Packet |
+| `POST /api/packet/verify` | Verify the packet and its locked facts |
+| `GET /api/continue/{code}` | Resume an anonymous session |
+| `GET /api/alerts` | Read current Virginia NWS alerts with a labeled demo fallback |
+| `POST /api/transform` | Transform and verify alert text |
+| `GET /api/status` | Check provider readiness without exposing secrets |
 
-Interactive OpenAPI documentation is at `/docs`.
-
-### SMS pilot
-
-The app compiles SMS text whether Azure is available or not. Real delivery is fail-closed and remains off until all of the following are configured: an Azure Communication Services endpoint or connection string, an approved SMS sender, `SMS_SEND_ENABLED=true`, and explicit consent in the request. For a student pilot, set `SMS_ALLOWED_TEST_RECIPIENTS` to a comma-separated list of your own E.164 test numbers. Automatic replies are a separate switch, `SMS_AUTOREPLY_ENABLED`, so an Event Grid subscription cannot begin sending replies accidentally.
-
-The inbound command format is stateless with respect to the phone number: `CONTINUE RBX-xxxxx` returns the menu, and `RBX-xxxxx 1`, `2`, or `0` returns steps, document alternatives, or human help. This avoids keeping a phone-number-to-case mapping. Delivery reports retain only the provider message ID and status in the request lifecycle; phone numbers and message bodies are not logged by application code.
-
-## Trust and scope disclosures
-
-- NWS alerts from `api.weather.gov` are retrieved over TLS, but they are not individually signed in a way this app can verify end to end. A production manifest attests to the payload the service fetched and the transformation it performed. It is not an NWS signature.
-- The checked-in Hampton Roads alert is synthetic test data using the NWS CAP/GeoJSON shape. It is always labeled **not an active warning**.
-- The CAP `instruction` field is the only source of rendered emergency actions. If it is empty, the UI says so and adds nothing.
-- Program records are a reviewable snapshot, not a live guarantee that a disaster declaration or enrollment window is open. Users are sent to the authoritative agency to confirm and apply.
-- Real IPAWS access requires a COG agreement and is an integration path, not a claimed implementation. C2PA is future work, not shipped provenance.
-- The impact estimate intentionally remains unclaimed until a dated NWS archive and ACS B16004 run are supplied.
-- Voice Live API and Microsoft Fabric are evaluated future options, not implemented or claimed dependencies of this submission.
-
-## Project deliverables
-
-- [Architecture and threat boundaries](docs/architecture.md)
-- [Authoritative sources and Microsoft reference map](docs/authoritative-sources.md)
-- [Challenge-prompt coverage and remaining boundaries](docs/prompt-coverage.md)
-- [Ten implemented innovations](docs/innovations.md)
-- [Evaluation method and honest results](docs/evaluation.md)
-- [Live Azure operational evidence](grounded_eval/results/LIVE_OPERATIONAL_EVIDENCE.md)
-- [Provider-outage drill](docs/provider-outage-runbook.md)
-- [Five-person usability protocol](docs/usability-study.md)
-- [Native-speaker review form](docs/language-review.md)
-- [Economic-value model](docs/economic-value.md)
-- [Demo and recording script](docs/demo-script.md)
-- `deliverables/Last-Mile-Navigator-Pitch.pptx` (generated and visually verified in this repository)
-- [Security policy](SECURITY.md)
- 
-### Architecture Overview
-
-User → Web / SMS / Voice / Offline → FastAPI Backend → Need-First Intake → Deterministic Rules → Reviewed Program Data → Disaster Action Packet → Web / SMS / Voice / Offline Output
-
-The FastAPI backend also connects to Microsoft Foundry → Plain-Language Explanations / Transformation Evaluation
-
-The application is supported by Azure Services → AI Translator / AI Speech / AI Content Safety / Maps / AI Search / Table Storage / Key Vault / Communication Services
-
-This architecture keeps disaster-service decisions separate from AI-generated explanations. Deterministic rules and reviewed program data determine recommendations, while Microsoft Foundry and supporting Azure services are used for explanation, translation, accessibility, communication, and verification. This allows Last-Mile to take advantage of AI while keeping authoritative disaster information and safety-critical decisions outside of the language model.
-
-### Security and privacy design
-
-The architecture follows a fail-closed approach for safety-critical functionality. AI is used to explain and transform reviewed information, but deterministic application logic remains responsible for program matching and critical decisions.
-
-Key protections include:
-
-- **Data minimization:** The application does not request Social Security numbers, banking information, immigration status, or document uploads.
-- **Deterministic program matching:** Program recommendations originate from reviewed source records and application rules rather than an AI model.
-- **Entity locking:** Critical values such as dates, phone numbers, locations, URLs, measurements, and identifiers are protected during AI transformations.
-- **Signed offline data:** Disaster Action Packets can be cryptographically verified so users can detect modification of saved information.
-- **Secret management:** Production signing keys and other sensitive configuration are designed to be stored in Azure Key Vault rather than application code.
-- **Graceful degradation:** Azure-dependent features have deterministic or cached fallback paths where appropriate.
-- **Human escalation:** Urgent, sensitive, ambiguous, or high-impact situations can be routed to an appropriate human or emergency resource instead of forcing an automated answer.
-
-This separation allows Last-Mile to use AI where it is useful—accessibility, explanation, translation, and communication—while keeping authoritative disaster information and safety-critical decisions outside of the model.
-
-## Repository layout
+## Repository guide
 
 ```text
-api/          FastAPI app, safety mechanisms, providers, navigation rules
-data/         Reviewed program records, demo CAP fixture, evaluation report
-eval/         Corruption injection, metrics, impact-analysis guard
-functions/    Azure Functions timer ingest entry point
-infra/        Azure deployment templates and service map
-tests/        Mechanism-level and full-flow tests
-web/          No-build, responsive PWA
-docs/         Architecture, evaluation, innovation, and demo artifacts
-deliverables/ Hackathon presentation
+api/          FastAPI application and provider integrations
+grounded/     Packet, navigation, verification, and channel logic
+data/         Reviewed program records and demo fixtures
+functions/    Azure Functions entry point
+infra/        Azure deployment templates and deployment notes
+tests/        Unit, contract, safety, and full-flow tests
+web/grounded/ Browser experience
+docs/         Architecture, evaluation, and demo material
 ```
 
-## Submission copy
+For a deeper technical review, see:
 
-> Last-Mile gives a disaster survivor a source-backed plan without making them learn the government org chart. A person shares only a city or ZIP, today’s needs, and optional broad context. Deterministic rules identify programs; Microsoft Foundry turns reviewed source text into clear explanations and evaluates emergency-language transformations. Every recommendation shows why it may fit, what to gather, where to apply, and when a person should take over. Critical alert facts are locked before AI, checked four ways, and refused segment-by-segment when uncertain. The experience works with cached data, speech, print, and offline shell support—and it is candid about what it cannot verify.
+- [Architecture and trust boundaries](docs/architecture.md)
+- [Authoritative sources](docs/authoritative-sources.md)
+- [Evaluation method](docs/evaluation.md)
+- [Implemented innovations](docs/innovations.md)
+- [Live Azure evidence](grounded_eval/results/LIVE_OPERATIONAL_EVIDENCE.md)
+- [Demo script](docs/demo-script.md)
+- [Security policy](SECURITY.md)
+
+Last-Mile's goal is simple: give someone a useful next step quickly, show where every important claim came from, and bring in a person when software should not make the call.
