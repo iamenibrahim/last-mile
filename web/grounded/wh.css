@@ -123,21 +123,11 @@ button, .chip, .avail, .wh-foot h3, .step-no {
   letter-spacing: 1.8px; font-weight: 500; font-size: 12px; line-height: 1.18;
 }
 
-/* -------------------------------------------------------------- 1. ticker */
+/* ------------------------------------------------------- 1. scope notice */
 .wh-ticker {
   background: #fff; border-bottom: 1px solid var(--rule);
-  overflow: hidden; white-space: nowrap; padding: 7px 0;
-}
-.wh-ticker .track { display: inline-block; will-change: transform; animation: wh-marquee 42s linear infinite; }
-.wh-ticker span {
-  font: 500 10.5px/1.2 var(--sans); text-transform: uppercase; letter-spacing: 1.6px;
-  color: var(--ink); padding: 0 6px;
-}
-.wh-ticker .sep { color: var(--red); }
-@keyframes wh-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) {
-  .wh-ticker .track { animation: none; }
-  .wh-ticker { text-align: center; }
+  padding: 8px var(--gutter); text-align: center;
+  font: 500 10.5px/1.45 var(--sans); text-transform: uppercase; letter-spacing: 1.3px; color: var(--ink);
 }
 
 /* -------------------------------------------------------------- 2. header */
@@ -461,6 +451,27 @@ table.checks td.n { width: 210px; font-size: 13.5px; color: var(--faint); }
 audio { width: 100%; margin-top: 12px; }
 [dir=rtl] { text-align: right; }
 
+/* -------------------------------------------------------- recovery plan */
+.plan-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.plan-card { border: 1px solid var(--rule); background: var(--cream-2); padding: 22px; }
+.plan-card label, .plan-card legend { display: block; color: var(--ink); font-size: 13px; margin: 0 0 7px; }
+.plan-card input { width: 100%; min-height: 42px; margin: 0 0 16px; }
+.plan-card fieldset { border: 0; padding: 0; margin: 0 0 16px; }
+.plan-card .need { display: block; margin: 8px 0; }
+.plan-card .need input { width: auto; min-height: auto; margin: 0 7px 0 0; }
+.plan-card.compact { padding: 18px 22px; }
+.plan-card.compact .row { align-items: start; }
+.plan-card.compact input { margin: 0; }
+.plan-card .row button { white-space: nowrap; }
+.plan-code { font: 500 20px/1.2 var(--mono); letter-spacing: 1.5px; color: var(--navy); }
+.plan-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.plan-actions button { margin: 0; }
+.plan-tools { margin-top: 18px; }
+.plan-demo { margin-top: 18px; border: 1px solid var(--rule); padding: 16px 20px; }
+.plan-demo summary { cursor: pointer; font: 500 12px/1.2 var(--sans); text-transform: uppercase; letter-spacing: 1.4px; }
+.plan-demo p { font-size: 14px; color: var(--muted); }
+#fraud-result, #chaos-result { margin-top: 10px; font-size: 13px; color: var(--muted); }
+
 /* ------------------------------------------------------------- 14. footer */
 .wh-foot { background: var(--navy); color: #fff; padding: 62px var(--gutter) 40px; }
 .wh-foot .inner {
@@ -499,6 +510,7 @@ audio { width: 100%; margin-top: 12px; }
   .wh-topper { padding-top: 46px; }
   section > h2 { font-size: 28px; }
   .channel { flex-direction: column; gap: 4px; }
+  .plan-grid { grid-template-columns: 1fr; }
   .channel b { min-width: 0; }
   .wh-topper .topper-form { flex-direction: column; gap: 10px; }
   .wh-topper .topper-form button { border-radius: 999px; }
@@ -635,7 +647,6 @@ audio { width: 100%; margin-top: 12px; }
   --cream: #fff; --cream-2: #fff; --cream-3: #eee;
   --blue-1: #eef1f5; --gold-wash: #fbf5e6; --red-wash: #f7e9e6; --green-wash: #eaf1ec;
 }
-[data-lowdata] .wh-ticker { display: none; }
 [data-lowdata] .wh-topper { padding-top: 30px; }
 [data-lowdata] .wh-topper h1 { font-size: clamp(32px, 5vw, 44px); }
 [data-lowdata] .wh-topper .pad { height: 26px; }

@@ -51,18 +51,9 @@
   </div>
 </div>
 
-<!-- 1. announcement ticker ------------------------------------------------ -->
-<div class="wh-ticker" aria-hidden="true">
-  <div class="track"><!-- duplicated once so the loop is seamless -->
-    <span>Points you to authoritative help</span><span class="sep">&bull;</span>
-    <span>Never decides eligibility</span><span class="sep">&bull;</span>
-    <span>Every sentence carries a citation</span><span class="sep">&bull;</span>
-    <span>A person can always take over &rarr;</span><span class="sep">&bull;</span>
-    <span>Points you to authoritative help</span><span class="sep">&bull;</span>
-    <span>Never decides eligibility</span><span class="sep">&bull;</span>
-    <span>Every sentence carries a citation</span><span class="sep">&bull;</span>
-    <span>A person can always take over &rarr;</span><span class="sep">&bull;</span>
-  </div>
+<!-- 1. current scope ------------------------------------------------------ -->
+<div class="wh-ticker" role="note">
+  Historical Helene recovery data &middot; Confirm current help with FEMA or Virginia 211 &middot; This site does not decide eligibility
 </div>
 
 <!-- 2. masthead ---------------------------------------------------------- -->
@@ -282,6 +273,47 @@
   <section id="prov-sec" hidden>
     <h2><span class="step-no">Step 04</span>Where every sentence came from</h2>
     <div id="prov"></div>
+  </section>
+
+  <section id="plan-sec" aria-labelledby="plan-title">
+    <h2 id="plan-title"><span class="step-no">Plan</span>Keep your next steps</h2>
+    <p class="hint">Create a signed recovery plan to resume on another device, verify, or save for offline use. It stores only a minimal, anonymous plan for 24 hours.</p>
+    <div class="plan-grid">
+      <form id="plan-form" class="plan-card">
+        <label for="plan-location">ZIP or city</label>
+        <input id="plan-location" value="24370" maxlength="200" required>
+        <label for="plan-county">County, if your ZIP crosses a county line</label>
+        <input id="plan-county" value="Smyth County" maxlength="100">
+        <fieldset><legend>What do you need today?</legend>
+          <label class="need"><input type="checkbox" name="plan-need" value="temporary_housing" checked> Temporary housing</label>
+          <label class="need"><input type="checkbox" name="plan-need" value="home_damage"> Home repair</label>
+          <label class="need"><input type="checkbox" name="plan-need" value="lost_identification"> Lost ID or documents</label>
+          <label class="need"><input type="checkbox" name="plan-need" value="financial_assistance"> Financial assistance</label>
+        </fieldset>
+        <label class="need"><input type="checkbox" id="plan-context" checked> I reviewed any constraints that could change how I apply.</label>
+        <button type="submit">Create signed plan</button>
+      </form>
+      <div class="plan-card" id="plan-result" aria-live="polite">
+        <p class="muted">Your recovery code and verified next steps will appear here.</p>
+      </div>
+    </div>
+    <div class="plan-grid plan-tools">
+      <form id="resume-plan-form" class="plan-card compact">
+        <label for="resume-code">Resume a recovery plan</label>
+        <div class="row"><input id="resume-code" placeholder="RBX-XXXXX" autocapitalize="characters" required><button type="submit">Resume</button></div>
+      </form>
+      <form id="fraud-form" class="plan-card compact">
+        <label for="fraud-text">Check a suspicious message</label>
+        <div class="row"><input id="fraud-text" maxlength="10000" placeholder="Paste the message, without private details" required><button type="submit">Check</button></div>
+        <div id="fraud-result" aria-live="polite"></div>
+      </form>
+    </div>
+    <details class="accordion plan-demo">
+      <summary>Demo tools</summary>
+      <p>Simulate a provider outage. This changes no live service and sends no messages.</p>
+      <button type="button" id="run-chaos">Run safe outage check</button>
+      <div id="chaos-result" aria-live="polite"></div>
+    </details>
   </section>
 
   <div class="meta-strip">

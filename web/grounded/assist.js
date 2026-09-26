@@ -24,6 +24,12 @@ const api = async (path, opts = {}) => {
 };
 const post = (path, body) => api(path, { method: 'POST', headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(body) });
+const coreApi = async (path, options = {}) => {
+  const response = await fetch(path, options);
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body.detail || `${response.status} ${response.statusText}`);
+  return body;
+};
 
 let STATE = { pick: null, last: null, request: 0 };
 
@@ -72,6 +78,98 @@ async function init() {
 
 function selectedNeeds() {
   return [...document.querySelectorAll('#needs input:checked')].map((i) => i.value);
+}
+
+function selectedPlanNeeds() {
+  return [...document.querySelectorAll('input[name="plan-need"]:checked')].map((input) => input.value);
+}
+
+function planActions(packet) {
+  return (packet.actions || []).map((action) => `<li>${esc(action.label)}${action.current_limit ? `<div class="hint">${esc(action.current_limit)}</div>` : ''}</li>`).join('');
+}
+
+function planResult(packet, resumed = false) {
+  const code = packet.continuity?.code;
+  if (!code) return `<div class="err">This plan could not be created. Please check the requested details.</div>`;
+  return `<div class="kind">${resumed ? 'Resumed' : 'Created'} recovery plan</div>
+    <div class="plan-code">${esc(code)}</div>
+    <p class="hint">Keep this code. It expires in ${esc(packet.continuity.expires_in_hours)} hours and contains no name, address, phone number, or sensitive handoff reason.</p>
+    <ol>${planActions(packet)}</ol>
+    <div class="plan-actions">
+      <button type="button" data-plan-verify>Verify plan</button>
+      <button type="button" class="ghost" data-plan-download>Save offline copy</button>
+    </div>
+    <div class="plan-actions call-controls">
+      <input type="tel" data-plan-phone placeholder="Your verified test phone number" aria-label="Verified test phone number">
+      <label class="need"><input type="checkbox" data-plan-consent> I consent to this one call or text.</label>
+      <button type="button" class="ghost" data-plan-call>Call with Microsoft voice</button>
+      <button type="button" class="ghost" data-plan-sms>Send plan by text</button>
+    </div>
+    <div data-plan-message aria-live="polite"></div>`;
+}
+
+function bindPlan(packet) {
+  const root = $('plan-result');
+  const message = root.querySelector('[data-plan-message]');
+  root.querySelector('[data-plan-verify]').onclick = async () => {
+    message.textContent = 'Verifying…';
+    try { const result = await coreApi('/api/packet/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ packet }) });
+      message.textContent = result.valid ? 'Plan signature verified.' : 'This plan does not verify.';
+    } catch (error) { message.textContent = error.message; }
+  };
+  root.querySelector('[data-plan-download]').onclick = async () => {
+    try {
+      const response = await fetch(`/api/packet/offline/${encodeURIComponent(packet.continuity.code)}`);
+      if (!response.ok) throw new Error('Offline copy is unavailable.');
+      const blob = await response.blob(); const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob); link.download = `${packet.continuity.code}-signed-snapshot.json`; link.click(); URL.revokeObjectURL(link.href);
+      message.textContent = 'Signed offline copy downloaded.';
+    } catch (error) { message.textContent = error.message; }
+  };
+  for (const [selector, path] of [['[data-plan-call]', '/api/calls/start'], ['[data-plan-sms]', '/api/sms/send']]) {
+    root.querySelector(selector).onclick = async () => {
+      const phone = root.querySelector('[data-plan-phone]').value.trim();
+      const consent = root.querySelector('[data-plan-consent]').checked;
+      if (!phone || !consent) { message.textContent = 'Enter your verified test number and confirm consent first.'; return; }
+      message.textContent = 'Sending request…';
+      try { const result = await coreApi(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ continuity_code: packet.continuity.code, phone_number: phone, consent }) });
+        message.textContent = result.detail || result.status || 'Request accepted.';
+      } catch (error) { message.textContent = error.message; }
+    };
+  }
+}
+
+async function createPlan(event) {
+  event.preventDefault();
+  const profile = { location: $('plan-location').value.trim(), jurisdiction: $('plan-county').value.trim() || null,
+    needs: selectedPlanNeeds(), circumstances: [], context_reviewed: $('plan-context').checked };
+  $('plan-result').innerHTML = '<div class="loading">Creating a signed plan…</div>';
+  try {
+    const result = await coreApi('/api/packet', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(profile) });
+    if (result.status !== 'complete') throw new Error(result.question?.label || result.notice || 'More information is needed to create a plan.');
+    $('plan-result').innerHTML = planResult(result.packet); bindPlan(result.packet);
+  } catch (error) { $('plan-result').innerHTML = `<div class="err" role="alert">${esc(error.message)}</div>`; }
+}
+
+async function resumePlan(event) {
+  event.preventDefault(); const code = $('resume-code').value.trim().toUpperCase();
+  $('plan-result').innerHTML = '<div class="loading">Resuming plan…</div>';
+  try { const result = await coreApi(`/api/continue/${encodeURIComponent(code)}`); $('plan-result').innerHTML = planResult(result.packet, true); bindPlan(result.packet); }
+  catch (error) { $('plan-result').innerHTML = `<div class="err" role="alert">${esc(error.message)}</div>`; }
+}
+
+async function checkFraud(event) {
+  event.preventDefault(); const output = $('fraud-result'); output.textContent = 'Checking…';
+  try { const result = await coreApi('/api/fraud-check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: $('fraud-text').value }) });
+    output.textContent = `${String(result.risk || 'unknown').toUpperCase()}: ${result.summary || result.message || 'Review the warning signs and use official contacts.'}`;
+  } catch (error) { output.textContent = error.message; }
+}
+
+async function runChaos() {
+  const output = $('chaos-result'); output.textContent = 'Running safe simulations…';
+  try { const result = await coreApi('/api/chaos/evaluate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ modes: ['foundry_down', 'translator_down', 'maps_down', 'no_network'] }) });
+    output.textContent = (result.outcomes || []).every((outcome) => outcome.safe) ? 'All simulated failures kept a safe fallback.' : 'A simulated fallback needs review.';
+  } catch (error) { output.textContent = error.message; }
 }
 
 /* ------------------------------------------------------------------ request */
@@ -313,4 +411,8 @@ $('go').onclick = () => { STATE.pick = null; go(); };
 $('hero-go').onclick = () => { STATE.pick = null; go(); };
 $('loc').addEventListener('keydown', (e) => { if (e.key === 'Enter') { STATE.pick = null; go(); } });
 ['lang', 'clock', 'corrupt'].forEach((id) => $(id).onchange = () => { if (STATE.last) go(); });
+$('plan-form').addEventListener('submit', createPlan);
+$('resume-plan-form').addEventListener('submit', resumePlan);
+$('fraud-form').addEventListener('submit', checkFraud);
+$('run-chaos').onclick = runChaos;
 init();

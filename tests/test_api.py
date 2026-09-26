@@ -40,7 +40,7 @@ def test_static_app_and_health_are_served():
     assert client.get("/healthz").json() == {"ok": True}
     page = client.get("/")
     assert page.status_code == 200
-    assert "The right help" in page.text
+    assert "Last-Mile Assist" in page.text
 
 
 def test_historical_protocol_flow_discloses_minimal_retention():

@@ -26,6 +26,8 @@ def test_read_endpoints_return_expected_contracts():
         "prs": "Dari",
         "tl": "Tagalog",
     }
+    assert client.get("/", follow_redirects=False).status_code == 307
+    assert client.get("/").url.path == "/grounded/"
 
 
 def test_packet_intake_continue_and_verify_contracts():
