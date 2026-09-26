@@ -162,7 +162,7 @@ The inbound command format is stateless with respect to the phone number: `CONTI
 - `deliverables/Last-Mile-Navigator-Pitch.pptx` (generated and visually verified in this repository)
 - [Security policy](SECURITY.md)
 
-- ## Architecture overview
+## Architecture overview
 
 Last-Mile separates disaster-service decision logic from AI-generated explanations so that critical facts and eligibility-related guidance do not depend on a language model.
 
@@ -221,7 +221,6 @@ Key protections include:
 - **Human escalation:** Urgent, sensitive, ambiguous, or high-impact situations can be routed to an appropriate human or emergency resource instead of forcing an automated answer.
 
 This separation allows Last-Mile to use AI where it is useful—accessibility, explanation, translation, and communication—while keeping authoritative disaster information and safety-critical decisions outside of the model.
-
 ## Repository layout
 
 ```text
