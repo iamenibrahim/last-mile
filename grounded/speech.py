@@ -57,14 +57,16 @@ def build_script(render: dict, household: dict | None = None, max_chars: int = 2
         # the target language; the audio leads with it either way.
         parts.append(household["plain_statement"])
 
-    verified = [s for s in render.get("segments", []) if s["status"] == "translated_verified"]
+    verified = [s for s in render.get("segments", [])
+                if s["status"] in ("translated_verified", "source_verified")]
     headline = next((s for s in verified if s["role"] == "headline"), None)
     if headline:
         parts.append(headline["output_text"])
 
     lang = render.get("language", "en")
 
-    steps = [s for s in render.get("steps", []) if s["status"] == "translated_verified"]
+    steps = [s for s in render.get("steps", [])
+             if s["status"] in ("translated_verified", "source_verified")]
     if steps:
         parts.append(ACTIONS_LEAD.get(lang, ACTIONS_LEAD["en"]))
         for i, s in enumerate(steps, start=1):
@@ -112,7 +114,8 @@ def navigator_script(render: dict) -> str:
     Only verified segments are read in the target language; if anything was
     withheld, the fixed notice says so."""
     lang = render.get("language", "en")
-    segs = [s for s in render.get("segments", []) if s["status"] == "translated_verified"]
+    segs = [s for s in render.get("segments", [])
+            if s["status"] in ("translated_verified", "source_verified")]
     by_role: dict[str, list[dict]] = {}
     for s in segs:
         by_role.setdefault(s["role"], []).append(s)

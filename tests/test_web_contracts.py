@@ -24,6 +24,10 @@ def test_citizen_ui_exposes_language_resume_accessibility_and_offline_controls()
     assert "sensitive handoff reason" in script
     assert "/api/calls/start" in script
     assert "/api/sms/send" in script
+    assert "Your next three steps" in script
+    assert "Historical replay:" in script
+    assert "Technical verification details" in script
+    assert "This is a referral" in script
 
 
 def test_scope_notices_are_static_and_meaningful():
