@@ -29,6 +29,7 @@ import os
 import re
 import time
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -38,6 +39,16 @@ from .providers.local_providers import LocalTranslator, split_sentences
 
 TRANSFORM_ORDER = os.environ.get("TRANSFORM_ORDER", "simplify_first")
 THRESHOLDS_PATH = config.REPO_ROOT / "grounded_eval" / "thresholds.json"
+
+# A process-wide limit also bounds simultaneous citizen requests. Local providers
+# stay serial; their language libraries can use mutable lazy-initialized state.
+_CLOUD_WORKERS = ThreadPoolExecutor(max_workers=4, thread_name_prefix="grounded-provider")
+
+
+def _provider_map(provider, operation, values):
+    if provider.name.startswith("azure"):
+        return list(_CLOUD_WORKERS.map(operation, values))
+    return [operation(value) for value in values]
 
 
 def load_thresholds() -> dict:
@@ -278,7 +289,8 @@ def run_pipeline(
     translator = registry.translator
 
     def simplify_all(texts: list[str], in_lang: str) -> list[str]:
-        return [simplifier.simplify(t, target_grade, in_lang, protect_terms) for t in texts]
+        return _provider_map(simplifier,
+                             lambda text: simplifier.simplify(text, target_grade, in_lang, protect_terms), texts)
 
     masked_inputs = [s.masked_source for s in segments]
 
@@ -294,7 +306,7 @@ def run_pipeline(
     elif order == "translate_first":
         translated = translator.translate(masked_inputs, target=lang, source="en")
         chain.append({"step": "translate", "engine": translator.name, "target": lang})
-        simplified = [simplifier.simplify(t, target_grade, lang, protect_terms) for t in translated]
+        simplified = simplify_all(translated, lang)
         chain.append({"step": "simplify", "engine": simplifier.name,
                       "target_grade": target_grade, "prompt_sha256": simplifier.prompt_sha256})
         for seg, out in zip(segments, simplified):
@@ -338,8 +350,8 @@ def run_pipeline(
 
     # --- Stage 3: verify ------------------------------------------------------
     checks_passed = checks_failed = 0
-    for seg in segments:
-        seg.verdict = vf.verify_segment(
+    def verify_one(seg):
+        return vf.verify_segment(
             segment_id=seg.id,
             source_en=seg.masked_source,
             masked_candidate=seg.masked_output,
@@ -351,6 +363,9 @@ def run_pipeline(
             thresholds=thresholds,
             lang=lang,
         )
+    verdicts = _provider_map(registry.judge, verify_one, segments)
+    for seg, verdict in zip(segments, verdicts):
+        seg.verdict = verdict
         for c in seg.verdict.checks:
             if c.passed:
                 checks_passed += 1

@@ -15,7 +15,7 @@ This is a claim-to-evidence map for the disaster-assistance navigator prompt. ‚Ä
 | Different languages | Verified Spanish, Arabic, Dari, and Tagalog/Filipino path using Azure Translator, round-trip checks, segment abstention, and interpreter referral | Native-speaker review is still required; unsafe segments remain in English |
 | Accessibility needs | Keyboard-native controls, skip link, semantic headings, text enlargement, high contrast, reduced-motion support, speech, 711, print, and human alternatives | Formal WCAG/Section 508 audit and testing with disabled users remain outstanding |
 | Unreliable connectivity | Automatic low-data mode, cached PWA shell, print, and explicit offline save/open/remove for the signed minimal packet | Offline saving is opt-in and warns against shared-device use |
-| Lost device or channel | Anonymous 24-hour `RBX-xxxxx` code can be resumed on the web and is compiled into SMS/voice commands | Real SMS/voice delivery remains disabled until an ACS sender is obtained |
+| Lost device or channel | Anonymous 24-hour `RBX-xxxxx` code can be resumed on the web and is compiled into SMS/voice commands | Azure Table continuity and signed resume verified; voice delivered to a trial handset on September 24; SMS requires a purchased sender |
 | Urgent help | Persistent 911 boundary and danger-first result above benefit guidance | The system does not dispatch emergency services |
 | Minimize sensitive data | Coarse location retention, privacy receipt, no request-body telemetry, expiring minimal packet, and exclusion of sensitive handoff reasons | Official application sites may request more after the citizen chooses to apply |
 | Disaster fraud | Red-flag scanner, official-domain allowlist, FEMA/DOJ reporting path, and explicit ‚Äúnot proof of authenticity‚Äù warning | The scanner never labels a message safe |
@@ -23,7 +23,7 @@ This is a claim-to-evidence map for the disaster-assistance navigator prompt. ‚Ä
 
 ## Material external work still required
 
-1. Obtain an Azure Communication Services phone number and complete real SMS and Call Automation delivery.
+1. Obtain a paid, approved ACS SMS sender. Repeat the already-delivered voice flow on a handset to verify all current DTMF branches.
 2. Publish the prepared Copilot Studio actions in an authorized tenant.
 3. Conduct the five-person citizen/caseworker usability study and native-speaker review.
 4. Complete an accessibility audit with keyboard, screen-reader, low-vision, cognitive-accessibility, and disabled-user testing.

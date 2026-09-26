@@ -10,8 +10,7 @@ from typing import Any
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse, Response
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse, RedirectResponse, Response
 from pydantic import BaseModel, Field
 
 from . import signing
@@ -47,7 +46,6 @@ from grounded.providers.base import get_registry as grounded_registry
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WEB = ROOT / "web"
 DATA = ROOT / "data"
 
 app = FastAPI(
@@ -522,8 +520,6 @@ def health() -> dict:
     return {"ok": True}
 
 
-app.mount("/assets", StaticFiles(directory=WEB), name="assets")
-
 # The real-data evidence pipeline: 80 cached NWS alerts, hash-verified FEMA/eCFR/
 # SBA/SAMHSA quotes, and OpenFEMA deadline rules. Mounted before the SPA
 # catch-all so /grounded/... reaches it. Mounted apps do not get startup events,
@@ -534,8 +530,6 @@ grounded_startup()
 
 
 @app.get("/{path:path}")
-def spa(path: str) -> FileResponse:
-    candidate = WEB / path
-    if path and candidate.is_file() and WEB in candidate.resolve().parents:
-        return FileResponse(candidate)
-    return FileResponse(WEB / "index.html")
+def citizen_ui(path: str) -> RedirectResponse:
+    """The citizen product lives at /grounded; the older root SPA was retired."""
+    return RedirectResponse(url="/grounded/", status_code=307)

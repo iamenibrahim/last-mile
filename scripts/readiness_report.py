@@ -113,8 +113,14 @@ def collect(*, live: bool = False, base_url: str = BASE_URL) -> dict:
             return result.returncode == 0 and totals["passed"] > 0 and totals["unexpected_skips"] == 0, totals
 
         check("python_tests", "local", tests)
+        def javascript():
+            paths = sorted((ROOT / "web").rglob("*.js"))
+            failed = [path.relative_to(ROOT).as_posix() for path in paths
+                      if command(["node", "--check", str(path)], local=True).returncode]
+            return bool(paths) and not failed, {"files": len(paths), "failed": failed}
+
+        check("javascript_syntax", "local", javascript)
         for name, args in [
-            ("javascript_syntax", ["node", "--check", "web/app.js"]),
             ("python_syntax", [sys.executable, "-m", "compileall", "-q", "api", "grounded", "scripts"]),
             ("diff_whitespace", ["git", "diff", "--check"]),
         ]:

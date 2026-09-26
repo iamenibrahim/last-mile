@@ -545,10 +545,9 @@ def test_surge_context_survives_hosts_that_do_not_copy_request_state():
 
 
 def test_web_exposes_freshness_evidence_chaos_and_signed_snapshot_controls():
-    html = (ROOT / "web" / "index.html").read_text(encoding="utf-8")
-    script = (ROOT / "web" / "app.js").read_text(encoding="utf-8")
+    html = (ROOT / "web" / "grounded" / "index.html").read_text(encoding="utf-8")
+    script = (ROOT / "web" / "grounded" / "assist.js").read_text(encoding="utf-8")
     assert 'id="run-chaos"' in html
-    assert 'id="preference-profile"' in html
-    assert 'id="download-snapshot"' in html
-    assert "evidence-trace" in script
-    assert "source_freshness" in script
+    assert 'id="plan-form"' in html
+    assert "data-plan-download" in script
+    assert "/api/packet/verify" in script
