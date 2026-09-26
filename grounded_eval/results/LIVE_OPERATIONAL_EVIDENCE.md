@@ -1,7 +1,7 @@
 # Live Azure operational evidence
 
-For the September 25 technical pass, current test count, and remaining deployment
-limits, see [FINAL_TECHNICAL_CHECK.md](FINAL_TECHNICAL_CHECK.md).
+This report records bounded live measurements and deployment observations. The
+machine-readable readiness results are in [final_readiness.json](final_readiness.json).
 
 Measured against `https://lmva3fcshw5lauukqapi.azurewebsites.net` on 2026-09-24. These are bounded engineering checks, not a production availability certification.
 
@@ -77,7 +77,7 @@ Application Insights received the new PII-free `http_request_completed` traces. 
 
 ## Still unproven
 
-This evidence does not establish sustained availability, agency-scale capacity, a regional disaster-recovery objective, native-speaker quality, SMS delivery, or contact-center economic impact. Those require external access or human/partner data. Voice delivery was subsequently confirmed by a recipient on September 24 (see HANDOFF.md); the current DTMF flow still needs a repeat handset walkthrough.
+This evidence does not establish sustained availability, agency-scale capacity, a regional disaster-recovery objective, native-speaker quality, SMS delivery, or contact-center economic impact. Those require external access or human/partner data. Voice delivery was confirmed by a recipient on September 24; the current DTMF flow still needs a repeat handset walkthrough.
 
 ## Prompt-coverage acceptance check
 

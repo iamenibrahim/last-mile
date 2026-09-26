@@ -1,7 +1,7 @@
 # Deployed environment
 
-Latest technical verification (2026-09-25 ET): see
-[`FINAL_TECHNICAL_CHECK.md`](../grounded_eval/results/FINAL_TECHNICAL_CHECK.md).
+Latest live measurements and verification evidence are recorded in
+[`LIVE_OPERATIONAL_EVIDENCE.md`](../grounded_eval/results/LIVE_OPERATIONAL_EVIDENCE.md).
 The current repository is `iamenibrahim/last-mile`; its `e12364a` deployment
 and security workflows succeeded. Historical provisioning details follow.
 
@@ -141,7 +141,7 @@ minutes, 5 minutes maximum per call, US billing addresses only, no emergency
 numbers. More than three recipients requires a purchased number.
 
 **Updated voice status:** a verified test recipient received a call and heard
-audio on September 24, as recorded in `HANDOFF.md`. The September 25 status
+audio on September 24. The September 25 status
 check still reports voice enabled. A repeat handset/DTMF walkthrough remains
 human evidence to collect. **SMS still needs a purchased, approved sender.**
 

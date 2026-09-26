@@ -10,7 +10,7 @@
 
 The app does not maintain four separate channel experiences. It creates one canonical Disaster Action Packet containing jurisdiction, disaster identifiers, applicability, needs, deadlines, actions, sources, safety constraints, escalation rules, and proof. A deterministic compiler derives the web, SMS, voice, and offline representations from that same packet. Microsoft Foundry may transform packet fields, but it cannot originate facts or alter locked dates and identifiers.
 
-The checked-in recovery demo replays the official November 18, 2024 state for Tropical Storm Helene (`DR-4831-VA`) in Smyth County. It clearly states that the December 2, 2024 deadline has passed and must not be used as current application advice.
+The checked-in recovery demo replays the official October 21, 2024 state for Tropical Storm Helene (`DR-4831-VA`) in Smyth County. It shows the December 2, 2024 deadline as 42 days away in that historical replay and must not be used as current application advice.
 
 ## What is implemented
 
