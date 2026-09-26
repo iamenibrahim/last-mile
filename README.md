@@ -161,51 +161,13 @@ The inbound command format is stateless with respect to the phone number: `CONTI
 - [Demo and recording script](docs/demo-script.md)
 - `deliverables/Last-Mile-Navigator-Pitch.pptx` (generated and visually verified in this repository)
 - [Security policy](SECURITY.md)
+ 
+### Architecture Overview
 
-## Architecture overview
-
-Last-Mile separates disaster-service decision logic from AI-generated explanations so that critical facts and eligibility-related guidance do not depend on a language model.
-
-At a high level, the application follows this flow:
-
-User
-  |
-  v
-Web / SMS / Voice / Offline
-  |
-  v
-FastAPI Backend
-  |
-  +--> Need-first Intake
-  |       |
-  |       v
-  |    Deterministic Rules
-  |       |
-  |       v
-  |    Reviewed Program Data
-  |
-  +--> Disaster Action Packet
-  |       |
-  |       +--> Web
-  |       +--> SMS
-  |       +--> Voice
-  |       +--> Offline Snapshot
-  |
-  +--> Microsoft Foundry
-  |       |
-  |       +--> Plain-language explanations
-  |       +--> Transformation evaluation
-  |
-  +--> Azure Services
-          |
-          +--> AI Translator
-          +--> AI Speech
-          +--> AI Content Safety
-          +--> Maps
-          +--> AI Search
-          +--> Table Storage
-          +--> Key Vault
-          +--> Communication Services
+User → Web / SMS / Voice / Offline → FastAPI Backend → Need-First Intake → Deterministic Rules → Reviewed Program Data → Disaster Action Packet → Web / SMS / Voice / Offline Output
+The FastAPI backend also connects to Microsoft Foundry → Plain-Language Explanations / Transformation Evaluation
+The application is supported by Azure Services → AI Translator / AI Speech / AI Content Safety / Maps / AI Search / Table Storage / Key Vault / Communication Services
+This architecture keeps disaster-service decisions separate from AI-generated explanations. Deterministic rules and reviewed program data determine recommendations, while Microsoft Foundry and supporting Azure services are used for explanation, translation, accessibility, communication, and verification. This allows Last-Mile to take advantage of AI while keeping authoritative disaster information and safety-critical decisions outside of the language model.
 
 ### Security and privacy design
 
