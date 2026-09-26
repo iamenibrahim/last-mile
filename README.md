@@ -162,6 +162,66 @@ The inbound command format is stateless with respect to the phone number: `CONTI
 - `deliverables/Last-Mile-Navigator-Pitch.pptx` (generated and visually verified in this repository)
 - [Security policy](SECURITY.md)
 
+- ## Architecture overview
+
+Last-Mile separates disaster-service decision logic from AI-generated explanations so that critical facts and eligibility-related guidance do not depend on a language model.
+
+At a high level, the application follows this flow:
+User
+  |
+  v
+Web / SMS / Voice / Offline
+  |
+  v
+FastAPI Backend
+  |
+  +--> Need-first Intake
+  |       |
+  |       v
+  |    Deterministic Rules
+  |       |
+  |       v
+  |    Reviewed Program Data
+  |
+  +--> Disaster Action Packet
+  |       |
+  |       +--> Web
+  |       +--> SMS
+  |       +--> Voice
+  |       +--> Offline Snapshot
+  |
+  +--> Microsoft Foundry
+  |       |
+  |       +--> Plain-language explanations
+  |       +--> Transformation evaluation
+  |
+  +--> Azure Services
+          |
+          +--> AI Translator
+          +--> AI Speech
+          +--> AI Content Safety
+          +--> Maps
+          +--> AI Search
+          +--> Table Storage
+          +--> Key Vault
+          +--> Communication Services
+
+### Security and privacy design
+
+The architecture follows a fail-closed approach for safety-critical functionality. AI is used to explain and transform reviewed information, but deterministic application logic remains responsible for program matching and critical decisions.
+
+Key protections include:
+
+- **Data minimization:** The application does not request Social Security numbers, banking information, immigration status, or document uploads.
+- **Deterministic program matching:** Program recommendations originate from reviewed source records and application rules rather than an AI model.
+- **Entity locking:** Critical values such as dates, phone numbers, locations, URLs, measurements, and identifiers are protected during AI transformations.
+- **Signed offline data:** Disaster Action Packets can be cryptographically verified so users can detect modification of saved information.
+- **Secret management:** Production signing keys and other sensitive configuration are designed to be stored in Azure Key Vault rather than application code.
+- **Graceful degradation:** Azure-dependent features have deterministic or cached fallback paths where appropriate.
+- **Human escalation:** Urgent, sensitive, ambiguous, or high-impact situations can be routed to an appropriate human or emergency resource instead of forcing an automated answer.
+
+This separation allows Last-Mile to use AI where it is useful—accessibility, explanation, translation, and communication—while keeping authoritative disaster information and safety-critical decisions outside of the model.
+
 ## Repository layout
 
 ```text
