@@ -1,8 +1,6 @@
 from threading import Barrier, Lock, current_thread
 from types import SimpleNamespace
 
-import pytest
-
 from grounded.transform import _provider_map
 
 
@@ -34,5 +32,6 @@ def test_provider_failure_is_not_silently_treated_as_verified_output():
     def fail(_):
         raise RuntimeError("provider unavailable")
 
-    with pytest.raises(RuntimeError, match="provider unavailable"):
-        _provider_map(SimpleNamespace(name="azure-test"), fail, [1])
+    [result] = _provider_map(SimpleNamespace(name="azure-test"), fail, [1])
+    assert isinstance(result, RuntimeError)
+    assert str(result) == "provider unavailable"
