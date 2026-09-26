@@ -165,8 +165,11 @@ The inbound command format is stateless with respect to the phone number: `CONTI
 ### Architecture Overview
 
 User → Web / SMS / Voice / Offline → FastAPI Backend → Need-First Intake → Deterministic Rules → Reviewed Program Data → Disaster Action Packet → Web / SMS / Voice / Offline Output
+
 The FastAPI backend also connects to Microsoft Foundry → Plain-Language Explanations / Transformation Evaluation
+
 The application is supported by Azure Services → AI Translator / AI Speech / AI Content Safety / Maps / AI Search / Table Storage / Key Vault / Communication Services
+
 This architecture keeps disaster-service decisions separate from AI-generated explanations. Deterministic rules and reviewed program data determine recommendations, while Microsoft Foundry and supporting Azure services are used for explanation, translation, accessibility, communication, and verification. This allows Last-Mile to take advantage of AI while keeping authoritative disaster information and safety-critical decisions outside of the language model.
 
 ### Security and privacy design
