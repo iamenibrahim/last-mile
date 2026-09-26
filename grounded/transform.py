@@ -260,6 +260,7 @@ def run_pipeline(
     corrupt_fn=None,
     lock_entities: bool = True,
     protect_terms: frozenset[str] = frozenset(),
+    trusted_source_passthrough: bool = False,
 ) -> dict:
     """Stages 1-4 plus the output guard, over any list of segments.
 
@@ -289,6 +290,32 @@ def run_pipeline(
             seg.entities = []
     chain.append({"step": "entity_lock", "version": ent.VERSION, "entities": total_entities,
                   "gazetteer_names": len(gazetteer), "enabled": lock_entities})
+
+    # Navigator claims are deterministic OpenFEMA statements or exact excerpts
+    # from the checked-in authoritative corpus. For English, keep that trusted
+    # source intact instead of adding latency and risk through cloud rewriting.
+    # Page-level citation and render-digest verification still run.
+    if trusted_source_passthrough and lang == "en" and corrupt_fn is None:
+        for seg in segments:
+            seg.masked_output = seg.masked_source
+            seg.back_translated = seg.masked_source
+            seg.output_text = seg.source_text
+            seg.status = "source_verified"
+            seg.reason = None
+        chain.append({"step": "source_passthrough", "language": "en",
+                      "reason": "authoritative English source retained unchanged"})
+        doc_coverage = vf.check_document_coverage(
+            [s.source_text for s in segments if s.required_action],
+            [s.to_dict() for s in segments],
+        )
+        return {
+            "chain": chain,
+            "order": "source_passthrough",
+            "total_entities": total_entities,
+            "corrupted_ids": [],
+            "doc_coverage": doc_coverage,
+            "registry": registry,
+        }
 
     # --- Stage 2: transform ---------------------------------------------------
     simplifier = registry.simplifier

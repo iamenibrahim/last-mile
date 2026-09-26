@@ -390,10 +390,11 @@ def navigate(
     event_names = [r["declaration"].title for r in a["history"]]
     gaz.add_many([county] + event_names + PROPER_NAMES)
     pr = run_pipeline(segs, lang, target_grade, gaz, corrupt_fn=corrupt_fn,
-                      protect_terms=VOCABULARY_OF_RECORD)
+                      protect_terms=VOCABULARY_OF_RECORD,
+                      trusted_source_passthrough=True)
 
     abstained = [s for s in segs if s.status == "verbatim_abstained"]
-    if abstained:
+    if abstained and lang != "en":
         system.append(esc.system_trigger(
             "translation_withheld",
             "Part of this page is shown only in English because its translation could not be verified.",

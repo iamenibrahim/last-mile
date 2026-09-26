@@ -274,6 +274,16 @@ def test_the_assist_endpoint_stores_nothing():
     assert set(r["manifest"]["retained"]) >= {"county_fips", "needs", "escalation_level", "not_retained"}
 
 
+def test_english_navigator_keeps_authoritative_source_without_cloud_rewrite():
+    r = navigator.navigate("Smyth", needs=["home_damaged", "cant_stay_home"], now=HELENE_REPLAY)
+
+    assert r["abstained_count"] == 0
+    assert all(segment["output_text"] == segment["source_text"] for segment in r["segments"])
+    assert all(segment["status"] == "source_verified" for segment in r["segments"])
+    assert any(step["step"] == "source_passthrough" for step in r["transform_chain"])
+    assert all(trigger["id"] != "translation_withheld" for trigger in r["escalation"]["triggers"])
+
+
 # ---------------------------------------------------------------------------
 # 5. Ask, don't guess
 # ---------------------------------------------------------------------------

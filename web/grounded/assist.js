@@ -54,6 +54,34 @@ const AVAIL_LABEL = {
 };
 const WITHHELD = 'Original English shown - translation withheld because it could not be verified.';
 
+function replayLabel(r) {
+  if (!$('clock').value || !r.as_of) return '';
+  const date = new Date(r.as_of);
+  const readable = Number.isNaN(date.getTime()) ? r.as_of.slice(0, 10)
+    : date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+  return `<span class="history-label">Historical replay: ${esc(readable)}</span>`;
+}
+
+function actionPlan(r, segs) {
+  const program = (r.programs || []).find((item) => ['likely', 'late', 'always', 'check'].includes(item.availability));
+  if (!program) return '';
+  const name = segs[program.name_segment]?.output_text || 'disaster assistance';
+  const claims = (program.claim_segments || []).map((id) => segs[id]).filter(Boolean);
+  const document = claims.find((item) => item.meta?.claim_kind === 'documents');
+  const canApply = ['likely', 'late'].includes(program.availability);
+  return `<div class="action-plan" dir="ltr">
+    <div class="action-plan-head"><div><div class="kind">Start here</div><h3>Your next three steps</h3></div>${replayLabel(r)}</div>
+    <ol>
+      <li><strong>${canApply ? 'Start your application' : 'Confirm what is open'}.</strong> ${canApply
+        ? `Use <a href="https://www.disasterassistance.gov/" target="_blank" rel="noopener">DisasterAssistance.gov</a> for ${esc(name)}.`
+        : `Call FEMA at <a href="tel:18006213362">800-621-3362</a> and ask about ${esc(name)}.`}</li>
+      <li><strong>Get your information ready.</strong> ${document ? esc(document.output_text) : 'Gather insurance information and records of disaster damage you already have.'}</li>
+      <li><strong>Get help if you get stuck.</strong> Call FEMA at <a href="tel:18006213362">800-621-3362</a> or dial <a href="tel:211">211</a> in Virginia. Say: “I am in ${esc(r.county.name)} and need help with ${esc((r.needs || []).join(' and ').replaceAll('_', ' '))}.”</li>
+    </ol>
+    <p class="hint">FEMA makes the eligibility decision. Detailed requirements and exact source evidence are below.</p>
+  </div>`;
+}
+
 /* ------------------------------------------------------------------ setup */
 
 async function init() {
@@ -193,8 +221,9 @@ async function go() {
   const body = {
     location: $('loc').value, needs: selectedNeeds(), text: $('text').value || null,
     danger_now: $('danger').checked, lang: $('lang').value,
-    // Synthesised speech is the one heavy payload here, so low data declines it.
-    with_audio: !(window.lmLowData && window.lmLowData()),
+    // Keep the first result fast. Speech can be requested separately in flows
+    // that need it; it should never delay the primary assistance answer.
+    with_audio: false,
     pick_fips: STATE.pick, as_of: $('clock').value || null,
   };
   if ($('corrupt').value) body.corrupt = $('corrupt').value;
@@ -236,9 +265,13 @@ function paint(r) {
     const channels = byRole('channel');
     html += `<div class="handoff ${cls}" dir="${dir}">
       <h3 dir="ltr">${esc(title)}</h3>
-      ${reasons.map((s) => `<div>${esc(s.output_text)}</div>`).join('')}
+      <div class="kind" dir="ltr">Why</div>${reasons.map((s) => `<div>${esc(s.output_text)}</div>`).join('')}
+      <div class="kind" dir="ltr">Who to contact</div>
       ${channels.map((s) => `<div class="channel"><b dir="ltr">${esc(s.meta.label)}</b>
         <div>${esc(s.output_text)}${citeHtml(s)}</div></div>`).join('')}
+      <div class="kind" dir="ltr">What to say</div>
+      <div dir="ltr">“I am in ${esc((r.county || {}).name || 'Virginia')} and need help with ${esc((r.needs || []).join(' and ').replaceAll('_', ' '))}.”</div>
+      <p class="hint" dir="ltr">This is a referral. This site does not transfer your call or send your information.</p>
     </div>`;
   }
 
@@ -269,8 +302,9 @@ function paint(r) {
     : state === 'closed' ? '<span class="chip closed">DEADLINE PASSED</span>'
     : '<span class="chip none">NO INDIVIDUAL ASSISTANCE</span>';
   const statusSeg = byRole('status')[0];
+  html += actionPlan(r, segs);
   html += `<div class="status ${state === 'open' ? 'open' : state === 'late' ? 'late' : ''}" dir="${dir}">
-    <div dir="ltr" style="margin-bottom:8px">${chip}<span class="muted" style="font-size:12.5px">${esc(r.county.name)}
+    <div dir="ltr" style="margin-bottom:8px">${chip}${replayLabel(r)}<span class="muted" style="font-size:12.5px">${esc(r.county.name)}
       &middot; FIPS ${esc(r.county.fips)}</span></div>
     ${statusSeg ? `<div class="big">${esc(statusSeg.output_text)}</div>${withheld(statusSeg)}` : ''}
     ${byRole('notice').filter((s) => s.meta.kind === 'deadline_caveat').map((s) => `<div class="hint">${esc(s.output_text)}</div>`).join('')}
@@ -304,8 +338,10 @@ function paint(r) {
         ? ' &middot; <span style="color:var(--ok)">available regardless of immigration status (FEMA)</span>' : ''}</div>
       <div style="margin-top:6px">${esc(stSeg.output_text)}</div>
       ${p.gate_note && p.availability !== 'likely' ? `<div class="hint" dir="ltr">${esc(p.gate_note)}</div>` : ''}
-      ${['what', 'who', 'documents', 'deadline', 'how_to_apply', 'contact', 'privacy'].filter((k) => groups[k]).map((k) =>
-        `<div class="kind" dir="ltr">${esc(KIND_LABEL[k])}</div>${groups[k].map(claimHtml).join('')}`).join('')}
+      <details class="program-evidence"><summary>Requirements and source evidence</summary>
+        ${['what', 'who', 'documents', 'deadline', 'how_to_apply', 'contact', 'privacy'].filter((k) => groups[k]).map((k) =>
+          `<div class="kind" dir="ltr">${esc(KIND_LABEL[k])}</div>${groups[k].map(claimHtml).join('')}`).join('')}
+      </details>
     </div>`;
   }
 
@@ -332,11 +368,14 @@ function paint(r) {
     html += `<div class="kind">Spoken &mdash; ${esc(r.audio.engine)}</div><audio controls src="${esc(r.audio.url)}"></audio>`;
   }
 
-  html += `<div class="row" style="margin-top:14px;font-size:12.5px;color:var(--ink-dim)">
-    <span><b style="color:var(--ink)">${r.segment_count}</b> sentences</span>
-    <span><b style="color:var(--abstain)">${r.abstained_count}</b> translations withheld</span>
-    <span><b style="color:var(--ink)">${(r.sources_used || []).length}</b> sources cited</span>
-    <span><b style="color:var(--ink)">${r.elapsed_ms} ms</b></span></div>`;
+  const reasons = (r.abstention_reasons || []).join(', ');
+  html += `<details class="technical-details"><summary>Technical verification details</summary>
+    <div class="row" style="margin-top:14px;font-size:12.5px;color:var(--ink-dim)">
+      <span><b style="color:var(--ink)">${r.segment_count}</b> source passages</span>
+      <span><b style="color:var(--abstain)">${r.abstained_count}</b> transformations withheld</span>
+      <span><b style="color:var(--ink)">${(r.sources_used || []).length}</b> sources cited</span>
+      <span><b style="color:var(--ink)">${r.elapsed_ms} ms</b></span>
+    </div>${reasons ? `<p class="hint">Safeguards used original source text for: ${esc(reasons)}.</p>` : '<p class="hint">English source text was retained unchanged.</p>'}</details>`;
 
   $('out').innerHTML = html;
   document.querySelectorAll('.suggest button').forEach((b) => b.onclick = () => {
@@ -348,7 +387,7 @@ function paint(r) {
 }
 
 function withheld(s) {
-  return s.status === 'verbatim_abstained' ? `<div class="withheld" dir="ltr">${esc(WITHHELD)} (${esc(s.reason)})</div>` : '';
+  return '';
 }
 
 function citeHtml(s) {
