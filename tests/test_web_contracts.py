@@ -30,10 +30,13 @@ def test_citizen_ui_exposes_language_resume_accessibility_and_offline_controls()
     assert "This is a referral" in script
 
 
-def test_scope_notices_are_static_and_meaningful():
+def test_scope_notices_move_with_useful_information_and_leave_low_data_mode():
     for page in ("index.html", "alert.html"):
         html = (ROOT / "web" / "grounded" / page).read_text(encoding="utf-8")
-        assert 'class="wh-ticker" role="note"' in html
-        assert 'class="track"' not in html
+        assert 'class="wh-ticker" role="note" aria-label=' in html
+        assert html.count('class="wh-ticker-track"') == 1
+        assert "Call 911 for immediate danger" in html
     css = (ROOT / "web" / "grounded" / "wh.css").read_text(encoding="utf-8")
-    assert "wh-marquee" not in css
+    assert "@keyframes wh-ticker-scroll" in css
+    assert "[data-lowdata] .wh-ticker { display: none; }" in css
+    assert "prefers-reduced-motion: reduce" in css

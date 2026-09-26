@@ -126,8 +126,22 @@ button, .chip, .avail, .wh-foot h3, .step-no {
 /* ------------------------------------------------------- 1. scope notice */
 .wh-ticker {
   background: #fff; border-bottom: 1px solid var(--rule);
-  padding: 8px var(--gutter); text-align: center;
+  overflow: hidden; white-space: nowrap;
   font: 500 10.5px/1.45 var(--sans); text-transform: uppercase; letter-spacing: 1.3px; color: var(--ink);
+}
+.wh-ticker-track {
+  display: flex; width: max-content; will-change: transform;
+  animation: wh-ticker-scroll 34s linear infinite;
+}
+.wh-ticker-track span { display: block; padding: 8px 3.5rem; }
+@keyframes wh-ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wh-ticker-track { animation: none; }
+  .wh-ticker-track span + span { display: none; }
+  .wh-ticker-track span { padding-left: var(--gutter); }
 }
 
 /* -------------------------------------------------------------- 2. header */
@@ -681,6 +695,7 @@ audio { width: 100%; margin-top: 12px; }
 [data-lowdata] .prog h4, [data-lowdata] .handoff h3,
 [data-lowdata] .status .big, [data-lowdata] .position .big { font-size: 20px; }
 [data-lowdata] .alert-card .ev { font-size: 18px; }
+[data-lowdata] .wh-ticker { display: none; }
 [data-lowdata] * { transition: none !important; animation: none !important; }
 
 /* the toggle itself, in the masthead utility row */
