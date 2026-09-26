@@ -167,6 +167,7 @@ The inbound command format is stateless with respect to the phone number: `CONTI
 Last-Mile separates disaster-service decision logic from AI-generated explanations so that critical facts and eligibility-related guidance do not depend on a language model.
 
 At a high level, the application follows this flow:
+
 User
   |
   v
@@ -221,6 +222,7 @@ Key protections include:
 - **Human escalation:** Urgent, sensitive, ambiguous, or high-impact situations can be routed to an appropriate human or emergency resource instead of forcing an automated answer.
 
 This separation allows Last-Mile to use AI where it is useful—accessibility, explanation, translation, and communication—while keeping authoritative disaster information and safety-critical decisions outside of the model.
+
 ## Repository layout
 
 ```text
