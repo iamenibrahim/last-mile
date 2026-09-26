@@ -46,9 +46,14 @@ _CLOUD_WORKERS = ThreadPoolExecutor(max_workers=4, thread_name_prefix="grounded-
 
 
 def _provider_map(provider, operation, values):
+    def attempt(value):
+        try:
+            return operation(value)
+        except Exception as error:
+            return error
     if provider.name.startswith("azure"):
-        return list(_CLOUD_WORKERS.map(operation, values))
-    return [operation(value) for value in values]
+        return list(_CLOUD_WORKERS.map(attempt, values))
+    return [attempt(value) for value in values]
 
 
 def load_thresholds() -> dict:
@@ -88,6 +93,7 @@ class Segment:
     status: str = "pending"
     reason: str | None = None
     verdict: vf.SegmentVerdict | None = None
+    provider_error: str | None = None
 
     def to_dict(self) -> dict:
         d = {
@@ -287,10 +293,27 @@ def run_pipeline(
     # --- Stage 2: transform ---------------------------------------------------
     simplifier = registry.simplifier
     translator = registry.translator
+    provider_errors: dict[int, str] = {}
 
     def simplify_all(texts: list[str], in_lang: str) -> list[str]:
-        return _provider_map(simplifier,
-                             lambda text: simplifier.simplify(text, target_grade, in_lang, protect_terms), texts)
+        results = _provider_map(simplifier,
+                                lambda text: simplifier.simplify(text, target_grade, in_lang, protect_terms), texts)
+        safe: list[str] = []
+        for index, (text, result) in enumerate(zip(texts, results)):
+            if isinstance(result, Exception):
+                provider_errors[index] = type(result).__name__
+                safe.append(text)
+            else:
+                safe.append(result)
+        return safe
+
+    def translate_all(texts: list[str], target: str, source: str) -> list[str]:
+        try:
+            return translator.translate(texts, target=target, source=source)
+        except Exception as error:
+            for index in range(len(texts)):
+                provider_errors[index] = type(error).__name__
+            return texts
 
     masked_inputs = [s.masked_source for s in segments]
 
@@ -304,14 +327,14 @@ def run_pipeline(
                       "target_grade": target_grade,
                       "prompt_sha256": simplifier.prompt_sha256})
     elif order == "translate_first":
-        translated = translator.translate(masked_inputs, target=lang, source="en")
+        translated = translate_all(masked_inputs, target=lang, source="en")
         chain.append({"step": "translate", "engine": translator.name, "target": lang})
         simplified = simplify_all(translated, lang)
         chain.append({"step": "simplify", "engine": simplifier.name,
                       "target_grade": target_grade, "prompt_sha256": simplifier.prompt_sha256})
         for seg, out in zip(segments, simplified):
             seg.masked_output = out
-        backs = _back_translate(registry, simplified, lang)
+        backs = translate_all(simplified, target="en", source=lang)
         for seg, b in zip(segments, backs):
             seg.back_translated = b
         chain.append({"step": "back_translate", "engine": translator.name, "source": lang})
@@ -321,11 +344,11 @@ def run_pipeline(
             seg.simplified_en = out
         chain.append({"step": "simplify", "engine": simplifier.name,
                       "target_grade": target_grade, "prompt_sha256": simplifier.prompt_sha256})
-        translated = translator.translate(simplified, target=lang, source="en")
+        translated = translate_all(simplified, target=lang, source="en")
         chain.append({"step": "translate", "engine": translator.name, "target": lang})
         for seg, out in zip(segments, translated):
             seg.masked_output = out
-        backs = _back_translate(registry, translated, lang)
+        backs = translate_all(translated, target="en", source=lang)
         for seg, b in zip(segments, backs):
             seg.back_translated = b
         chain.append({"step": "back_translate", "engine": translator.name, "source": lang})
@@ -342,7 +365,7 @@ def run_pipeline(
             for seg in segments:
                 seg.back_translated = seg.masked_output
         else:
-            backs = _back_translate(registry, [s.masked_output for s in segments], lang)
+            backs = translate_all([s.masked_output for s in segments], target="en", source=lang)
             for seg, b in zip(segments, backs):
                 seg.back_translated = b
         chain.append({"step": "corruption_injected", "segments": corrupted_ids,
@@ -350,7 +373,14 @@ def run_pipeline(
 
     # --- Stage 3: verify ------------------------------------------------------
     checks_passed = checks_failed = 0
-    def verify_one(seg):
+    def verify_one(item):
+        index, seg = item
+        if index in provider_errors:
+            return vf.SegmentVerdict(segment_id=seg.id, checks=[vf.CheckResult(
+                name="provider_available", passed=False, score=None, threshold=None,
+                detail=f"provider failed, original text shown: {provider_errors[index]}",
+                engine="provider-availability",
+            )])
         return vf.verify_segment(
             segment_id=seg.id,
             source_en=seg.masked_source,
@@ -363,8 +393,14 @@ def run_pipeline(
             thresholds=thresholds,
             lang=lang,
         )
-    verdicts = _provider_map(registry.judge, verify_one, segments)
+    verdicts = _provider_map(registry.judge, verify_one, list(enumerate(segments)))
     for seg, verdict in zip(segments, verdicts):
+        if isinstance(verdict, Exception):
+            verdict = vf.SegmentVerdict(segment_id=seg.id, checks=[vf.CheckResult(
+                name="provider_available", passed=False, score=None, threshold=None,
+                detail=f"verification provider failed, original text shown: {type(verdict).__name__}",
+                engine="provider-availability",
+            )])
         seg.verdict = verdict
         for c in seg.verdict.checks:
             if c.passed:
@@ -398,7 +434,10 @@ def run_pipeline(
 
     # --- Output guard ---------------------------------------------------------
     rendered_blob = "\n".join(s.output_text for s in segments)
-    safe, flags = registry.content_safety.check(rendered_blob)
+    try:
+        safe, flags = registry.content_safety.check(rendered_blob)
+    except Exception as error:
+        safe, flags = False, [f"provider_unavailable:{type(error).__name__}"]
     chain.append({"step": "content_safety", "engine": registry.content_safety.name,
                   "passed": safe, "flags": flags})
     if not safe:
