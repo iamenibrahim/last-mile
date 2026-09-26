@@ -33,6 +33,17 @@ const coreApi = async (path, options = {}) => {
 
 let STATE = { pick: null, last: null, request: 0 };
 
+function optionsFallback(error) {
+  const county = STATE.pick ? 'the county you selected' : 'your selected location';
+  const needs = selectedNeeds();
+  const needText = needs.length ? `Your selected needs are still saved on this page (${needs.map(esc).join(', ')}).` : '';
+  return `<div class="err" role="alert"><strong>We could not finish checking your options.</strong>
+    <p>${esc(error.message || 'The service is temporarily unavailable.')} ${needText}</p>
+    <p>For verified help now: call <strong>FEMA at 800-621-3362</strong>, call <strong>Virginia 211</strong> by dialing 211, or call 911 if anyone is in immediate danger. Tell them you need help for ${county}.</p>
+    <button type="button" id="retry-options">Try again</button>
+    <p class="hint">This page did not make an eligibility decision. It will retry the same county and needs.</p></div>`;
+}
+
 const KIND_LABEL = {
   what: 'What it is', who: 'Who can get it', documents: 'What to have ready',
   how_to_apply: 'How to apply', deadline: 'Deadline', contact: 'Who to call', privacy: 'Privacy',
@@ -190,7 +201,10 @@ async function go() {
   let r;
   try { r = await post('api/assist', body); }
   catch (e) {
-    if (request === STATE.request) $('out').innerHTML = `<div class="err" role="alert">${esc(e.message)}</div>`;
+    if (request === STATE.request) {
+      $('out').innerHTML = optionsFallback(e);
+      $('retry-options').onclick = () => go();
+    }
     return;
   }
   if (request !== STATE.request) return;

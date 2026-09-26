@@ -254,14 +254,6 @@
     </div>
     <div class="row" style="margin-top:20px">
       <button id="go">Show me what help exists</button>
-      <span class="spacer"></span>
-      <label class="muted" for="corrupt" style="font-size:13.5px">Demo: inject failure</label>
-      <select id="corrupt">
-        <option value="">none (normal pipeline)</option>
-        <option value="drop_negation">drop a negation</option>
-        <option value="alter_number">alter a number</option>
-        <option value="hallucinate_instruction">hallucinate a claim</option>
-      </select>
     </div>
   </section>
 
@@ -310,6 +302,13 @@
     </div>
     <details class="accordion plan-demo">
       <summary>Demo tools</summary>
+      <label class="muted" for="corrupt">Inject a verification failure</label>
+      <select id="corrupt">
+        <option value="">none (normal pipeline)</option>
+        <option value="drop_negation">drop a negation</option>
+        <option value="alter_number">alter a number</option>
+        <option value="hallucinate_instruction">hallucinate a claim</option>
+      </select>
       <p>Simulate a provider outage. This changes no live service and sends no messages.</p>
       <button type="button" id="run-chaos">Run safe outage check</button>
       <div id="chaos-result" aria-live="polite"></div>
