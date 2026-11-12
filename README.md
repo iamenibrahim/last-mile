@@ -1,10 +1,12 @@
 # Last-Mile Disaster Navigator
 
+## 🏆 Winner — CCI × Microsoft Innovation Challenge for Virginia
+
 Last-Mile helps people find disaster assistance without making them navigate a maze of agencies. A user shares a ZIP code, their immediate needs, and a small amount of optional context. The app returns a short action plan with relevant programs, documents to gather, official application links, and a clear path to human help.
 
 **Live demo:** [lmva3fcshw5lauukqapi.azurewebsites.net/grounded](https://lmva3fcshw5lauukqapi.azurewebsites.net/grounded/)
 
-This project was built for the Microsoft × CCI Innovation Challenge for Virginia.
+Built for—and winner of—the Commonwealth Cyber Initiative (CCI) × Microsoft Innovation Challenge for Virginia.
 
 > Last-Mile does not create emergency alerts or decide whether someone qualifies for benefits. It matches reviewed source records with deterministic rules. AI is used to explain and translate those results, and the app withholds a transformation when it cannot verify it.
 
